@@ -4,6 +4,7 @@ import assert from 'assert';
 describe('hybrid-hiring', function () {
   it('package.json has correct name', async function () {
     const { name } = await import('../package.json');
+    console.log('example change')
     assert.strictEqual(name, 'hybrid-hiring');
   });
 
