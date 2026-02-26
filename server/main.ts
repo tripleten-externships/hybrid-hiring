@@ -9,7 +9,7 @@ async function insertLink({ title, url }: Pick<Link, 'title' | 'url'>) {
 
 Meteor.startup(async () => {
   // Seed the Links collection with sample data if it is empty.
-  if (await LinksCollection.find().countAsync() === 0) {
+  if ((await LinksCollection.find().countAsync()) === 0) {
     await insertLink({
       title: 'Do the Tutorial',
       url: 'https://react-tutorial.meteor.com/simple-todos/01-creating-app.html',
@@ -32,11 +32,11 @@ Meteor.startup(async () => {
   }
 
   // Seed the Users collection with sample data for the pub/sub demo.
-  if (await UsersCollection.find().countAsync() === 0) {
+  if ((await UsersCollection.find().countAsync()) === 0) {
     const seedUsers = [
       { name: 'Alice Johnson', createdAt: new Date('2025-01-15') },
-      { name: 'Bob Smith',    createdAt: new Date('2025-03-22') },
-      { name: 'Carol White',  createdAt: new Date('2025-06-10') },
+      { name: 'Bob Smith', createdAt: new Date('2025-03-22') },
+      { name: 'Carol White', createdAt: new Date('2025-06-10') },
     ];
 
     for (const user of seedUsers) {

@@ -1,0 +1,19 @@
+#!/bin/sh
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+# Allow pushes from main and detached HEAD (e.g. CI)
+if [ "$branch" = "main" ] || [ "$branch" = "HEAD" ]; then
+  exit 0
+fi
+
+pattern='^HH-[0-9]+/.+'
+
+if ! echo "$branch" | grep -qE "$pattern"; then
+  echo ""
+  echo "  ✗ Invalid branch name: '$branch'"
+  echo ""
+  echo "  Expected:  HH-123/short-description"
+  echo "  Example:   HH-42/add-user-profile"
+  echo ""
+  exit 1
+fi
