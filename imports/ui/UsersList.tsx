@@ -29,16 +29,18 @@ export const UsersList = () => {
    * `isLoading` is a function that returns `true` while the initial batch of
    * documents is still being sent. Use it to show a loading state.
    */
-  const isLoading = search
-    ? useSubscribe('users.byName', search)
-    : useSubscribe('users.all');
+  const isLoading = useSubscribe(search ? 'users.byName' : 'users.all', search);
 
   /**
    * `useFind` runs reactively: whenever the server pushes an insert, update,
    * or remove for this subscription, the component re-renders automatically.
    */
-  const users = useFind(() =>
-    UsersCollection.find({}, { sort: { createdAt: -1 } })
+  const users = useFind(
+    () =>
+      UsersCollection.find(search ? { name: { $regex: search, $options: 'i' } } : {}, {
+        sort: { createdAt: -1 },
+      }),
+    [search]
   );
 
   return (
@@ -54,8 +56,8 @@ export const UsersList = () => {
         style={{ width: '100%', padding: '0.5rem', marginBottom: '1rem', boxSizing: 'border-box' }}
       />
 
-      {/* Show a loading state while the subscription is hydrating */}
-      {isLoading() ? (
+      {/* Only show the loading state on initial hydration, not between subscription switches */}
+      {isLoading() && users.length === 0 ? (
         <p>Loading…</p>
       ) : users.length === 0 ? (
         <p>No users found.</p>
@@ -81,8 +83,7 @@ export const UsersList = () => {
       )}
 
       <p style={{ color: '#888', fontSize: '0.8rem', marginTop: '1rem' }}>
-        Active publication:{' '}
-        <code>{search ? `users.byName("${search}")` : 'users.all'}</code>
+        Active publication: <code>{search ? `users.byName("${search}")` : 'users.all'}</code>
       </p>
     </div>
   );

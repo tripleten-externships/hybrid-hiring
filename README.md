@@ -30,10 +30,13 @@ You will need the following tools installed before cloning the repo.
 This project pins its Node version in `.nvmrc` (**22.22.0**). Using nvm ensures everyone runs the same version.
 
 **Install nvm** (if you don't have it):
+
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 ```
+
 Then restart your terminal and verify:
+
 ```bash
 nvm --version
 ```
@@ -43,14 +46,19 @@ nvm --version
 Meteor ships its own bundled Node runtime for the build process, but you still need a system-level Node to run the `meteor` CLI.
 
 **Install Meteor:**
+
 ```bash
 npm install -g meteor
 ```
+
 Or via the official installer:
+
 ```bash
 curl https://install.meteor.com/ | sh
 ```
+
 Verify the install:
+
 ```bash
 meteor --version
 # Expected: Meteor 3.4.x
@@ -104,6 +112,7 @@ npm start
 Open your browser to [http://localhost:3000](http://localhost:3000).
 
 Meteor's development server provides:
+
 - **Hot Module Replacement** — UI changes reflect instantly without a full reload.
 - **Full restart** — server-side changes (publications, methods) restart the Node process automatically.
 
@@ -144,12 +153,12 @@ hybrid-hiring/
 
 ### Key conventions
 
-| Directory | What belongs here |
-|---|---|
+| Directory      | What belongs here                                                        |
+| -------------- | ------------------------------------------------------------------------ |
 | `imports/api/` | Everything that touches the database: collections, methods, publications |
-| `imports/ui/` | React components — no direct database writes, use methods instead |
-| `client/` | The single client entry point only — minimal code |
-| `server/` | The single server entry point only — startup & seeding |
+| `imports/ui/`  | React components — no direct database writes, use methods instead        |
+| `client/`      | The single client entry point only — minimal code                        |
+| `server/`      | The single server entry point only — startup & seeding                   |
 
 Meteor only auto-loads files in `client/` and `server/`. Everything under `imports/` must be explicitly imported before it is loaded — this is intentional and keeps the dependency graph clear.
 
@@ -173,6 +182,7 @@ Server publishes a cursor
 ```
 
 **Server — define a publication** (`imports/api/users/publications.ts`):
+
 ```ts
 // No arguments — stream everything
 Meteor.publish('users.all', function () {
@@ -187,6 +197,7 @@ Meteor.publish('users.byName', function (nameFilter: string) {
 ```
 
 **Client — subscribe and read** (`imports/ui/UsersList.tsx`):
+
 ```tsx
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 
@@ -197,6 +208,7 @@ if (isLoading()) return <p>Loading…</p>;
 ```
 
 **Rules to remember:**
+
 - Return a cursor (or array of cursors) from your publication to stream data reactively.
 - Always `check()` every argument that arrives from the client — the client is untrusted.
 - `useSubscribe` manages the subscription lifecycle for you: it subscribes when the component mounts and unsubscribes when it unmounts.
@@ -221,6 +233,7 @@ Client calls Meteor.callAsync('methodName', args)
 ```
 
 **Server — define a method** (`imports/api/users/methods.ts`):
+
 ```ts
 Meteor.methods({
   'Users.create': async function (data: Omit<Users, '_id'>) {
@@ -236,6 +249,7 @@ Meteor.methods({
 ```
 
 **Client — call a method** (`imports/ui/UsersManager.tsx`):
+
 ```tsx
 import { Meteor } from 'meteor/meteor';
 
@@ -249,6 +263,7 @@ try {
 ```
 
 **Rules to remember:**
+
 - In Meteor 3.x, always use `Meteor.callAsync` — it returns a Promise. The old `Meteor.call` with callbacks is deprecated.
 - Always `check()` every argument. Methods run with server trust; a bad argument can corrupt data.
 - Use `this.userId` inside a method to get the currently logged-in user's ID (requires a `function`, not an arrow function).
@@ -262,14 +277,15 @@ try {
 
 Every new data domain follows the same four-file pattern under `imports/api/<domain>/`:
 
-| File | Responsibility |
-|---|---|
-| `collection.ts` | Define the `Mongo.Collection` and its TypeScript type |
-| `methods.ts` | Define and register `Meteor.methods` for writes |
-| `publications.ts` | Define and register `Meteor.publish` for reads |
-| `index.ts` | Re-export everything so consumers use one import path |
+| File              | Responsibility                                        |
+| ----------------- | ----------------------------------------------------- |
+| `collection.ts`   | Define the `Mongo.Collection` and its TypeScript type |
+| `methods.ts`      | Define and register `Meteor.methods` for writes       |
+| `publications.ts` | Define and register `Meteor.publish` for reads        |
+| `index.ts`        | Re-export everything so consumers use one import path |
 
 Then import the index file at the top of `server/main.ts` so Meteor loads it on startup:
+
 ```ts
 import '/imports/api/your-domain';
 ```
@@ -277,6 +293,7 @@ import '/imports/api/your-domain';
 ### TypeScript
 
 The project runs `strict` TypeScript. The compiler is wired into Rspack, so type errors will surface in the terminal during development. Imports for Meteor packages use the `meteor/*` path alias — for example:
+
 ```ts
 import { Meteor } from 'meteor/meteor';
 import { useSubscribe } from 'meteor/react-meteor-data';
@@ -313,6 +330,7 @@ HH-87/add-users-publication
 ```
 
 **Creating a branch:**
+
 ```bash
 git checkout -b HH-103/create-user-profile
 ```
@@ -326,7 +344,7 @@ git checkout -b HH-103/create-user-profile
 ```
 
 - Wrap the Jira ID in square brackets at the start.
-- Write the description in the **imperative mood** — phrase it as a command, as if completing the sentence *"This commit will…"*
+- Write the description in the **imperative mood** — phrase it as a command, as if completing the sentence _"This commit will…"_
 - Capitalize the first word after the bracket. No period at the end.
 
 **Examples:**
@@ -339,12 +357,12 @@ git checkout -b HH-103/create-user-profile
 
 **Common mistakes to avoid:**
 
-| Avoid | Use instead |
-|---|---|
-| `[HH-103] Created user profile` | `[HH-103] Create user profile` |
-| `[HH-103] creating user profile` | `[HH-103] Create user profile` |
-| `HH-103 create user profile` | `[HH-103] Create user profile` |
-| `fixes stuff` | `[HH-214] Fix redirect loop on failed login` |
+| Avoid                            | Use instead                                  |
+| -------------------------------- | -------------------------------------------- |
+| `[HH-103] Created user profile`  | `[HH-103] Create user profile`               |
+| `[HH-103] creating user profile` | `[HH-103] Create user profile`               |
+| `HH-103 create user profile`     | `[HH-103] Create user profile`               |
+| `fixes stuff`                    | `[HH-214] Fix redirect loop on failed login` |
 
 ---
 
@@ -353,11 +371,13 @@ git checkout -b HH-103/create-user-profile
 The project uses **Mocha** as its test runner, integrated via `meteortesting:mocha`.
 
 **Run tests once** (CI-friendly):
+
 ```bash
 npm test
 ```
 
 **Run full-app tests in watch mode** (development):
+
 ```bash
 npm run test-app
 ```
@@ -368,12 +388,12 @@ Test files live in `tests/main.ts` and any file matching `*.test.ts` or `*.spec.
 
 ## 9. Available Scripts
 
-| Command | What it does |
-|---|---|
-| `npm start` | Start the Meteor dev server with HMR at `localhost:3000` |
-| `npm test` | Run the Mocha test suite once and exit |
-| `npm run test-app` | Run full-app tests in watch mode |
-| `npm run visualize` | Build in production mode and open the bundle visualizer |
+| Command             | What it does                                             |
+| ------------------- | -------------------------------------------------------- |
+| `npm start`         | Start the Meteor dev server with HMR at `localhost:3000` |
+| `npm test`          | Run the Mocha test suite once and exit                   |
+| `npm run test-app`  | Run full-app tests in watch mode                         |
+| `npm run visualize` | Build in production mode and open the bundle visualizer  |
 
 ---
 
@@ -382,6 +402,7 @@ Test files live in `tests/main.ts` and any file matching `*.test.ts` or `*.spec.
 **`meteor: command not found` after install**
 
 Add Meteor to your PATH. The installer prints the exact line to add to your shell profile (`.zshrc`, `.bashrc`, etc.):
+
 ```bash
 export PATH="$HOME/.meteor:$PATH"
 ```
@@ -397,6 +418,7 @@ Open the browser console. A common cause is a TypeScript or JSX error that preve
 **Port 3000 is already in use**
 
 Run on a different port:
+
 ```bash
 meteor run --port 4000
 ```
@@ -406,6 +428,7 @@ meteor run --port 4000
 **Mongo connection errors on startup**
 
 Meteor's bundled MongoDB stores its data in `.meteor/local/db`. If that directory gets corrupted:
+
 ```bash
 meteor reset
 ```
@@ -415,6 +438,7 @@ meteor reset
 **`nvm use` says "version not found"**
 
 Install the version from `.nvmrc` first:
+
 ```bash
 nvm install
 nvm use

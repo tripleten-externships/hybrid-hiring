@@ -1,0 +1,13 @@
+#!/bin/sh
+commit_msg=$(cat "$1")
+pattern='^\[HH-[0-9]+\] .+'
+
+if ! echo "$commit_msg" | grep -qE "$pattern"; then
+  echo ""
+  echo "  ✗ Invalid commit message format."
+  echo ""
+  echo "  Expected:  [HH-123] Imperative description"
+  echo "  Got:       $commit_msg"
+  echo ""
+  exit 1
+fi
