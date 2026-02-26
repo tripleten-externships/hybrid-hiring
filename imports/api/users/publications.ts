@@ -25,10 +25,7 @@ import { UsersCollection } from './collection';
  *   const isLoading = useSubscribe('users.all');
  */
 Meteor.publish('users.all', function publishAllUsers() {
-  return UsersCollection.find(
-    {},
-    { sort: { createdAt: -1 } }
-  );
+  return UsersCollection.find({}, { sort: { createdAt: -1 } });
 });
 
 /**

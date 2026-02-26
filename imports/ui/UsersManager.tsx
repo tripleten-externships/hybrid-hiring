@@ -25,10 +25,10 @@ import { UsersCollection } from '../api/users/collection';
  * imports/api/users/methods.ts (server-side method definitions).
  */
 export const UsersManager = () => {
-  const [newName, setNewName]       = useState('');
-  const [editingId, setEditingId]   = useState<string | null>(null);
+  const [newName, setNewName] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
-  const [status, setStatus]         = useState<{ text: string; ok: boolean } | null>(null);
+  const [status, setStatus] = useState<{ text: string; ok: boolean } | null>(null);
 
   // -------------------------------------------------------------------------
   // Subscription — keeps the local cache in sync with the server.
@@ -63,7 +63,7 @@ export const UsersManager = () => {
       flash('User created.');
     } catch (err: unknown) {
       // Meteor methods throw `Meteor.Error` on validation or server failures.
-      flash(err instanceof Meteor.Error ? err.reason ?? err.message : String(err), false);
+      flash(err instanceof Meteor.Error ? (err.reason ?? err.message) : String(err), false);
     }
   };
 
@@ -83,7 +83,7 @@ export const UsersManager = () => {
       setEditingId(null);
       flash('User renamed.');
     } catch (err: unknown) {
-      flash(err instanceof Meteor.Error ? err.reason ?? err.message : String(err), false);
+      flash(err instanceof Meteor.Error ? (err.reason ?? err.message) : String(err), false);
     }
   };
 
@@ -95,7 +95,7 @@ export const UsersManager = () => {
       await Meteor.callAsync('Users.remove', id);
       flash('User removed.');
     } catch (err: unknown) {
-      flash(err instanceof Meteor.Error ? err.reason ?? err.message : String(err), false);
+      flash(err instanceof Meteor.Error ? (err.reason ?? err.message) : String(err), false);
     }
   };
 
@@ -125,9 +125,7 @@ export const UsersManager = () => {
 
       {/* Status feedback */}
       {status && (
-        <p style={{ ...s.status, color: status.ok ? '#2a7a2a' : '#c0392b' }}>
-          {status.text}
-        </p>
+        <p style={{ ...s.status, color: status.ok ? '#2a7a2a' : '#c0392b' }}>{status.text}</p>
       )}
 
       {/* User list */}
@@ -152,8 +150,12 @@ export const UsersManager = () => {
                       if (e.key === 'Escape') setEditingId(null);
                     }}
                   />
-                  <button style={s.btnPrimary} onClick={() => handleUpdate(user._id!)}>Save</button>
-                  <button style={s.btnSecondary} onClick={() => setEditingId(null)}>Cancel</button>
+                  <button style={s.btnPrimary} onClick={() => handleUpdate(user._id!)}>
+                    Save
+                  </button>
+                  <button style={s.btnSecondary} onClick={() => setEditingId(null)}>
+                    Cancel
+                  </button>
                 </div>
               ) : (
                 /* Read view */
@@ -162,7 +164,10 @@ export const UsersManager = () => {
                   <span style={s.date}>{user.createdAt.toLocaleDateString()}</span>
                   <button
                     style={s.btnSecondary}
-                    onClick={() => { setEditingId(user._id!); setEditingName(user.name); }}
+                    onClick={() => {
+                      setEditingId(user._id!);
+                      setEditingName(user.name);
+                    }}
                   >
                     Rename
                   </button>
@@ -177,8 +182,8 @@ export const UsersManager = () => {
       )}
 
       <p style={s.hint}>
-        Every button calls a <code>Meteor.callAsync</code> method on the server.
-        The list updates automatically via the <code>users.all</code> subscription.
+        Every button calls a <code>Meteor.callAsync</code> method on the server. The list updates
+        automatically via the <code>users.all</code> subscription.
       </p>
     </div>
   );
