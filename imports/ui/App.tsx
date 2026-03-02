@@ -2,7 +2,7 @@ import { Hello } from './Hello';
 import { Info } from './Info';
 import { UsersList } from './UsersList';
 import { UsersManager } from './UsersManager';
-import {Button} from './Button';
+import { Button } from './components/Button'
 
 export const App = () => (
   <div>
@@ -13,5 +13,6 @@ export const App = () => (
     <UsersList />
     <hr />
     <UsersManager />
+      <Button>Click me</Button>
   </div>
 );
