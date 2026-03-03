@@ -17,7 +17,7 @@ export const App = () => {
       <UsersList />
       <hr />
       <UsersManager />
-<TextInput
+      <TextInput
         label="Email"
         id="email"
         value={email}
@@ -25,7 +25,5 @@ export const App = () => {
         error={!email ? 'Required' : undefined}
       />
     </div>
-      
-    
   );
 };
