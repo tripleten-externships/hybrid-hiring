@@ -4,38 +4,29 @@ import { AdminCollection } from '/imports/api/admin/AdminCollection';
 import { ProfilesCollection } from '/imports/api/profiles/ProfilesCollection';
 
 export const useCurrentUser = () => {
-  return useTracker(() => Meteor.user(), [])
+  return useTracker(() => Meteor.user(), []);
 };
 
 export const useUserId = () => {
-  return useTracker(() => Meteor.userId(), [])
+  return useTracker(() => Meteor.userId(), []);
 };
 export const useIsLoggedIn = () => {
-  return useTracker(() => !!Meteor.userId(), [])
-};      
+  return useTracker(() => !!Meteor.userId(), []);
+};
 
 export const useIsAdmin = () => {
-    const userId = useUserId();
-  
-    useSubscribe("admin.mine")
+  const userId = useUserId();
 
-    const array = useFind(
-    () => AdminCollection.find({ userId }),
-    [userId]
-  )
+  useSubscribe('admin.mine');
 
-    return array.length > 0
+  const array = useFind(() => AdminCollection.find({ userId }), [userId]);
 
-};  
+  return array.length > 0;
+};
 
 export const useMyProfile = () => {
-  
-    const userId = useUserId();
-    useSubscribe("profiles.mine") 
-    const array = useFind(
-      () => ProfilesCollection.find({ userId }),
-      [userId]
-    )
-    return array[0]
-
+  const userId = useUserId();
+  useSubscribe('profiles.mine');
+  const array = useFind(() => ProfilesCollection.find({ userId }), [userId]);
+  return array[0];
 };
