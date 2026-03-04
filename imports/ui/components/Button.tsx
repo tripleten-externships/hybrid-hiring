@@ -43,7 +43,7 @@ export const Button = ({
       type={type}
       className={classes}
       disabled={isDisabled}
-      onClick={isDisabled ? undefined : onClick}
+      onClick={onClick}
       aria-busy={loading}
     >
       {loading && <Spinner />}
