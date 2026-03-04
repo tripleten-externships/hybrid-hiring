@@ -15,23 +15,23 @@ body {
 
 /* Design Tokens (Figma updates needed) */
 :root {
-  --color-primary: green;
-  --color-primary-hover: green;
-  --color-primary-text: green;
+  --color-primary: green;            /* base primary background */
+  --color-primary-hover: #006400;    /* darkgreen for hover */
+  --color-primary-text: #ffffff;     /* white text on primary */
 
-  --color-secondary: green;
-  --color-secondary-hover: green;
-  --color-secondary-text: green;
+  --color-secondary: #66bb6a;        /* lighter green secondary */
+  --color-secondary-hover: #43a047;  /* darker hover */
+  --color-secondary-text: #1b1b1b;   /* dark text on light green */
 
-  --color-outline-border: green;
-  --color-outline-text: green;
-  --color-outline-hover-bg: green;
+  --color-outline-border: green;     /* outline border color */
+  --color-outline-text: green;       /* text matches outline border */
+  --color-outline-hover-bg: #e8f5e9; /* subtle green-tinted hover bg */
 
-  --color-ghost-text: green;
-  --color-ghost-hover-bg: green;
+  --color-ghost-text: green;         /* ghost button text */
+  --color-ghost-hover-bg: #e8f5e9;   /* light green hover background */
 
-  --color-disabled-bg: green;
-  --color-disabled-text: green;
+  --color-disabled-bg: #c8e6c9;      /* pale, disabled background */
+  --color-disabled-text: #757575;    /* muted gray disabled text */
 }
 
 /* Button Styles============ */
