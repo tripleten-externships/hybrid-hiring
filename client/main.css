@@ -34,7 +34,7 @@ body {
   --color-disabled-text: green;
 }
 
-/* ================Button Styles============ */
+/* Button Styles============ */
 /* Button Base  (Figma updates needed) */
 .btn {
   display: inline-flex;
@@ -142,10 +142,10 @@ body {
 }
 
 /* Button Hidden */
-.btn__lavel--hidden {
+.btn__label--hidden {
   width: 0;
   visibility: hidden;
   overflow: hidden;
   position: absolute;
 }
-/* ================End Button Styles============ */
+/* End Button Styles============ */
