@@ -74,7 +74,7 @@ export const Button = ({
         aria-busy= {loading}
         >
             {loading && <Spinner />}
-            <span className={loading ? 'btn__label btn__label--hidden' : 'btn__label'}>
+            <span className={loading ? 'btn__label btn__lavel--hidden' : 'btn__label'}>
                 {children}
                 </span>
                 </button>
