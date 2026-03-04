@@ -120,9 +120,10 @@ body {
 
 /* Button Spinner (Figma input needed) */
 .btn__spinner {
-  width: 2px;
-  height: 2px;
+  width: 1em;
+  height: 1em;
   flex-shrink: 0;
+  margin-right: 0.5em;
   animation: btn-spin 0.75s linear infinite;
 }
 .btn__spinner-track {
