@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
-import { UsersCollection } from '../api/users/collection';
+import { DemoUsersCollection } from '../../api/demo-users/collection';
 
 /**
  * HOW METEOR SUBSCRIPTIONS WORK
@@ -16,20 +16,20 @@ import { UsersCollection } from '../api/users/collection';
  *   useSubscribe  →  controls WHICH documents flow from server to client
  *   useFind       →  reads those documents from the client-side cache
  */
-export const UsersList = () => {
+export const DemoUsersList = () => {
   const [search, setSearch] = useState('');
 
   /**
    * Switch between the two publications based on whether the user has typed
    * a search term:
    *
-   *  'users.all'    — no arguments, streams every user document
-   *  'users.byName' — passes `search` to the server for server-side filtering
+   *  'demoUsers.all'    — no arguments, streams every user document
+   *  'demoUsers.byName' — passes `search` to the server for server-side filtering
    *
    * `isLoading` is a function that returns `true` while the initial batch of
    * documents is still being sent. Use it to show a loading state.
    */
-  const isLoading = useSubscribe(search ? 'users.byName' : 'users.all', search);
+  const isLoading = useSubscribe(search ? 'demoUsers.byName' : 'demoUsers.all', search);
 
   /**
    * `useFind` runs reactively: whenever the server pushes an insert, update,
@@ -37,7 +37,7 @@ export const UsersList = () => {
    */
   const users = useFind(
     () =>
-      UsersCollection.find(search ? { name: { $regex: search, $options: 'i' } } : {}, {
+      DemoUsersCollection.find(search ? { name: { $regex: search, $options: 'i' } } : {}, {
         sort: { createdAt: -1 },
       }),
     [search]
@@ -45,12 +45,12 @@ export const UsersList = () => {
 
   return (
     <div style={{ fontFamily: 'sans-serif', maxWidth: 480, margin: '2rem auto' }}>
-      <h2>Users — Pub/Sub Demo</h2>
+      <h2>Users List — Pub/Sub Demo</h2>
 
       {/* Changing this input switches the active subscription on the fly */}
       <input
         type="text"
-        placeholder="Filter by name (uses users.byName publication)…"
+        placeholder="Filter by name (uses demoUsers.byName publication)…"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         style={{ width: '100%', padding: '0.5rem', marginBottom: '1rem', boxSizing: 'border-box' }}
@@ -60,7 +60,7 @@ export const UsersList = () => {
       {isLoading() && users.length === 0 ? (
         <p>Loading…</p>
       ) : users.length === 0 ? (
-        <p>No users found.</p>
+        <p>No demo users found.</p>
       ) : (
         <ul style={{ listStyle: 'none', padding: 0 }}>
           {users.map((user) => (
@@ -83,7 +83,8 @@ export const UsersList = () => {
       )}
 
       <p style={{ color: '#888', fontSize: '0.8rem', marginTop: '1rem' }}>
-        Active publication: <code>{search ? `users.byName("${search}")` : 'users.all'}</code>
+        Active publication:{' '}
+        <code>{search ? `demoUsers.byName("${search}")` : 'demoUsers.all'}</code>
       </p>
     </div>
   );

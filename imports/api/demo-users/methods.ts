@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
-import { Users, UsersCollection } from './collection';
+import { DemoUser, DemoUsersCollection } from './collection';
 
 /**
  * HOW METEOR METHODS WORK
@@ -29,29 +29,29 @@ import { Users, UsersCollection } from './collection';
 // Standalone async functions (easier to unit-test in isolation)
 // ---------------------------------------------------------------------------
 
-export async function create(data: Omit<Users, '_id'>) {
+export async function create(data: Omit<DemoUser, '_id'>) {
   check(data, {
     name: String,
     createdAt: Date,
   });
-  return UsersCollection.insertAsync({ ...data });
+  return DemoUsersCollection.insertAsync({ ...data });
 }
 
-export async function update(_id: string, data: Mongo.Modifier<Users>) {
+export async function update(_id: string, data: Mongo.Modifier<DemoUser>) {
   check(_id, String);
   // Match.ObjectIncluding allows extra keys; use Match.Where for stricter rules.
   check(data, Match.ObjectIncluding({ $set: Object }));
-  return UsersCollection.updateAsync(_id, data);
+  return DemoUsersCollection.updateAsync(_id, data);
 }
 
 export async function remove(_id: string) {
   check(_id, String);
-  return UsersCollection.removeAsync(_id);
+  return DemoUsersCollection.removeAsync(_id);
 }
 
 export async function findById(_id: string) {
   check(_id, String);
-  return UsersCollection.findOneAsync(_id);
+  return DemoUsersCollection.findOneAsync(_id);
 }
 
 // ---------------------------------------------------------------------------
@@ -60,59 +60,59 @@ export async function findById(_id: string) {
 
 /**
  * `Meteor.methods` registers each function under a string name.
- * The client calls them by that name via `Meteor.callAsync('Users.create', ...)`.
+ * The client calls them by that name via `Meteor.callAsync('demoUsers.create', ...)`.
  *
  * Naming convention: 'CollectionName.action' keeps things discoverable.
  * Dot-notation is just a string — there is no special routing magic.
  */
 Meteor.methods({
   /**
-   * Users.create
-   * Creates a new user document.
+   * demoUsers.create
+   * Creates a new demoUser document.
    *
    * @param data - { name: string, createdAt: Date }
    * @returns The _id of the newly inserted document.
    *
    * Client call:
-   *   const id = await Meteor.callAsync('Users.create', { name: 'Alice', createdAt: new Date() });
+   *   const id = await Meteor.callAsync('demoUsers.create', { name: 'Alice', createdAt: new Date() });
    */
-  'Users.create': create,
+  'demoUsers.create': create,
 
   /**
-   * Users.update
-   * Updates an existing user document using a standard Mongo modifier.
+   * demoUsers.update
+   * Updates an existing demoUser document using a standard Mongo modifier.
    *
    * @param _id  - The document's _id.
    * @param data - A Mongo modifier, e.g. `{ $set: { name: 'Bob' } }`.
    *
    * Client call:
-   *   await Meteor.callAsync('Users.update', userId, { $set: { name: 'Bob' } });
+   *   await Meteor.callAsync('demoUsers.update', userId, { $set: { name: 'Bob' } });
    */
-  'Users.update': update,
+  'demoUsers.update': update,
 
   /**
-   * Users.remove
-   * Deletes a user document by _id.
+   * demoUsers.remove
+   * Deletes a demoUser document by _id.
    *
    * @param _id - The document's _id.
    *
    * Client call:
-   *   await Meteor.callAsync('Users.remove', userId);
+   *   await Meteor.callAsync('demoUsers.remove', userId);
    */
-  'Users.remove': remove,
+  'demoUsers.remove': remove,
 
   /**
-   * Users.find
-   * Fetches a single user by _id. Useful for one-off server reads outside
+   * demoUsers.find
+   * Fetches a single demoUser by _id. Useful for one-off server reads outside
    * of a subscription (e.g. server-side logic, admin lookups).
    *
    * Prefer subscriptions + useFind for reactive UI — this is a one-time fetch.
    *
    * @param _id - The document's _id.
-   * @returns The user document or undefined.
+   * @returns The demoUser document or undefined.
    *
    * Client call:
-   *   const user = await Meteor.callAsync('Users.find', userId);
+   *   const user = await Meteor.callAsync('demoUsers.find', userId);
    */
-  'Users.find': findById,
+  'demoUsers.find': findById,
 });
