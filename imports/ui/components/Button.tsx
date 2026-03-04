@@ -16,12 +16,7 @@ interface ButtonProps {
 }
 
 const Spinner = () => (
-  <svg
-    className="btn__spinner"
-    fill="none"
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-  >
+  <svg className="btn__spinner" fill="none" viewBox="0 0 24 24" aria-hidden="true">
     <circle
       className="btn__spinner-track"
       cx="12"
@@ -69,11 +64,7 @@ export const Button = ({
       aria-busy={loading}
     >
       {loading && <Spinner />}
-      <span
-        className={loading ? 'btn__label btn__label--hidden' : 'btn__label'}
-      >
-        {children}
-      </span>
+      <span className={loading ? 'btn__label btn__label--hidden' : 'btn__label'}>{children}</span>
     </button>
   );
 };
