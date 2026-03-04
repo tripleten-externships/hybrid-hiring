@@ -144,9 +144,6 @@ body {
 
 /* Button Hidden */
 .btn__label--hidden {
-  width: 0;
-  visibility: hidden;
-  overflow: hidden;
-  position: absolute;
+  opacity: 0;
 }
 /* End Button Styles============ */
