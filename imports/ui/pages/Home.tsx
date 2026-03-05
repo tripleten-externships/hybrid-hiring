@@ -1,6 +1,5 @@
 import { Info } from '../examples/Info';
 import { Hello } from '../examples/Hello';
-import SelectionLabel from '../components/SelectionLabel';
 
 export const Home = () => {
   return (
@@ -9,6 +8,6 @@ export const Home = () => {
       <Hello />
       <br />
       <Info />
-<SelectionLabel label="Example" selected={false} onClick={() => {}} />    </div>
+   </div>
   );
 };
