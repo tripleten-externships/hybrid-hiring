@@ -1,5 +1,6 @@
 import { Info } from '../examples/Info';
 import { Hello } from '../examples/Hello';
+import { Footer } from '../layouts/Footer';
 
 export const Home = () => {
   return (
@@ -8,6 +9,7 @@ export const Home = () => {
       <Hello />
       <br />
       <Info />
+      <Footer />
     </div>
   );
 };
