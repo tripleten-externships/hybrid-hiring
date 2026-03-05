@@ -5,9 +5,9 @@
   --color-text-muted: #b7b7b7;
   --color-surface: #3c784c;
   --color-background: #3c784c;
-  --color-border: #dddddd;
-  --color-error: red;
-  --color-success: green;
+  --color-border: #636363;
+  --color-error: #c0392b;
+  --color-success: #2a7a2a;
   --font-size-xs: 12px;
   --font-size-sm: 14px;
   --font-size-md: 20px;
@@ -65,12 +65,18 @@
 }
 
 .form-control {
+  font-family: var(--font-family-base);
 }
 
 .form-label {
+  font-family: var(--font-family-base);
+  border-color: var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-border);
 }
 
 .field-error {
+  border: var(--color-error);
 }
 
 /* Design Tokens (Figma updates needed) */
