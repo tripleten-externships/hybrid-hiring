@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-import { UsersCollection } from './collection';
+import { DemoUsersCollection } from './collection';
 
 /**
  * HOW METEOR PUBLICATIONS WORK
@@ -17,33 +17,33 @@ import { UsersCollection } from './collection';
  */
 
 /**
- * Publication: 'users.all'
+ * Publication: 'demoUsers.all'
  *
- * Publishes every document in the UsersCollection to any connected client.
+ * Publishes every document in the DemoUsersCollection to any connected client.
  * No arguments are required. On the client, subscribe with:
  *
- *   const isLoading = useSubscribe('users.all');
+ *   const isLoading = useSubscribe('demoUsers.all');
  */
-Meteor.publish('users.all', function publishAllUsers() {
-  return UsersCollection.find({}, { sort: { createdAt: -1 } });
+Meteor.publish('demoUsers.all', function publishAllDemoUsers() {
+  return DemoUsersCollection.find({}, { sort: { createdAt: -1 } });
 });
 
 /**
- * Publication: 'users.byName'
+ * Publication: 'demoUsers.byName'
  *
- * Publishes only the users whose name contains the given search string.
+ * Publishes only the demoUsers whose name contains the given search string.
  * Demonstrates how to accept and validate a parameter from the client.
  * On the client, subscribe with:
  *
- *   const isLoading = useSubscribe('users.byName', searchTerm);
+ *   const isLoading = useSubscribe('demoUsers.byName', searchTerm);
  *
  * @param nameFilter - A string to match against the `name` field (case-insensitive).
  */
-Meteor.publish('users.byName', function publishUsersByName(nameFilter: string) {
+Meteor.publish('demoUsers.byName', function publishDemoUsersByName(nameFilter: string) {
   // Always validate arguments coming from the client — never trust the client.
   check(nameFilter, String);
 
-  return UsersCollection.find(
+  return DemoUsersCollection.find(
     { name: { $regex: nameFilter, $options: 'i' } },
     { sort: { createdAt: -1 } }
   );

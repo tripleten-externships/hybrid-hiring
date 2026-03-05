@@ -1,4 +1,14 @@
+:root {
+  --color-surface: #ffffff;
+  --color-surface-overlay: #f8f8f8;
+  --color-text: #333333;
+  --color-text-muted: #555555;
+  --color-border: #dddddd;
+  --color-primary: #2563eb;
+}
+
 body {
-  padding: 10px;
+  padding: 0;
+  margin: 0;
   font-family: sans-serif;
 }
