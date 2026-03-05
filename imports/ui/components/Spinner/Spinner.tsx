@@ -1,4 +1,3 @@
-
 export const Spinner = () => (
   <svg className="btn__spinner" fill="none" viewBox="0 0 24 24" aria-hidden="true">
     <circle
