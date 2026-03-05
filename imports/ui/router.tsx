@@ -3,6 +3,7 @@ import { Layout } from './layouts/Layout';
 import { Home } from './pages/Home';
 import { DemoUsersList } from './examples/DemoUsersList';
 import { DemoUsersManager } from './examples/DemoUsersManager';
+import { SignUp } from './pages/SignUp/SignUp';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: '/users/manage',
         element: <DemoUsersManager />,
+      },
+      {
+        path: '/SignUp',
+        element: <SignUp />,
       },
     ],
   },
