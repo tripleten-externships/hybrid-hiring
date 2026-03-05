@@ -1,9 +1,9 @@
 :root {
   --color-primary: #2563eb; /* used for links and focus states */
   --color-secondary: ;
-  --color-text: #333333;
-  --color-text-muted: #555555;
-  --color-surface: #ffffff;
+  --color-text: #ffffff;
+  --color-text-muted: #b7b7b7;
+  --color-surface: #3c784c;
   --color-background: #3c784c;
   --color-border: #dddddd;
   --color-error: red;
@@ -58,6 +58,10 @@
 }
 
 .btn {
+  font-family: var(--font-family-base);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
 .form-control {
