@@ -8,16 +8,16 @@ export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-const handleLogin = (email: string, password: string) => {
+  const handleLogin = (email: string, password: string) => {
     setIsLoading(true);
 
     Meteor.loginWithPassword(email, password, (err) => {
       setIsLoading(false);
 
       if (err) {
-        setError(err.reason || "Login Failed.");
+        setError(err.reason || 'Login Failed.');
       } else {
-        navigate("/jobs");
+        navigate('/jobs');
       }
     });
   };
