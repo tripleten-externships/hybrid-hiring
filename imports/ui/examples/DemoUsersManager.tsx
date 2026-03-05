@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
-import { UsersCollection } from '../api/users/collection';
+import { DemoUsersCollection } from '../../api/demo-users/collection';
 
 /**
  * HOW METEOR METHODS ARE CALLED FROM THE CLIENT
@@ -15,16 +15,16 @@ import { UsersCollection } from '../api/users/collection';
  * The reactive loop this component demonstrates:
  *
  *   User action
- *     → Meteor.callAsync('Users.create', ...)   [method call — write]
+ *     → Meteor.callAsync('demoUsers.create', ...)   [method call — write]
  *       → server inserts into MongoDB
  *         → Meteor pushes the new doc to all subscribers
  *           → useFind re-renders the list automatically  [subscription — read]
  *
  * This component intentionally combines both patterns so you can see them
- * interact. For isolated examples see UsersList.tsx (subscriptions) and
+ * interact. For isolated examples see DemoUsersList.tsx (subscriptions) and
  * imports/api/users/methods.ts (server-side method definitions).
  */
-export const UsersManager = () => {
+export const DemoUsersManager = () => {
   const [newName, setNewName] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
@@ -34,8 +34,8 @@ export const UsersManager = () => {
   // Subscription — keeps the local cache in sync with the server.
   // The list below updates automatically after any method call succeeds.
   // -------------------------------------------------------------------------
-  const isLoading = useSubscribe('users.all');
-  const users = useFind(() => UsersCollection.find({}, { sort: { createdAt: -1 } }));
+  const isLoading = useSubscribe('demoUsers.all');
+  const users = useFind(() => DemoUsersCollection.find({}, { sort: { createdAt: -1 } }));
 
   // -------------------------------------------------------------------------
   // Helper: show a brief status message, then clear it after 3 seconds.
@@ -58,7 +58,7 @@ export const UsersManager = () => {
        * It returns a Promise — await it just like any async function.
        * The server validates the arguments and writes to MongoDB.
        */
-      await Meteor.callAsync('Users.create', { name, createdAt: new Date() });
+      await Meteor.callAsync('demoUsers.create', { name, createdAt: new Date() });
       setNewName('');
       flash('User created.');
     } catch (err: unknown) {
@@ -68,7 +68,7 @@ export const UsersManager = () => {
   };
 
   // -------------------------------------------------------------------------
-  // UPDATE — calls 'Users.update' method with a $set modifier
+  // UPDATE — calls 'demoUsers.update' method with a $set modifier
   // -------------------------------------------------------------------------
   const handleUpdate = async (id: string) => {
     const name = editingName.trim();
@@ -79,7 +79,7 @@ export const UsersManager = () => {
        * Pass a standard Mongo modifier as the second argument.
        * The server validates the _id and modifier before applying the update.
        */
-      await Meteor.callAsync('Users.update', id, { $set: { name } });
+      await Meteor.callAsync('demoUsers.update', id, { $set: { name } });
       setEditingId(null);
       flash('User renamed.');
     } catch (err: unknown) {
@@ -88,11 +88,11 @@ export const UsersManager = () => {
   };
 
   // -------------------------------------------------------------------------
-  // DELETE — calls 'Users.remove' method
+  // DELETE — calls 'demoUsers.remove' method
   // -------------------------------------------------------------------------
   const handleRemove = async (id: string) => {
     try {
-      await Meteor.callAsync('Users.remove', id);
+      await Meteor.callAsync('demoUsers.remove', id);
       flash('User removed.');
     } catch (err: unknown) {
       flash(err instanceof Meteor.Error ? (err.reason ?? err.message) : String(err), false);
@@ -113,13 +113,13 @@ export const UsersManager = () => {
         <input
           style={s.input}
           type="text"
-          placeholder="New user name…"
+          placeholder="New demo user name…"
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleCreate()}
         />
         <button style={s.btnPrimary} onClick={handleCreate}>
-          Add User
+          Add Demo User
         </button>
       </div>
 
@@ -132,7 +132,7 @@ export const UsersManager = () => {
       {isLoading() ? (
         <p>Loading…</p>
       ) : users.length === 0 ? (
-        <p style={{ color: '#888' }}>No users yet — add one above.</p>
+        <p style={{ color: '#888' }}>No demo users yet — add one above.</p>
       ) : (
         <ul style={s.list}>
           {users.map((user) => (
@@ -183,7 +183,7 @@ export const UsersManager = () => {
 
       <p style={s.hint}>
         Every button calls a <code>Meteor.callAsync</code> method on the server. The list updates
-        automatically via the <code>users.all</code> subscription.
+        automatically via the <code>demoUsers.all</code> publication.
       </p>
     </div>
   );

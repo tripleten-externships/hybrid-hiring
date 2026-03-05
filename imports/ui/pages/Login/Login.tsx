@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Layout } from '../components/Layout.tsx';
+import { Layout } from '../../layouts/Layout';
 import './Login.css';
 
 const Login = () => {
