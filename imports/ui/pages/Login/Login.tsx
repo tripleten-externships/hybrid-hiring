@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { Layout } from '../components/Layout.tsx';
 import './Login.css';
+import { useLogin } from '../../hooks/useLogin';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+export const Login = () => {
+  const { email, setEmail } = useState('');
+  const { password, setPassword } = useState('');
+  const { showPassword, setShowPassword } = useState(false);
+
+  const { error, setError, isLoading, setIsLoading, handleLogin } = useLogin();
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleLogin(email, password);
+  };
 
   return (
     <Layout>
-      <form className="login__form">
+      <form className="login__form" onSubmit={onSubmit}>
+        {error && <div className="login__error">{error}</div>}
         <h2 className="login__form-title">Welcome back or LogIn to your account</h2>
         <label htmlFor="email" className="login__form-label">
           Email
@@ -42,6 +50,9 @@ const Login = () => {
       <h3 className="login__signup-btn">
         Don't have an account? <a href="/signup">Sign up</a>
       </h3>
+      <button type="submit" className="login__submit-btn" onClick={onSubmit} disabled={isLoading}>
+        {isLoading ? 'Logging in...' : 'Log In'}
+      </button>
     </Layout>
   );
 };
