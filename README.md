@@ -8,7 +8,7 @@ A full-stack Meteor 3.4 application built with React 18 and TypeScript. This cod
 
 1. [Prerequisites](#1-prerequisites)
 2. [Installation](#2-installation)
-3. [Running the App](#3-running-the-app)
+3. [Running the App](#3-running-the-app) (#Admin-setup)
 4. [Project Structure](#4-project-structure)
 5. [Core Concepts](#5-core-concepts)
    - [Publications & Subscriptions](#publications--subscriptions)
@@ -116,39 +116,69 @@ Meteor's development server provides:
 - **Hot Module Replacement** — UI changes reflect instantly without a full reload.
 - **Full restart** — server-side changes (publications, methods) restart the Node process automatically.
 
+## Admin Setup
+
+The application supports bootstrapping an admin user automatically at server startup using the `ADMIN_EMAIL` environment variable.
+
+### Set the ADMIN_EMAIL Environment Variable
+
+You can define the admin email in a `.env` file or set it directly in the shell before starting the server.
+
+#### Option 1: Using a `.env` file
+
+Creat a `.env` file in the root of the project
+ADMIN_EMAIL=admin@example.com(for example only)
+
+Restart the server after saving the file.
+
+#### Option 2: Setting the variable in the shell
+
+Mac/Linux:
+
+```bash
+export ADMIN_EMAIL=admin@example.com
+meteor run
+
+Windows:
+
+$env:ADMIN_EMAIL="admin@example.com"
+meteor run
+
 ---
 
 ## 4. Project Structure
 
 ```
+
 hybrid-hiring/
 ├── client/
-│   └── main.tsx            # Client entry point — mounts the React app
+│ └── main.tsx # Client entry point — mounts the React app
 ├── server/
-│   └── main.ts             # Server entry point — startup logic & data seeding
+│ └── main.ts # Server entry point — startup logic & data seeding
 ├── imports/
-│   ├── api/
-│   │   ├── links.ts        # Links collection (Meteor scaffold example)
-│   │   └── users/
-│   │       ├── collection.ts   # Mongo collection + TypeScript type
-│   │       ├── methods.ts      # Meteor methods (server-side write logic)
-│   │       ├── publications.ts # Meteor publications (server-side read logic)
-│   │       └── index.ts        # Re-exports for cleaner imports
-│   └── ui/
-│       ├── App.tsx             # Root React component
-│       ├── Hello.tsx           # Simple counter (Meteor scaffold example)
-│       ├── Info.tsx            # Links list using useSubscribe/useFind
-│       ├── UsersList.tsx       # Pub/sub reference example
-│       └── UsersManager.tsx    # Methods reference example
+│ ├── api/
+│ │ ├── links.ts # Links collection (Meteor scaffold example)
+│ │ └── users/
+│ │ ├── collection.ts # Mongo collection + TypeScript type
+│ │ ├── methods.ts # Meteor methods (server-side write logic)
+│ │ ├── publications.ts # Meteor publications (server-side read logic)
+│ │ └── index.ts # Re-exports for cleaner imports
+│ └── ui/
+│ ├── App.tsx # Root React component
+│ ├── Hello.tsx # Simple counter (Meteor scaffold example)
+│ ├── Info.tsx # Links list using useSubscribe/useFind
+│ ├── UsersList.tsx # Pub/sub reference example
+│ └── UsersManager.tsx # Methods reference example
 ├── tests/
-│   └── main.ts             # Test entry point (Mocha)
+│ └── main.ts # Test entry point (Mocha)
 ├── .meteor/
-│   ├── packages            # Atmosphere package list (like package.json for Meteor packages)
-│   ├── release             # Pinned Meteor version
-│   └── versions            # Locked package versions (commit this file)
-├── .env                    # Local environment variables
-├── .nvmrc                  # Pinned Node.js version
-└── tsconfig.json           # TypeScript configuration
+│ ├── packages # Atmosphere package list (like package.json for Meteor packages)
+│ ├── release # Pinned Meteor version
+│ └── versions # Locked package versions (commit this file)
+├── .env # Local environment variables
+├── .nvmrc # Pinned Node.js version
+└── tsconfig.json # TypeScript configuration
+
 ```
 
 ### Key conventions
@@ -175,11 +205,13 @@ Publications and subscriptions are Meteor's real-time data layer. They replace t
 **How it works:**
 
 ```
+
 Server publishes a cursor
-  → Meteor streams matching documents to the client over DDP (WebSocket)
-    → Client's local Minimongo cache is kept in sync
-      → useFind reads from that cache reactively → component re-renders
-```
+→ Meteor streams matching documents to the client over DDP (WebSocket)
+→ Client's local Minimongo cache is kept in sync
+→ useFind reads from that cache reactively → component re-renders
+
+````
 
 **Server — define a publication** (`imports/api/users/publications.ts`):
 
@@ -194,7 +226,7 @@ Meteor.publish('users.byName', function (nameFilter: string) {
   check(nameFilter, String);
   return UsersCollection.find({ name: { $regex: nameFilter, $options: 'i' } });
 });
-```
+````
 
 **Client — subscribe and read** (`imports/ui/UsersList.tsx`):
 
