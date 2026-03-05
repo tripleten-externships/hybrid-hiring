@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../components/Button/Button';
+
 
 export const useLogin = () => {
   const [error, setError] = useState('');
@@ -11,11 +11,11 @@ export const useLogin = () => {
   const handleLogin = (email: string, password: string) => {
     setIsLoading(true);
 
-    Meteor.loginWithPassword(email, password, (err) => {
+    Meteor.loginWithPassword(email, password, (error) => {
       setIsLoading(false);
 
-      if (err) {
-        setError(err.reason || 'Login Failed.');
+      if (error) {
+        setError((error as Meteor.Error)?.reason || 'Login Failed.');
       } else {
         navigate('/jobs');
       }

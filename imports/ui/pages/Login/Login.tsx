@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { Meteor } from 'meteor/meteor';
 import { Layout } from '../../layouts/Layout';
 import './Login.css';
 import { useLogin } from '../../hooks/useLogin';
+import { Button } from '../../components/Button/Button';
 
 export const Login = () => {
-  const { email, setEmail } = useState('');
-  const { password, setPassword } = useState('');
-  const { showPassword, setShowPassword } = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword] = useState(false);
 
-  const { error, setError, isLoading, setIsLoading, handleLogin } = useLogin();
+  const { error, isLoading, handleLogin } = useLogin();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,9 +49,16 @@ export const Login = () => {
       <h3 className="login__signup-btn">
         Don't have an account? <a href="/signup">Sign up</a>
       </h3>
-      <button type="submit" className="login__submit-btn" onClick={onSubmit} disabled={isLoading}>
+      <Button
+        type="submit"
+        variant="primary"
+        size="md"
+        fullWidth
+        onClick={onSubmit}
+        disabled={isLoading}
+      >
         {isLoading ? 'Logging in...' : 'Log In'}
-      </button>
+      </Button>
     </Layout>
   );
 };
