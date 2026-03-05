@@ -11,8 +11,7 @@ export const Footer = () => {
             src="./assets/hhr-logo.svg"
             alt="Hybrid Hiring Solutions Logo"
             className="footer__logo"
-          />{' '}
-          {/* need to add the image */}
+          />
           <h2 className="footer__title">Hybrid Hiring Solutions</h2>
         </section>
         <section className="footer__nav">
