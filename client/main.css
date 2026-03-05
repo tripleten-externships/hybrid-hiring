@@ -57,6 +57,9 @@
   }
 }
 
+/* To whoever reviews this branch: I wasn't sure what types of styles should be added below, 
+I did my best to create "the bones" of each element in the task, but I'd love some input if you have any! */
+
 .btn {
   font-family: var(--font-family-base);
   border-radius: var(--radius-sm);
@@ -64,6 +67,7 @@
   color: var(--color-text);
 }
 
+/* This one really got me...what's the form-control meant to be? */
 .form-control {
   font-family: var(--font-family-base);
 }
