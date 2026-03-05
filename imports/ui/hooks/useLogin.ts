@@ -7,7 +7,7 @@ export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     Meteor.loginWithPassword(email, password, (error) => {
@@ -19,7 +19,6 @@ const handleLogin = (e: React.FormEvent) => {
       }
     });
   };
-
 
   return {
     email,
