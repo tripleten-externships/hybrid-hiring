@@ -13,29 +13,36 @@ body {
   font-family: sans-serif;
 }
 
-/* Design Tokens (Figma updates needed) */
+/* Design Tokens */
 :root {
-  --color-primary: green; /* base primary background */
-  --color-primary-hover: #006400; /* darkgreen for hover */
-  --color-primary-text: #ffffff; /* white text on primary */
+  /* Color Pallet from Figma */
+  --color-primary-light: #96bf43;
+  --color-primary-dark: #3c784c;
+  --color-secondary-light: #d5dde5;
+  --color-secondary-dark: #345077;
+  --color-accent-1: #d3991e;
+  --color-accent-2: #cb6843;
+  --color-accent-3: #59392b;
 
-  --color-secondary: #66bb6a; /* lighter green secondary */
-  --color-secondary-hover: #43a047; /* darker hover */
-  --color-secondary-text: #1b1b1b; /* dark text on light green */
+  /* Status Pallet from Figma */
+  --color-success: #07d344;
+  --color-warning: #ffda07;
+  --color-error: #da3a3d;
 
-  --color-outline-border: green; /* outline border color */
-  --color-outline-text: green; /* text matches outline border */
-  --color-outline-hover-bg: #e8f5e9; /* subtle green-tinted hover bg */
+  /* Interface Pallet from Figma */
+  --color-1: #000000;
+  --color-2: #636363;
+  --color-3: #8f8c8c;
+  --color-4: #b7b7b7;
+  --color-5: #eaeaea;
+  --color-6: #ffffff;
 
-  --color-ghost-text: green; /* ghost button text */
-  --color-ghost-hover-bg: #e8f5e9; /* light green hover background */
-
-  --color-disabled-bg: #c8e6c9; /* pale, disabled background */
-  --color-disabled-text: #757575; /* muted gray disabled text */
+  /* Overlay Pallet from Figma */
+  --color-overlay-1: #000000;
 }
 
 /* Button Styles============ */
-/* Button Base  (Figma updates needed) */
+/* Button Base*/
 .btn {
   display: inline-flex;
   align-items: center;
@@ -43,59 +50,92 @@ body {
   cursor: pointer;
 }
 
-/* Button Variants (Figma updates needed) */
+/* Primary */
 .btn--primary {
-  background-color: var(--color-primary);
-  color: var(--color-primary-text);
-  border-color: var(--color-primary);
+  background-color: var(--color-primary-dark);
+  color: var(--color-6);
+  border-color: var(--color-primary-dark);
 }
 .btn--primary:hover:not(.btn--disabled) {
-  background-color: var(--color-primary-hover);
-  border-color: var(--color-primary-hover);
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
 }
 
+/* Secondary */
 .btn--secondary {
   background-color: var(--color-secondary);
-  color: var(--color-secondary-text);
+  color: var(--color-1);
   border-color: var(--color-secondary);
 }
 .btn--secondary:hover:not(.btn--disabled) {
-  background-color: var(--color-secondary-hover);
-  border-color: var(--color-secondary-hover);
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
 }
 
-.btn--outline {
-  background-color: transparent;
-  color: var(--color-outline-text);
-  border-color: var(--color-outline-border);
-}
-.btn--outline:hover:not(.btn--disabled) {
-  background-color: var(--color-outline-hover-bg);
-}
-
+/* Ghost */
 .btn--ghost {
   background-color: transparent;
-  color: var(--color-ghost-text);
-  border-color: transparent;
+  color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
 }
+/* Needs figma design */
 .btn--ghost:hover:not(.btn--disabled) {
-  background-color: var(--color-ghost-hover-bg);
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
 }
 
-/* Button Sizes (Figma updates needed) */
-.btn--sm {
-  padding: 2px;
-  font-size: 2px;
+/* Button Sizes */
+.btn--sm-mobile {
+  width: 72px;
+  height: 40px;
+  padding: 10px 12px;
+  gap: 10px;
+  font-size: 16px;
+  line-height: 100%;
 }
 
-.btn--md {
-  padding: 4px;
-  font-size: 4px;
+.btn-sm-desktop {
+  width: 100px;
+  height: 51px;
+  padding: 10px 12px;
+  gap: 10px;
+  font-size: 16px;
+  line-height: 100%;
 }
 
-.btn--lg {
-  padding: 6px;
-  font-size: 6px;
+.btn--md-mobile {
+  width: 115px;
+  height: 46px;
+  padding: 13px 10px;
+  gap: 10px;
+  font-size: 16px;
+  line-height: 100%;
+}
+
+.btn-md-desktop {
+  width: 197px;
+  height: 49px;
+  padding: 4px 39px;
+  gap: 10px;
+  font-size: 24px;
+  line-height: 40px;
+}
+
+.btn--lg-mobile {
+  width: 363px;
+  height: 49px;
+  padding: 13px 10px;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.btn-lg-desktop {
+  width: 323px;
+  height: 48px;
+  padding: 4px 39px;
+  gap: 10px;
+  font-size: 24px;
+  line-height: 40px;
 }
 
 /* Button Full Width */
@@ -106,16 +146,16 @@ body {
 /* Button Disabled  */
 .btn--disabled,
 .btn:disabled {
-  background-color: var(--color-disabled-bg);
-  color: var(--color-disabled-text);
-  border-color: var(--color-disabled-bg);
+  background-color: var(--color-secondary-light);
+  color: var(--color-3);
+  border-color: var(--color-secondary-light);
   cursor: not-allowed;
   pointer-events: none;
 }
 .btn--outline.btn--disabled,
 .btn--ghost.btn--disabled {
   background-color: transparent;
-  border-color: var(--color-disabled-bg);
+  border-color: var(--color-3);
 }
 
 /* Button Spinner (Figma input needed) */
