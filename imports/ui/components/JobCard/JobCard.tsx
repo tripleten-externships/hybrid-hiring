@@ -2,8 +2,6 @@ import './JobCard.css';
 import { Link } from 'react-router-dom';
 import SelectionLabel from '/imports/ui/components/SelectionLabel/SelectionLabel';
 
-
-
 type Job = {
   _id: string;
   title: string;
@@ -50,7 +48,7 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
         <div className="job-card__pay">{pay}</div>
 
         {/* Job Type Chip */}
-<SelectionLabel label={job.jobType} selected={false} onClick={() => {}} />
+        <SelectionLabel label={job.jobType} selected={false} onClick={() => {}} />
 
         {/* Tags */}
         <div className="job-card__tags">
@@ -64,10 +62,9 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
 
       {/* Bookmark */}
       {onSave && (
-        <button
-          className={`job-card__bookmark ${isSaved ? 'saved' : ''}`}
-          onClick={onSave}
-        ><img src="/bookmark.svg" alt="bookmark" /></button>
+        <button className={`job-card__bookmark ${isSaved ? 'saved' : ''}`} onClick={onSave}>
+          <img src="/bookmark.svg" alt="bookmark" />
+        </button>
       )}
     </div>
   );
