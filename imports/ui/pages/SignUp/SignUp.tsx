@@ -1,7 +1,18 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import './SignUp.css';
+import { Link } from 'react-router-dom';
 
 export const SignUp: FC = () => {
+  //local state for signup page
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
   return (
     <div className="sign-up">
       <div className="sign-up__header">
@@ -26,17 +37,20 @@ export const SignUp: FC = () => {
           {/* Name - two column for desktop */}
           <div className="sign-up__basic">
             {' '}
-            <input className="sign-up__input first-name" type="text" placeholder="First Name" />
-            <input className="sign-up__input last-name" type="text" placeholder="Last Name" />
+            <input id='firstName' className="sign-up__input first-name" type="text" placeholder="First Name" />
+            <input id='lastName' className="sign-up__input last-name" type="text" placeholder="Last Name" />
           </div>
 
-          <input className="sign-up__input" type="email" placeholder="Email" />
-          <input className="sign-up__input" type="password" placeholder="Password" />
-          <input className="sign-up__input" type="password" placeholder="Re-enter password" />
+          <input id='email' className="sign-up__input" type="email" placeholder="Email" autoComplete='email' />
+          <input  id='password' className="sign-up__input" type="password" placeholder="Password" autoComplete='new-password'/>
+          <input id='confirmPassword' className="sign-up__input" type="password" placeholder="Re-enter password" autoComplete='new-password'/>
         </form>
         <button type="submit" className="sign-up__btn btn-create">
           Build My Profile
         </button>
+        <p className="sign-up__login-link">
+          Already have an account? <Link to="/LogIn"> Log In </Link>{' '}
+        </p>
       </div>
     </div>
   );

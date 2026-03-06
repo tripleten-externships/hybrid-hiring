@@ -136,6 +136,10 @@ p {
   display: none;
 }
 
+.sign-up__login-link a {
+  text-decoration: none;
+}
+
 @media screen and (max-width: 440px) {
   .sign-up__description {
     align-items: flex-start;
@@ -158,5 +162,9 @@ p {
   .first-name,
   .last-name {
     width: auto;
+  }
+
+  .sign-up__login-link{
+    font-size: 14px;
   }
 }
