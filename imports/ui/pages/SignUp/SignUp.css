@@ -85,15 +85,20 @@ p {
   width: 100%;
 }
 
+
 .sign-up__basic {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  /* gap: 10px; //this is for the two column input, will bring it back if its confirmed to be the actual deisgn */
+  gap: 26px;
+
 }
 
-.first-name,
+/* this is for the two column input, will bring it back if its confirmed to be the actual deisgn */
+/* .first-name,
 .last-name {
   width: 100%;
-}
+} */
 
 .sign-up__input {
   display: flex;
