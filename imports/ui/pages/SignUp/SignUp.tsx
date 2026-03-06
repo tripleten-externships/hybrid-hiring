@@ -13,8 +13,6 @@ export const SignUp: FC = () => {
   const [_isLoading, _setIsLoading] = useState(false);
   const [_error, _setError] = useState('');
 
-  
-
   return (
     <div className="sign-up">
       <div className="sign-up__header">
