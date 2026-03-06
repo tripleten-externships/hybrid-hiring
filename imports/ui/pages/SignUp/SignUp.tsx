@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 
 export const SignUp: FC = () => {
   //local state for signup page
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [_email, _setEmail] = useState('');
+  const [_password, _etPassword] = useState('');
+  const [_firstName, _setFirstName] = useState('');
+  const [_lastName, _setLastName] = useState('');
+  const [_confirmPassword, _setConfirmPassword] = useState('');
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [_isLoading, _setIsLoading] = useState(false);
+  const [_error, _setError] = useState('');
 
   return (
     <div className="sign-up">
