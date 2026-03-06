@@ -16,4 +16,5 @@ export default function SelectionLabel({ label, selected, onClick }: SelectionLa
     >
       {label}
     </button>
-  )};
+  );
+}

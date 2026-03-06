@@ -2,7 +2,6 @@ import { Info } from '../examples/Info';
 import { Hello } from '../examples/Hello';
 import JobCard from '../components/JobCard/JobCard';
 
-
 const testJob = {
   _id: '1',
   title: 'Frontend Developer',
@@ -14,7 +13,6 @@ const testJob = {
   tags: ['React', 'TypeScript'],
 };
 
-
 export const Home = () => {
   return (
     <div>
@@ -22,8 +20,7 @@ export const Home = () => {
       <Hello />
       <br />
       <Info />
-            <JobCard job={testJob} isSaved={false} onSave={() => {}} />
-
+      <JobCard job={testJob} isSaved={false} onSave={() => {}} />
     </div>
   );
 };
