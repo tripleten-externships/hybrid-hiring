@@ -37,13 +37,41 @@ export const SignUp: FC = () => {
           {/* Name - two column for desktop */}
           <div className="sign-up__basic">
             {' '}
-            <input id='firstName' className="sign-up__input first-name" type="text" placeholder="First Name" />
-            <input id='lastName' className="sign-up__input last-name" type="text" placeholder="Last Name" />
+            <input
+              id="firstName"
+              className="sign-up__input first-name"
+              type="text"
+              placeholder="First Name"
+            />
+            <input
+              id="lastName"
+              className="sign-up__input last-name"
+              type="text"
+              placeholder="Last Name"
+            />
           </div>
 
-          <input id='email' className="sign-up__input" type="email" placeholder="Email" autoComplete='email' />
-          <input  id='password' className="sign-up__input" type="password" placeholder="Password" autoComplete='new-password'/>
-          <input id='confirmPassword' className="sign-up__input" type="password" placeholder="Re-enter password" autoComplete='new-password'/>
+          <input
+            id="email"
+            className="sign-up__input"
+            type="email"
+            placeholder="Email"
+            autoComplete="email"
+          />
+          <input
+            id="password"
+            className="sign-up__input"
+            type="password"
+            placeholder="Password"
+            autoComplete="new-password"
+          />
+          <input
+            id="confirmPassword"
+            className="sign-up__input"
+            type="password"
+            placeholder="Re-enter password"
+            autoComplete="new-password"
+          />
         </form>
         <button type="submit" className="sign-up__btn btn-create">
           Build My Profile
