@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import './Login.css';
 import { useLogin } from '../../hooks/useLogin';
 import { Button } from '../../components/Button/Button';
-import { Link } from 'react-router';
+import TextInput from '../../components/TextInput';
+import { Link } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
@@ -33,22 +34,22 @@ export const Login = () => {
       <img src="/icons/companyLogo.svg" alt="Company Logo" className="login__form-company-logo" />
       <div className="login__form-container">
         <form className="login__form" onSubmit={onSubmit}>
-          <h2 className="login__form-title">Welcome back or LogIn to your account</h2>
+          <h2 className="login__form-title">Welcome back or Log In to your account</h2>
           <div className="login__form-inputs">
-            <input
+            <TextInput
               type="email"
               id="email"
-              className="login__form-input"
+              label=""
               value={email}
               placeholder="Enter your email"
               onChange={(e) => setEmail(e.target.value)}
               required
             />
             <div className="login__form-password-wrapper">
-              <input
+              <TextInput
                 type={showPassword ? 'text' : 'password'}
                 id="password"
-                className="login__form-input login__form-input--password"
+                label=""
                 value={password}
                 placeholder="Enter your password"
                 onChange={(e) => setPassword(e.target.value)}
