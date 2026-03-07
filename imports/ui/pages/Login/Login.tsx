@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-<<<<<<< HEAD
 // import { Navigate } from 'react-router-dom';
 // import { Meteor } from 'meteor/meteor';
 import './Login.css';
@@ -7,29 +6,18 @@ import { useLogin } from '../../hooks/useLogin';
 import { Button } from '../../components/Button/Button';
 import { Link } from 'react-router';
 // import { useNavigate } from 'react-router-dom';
-=======
-import { Layout } from '../../layouts/Layout';
-import './Login.css';
-import { useLogin } from '../../hooks/useLogin';
-import { Button } from '../../components/Button/Button';
->>>>>>> 968c6934462fa8b489e41eb55dd21454806bade5
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-<<<<<<< HEAD
   const [showPassword, setShowPassword] = useState(false);
   // const navigate = useNavigate();
-=======
-  const [showPassword] = useState(false);
->>>>>>> 968c6934462fa8b489e41eb55dd21454806bade5
 
   const { error, isLoading, handleLogin } = useLogin();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     handleLogin(email, password);
-<<<<<<< HEAD
     if (!error) {
       setEmail('');
       setPassword('');
@@ -89,54 +77,6 @@ export const Login = () => {
         </form>
       </div>
     </>
-=======
-  };
-
-  return (
-    <Layout>
-      <form className="login__form" onSubmit={onSubmit}>
-        {error && <div className="login__error">{error}</div>}
-        <h2 className="login__form-title">Welcome back or LogIn to your account</h2>
-        <label htmlFor="email" className="login__form-label">
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          className="login__form-input"
-          value={email}
-          placeholder="Enter your email"
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <label htmlFor="password" className="login__form-label">
-          Password
-        </label>
-        <input
-          type={showPassword ? 'text' : 'password'}
-          id="password"
-          className="login__form-input"
-          value={password}
-          placeholder="Enter your password"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </form>
-      <h3 className="login__signup-btn">
-        Don't have an account? <a href="/signup">Sign up</a>
-      </h3>
-      <Button
-        type="submit"
-        variant="primary"
-        size="md"
-        fullWidth
-        onClick={onSubmit}
-        disabled={isLoading}
-      >
-        {isLoading ? 'Logging in...' : 'Log In'}
-      </Button>
-    </Layout>
->>>>>>> 968c6934462fa8b489e41eb55dd21454806bade5
   );
 };
 
