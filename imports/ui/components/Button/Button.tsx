@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner } from './Spinner';
+import { Spinner } from '../Spinner/Spinner';
 
 type Variant = 'primary' | 'secondary' | 'outline' | 'ghost';
 type Size = 'sm' | 'md' | 'lg';
