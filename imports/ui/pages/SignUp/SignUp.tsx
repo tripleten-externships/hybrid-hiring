@@ -129,7 +129,7 @@ export const SignUp: FC = () => {
             {isLoading ? (
               <>
                 <span className="sign-up__spinner"></span>
-                Creating acount...
+                Creating account...
               </>
             ) : (
               'Build My Profile'
