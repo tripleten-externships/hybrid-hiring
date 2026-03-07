@@ -57,6 +57,7 @@
   }
 }
 
+<<<<<<< HEAD
 /* To whoever reviews this branch: I wasn't sure what types of styles should be added below, 
 I did my best to create "the bones" of each element in the task, but I'd love some input if you have any! */
 
@@ -83,6 +84,8 @@ I did my best to create "the bones" of each element in the task, but I'd love so
   border: var(--color-error);
 }
 
+=======
+>>>>>>> 968c6934462fa8b489e41eb55dd21454806bade5
 /* Design Tokens (Figma updates needed) */
 :root {
   --color-primary: green; /* base primary background */
