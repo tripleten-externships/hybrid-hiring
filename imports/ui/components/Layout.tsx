@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { Header } from '../layouts/Header';
 import { Footer } from '../layouts/Footer';
-import './Layout.css';
+import '../layouts/Layout.css';
 
 export const Layout = () => {
   return (
