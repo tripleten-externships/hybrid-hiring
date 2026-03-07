@@ -1,18 +1,60 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, FormEvent } from 'react';
 import './SignUp.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Accounts } from 'meteor/accounts-base';
 
 export const SignUp: FC = () => {
   //local state for signup page
-  const [_email, _setEmail] = useState('');
-  const [_password, _etPassword] = useState('');
-  const [_firstName, _setFirstName] = useState('');
-  const [_lastName, _setLastName] = useState('');
-  const [_confirmPassword, _setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [_isLoading, _setIsLoading] = useState(false);
-  const [_error, _setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    setIsLoading(true);
+
+    //wait time so we can witness spinner
+    await new Promise((res) => setTimeout(res, 1000));
+
+    //reate user
+    Accounts.createUser(
+      {
+        email,
+        password,
+        profile: { name: `${firstName} ${lastName}` },
+      },
+      (err) => {
+        if (err) {
+          console.log('Signup error:', err);
+
+          let message = 'Unable to create account. Please try again.';
+
+          if ('error' in err && err.error === 403) {
+            message = 'An account with this email may already exist.';
+          }
+
+          setError(message);
+        } else {
+          navigate('/onboarding/1');
+        }
+
+        setIsLoading(false);
+      }
+    );
+  };
   return (
     <div className="sign-up">
       <div className="sign-up__header">
@@ -33,17 +75,21 @@ export const SignUp: FC = () => {
             Build your profile and we will begin the hunt for you.
           </p>
         </div>
-        <form className="sign-up__inputs">
+        <form onSubmit={handleSubmit} className="sign-up__inputs">
           {/* Name - two column for desktop */}
           <div className="sign-up__basic">
             {' '}
             <input
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
               id="firstName"
               className="sign-up__input first-name"
               type="text"
               placeholder="First Name"
             />
             <input
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
               id="lastName"
               className="sign-up__input last-name"
               type="text"
@@ -53,6 +99,8 @@ export const SignUp: FC = () => {
 
           <input
             id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="sign-up__input"
             type="email"
             placeholder="Email"
@@ -64,6 +112,8 @@ export const SignUp: FC = () => {
             type="password"
             placeholder="Password"
             autoComplete="new-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <input
             id="confirmPassword"
@@ -71,11 +121,22 @@ export const SignUp: FC = () => {
             type="password"
             placeholder="Re-enter password"
             autoComplete="new-password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
+          {error && <div className="sign-up__error">{error}</div>}
+          <button type="submit" className="sign-up__btn btn-create" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <span className="sign-up__spinner"></span>
+                Creating acount...
+              </>
+            ) : (
+              'Build My Profile'
+            )}
+          </button>
         </form>
-        <button type="submit" className="sign-up__btn btn-create">
-          Build My Profile
-        </button>
+
         <p className="sign-up__login-link">
           Already have an account? <Link to="/LogIn"> Log In </Link>{' '}
         </p>
