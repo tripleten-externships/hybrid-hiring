@@ -46,8 +46,11 @@
 
 .login__form-error {
   color: red;
-  margin-bottom: 15px;
-  text-align: center;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 26px;
 }
 .login__form-signup-btn {
   font-family: Inter, Arial, sans-serif;

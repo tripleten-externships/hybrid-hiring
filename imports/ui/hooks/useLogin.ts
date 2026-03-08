@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 export const useLogin = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
 
-  const handleLogin = (email: string, password: string) => {
+  const handleLogin = (email: string, password: string, onSuccess: () => void) => {
     setIsLoading(true);
 
     Meteor.loginWithPassword(email, password, (error) => {
@@ -16,7 +15,9 @@ export const useLogin = () => {
       if (error) {
         setError((error as Meteor.Error)?.reason || 'Login Failed.');
       } else {
-        navigate('/jobs');
+        onSuccess();
+        // Navitate to jobs page after successful login once /jobs route is implemented
+      // navigate('/jobs');
       }
     });
   };
