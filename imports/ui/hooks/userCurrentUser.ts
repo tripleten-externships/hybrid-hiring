@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { useTracker, useSubscribe, useFind } from 'meteor/react-meteor-data';
-import { AdminCollection } from '/imports/api/admin/collection.ts';
-import { ProfilesCollection } from '/imports/api/profiles/collections.ts';
+import { AdminCollection } from '/imports/api/admin/collection';
+import { ProfilesCollection } from '/imports/api/profiles/collections';
 
 export const useCurrentUser = () => {
   return useTracker(() => Meteor.user(), []);
