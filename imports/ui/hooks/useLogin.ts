@@ -17,7 +17,7 @@ export const useLogin = () => {
       } else {
         onSuccess();
         // Navitate to jobs page after successful login once /jobs route is implemented
-      // navigate('/jobs');
+        // navigate('/jobs');
       }
     });
   };
