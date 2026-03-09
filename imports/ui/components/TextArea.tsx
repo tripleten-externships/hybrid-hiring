@@ -31,6 +31,7 @@ const TextArea = ({
   return (
     <div className={`text-input ${fullWidth ? 'full-width' : ''}`}>
       <label htmlFor={id}>{label}</label>
+
       <textarea
         id={id}
         name={name}
@@ -45,11 +46,11 @@ const TextArea = ({
         aria-describedby={error ? `${id}-error` : undefined}
       />
 
-      {error ? (
+      {error && (
         <span id={`${id}-error`} className="field-error">
           {error}
         </span>
-      ) : null}
+      )}
     </div>
   );
 };
