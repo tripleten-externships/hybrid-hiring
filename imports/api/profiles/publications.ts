@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
 import { ProfilesCollection } from './collection';
 
 Meteor.publish('profiles.mine', function () {
