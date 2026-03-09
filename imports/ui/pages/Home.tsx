@@ -12,12 +12,12 @@ export const Home = () => {
       <br />
       <Info />
       <TextInput
-  label="Email"
-  id="email"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-  error={!email ? 'Required' : undefined}
-/>
+        label="Email"
+        id="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        error={!email ? 'Required' : undefined}
+      />
     </div>
   );
 };
