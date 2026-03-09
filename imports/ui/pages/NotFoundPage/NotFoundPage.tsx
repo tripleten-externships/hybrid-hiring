@@ -1,13 +1,14 @@
+import { Link } from 'react-router-dom';
 import './NotFoundPage.css';
 
 export const NotFoundPage = () => {
   return (
-    <div className="NotFound__content">
-      <h2>404</h2>
-      <h3>Page Not Found</h3>
-      <p>
-        <a href="/">Return Home</a>
-      </p>
+    <div className="not-found-page__content">
+      <h2 className="not-found-page__code">404</h2>
+      <h3 className="not-found-page__title">Page Not Found</h3>
+      <Link to="/" className="not-found-page__link btn btn--outline btn--md">
+        Return Home
+      </Link>
     </div>
   );
 };
