@@ -63,13 +63,25 @@ body {
 
 /* Secondary */
 .btn--secondary {
-  background-color: var(--color-secondary);
+  background-color: var(--color-secondary-light);
   color: var(--color-1);
-  border-color: var(--color-secondary);
+  border-color: var(--color-secondary-light);
 }
 .btn--secondary:hover:not(.btn--disabled) {
-  background-color: var(--color-secondary);
-  border-color: var(--color-secondary);
+  background-color: var(--color-secondary-light);
+  border-color: var(--color-secondary-light);
+}
+
+/* Outline */
+.btn--outline {
+  background-color: transparent;
+  color: var(--color-primary-dark);
+  border: 1px solid var(--color-primary-dark);
+}
+.btn--outline:hover:not(.btn--disabled) {
+  background-color: var(--color-primary-dark);
+  color: var(--color-6);
+  border-color: var(--color-primary-dark);
 }
 
 /* Ghost */
@@ -78,14 +90,15 @@ body {
   color: var(--color-primary-dark);
   border-color: var(--color-primary-dark);
 }
-/* Needs figma design */
+/* TODO HH-44: Confirm ghost hover style with Figma design */
 .btn--ghost:hover:not(.btn--disabled) {
   background-color: var(--color-primary-dark);
+  color: var(--color-6);
   border-color: var(--color-primary-dark);
 }
 
-/* Button Sizes */
-.btn--sm-mobile {
+/* Button Sizes (mobile-first, upgrades at 768px) */
+.btn--sm {
   width: 72px;
   height: 40px;
   padding: 10px 12px;
@@ -94,16 +107,14 @@ body {
   line-height: 100%;
 }
 
-.btn-sm-desktop {
-  width: 100px;
-  height: 51px;
-  padding: 10px 12px;
-  gap: 10px;
-  font-size: 16px;
-  line-height: 100%;
+@media (min-width: 768px) {
+  .btn--sm {
+    width: 100px;
+    height: 51px;
+  }
 }
 
-.btn--md-mobile {
+.btn--md {
   width: 115px;
   height: 46px;
   padding: 13px 10px;
@@ -112,16 +123,17 @@ body {
   line-height: 100%;
 }
 
-.btn-md-desktop {
-  width: 197px;
-  height: 49px;
-  padding: 4px 39px;
-  gap: 10px;
-  font-size: 24px;
-  line-height: 40px;
+@media (min-width: 768px) {
+  .btn--md {
+    width: 197px;
+    height: 49px;
+    padding: 4px 39px;
+    font-size: 24px;
+    line-height: 40px;
+  }
 }
 
-.btn--lg-mobile {
+.btn--lg {
   width: 363px;
   height: 49px;
   padding: 13px 10px;
@@ -129,13 +141,14 @@ body {
   font-size: 16px;
 }
 
-.btn-lg-desktop {
-  width: 323px;
-  height: 48px;
-  padding: 4px 39px;
-  gap: 10px;
-  font-size: 24px;
-  line-height: 40px;
+@media (min-width: 768px) {
+  .btn--lg {
+    width: 323px;
+    height: 48px;
+    padding: 4px 39px;
+    font-size: 24px;
+    line-height: 40px;
+  }
 }
 
 /* Button Full Width */
@@ -158,8 +171,8 @@ body {
   border-color: var(--color-3);
 }
 
-/* Button Spinner (Figma input needed) */
-/* Generic Spinner */
+/* TODO HH-44: Confirm spinner design with Figma */
+/* Generic Spinner (standalone use, not tied to Button) */
 .spinner {
   display: inline-block;
   width: 24px;
