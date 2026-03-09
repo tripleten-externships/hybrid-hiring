@@ -7,3 +7,4 @@ _build
 .rsdoctor
 
 .env
+tsconfig.tsbuildinfo

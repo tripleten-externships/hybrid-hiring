@@ -1,7 +1,7 @@
-import '/imports/api/users';
+import '../imports/api/demo-users';
 import { Meteor } from 'meteor/meteor';
 import { Link, LinksCollection } from '/imports/api/links';
-import { UsersCollection } from '/imports/api/users/collection';
+import { DemoUsersCollection } from '../imports/api/demo-users/collection';
 
 async function insertLink({ title, url }: Pick<Link, 'title' | 'url'>) {
   await LinksCollection.insertAsync({ title, url, createdAt: new Date() });
@@ -31,8 +31,8 @@ Meteor.startup(async () => {
     });
   }
 
-  // Seed the Users collection with sample data for the pub/sub demo.
-  if ((await UsersCollection.find().countAsync()) === 0) {
+  // Seed the DemoUsers collection with sample data for the pub/sub demo.
+  if ((await DemoUsersCollection.find().countAsync()) === 0) {
     const seedUsers = [
       { name: 'Alice Johnson', createdAt: new Date('2025-01-15') },
       { name: 'Bob Smith', createdAt: new Date('2025-03-22') },
@@ -40,7 +40,7 @@ Meteor.startup(async () => {
     ];
 
     for (const user of seedUsers) {
-      await UsersCollection.insertAsync(user);
+      await DemoUsersCollection.insertAsync(user);
     }
   }
 
@@ -49,7 +49,7 @@ Meteor.startup(async () => {
     return LinksCollection.find();
   });
 
-  // NOTE: The Users publications ('users.all' and 'users.byName') are
+  // NOTE: The DemoUsers publications ('demoUsers.all' and 'demoUsers.byName') are
   // registered inside imports/api/users/publications.ts, which is loaded
   // at the top of this file via `import '/imports/api/users'`.
 });
