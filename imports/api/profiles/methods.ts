@@ -29,4 +29,45 @@ Meteor.methods({
       });
     }
   },
+
+  async 'Profiles.toggleSaveJob'(jobId: string) {
+    const userId = requireUser(this.userId);
+
+    check(jobId, String);
+
+    const profile = await ProfilesCollection.findOneAsync({ userId });
+    const savedJobIds = profile?.savedJobIds || [];
+
+    if (savedJobIds.includes(jobId)) {
+      // remove job
+      await ProfilesCollection.updateAsync(
+        { userId },
+        {
+          $pull: { savedJobIds: jobId },
+          $set: { updatedAt: new Date() },
+        }
+      );
+
+      return false; // job removed
+    } else {
+      // add job
+      if (profile) {
+        await ProfilesCollection.updateAsync(
+          { userId },
+          {
+            $addToSet: { savedJobIds: jobId },
+            $set: { updatedAt: new Date() },
+          }
+        );
+      } else {
+        await ProfilesCollection.insertAsync({
+          userId,
+          savedJobIds: [jobId],
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+      }
+      return true; // job added
+    }
+  },
 });
