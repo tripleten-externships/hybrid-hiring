@@ -7,17 +7,17 @@
   width: 100%;
 }
 
-.text-input input {
+.input {
   border: 1px solid #ccc;
   padding: 6px;
 }
 
-.text-input input:focus {
+.input:focus {
   border-color: #000;
   outline: none;
 }
 
-.text-input input[aria-invalid='true'] {
+.input[aria-invalid='true'] {
   border-color: #dc2626;
 }
 
