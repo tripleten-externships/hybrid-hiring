@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import { MobileNavOverlay } from './MobileNavOverlay';
+import { useAuth } from '../../hooks/useAuth';
+import { MobileNavOverlay } from '../MobileNavOverlay/MobileNavOverlay';
 import './Header.css';
 
 export const Header = () => {
