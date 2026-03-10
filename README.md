@@ -116,6 +116,40 @@ Meteor's development server provides:
 - **Hot Module Replacement** — UI changes reflect instantly without a full reload.
 - **Full restart** — server-side changes (publications, methods) restart the Node process automatically.
 
+## Admin Setup
+
+The application supports bootstrapping an admin user automatically at server startup using the `ADMIN_EMAIL` environment variable.
+
+### Set the ADMIN_EMAIL Environment Variable
+
+You can define the admin email in a `.env` file or set it directly in the shell before starting the server.
+
+#### Option 1: Using a `.env` file
+
+Create a `.env` file in the root of the project and add:
+
+```
+ADMIN_EMAIL=admin@example.com
+```
+
+Restart the server after saving the file.
+
+#### Option 2: Setting the variable in the shell
+
+Mac/Linux:
+
+```bash
+export ADMIN_EMAIL=admin@example.com
+meteor run
+```
+
+Windows:
+
+```powershell
+$env:ADMIN_EMAIL="admin@example.com"
+meteor run
+```
+
 ---
 
 ## 4. Project Structure
