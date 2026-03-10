@@ -7,7 +7,7 @@ type SelectionLabelProps = {
   onClick: () => void;
 };
 
-export const  SelectionLabel = ({ label, selected, onClick }: SelectionLabelProps) => {
+export const SelectionLabel = ({ label, selected, onClick }: SelectionLabelProps) => {
   return (
     <button
       type="button"
@@ -18,4 +18,4 @@ export const  SelectionLabel = ({ label, selected, onClick }: SelectionLabelProp
       {label}
     </button>
   );
-}
+};
