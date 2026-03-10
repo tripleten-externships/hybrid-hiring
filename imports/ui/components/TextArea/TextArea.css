@@ -1,0 +1,8 @@
+.text-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.text-input.full-width {
+  width: 100%;
+}
