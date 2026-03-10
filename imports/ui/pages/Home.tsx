@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Info } from '../examples/Info';
 import { Hello } from '../examples/Hello';
-import TextArea from '../components/TextArea';
+import { TextArea } from '../components';
 
 export const Home = () => {
   const [message, setMessage] = useState('');

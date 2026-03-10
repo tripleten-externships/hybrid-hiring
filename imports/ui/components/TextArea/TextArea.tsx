@@ -15,7 +15,7 @@ type TextAreaProps = {
   required?: boolean;
 };
 
-const TextArea = ({
+export const TextArea = ({
   label,
   id,
   name,
@@ -54,5 +54,3 @@ const TextArea = ({
     </div>
   );
 };
-
-export default TextArea;
