@@ -2,15 +2,16 @@ import { Info } from '../examples/Info';
 import { Hello } from '../examples/Hello';
 import JobCard from '../components/JobCard/JobCard';
 
+// JobCard Test-----
 const testJob = {
   _id: '1',
-  title: 'Frontend Developer',
-  company: 'Acme Corp',
-  location: 'Remote',
-  basePay: 80000,
-  payUnit: 'yr',
+  title: 'Master Electrician',
+  company: 'Trinity Solar',
+  location: 'Pittsburgh, PA 15201 (Central Lawrenceville area',
+  basePay: 46 - 50,
+  payUnit: 'hr',
   jobType: 'Full-time',
-  tags: ['React', 'TypeScript'],
+  tags: ['Paid Training', '401(K) matching'],
 };
 
 export const Home = () => {
@@ -20,6 +21,7 @@ export const Home = () => {
       <Hello />
       <br />
       <Info />
+      {/* JobCard Test */}
       <JobCard job={testJob} isSaved={false} onSave={() => {}} />
     </div>
   );

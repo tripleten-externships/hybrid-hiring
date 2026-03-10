@@ -45,7 +45,7 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
         <div className="job-card__location">{job.location}</div>
 
         {/* Pay */}
-        <div className="job-card__pay">{pay}</div>
+        <div className="job-card__pay">Base Pay:{pay}</div>
 
         {/* Job Type Chip */}
         <SelectionLabel label={job.jobType} selected={false} onClick={() => {}} />
