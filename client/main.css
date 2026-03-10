@@ -1,3 +1,5 @@
+@import '../imports/vendor/fonts.css';
+
 :root {
   --color-primary: #2563eb; /* used for links and focus states */
   --color-secondary: ;
@@ -57,17 +59,6 @@
   }
 }
 
-<<<<<<< HEAD
-/* To whoever reviews this branch: I wasn't sure what types of styles should be added below, 
-I did my best to create "the bones" of each element in the task, but I'd love some input if you have any! */
-
-.btn {
-  font-family: var(--font-family-base);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-background);
-  color: var(--color-text);
-}
-
 /* This one really got me...what's the form-control meant to be? */
 .form-control {
   font-family: var(--font-family-base);
@@ -84,8 +75,34 @@ I did my best to create "the bones" of each element in the task, but I'd love so
   border: var(--color-error);
 }
 
-=======
->>>>>>> 968c6934462fa8b489e41eb55dd21454806bade5
+/* Design Tokens */
+:root {
+  /* Color Pallet from Figma */
+  --color-primary-light: #96bf43;
+  --color-primary-dark: #3c784c;
+  --color-secondary-light: #d5dde5;
+  --color-secondary-dark: #345077;
+  --color-accent-1: #d3991e;
+  --color-accent-2: #cb6843;
+  --color-accent-3: #59392b;
+
+  /* Status Pallet from Figma */
+  --color-success: #07d344;
+  --color-warning: #ffda07;
+  --color-error: #da3a3d;
+
+  /* Interface Pallet from Figma */
+  --color-1: #000000;
+  --color-2: #636363;
+  --color-3: #8f8c8c;
+  --color-4: #b7b7b7;
+  --color-5: #eaeaea;
+  --color-6: #ffffff;
+
+  /* Overlay Pallet from Figma */
+  --color-overlay-1: #000000;
+}
+
 /* Design Tokens (Figma updates needed) */
 :root {
   --color-primary: green; /* base primary background */
