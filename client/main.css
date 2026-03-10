@@ -1,16 +1,106 @@
+@import '../imports/vendor/fonts.css';
+
 :root {
-  --color-surface: #ffffff;
-  --color-surface-overlay: #f8f8f8;
-  --color-text: #333333;
-  --color-text-muted: #555555;
-  --color-border: #dddddd;
-  --color-primary: #2563eb;
+  --color-primary: #2563eb; /* used for links and focus states */
+  --color-secondary: ;
+  --color-text: #ffffff;
+  --color-text-muted: #b7b7b7;
+  --color-surface: #3c784c;
+  --color-background: #3c784c;
+  --color-border: #636363;
+  --color-error: #c0392b;
+  --color-success: #2a7a2a;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 20px;
+  --font-size-lg: 24px;
+  --font-size-xl: 48px;
+  --font-size-2xl: 60px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-family-base: 'Inter';
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-9: 36px;
+  --space-10: 40px;
+  --space-11: 44px;
+  --space-12: 48px;
+  --space-13: 52px;
+  --space-14: 56px;
+  --space-15: 60px;
+  --space-16: 64px;
+  --shadow-sm: ; /* I don't see any shadows in the figma, but I'm leaving these here in case I find some */
+  --shadow-md: ;
+  --shadow-lg: ;
+  --radius-sm: 5px;
+  --radius-md: 10px;
+  --radius-lg: 15px;
+  --transition-fast: 150ms;
+  --transition-base: 300ms;
 }
 
-body {
-  padding: 0;
-  margin: 0;
-  font-family: sans-serif;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  body {
+    margin: 0;
+    font-family: var(--font-family-base);
+  }
+  a {
+    color: inherit;
+  }
+}
+
+/* This one really got me...what's the form-control meant to be? */
+.form-control {
+  font-family: var(--font-family-base);
+}
+
+.form-label {
+  font-family: var(--font-family-base);
+  border-color: var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-border);
+}
+
+.field-error {
+  border: var(--color-error);
+}
+
+/* Design Tokens */
+:root {
+  /* Color Pallet from Figma */
+  --color-primary-light: #96bf43;
+  --color-primary-dark: #3c784c;
+  --color-secondary-light: #d5dde5;
+  --color-secondary-dark: #345077;
+  --color-accent-1: #d3991e;
+  --color-accent-2: #cb6843;
+  --color-accent-3: #59392b;
+
+  /* Status Pallet from Figma */
+  --color-success: #07d344;
+  --color-warning: #ffda07;
+  --color-error: #da3a3d;
+
+  /* Interface Pallet from Figma */
+  --color-1: #000000;
+  --color-2: #636363;
+  --color-3: #8f8c8c;
+  --color-4: #b7b7b7;
+  --color-5: #eaeaea;
+  --color-6: #ffffff;
+
+  /* Overlay Pallet from Figma */
+  --color-overlay-1: #000000;
 }
 
 .chip {
