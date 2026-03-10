@@ -17,10 +17,10 @@ export const SignUp: FC = () => {
     <div className="sign-up">
       <div className="sign-up__header">
         <button type="button" className="sign-up__btn btn-back">
-          <img src="/SignUp/skip.svg" alt="Skip" />
+          <img src="/assets/skip.svg" alt="Skip" />
         </button>
         <div className="sign-up__logo">
-          <img src="/SignUp/CompanyLogo.svg" alt="Logo" />
+          <img src="/assets/company-logo.svg" alt="Logo" />
         </div>
         <button type="button" className="sign-up__btn btn-skip">
           Skip <img src="/SignUp/skip.svg" alt="Skip" />{' '}
