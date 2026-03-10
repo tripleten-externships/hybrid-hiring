@@ -102,24 +102,3 @@
   /* Overlay Pallet from Figma */
   --color-overlay-1: #000000;
 }
-
-.chip {
-  border-radius: 999px;
-  border: 1px solid var(--color-secondary);
-  padding: 6px 14px;
-  font-size: 16px;
-  background: var(--color-secondary);
-  color: var(--color-1);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.chip:hover {
-  background: var(--color-secondary);
-}
-
-.chip--selected {
-  background: var(--color-secondary-dark);
-  color: var(--color-6);
-  border-color: var(--color-secondary);
-}

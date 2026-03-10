@@ -1,4 +1,5 @@
 import React from 'react';
+import './SelectionLabel.css';
 
 type SelectionLabelProps = {
   label: string;
@@ -6,7 +7,7 @@ type SelectionLabelProps = {
   onClick: () => void;
 };
 
-export default function SelectionLabel({ label, selected, onClick }: SelectionLabelProps) {
+export const SelectionLabel = ({ label, selected, onClick }: SelectionLabelProps) => {
   return (
     <button
       type="button"
@@ -14,7 +15,7 @@ export default function SelectionLabel({ label, selected, onClick }: SelectionLa
       aria-pressed={selected}
       onClick={onClick}
     >
-      {label}
+      <span className="chip-label">{label}</span>
     </button>
   );
-}
+};
