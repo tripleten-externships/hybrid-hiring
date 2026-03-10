@@ -46,8 +46,8 @@ export const Login = () => {
 
   return (
     <>
-      <img src="/icons/back.svg" alt="Back button" className="login__form-back-btn" />
-      <img src="/icons/companyLogo.svg" alt="Company Logo" className="login__form-company-logo" />
+      <img src="/assets/back.svg" alt="Back button" className="login__form-back-btn" />
+      <img src="/assets/hhr-logo.svg" alt="Company Logo" className="login__form-company-logo" />
       <div className="login__form-container">
         <form className="login__form" onSubmit={onSubmit}>
           <h2 className="login__form-title">Welcome back or Log In to your account</h2>
@@ -81,7 +81,7 @@ export const Login = () => {
               >
                 <img
                   className="login__form-toggle-img"
-                  src="/icons/eye.svg"
+                  src="/assets/eye.svg"
                   alt="Toggle Password Visibility"
                 />
               </button>
