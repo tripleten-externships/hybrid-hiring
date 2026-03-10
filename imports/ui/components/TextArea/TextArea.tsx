@@ -1,41 +1,41 @@
-import './TextInput.css';
+import './TextArea.css';
 import type { ChangeEvent } from 'react';
 
-type TextInputProps = {
+type TextAreaProps = {
   label: string;
   id: string;
   name?: string;
-  type?: string;
   value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   error?: string;
   placeholder?: string;
+  rows?: number;
   fullWidth?: boolean;
   disabled?: boolean;
   required?: boolean;
 };
 
-const TextInput = ({
+export const TextArea = ({
   label,
   id,
   name,
-  type = 'text',
   value,
   onChange,
   error,
   placeholder,
+  rows = 4,
   fullWidth = false,
   disabled = false,
   required = false,
-}: TextInputProps) => {
+}: TextAreaProps) => {
   return (
     <div className={`text-input ${fullWidth ? 'full-width' : ''}`}>
       <label htmlFor={id}>{label}</label>
 
-      <input
+      <textarea
         id={id}
         name={name}
-        type={type}
+        rows={rows}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
@@ -54,5 +54,3 @@ const TextInput = ({
     </div>
   );
 };
-
-export default TextInput;
