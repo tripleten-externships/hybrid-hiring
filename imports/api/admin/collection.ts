@@ -5,6 +5,6 @@ export type Admin = {
   name: string;
   createdAt: Date;
   userId: string;
-}
+};
 
 export const AdminCollection = new Mongo.Collection<Admin, Admin>('admin');

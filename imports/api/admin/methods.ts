@@ -26,5 +26,5 @@ Meteor.methods({
   'Admin.create': create,
   'Admin.update': update,
   'Admin.remove': remove,
-  'Admin.find': findById
+  'Admin.find': findById,
 });
