@@ -1,0 +1,27 @@
+.text-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.text-input.full-width {
+  width: 100%;
+}
+
+.input {
+  border: 1px solid #ccc;
+  padding: 6px;
+}
+
+.input:focus {
+  border-color: #000;
+  outline: none;
+}
+
+.input[aria-invalid='true'] {
+  border-color: #dc2626;
+}
+
+.field-error {
+  color: #dc2626;
+  font-size: 12px;
+}
