@@ -8,7 +8,7 @@ A full-stack Meteor 3.4 application built with React 18 and TypeScript. This cod
 
 1. [Prerequisites](#1-prerequisites)
 2. [Installation](#2-installation)
-3. [Running the App](#3-running-the-app) (#Admin-setup)
+3. [Running the App](#3-running-the-app)
 4. [Project Structure](#4-project-structure)
 5. [Core Concepts](#5-core-concepts)
    - [Publications & Subscriptions](#publications--subscriptions)
@@ -143,58 +143,57 @@ Windows:
 
 $env:ADMIN_EMAIL="admin@example.com"
 meteor run
+```
 
 ---
 
 ## 4. Project Structure
 
 ```
-
 hybrid-hiring/
 ├── client/
-│ ├── main.tsx # Client entry point — mounts the React app
-│ └── main.css # Global styles and CSS custom properties (:root variables)
+│   ├── main.tsx                    # Client entry point — mounts the React app
+│   └── main.css                    # Global styles and CSS custom properties (:root variables)
 ├── server/
-│ └── main.ts # Server entry point — startup logic & data seeding
+│   └── main.ts                     # Server entry point — startup logic & data seeding
 ├── imports/
-│ ├── api/
-│ │ ├── links.ts # Links collection (Meteor scaffold example)
-│ │ └── demo-users/
-│ │ ├── collection.ts # Mongo collection + TypeScript type (DemoUser)
-│ │ ├── methods.ts # Meteor methods (server-side write logic)
-│ │ ├── publications.ts # Meteor publications (server-side read logic)
-│ │ └── index.ts # Re-exports for cleaner imports
-│ └── ui/
-│ ├── App.tsx # Root React component
-│ ├── router.tsx # Client-side routes (react-router-dom)
-│ ├── layouts/ # Structural shell components (header, nav, page wrapper)
-│ │ ├── Layout.tsx # Shell layout — renders Header + <Outlet />
-│ │ ├── Layout.css
-│ │ ├── Header.tsx # Top bar with logo, desktop nav, and hamburger button
-│ │ ├── Header.css
-│ │ ├── MobileNavOverlay.tsx # Slide-in drawer with nav links and auth actions
-│ │ └── MobileNavOverlay.css
-│ ├── hooks/ # Custom React hooks
-│ │ └── useAuth.ts # Reactive auth state (isLoggedIn, isAdmin, userId, logOut)
-│ ├── components/ # Shared, reusable UI components (Button, Card, TextField…)
-│ ├── pages/
-│ │ └── Home.tsx # Landing page
-│ └── examples/
-│ ├── Hello.tsx # Simple counter (Meteor scaffold example)
-│ ├── Info.tsx # Links list using useSubscribe/useFind
-│ ├── DemoUsersList.tsx # Pub/sub reference example
-│ └── DemoUsersManager.tsx # Methods reference example
+│   ├── api/
+│   │   ├── links.ts                # Links collection (Meteor scaffold example)
+│   │   └── demo-users/
+│   │       ├── collection.ts       # Mongo collection + TypeScript type (DemoUser)
+│   │       ├── methods.ts          # Meteor methods (server-side write logic)
+│   │       ├── publications.ts     # Meteor publications (server-side read logic)
+│   │       └── index.ts            # Re-exports for cleaner imports
+│   └── ui/
+│       ├── App.tsx                 # Root React component
+│       ├── router.tsx              # Client-side routes (react-router-dom)
+│       ├── layouts/                # Structural shell components (header, nav, page wrapper)
+│       │   ├── Layout.tsx          # Shell layout — renders Header + <Outlet />
+│       │   ├── Layout.css
+│       │   ├── Header.tsx          # Top bar with logo, desktop nav, and hamburger button
+│       │   ├── Header.css
+│       │   ├── MobileNavOverlay.tsx # Slide-in drawer with nav links and auth actions
+│       │   └── MobileNavOverlay.css
+│       ├── hooks/                  # Custom React hooks
+│       │   └── useAuth.ts          # Reactive auth state (isLoggedIn, isAdmin, userId, logOut)
+│       ├── components/             # Shared, reusable UI components (Button, Card, TextField…)
+│       ├── pages/
+│       │   └── Home.tsx            # Landing page
+│       └── examples/
+│           ├── Hello.tsx           # Simple counter (Meteor scaffold example)
+│           ├── Info.tsx            # Links list using useSubscribe/useFind
+│           ├── DemoUsersList.tsx   # Pub/sub reference example
+│           └── DemoUsersManager.tsx # Methods reference example
 ├── tests/
-│ └── main.ts # Test entry point (Mocha)
+│   └── main.ts                     # Test entry point (Mocha)
 ├── .meteor/
-│ ├── packages # Atmosphere package list (like package.json for Meteor packages)
-│ ├── release # Pinned Meteor version
-│ └── versions # Locked package versions (commit this file)
-├── .env # Local environment variables (do not commit)
-├── .nvmrc # Pinned Node.js version
-└── tsconfig.json # TypeScript configuration
-
-````
+│   ├── packages                    # Atmosphere package list (like package.json for Meteor packages)
+│   ├── release                     # Pinned Meteor version
+│   └── versions                    # Locked package versions (commit this file)
+├── .env                            # Local environment variables (do not commit)
+├── .nvmrc                          # Pinned Node.js version
+└── tsconfig.json                   # TypeScript configuration
+```
 
 ### Key conventions
 
@@ -220,7 +219,7 @@ Hooks in `imports/ui/hooks/` follow a simple rule: **one concern per hook**. A h
 import { useAuth } from '../hooks/useAuth';
 
 const { isLoggedIn, isAdmin, userId, logOut } = useAuth();
-````
+```
 
 | Return value | Type             | Description                                                       |
 | ------------ | ---------------- | ----------------------------------------------------------------- |
@@ -242,12 +241,10 @@ Publications and subscriptions are Meteor's real-time data layer. They replace t
 **How it works:**
 
 ```
-
 Server publishes a cursor
-→ Meteor streams matching documents to the client over DDP (WebSocket)
-→ Client's local Minimongo cache is kept in sync
-→ useFind reads from that cache reactively → component re-renders
-
+  → Meteor streams matching documents to the client over DDP (WebSocket)
+    → Client's local Minimongo cache is kept in sync
+      → useFind reads from that cache reactively → component re-renders
 ```
 
 **Server — define a publication** (`imports/api/demo-users/publications.ts`):
