@@ -7,7 +7,7 @@ type SelectionLabelProps = {
   onClick: () => void;
 };
 
-export default function SelectionLabel({ label, selected, onClick }: SelectionLabelProps) {
+export const  SelectionLabel = ({ label, selected, onClick }: SelectionLabelProps) => {
   return (
     <button
       type="button"
