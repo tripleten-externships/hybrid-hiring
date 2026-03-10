@@ -2,6 +2,11 @@
 commit_msg=$(cat "$1")
 pattern='^\[HH-[0-9]+\] .+'
 
+# Allow merge commits to bypass format check
+if echo "$commit_msg" | grep -qE '^Merge '; then
+  exit 0
+fi
+
 if ! echo "$commit_msg" | grep -qE "$pattern"; then
   echo ""
   echo "  ✗ Invalid commit message format."
