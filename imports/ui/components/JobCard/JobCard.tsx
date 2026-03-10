@@ -1,6 +1,7 @@
 import './JobCard.css';
 import { Link } from 'react-router-dom';
 import SelectionLabel from '/imports/ui/components/SelectionLabel/SelectionLabel';
+import { Button } from '../Button/Button';
 
 type Job = {
   _id: string;
@@ -21,7 +22,8 @@ type JobCardProps = {
 };
 
 export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
-  const firstLetter = job.company.charAt(0).toUpperCase();
+  // JIRA ticket discrepancy
+  // const firstLetter = job.company.charAt(0).toUpperCase();
 
   const pay = job.payMax
     ? `$${job.basePay}–${job.payMax}/${job.payUnit}`
@@ -29,8 +31,8 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
 
   return (
     <div className="job-card">
-      {/* Company Badge */}
-      <div className="job-card__badge">{firstLetter}</div>
+      {/* Company Badge  JIRA ticket discrepancy*/}
+      {/* <div className="job-card__badge">{firstLetter}</div> */}
 
       <div className="job-card__content">
         {/* Title       */}
@@ -38,26 +40,31 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
           {job.title}
         </Link>
 
-        {/* Company */}
-        <div className="job-card__company">{job.company}</div>
+        {/* Company & Locations */}
+        <div className="job-card__company-location">
+          {/* Company */}
+          <div className="job-card__company">{job.company}</div>
 
-        {/* Location */}
-        <div className="job-card__location">{job.location}</div>
-
+          {/* Location */}
+          <div className="job-card__location">{job.location}</div>
+        </div>
         {/* Pay */}
         <div className="job-card__pay">Base Pay:{pay}</div>
 
-        {/* Job Type Chip */}
-        <SelectionLabel label={job.jobType} selected={false} onClick={() => {}} />
+        <div className="job-card__chip-tags">
+          {/* Job Type Chip */}
+          <SelectionLabel label={job.jobType} selected={false} onClick={() => {}} />
 
-        {/* Tags */}
-        <div className="job-card__tags">
-          {job.tags?.map((tag) => (
-            <span key={tag} className="job-card__tag">
-              {tag}
-            </span>
-          ))}
+          {/* Tags */}
+          <div className="job-card__tags">
+            {job.tags?.map((tag) => (
+              <SelectionLabel key={tag} label={tag} selected={false} onClick={() => {}} />
+            ))}
+          </div>
         </div>
+
+        <Button size="lg">Quick Apply</Button>
+        <Button size="lg">More Details</Button>
       </div>
 
       {/* Bookmark */}
