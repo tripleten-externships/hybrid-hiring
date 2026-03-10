@@ -14,16 +14,32 @@ export const Footer = () => {
           <h2 className="footer__title">Hybrid Hiring Solutions</h2>
         </div>
         <nav className="footer__nav">
-          <NavLink to="/" className="footer__nav-link">Home</NavLink>
+          <NavLink to="/" className="footer__nav-link">
+            Home
+          </NavLink>
           {/* Employers is in the Figma design but not explicitly in the task spec */}
-          <NavLink to="/employers" className="footer__nav-link">Employers</NavLink>
-          <NavLink to="/jobs" className="footer__nav-link">Jobs</NavLink>
-          <NavLink to="/contact" className="footer__nav-link">Contact Us</NavLink>
-          <NavLink to="/about" className="footer__nav-link">About Us</NavLink>
+          <NavLink to="/employers" className="footer__nav-link">
+            Employers
+          </NavLink>
+          <NavLink to="/jobs" className="footer__nav-link">
+            Jobs
+          </NavLink>
+          <NavLink to="/contact" className="footer__nav-link">
+            Contact Us
+          </NavLink>
+          <NavLink to="/about" className="footer__nav-link">
+            About Us
+          </NavLink>
           {/* Figma shows an "account" button; task spec also calls for login/signup */}
-          <NavLink to="/signup" className="footer__nav-link">Sign Up</NavLink>
-          <NavLink to="/login" className="footer__nav-link">Log In</NavLink>
-          <NavLink to="/account" className="footer__nav-link">Account</NavLink>
+          <NavLink to="/signup" className="footer__nav-link">
+            Sign Up
+          </NavLink>
+          <NavLink to="/login" className="footer__nav-link">
+            Log In
+          </NavLink>
+          <NavLink to="/account" className="footer__nav-link">
+            Account
+          </NavLink>
         </nav>
         <div className="footer__socials">
           {/* TODO: replace href values with real social URLs when available */}
