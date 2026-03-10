@@ -7,7 +7,5 @@ _build
 .rsdoctor
 
 .env
-tsconfig.tsbuildinfo.DS_Store
-imports/ui/.DS_Store
+tsconfig.tsbuildinfo
 .DS_Store
-imports/ui/.DS_Store
