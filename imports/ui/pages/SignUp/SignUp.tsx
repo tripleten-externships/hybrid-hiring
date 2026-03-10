@@ -23,7 +23,7 @@ export const SignUp: FC = () => {
           <img src="/assets/company-logo.svg" alt="Logo" />
         </div>
         <button type="button" className="sign-up__btn btn-skip">
-          Skip <img src="/SignUp/skip.svg" alt="Skip" />{' '}
+          Skip <img src="/assets/skip.svg" alt="Skip" />{' '}
         </button>
       </div>
       <div className="sign-up__main-content">
