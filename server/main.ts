@@ -1,3 +1,5 @@
+import '../imports/api/profile';
+import '../imports/api/admin';
 import '../imports/api/demo-users';
 import { Meteor } from 'meteor/meteor';
 import { Link, LinksCollection } from '/imports/api/links';
