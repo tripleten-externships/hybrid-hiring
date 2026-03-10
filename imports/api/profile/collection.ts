@@ -10,7 +10,7 @@ export type Profile = {
   payUnit?: 'hourly' | 'yearly';
   city?: string;
   state?: string;
-  preferredTittle?: string;
+  preferredTitle?: string;
   skills?: string[];
   resumeUrl?: string;
   certUrl?: string;

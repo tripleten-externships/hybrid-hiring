@@ -7,5 +7,8 @@ Meteor.publish('myAdminRecord', function publishMyAdminRecord() {
 });
 
 Meteor.publish('allAdminRecords', function publishAllAdminRecords() {
+  if (!this.userId) return this.ready();
+  const isAdmin = AdminCollection.findOne({ userId: this.userId });
+  if (!isAdmin) return this.ready();
   return AdminCollection.find({});
 });

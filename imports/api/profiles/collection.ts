@@ -11,7 +11,7 @@ export interface UserProfile {
   city?: string;
   state?: string;
 
-  preferredTittle?: string;
+  preferredTitle?: string;
   skills?: string[];
 
   resumeUrl?: string;

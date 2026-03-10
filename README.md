@@ -126,8 +126,11 @@ You can define the admin email in a `.env` file or set it directly in the shell 
 
 #### Option 1: Using a `.env` file
 
-Creat a `.env` file in the root of the project
-ADMIN_EMAIL=admin@example.com(for example only)
+Create a `.env` file in the root of the project and add:
+
+```
+ADMIN_EMAIL=admin@example.com
+```
 
 Restart the server after saving the file.
 
@@ -138,9 +141,11 @@ Mac/Linux:
 ```bash
 export ADMIN_EMAIL=admin@example.com
 meteor run
+```
 
 Windows:
 
+```powershell
 $env:ADMIN_EMAIL="admin@example.com"
 meteor run
 ```

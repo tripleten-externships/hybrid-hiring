@@ -1,11 +1,8 @@
-import dotenv from 'dotenv';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { Link, LinksCollection } from '../../api/links';
 import { DemoUsersCollection } from '../../api/demo-users/collection';
 import { AdminCollection } from '../../api/admin/collection';
-
-dotenv.config();
 
 async function insertLink({ title, url }: Pick<Link, 'title' | 'url'>) {
   await LinksCollection.insertAsync({ title, url, createdAt: new Date() });
@@ -20,14 +17,20 @@ Meteor.startup(async () => {
     });
 
     if (user) {
-      await AdminCollection.insertAsync({
-        userId: user._id,
-        name: user?.emails?.[0]?.address || 'Admin',
-        createdAt: new Date(),
-      });
-      console.log(`Admin seeded: ${adminEmail}`);
+      const existingAdmin = await AdminCollection.findOneAsync({ userId: user._id });
+      if (!existingAdmin) {
+        await AdminCollection.insertAsync({
+          userId: user._id,
+          name: user?.emails?.[0]?.address || 'Admin',
+          createdAt: new Date(),
+        });
+        console.log(`Admin seeded: ${adminEmail}`);
+      }
     }
+  }
 
+  // Seed the Links collection with sample data if it is empty.
+  if ((await LinksCollection.find().countAsync()) === 0) {
     await insertLink({
       title: 'Follow the Guide',
       url: 'https://guide.meteor.com',
