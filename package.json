@@ -31,7 +31,6 @@
     "@types/node": "^22.10.6",
     "@types/react": "^18.2.5",
     "@types/react-dom": "^18.2.4",
-    "@types/react-router-dom": "^5.3.3",
     "husky": "^9.1.7",
     "prettier": "^3.8.1",
     "react-refresh": "^0.17.0",
