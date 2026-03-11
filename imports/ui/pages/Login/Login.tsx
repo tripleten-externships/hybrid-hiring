@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 // import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router-dom';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import { useLogin } from '../../hooks/useLogin';
 import { Button } from '../../components/Button/Button';
 import TextInput from '../../components/TextInput';
-import PrivateRoute from '../../components/PrivateRoute';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -15,17 +14,15 @@ export const Login = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const navigate = useNavigate();
-  const location = useLocation();
 
   const { error, isLoading, handleLogin } = useLogin();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const onSuccess = () => {
-      const from = location.state?.from;
       setEmail('');
       setPassword('');
-      navigate(from || '/jobs');
+      navigate('/jobs');
     };
 
     const hasEmailError =
