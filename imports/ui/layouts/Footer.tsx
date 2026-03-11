@@ -1,7 +1,10 @@
 import { NavLink } from 'react-router-dom';
+import { Meteor } from 'meteor/meteor';
 import './Footer.css';
 
 export const Footer = () => {
+  const loggedIn = Meteor.user();
+
   return (
     <footer className="footer">
       <div className="footer__content">
@@ -21,9 +24,13 @@ export const Footer = () => {
           <NavLink to="/contact" className="footer__nav-link">Contact Us</NavLink>
           <NavLink to="/about" className="footer__nav-link">About Us</NavLink>
           {/* Figma shows an "account" button; task spec also calls for login/signup */}
-          <NavLink to="/signup" className="footer__nav-link">Sign Up</NavLink>
-          <NavLink to="/login" className="footer__nav-link">Log In</NavLink>
-          <NavLink to="/account" className="footer__nav-link">Account</NavLink>
+          {/* Shows Signup/Login when logged out, Account when logged in */}
+          {loggedIn ? (<NavLink to="/account" className="footer__nav-link">Account</NavLink>)
+            : (<>
+              <NavLink to="/signup" className="footer__nav-link">Sign Up</NavLink>
+              <NavLink to="/login" className="footer__nav-link">Log In</NavLink>
+            </>
+            )}
         </nav>
         <div className="footer__socials">
           {/* TODO: replace href values with real social URLs when available */}
