@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 
 export const SignUp: FC = () => {
   //local state for signup page
-  const [_email, _setEmail] = useState('');
-  const [_password, _etPassword] = useState('');
-  const [_firstName, _setFirstName] = useState('');
-  const [_lastName, _setLastName] = useState('');
-  const [_confirmPassword, _setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [_isLoading, _setIsLoading] = useState(false);
-  const [_error, _setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   return (
     <div className="sign-up">
@@ -42,12 +42,16 @@ export const SignUp: FC = () => {
               className="sign-up__input first-name"
               type="text"
               placeholder="First Name"
+              value={firstName}
+              onChange={(evt) => setFirstName(evt.target.value)}
             />
             <input
               id="lastName"
               className="sign-up__input last-name"
               type="text"
               placeholder="Last Name"
+              value={lastName}
+              onChange={(evt) => setLastName(evt.target.value)}
             />
           </div>
 
@@ -57,6 +61,8 @@ export const SignUp: FC = () => {
             type="email"
             placeholder="Email"
             autoComplete="email"
+            value={email}
+            onChange={(evt) => setEmail(evt.target.value)}
           />
           <input
             id="password"
@@ -64,6 +70,8 @@ export const SignUp: FC = () => {
             type="password"
             placeholder="Password"
             autoComplete="new-password"
+            value={password}
+            onChange={(evt) => setPassword(evt.target.value)}
           />
           <input
             id="confirmPassword"
@@ -71,6 +79,8 @@ export const SignUp: FC = () => {
             type="password"
             placeholder="Re-enter password"
             autoComplete="new-password"
+            value={confirmPassword}
+            onChange={(evt) => setConfirmPassword(evt.target.value)}
           />
         </form>
         <button type="submit" className="sign-up__btn btn-create">
