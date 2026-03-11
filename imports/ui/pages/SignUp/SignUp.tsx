@@ -13,6 +13,34 @@ export const SignUp: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // basic client-side validation before submission
+  const handleSubmit = (evt: React.FormEvent) => {
+    evt.preventDefault();
+
+    // required fields validation
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+      setError('All fields are required.');
+      return;
+    }
+
+    // basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    // password match validation
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    // all validations pass
+    setError('');
+    setIsLoading(true);
+  };
+
   return (
     <div className="sign-up">
       <div className="sign-up__header">
@@ -33,7 +61,7 @@ export const SignUp: FC = () => {
             Build your profile and we will begin the hunt for you.
           </p>
         </div>
-        <form className="sign-up__inputs">
+        <form className="sign-up__inputs" onSubmit={handleSubmit}>
           {/* Name - two column for desktop */}
           <div className="sign-up__basic">
             {' '}
@@ -82,10 +110,15 @@ export const SignUp: FC = () => {
             value={confirmPassword}
             onChange={(evt) => setConfirmPassword(evt.target.value)}
           />
+
+          {error && <p className="sign-up__error">{error}</p>}
+
+          <button type="submit" className="sign-up__btn btn-create">
+            Build My Profile
+          </button>
+
         </form>
-        <button type="submit" className="sign-up__btn btn-create">
-          Build My Profile
-        </button>
+
         <p className="sign-up__login-link">
           Already have an account? <Link to="/LogIn"> Log In </Link>{' '}
         </p>
