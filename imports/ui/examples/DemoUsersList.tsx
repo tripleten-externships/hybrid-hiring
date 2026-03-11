@@ -49,6 +49,7 @@ export const DemoUsersList = () => {
 
       {/* Changing this input switches the active subscription on the fly */}
       <input
+        className="form-label"
         type="text"
         placeholder="Filter by name (uses demoUsers.byName publication)…"
         value={search}
