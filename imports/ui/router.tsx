@@ -1,9 +1,10 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { DemoUsersList } from './examples/DemoUsersList';
+import { DemoUsersManager } from './examples/DemoUsersManager';
 import { Layout } from './layouts/Layout/Layout';
 import { Home } from './pages/Home';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
-import { DemoUsersList } from './examples/DemoUsersList';
-import { DemoUsersManager } from './examples/DemoUsersManager';
+import { SignUp } from './pages/SignUp/SignUp';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: '/users/manage',
         element: <DemoUsersManager />,
+      },
+      {
+        path: '/signup',
+        element: <SignUp />,
       },
       {
         path: '*',
