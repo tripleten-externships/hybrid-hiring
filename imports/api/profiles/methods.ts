@@ -16,7 +16,7 @@ Meteor.methods({
     check(data, Match.ObjectIncluding({}));
     const profile = await ProfilesCollection.findOneAsync({ userId });
 
-    if (profile) {
+    if (profile && profile._id) {
       await ProfilesCollection.updateAsync(profile._id, {
         $set: { ...data, updatedAt: new Date() },
       });
@@ -36,14 +36,14 @@ Meteor.methods({
     check(jobId, String);
 
     const profile = await ProfilesCollection.findOneAsync({ userId });
-    const savedJobIds = profile?.savedJobIds || [];
+    const savedJobIds = profile?.savedJobs || [];
 
     if (savedJobIds.includes(jobId)) {
       // remove job
       await ProfilesCollection.updateAsync(
         { userId },
         {
-          $pull: { savedJobIds: jobId },
+          $pull: { savedJobs: jobId },
           $set: { updatedAt: new Date() },
         }
       );
@@ -55,14 +55,14 @@ Meteor.methods({
         await ProfilesCollection.updateAsync(
           { userId },
           {
-            $addToSet: { savedJobIds: jobId },
+            $addToSet: { savedJobs: jobId },
             $set: { updatedAt: new Date() },
           }
         );
       } else {
         await ProfilesCollection.insertAsync({
           userId,
-          savedJobIds: [jobId],
+          savedJobs: [jobId],
           createdAt: new Date(),
           updatedAt: new Date(),
         });
