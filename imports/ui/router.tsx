@@ -1,10 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Layout } from './components/Layout';
+import { Layout } from './layouts/Layout/Layout';
 import { Home } from './pages/Home';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 import { DemoUsersList } from './examples/DemoUsersList';
 import { DemoUsersManager } from './examples/DemoUsersManager';
 import { Login } from './pages/Login/Login';
+import { Jobs } from './pages/Jobs/Jobs';
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,18 @@ const router = createBrowserRouter([
         path: '/users/manage',
         element: <DemoUsersManager />,
       },
-      { path: '/login', element: <Login /> },
+      {
+        path: '*',
+        element: <NotFoundPage />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/jobs',
+        element: <Jobs />,
+      },
     ],
   },
 ]);

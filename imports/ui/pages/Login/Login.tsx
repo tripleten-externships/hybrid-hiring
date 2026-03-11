@@ -6,7 +6,7 @@ import { useLogin } from '../../hooks/useLogin';
 import { Button } from '../../components/Button/Button';
 import TextInput from '../../components/TextInput';
 import { Link } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,15 +14,18 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const { error, isLoading, handleLogin } = useLogin();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const onSuccess = () => {
+      const from = location.state?.from;
       setEmail('');
       setPassword('');
+      navigate(from || '/jobs');
     };
 
     const hasEmailError =

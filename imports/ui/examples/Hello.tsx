@@ -10,9 +10,7 @@ export const Hello = () => {
 
   return (
     <div>
-      <button className="btn" onClick={increment}>
-        Click Me
-      </button>
+      <Button onClick={increment}>Click Me</Button>
       <p>You've pressed the button {counter} times.</p>
     </div>
   );
