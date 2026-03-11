@@ -1,6 +1,5 @@
 import React from 'react';
 import { Spinner } from '../Spinner/Spinner';
-import './Button.css';
 
 type Variant = 'primary' | 'secondary' | 'outline' | 'ghost';
 type Size = 'sm' | 'md' | 'lg';

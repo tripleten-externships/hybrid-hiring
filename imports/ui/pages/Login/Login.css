@@ -1,0 +1,111 @@
+.login__form-container {
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #eaeaea;
+  width: 100%;
+}
+
+.login__form-back-btn {
+  position: absolute;
+  top: 100px;
+  left: 20px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.login__form-company-logo {
+  visibility: hidden;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 361px;
+  margin: 0 auto;
+}
+
+.login__form-title {
+  text-align: center;
+  margin: 0 0 26px;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 40px;
+}
+
+.login__form-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  margin-bottom: 26px;
+}
+
+.login__form-error {
+  color: red;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 26px;
+}
+.login__form-signup-btn {
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 40px;
+  padding: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.login__form-password-wrapper {
+  position: relative;
+}
+.login__form-input--password {
+  padding-right: 44px;
+}
+.login__form-pword-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.login__form-toggle-img {
+  width: 24px;
+  height: 24px;
+}
+
+@media screen and (max-width: 360px) {
+  .login__form-back-btn {
+    display: block;
+    visibility: visible;
+  }
+
+  .login__form-company-logo {
+    display: block;
+    visibility: visible;
+    margin: 51px auto 55px;
+    align-self: center;
+  }
+
+  .login__form-title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .login__form-signup-btn {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
