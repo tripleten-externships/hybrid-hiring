@@ -19,10 +19,7 @@ export const Footer = () => {
           </NavLink>
         </div>
         <nav className="footer__nav">
-          <p className="footer__nav-link footer__nav-link-title">
-            Quick Links
-          </p>
-          {/* Employers is in the Figma design but not explicitly in the task spec */}
+          <p className="footer__nav-link footer__nav-link-title">Quick Links</p>
           <NavLink to="/employers" className="footer__nav-link">
             Employers
           </NavLink>
@@ -35,7 +32,6 @@ export const Footer = () => {
           <NavLink to="/about" className="footer__nav-link">
             About Us
           </NavLink>
-          {/* Figma shows an "account" button; task spec also calls for login/signup */}
           {loggedIn ? (
             <NavLink to="/account" className="footer__nav-link">
               Account
