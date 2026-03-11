@@ -1,10 +1,10 @@
 import React, { FC, useState, FormEvent } from 'react';
-import './SignUp.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { Accounts } from 'meteor/accounts-base';
+import './SignUp.css';
 
 export const SignUp: FC = () => {
-  //local state for signup page
+  // local state for signup page
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -26,10 +26,10 @@ export const SignUp: FC = () => {
     }
     setIsLoading(true);
 
-    //wait time so we can witness spinner
+    // wait time so we can witness spinner
     await new Promise((res) => setTimeout(res, 1000));
 
-    //reate user
+    // create user
     Accounts.createUser(
       {
         email,

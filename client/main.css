@@ -1,4 +1,5 @@
 @import '../imports/vendor/fonts.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 :root {
   --color-primary: #2563eb; /* used for links and focus states */
