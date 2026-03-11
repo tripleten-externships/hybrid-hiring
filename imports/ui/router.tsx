@@ -5,6 +5,7 @@ import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 import { DemoUsersList } from './examples/DemoUsersList';
 import { DemoUsersManager } from './examples/DemoUsersManager';
 import { PrivateRoute } from './routes/PrivateRoute';
+import { AdminRoute } from './routes/AdminRoute';
 
 const router = createBrowserRouter([
   {
@@ -74,6 +75,26 @@ const router = createBrowserRouter([
           <PrivateRoute>
             <></>
           </PrivateRoute>
+        ),
+      },
+      // admin path to admin jobs
+      // need to add element to adminJobs
+      {
+        path: 'admin/jobs',
+        element: (
+          <AdminRoute>
+            <></>
+          </AdminRoute>
+        ),
+      },
+      // admin path to admin contacts
+      // need to add element to adminContacts
+      {
+        path: 'admin/contacts',
+        element: (
+          <AdminRoute>
+            <></>
+          </AdminRoute>
         ),
       },
       {
