@@ -21,6 +21,30 @@ const router = createBrowserRouter([
         path: '/users/manage',
         element: <DemoUsersManager />,
       },
+      // path to jobs
+      // need to add element path to jobs
+      {
+        path: '/jobs',
+        element: <></>,
+      },
+      // path to job details
+      // need to add element path to jobs details
+      {
+        path: '/jobs/:jobId',
+        element: <></>,
+      },
+      // path to About
+      // need to add element path to About
+      {
+        path: '/about',
+        element: <></>,
+      },
+      // path to contact
+      // need to add element path to contact
+      {
+        path: '/contact',
+        element: <></>,
+      },
       {
         path: '*',
         element: <NotFoundPage />,
