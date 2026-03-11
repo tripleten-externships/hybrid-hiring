@@ -4,6 +4,7 @@ import { Home } from './pages/Home';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 import { DemoUsersList } from './examples/DemoUsersList';
 import { DemoUsersManager } from './examples/DemoUsersManager';
+import { OnboardingPage3 } from './pages/OnboardingPage3/OnboardingPage3';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
         path: '*',
         element: <NotFoundPage />,
       },
+      { path: '/onboarding/3', element: <OnboardingPage3 /> },
     ],
   },
 ]);
