@@ -6,6 +6,7 @@ import { DemoUsersList } from './examples/DemoUsersList';
 import { DemoUsersManager } from './examples/DemoUsersManager';
 import { PrivateRoute } from './routes/PrivateRoute';
 import { AdminRoute } from './routes/AdminRoute';
+import { Stub } from './pages/StubPage/stub';
 
 const router = createBrowserRouter([
   {
@@ -27,25 +28,25 @@ const router = createBrowserRouter([
       // need to add element path to jobs
       {
         path: '/jobs',
-        element: <></>,
+        element: <Stub />,
       },
       // path to job details
       // need to add element path to jobs details
       {
         path: '/jobs/:jobId',
-        element: <></>,
+        element: <Stub />,
       },
       // path to About
       // need to add element path to About
       {
         path: '/about',
-        element: <></>,
+        element: <Stub />,
       },
       // path to contact
       // need to add element path to contact
       {
         path: '/contact',
-        element: <></>,
+        element: <Stub />,
       },
       // private path to onboarding1
       // need to add element to onboarding1
@@ -53,7 +54,7 @@ const router = createBrowserRouter([
         path: '/onboarding/1',
         element: (
           <PrivateRoute>
-            <></>
+            <Stub />
           </PrivateRoute>
         ),
       },
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
         path: '/onboarding/2',
         element: (
           <PrivateRoute>
-            <></>
+            <Stub />
           </PrivateRoute>
         ),
       },
@@ -73,7 +74,7 @@ const router = createBrowserRouter([
         path: '/onboarding/3',
         element: (
           <PrivateRoute>
-            <></>
+            <Stub />
           </PrivateRoute>
         ),
       },
@@ -83,7 +84,7 @@ const router = createBrowserRouter([
         path: 'admin/jobs',
         element: (
           <AdminRoute>
-            <></>
+            <Stub />
           </AdminRoute>
         ),
       },
@@ -93,7 +94,7 @@ const router = createBrowserRouter([
         path: 'admin/contacts',
         element: (
           <AdminRoute>
-            <></>
+            <Stub />
           </AdminRoute>
         ),
       },
