@@ -9,7 +9,7 @@
 }
 
 .footer__content {
-  margin: 60px 80px 45px 80px;
+  margin: 40px 80px;
 }
 
 .footer__logo {
@@ -22,7 +22,6 @@
   display: flex;
   flex-direction: column;
   margin: 0;
-  margin-bottom: 20px;
 }
 
 .footer__title {
@@ -31,6 +30,11 @@
   line-height: 56px;
   letter-spacing: -2px;
   margin: 0;
+}
+
+.footer__title-nav {
+  color: var(--color-6);
+  text-decoration: none;
 }
 
 .footer__nav {
@@ -52,6 +56,10 @@
   margin-bottom: 2px;
 }
 
+.footer__nav-link-title {
+  margin: 20px 0;
+}
+
 .footer__socials {
   margin: 0;
   margin-top: 15px;
@@ -69,21 +77,20 @@
 }
 
 .footer__divider {
-  border: none;
   border-top: 1px solid var(--color-6);
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .footer__copyright-text {
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
+  margin: 0;
 }
 
 @media (max-width: 400px) {
   .footer__content {
-    margin: 40px 20px 40px 20px;
+    margin: 40px 20px;
   }
 
   .footer__logo {
