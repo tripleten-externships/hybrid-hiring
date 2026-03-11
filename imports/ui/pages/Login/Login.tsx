@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-// import { Navigate } from 'react-router-dom';
 // import { Meteor } from 'meteor/meteor';
+import { Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Login.css';
 import { useLogin } from '../../hooks/useLogin';
 import { Button } from '../../components/Button/Button';
 import TextInput from '../../components/TextInput';
-import { Link } from 'react-router-dom';
-import { useNavigate, useLocation } from 'react-router-dom';
+import PrivateRoute from '../../components/PrivateRoute';
 
 export const Login = () => {
   const [email, setEmail] = useState('');

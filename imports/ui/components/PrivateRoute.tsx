@@ -1,9 +1,7 @@
 import React, { ReactNode } from 'react';
+import { Meteor } from 'meteor/meteor';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
 
-// import useLocation, call to get current location
-// add a state prop to the Navigate line that passes the current location
 
 interface PrivateRouteProps {
   children?: ReactNode;
@@ -11,13 +9,15 @@ interface PrivateRouteProps {
 
 const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const location = useLocation();
-  const { isLoggedIn } = useAuth();
+  const loggedIn = Meteor.user();
 
-  if (!isLoggedIn) {
-    return <Navigate state={{ from: location }} to='/login' replace />;
+  if (!loggedIn) {
+    // if not logged in, redirect to login page
+    return <Navigate state={{ from: location }} to="/login" replace />;
+  } else {
+    // if logged in, show current page
+    return children ? <>{children}</> : <Outlet />;
   }
-
-  return children ? <>{children}</> : <Outlet />;
 };
 
 export default PrivateRoute;

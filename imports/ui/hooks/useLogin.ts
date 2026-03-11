@@ -17,7 +17,7 @@ export const useLogin = () => {
         setError((error as Meteor.Error)?.reason || 'Login Failed.');
       } else {
         onSuccess();
-        // Navigate to jobs page after successful login once /jobs route is implemented
+        // Navigate to jobs page after successful login
         navigate('/jobs');
       }
     });
