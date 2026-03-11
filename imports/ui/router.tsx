@@ -4,6 +4,7 @@ import { Home } from './pages/Home';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 import { DemoUsersList } from './examples/DemoUsersList';
 import { DemoUsersManager } from './examples/DemoUsersManager';
+import { PrivateRoute } from './routes/PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,36 @@ const router = createBrowserRouter([
       {
         path: '/contact',
         element: <></>,
+      },
+      // private path to onboarding1
+      // need to add element to onboarding1
+      {
+        path: '/onboarding/1',
+        element: (
+          <PrivateRoute>
+            <></>
+          </PrivateRoute>
+        ),
+      },
+      // private path to onboarding2
+      // need to add element to onboarding2
+      {
+        path: '/onboarding/2',
+        element: (
+          <PrivateRoute>
+            <></>
+          </PrivateRoute>
+        ),
+      },
+      // private path to onboarding3
+      // need to add element to onboarding3
+      {
+        path: '/onboarding/3',
+        element: (
+          <PrivateRoute>
+            <></>
+          </PrivateRoute>
+        ),
       },
       {
         path: '*',
