@@ -57,64 +57,57 @@
   border-color: var(--color-primary-dark);
 }
 
-/* Button Sizes (desktop-first, reduces at 768px) */
+/* Button Sizes (mobile-first, upgrades at 768px) */
 .btn--sm {
-  width: 100px;
+  width: 72px;
   height: 40px;
-  padding: 8px 12px;
+  padding: 10px 12px;
   gap: 10px;
   font-size: 16px;
-  line-height: 28px;
+  line-height: 100%;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .btn--sm {
-    width: 88px;
-    height: 37px;
-    padding: 6px 9px;
-    gap: 8px;
-    font-size: 14px;
-    line-height: 24px;
+    width: 100px;
+    height: 51px;
   }
 }
 
 .btn--md {
-  width: 197px;
-  height: 49px;
+  width: 115px;
+  height: 46px;
   padding: 13px 10px;
   gap: 10px;
-  font-size: 24px;
-  line-height: 40px;
+  font-size: 16px;
+  line-height: 100%;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .btn--md {
-    width: 174px;
-    height: 45px;
-    padding: 10px 8px;
-    gap: 8px;
-    font-size: 20px;
-    line-height: 36px;
+    width: 197px;
+    height: 49px;
+    padding: 4px 39px;
+    font-size: 24px;
+    line-height: 40px;
   }
 }
 
 .btn--lg {
-  width: 343px;
+  width: 363px;
   height: 49px;
-  padding: 13px 13px;
+  padding: 13px 10px;
   gap: 10px;
-  font-size: 24px;
-  line-height: 40px;
+  font-size: 16px;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .btn--lg {
-    width: 303px;
-    height: 45px;
-    padding: 10px 10px;
-    gap: 8px;
-    font-size: 20px;
-    line-height: 36px;
+    width: 323px;
+    height: 48px;
+    padding: 4px 39px;
+    font-size: 24px;
+    line-height: 40px;
   }
 }
 
