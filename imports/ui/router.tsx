@@ -3,11 +3,13 @@ import { DemoUsersList } from './examples/DemoUsersList';
 import { DemoUsersManager } from './examples/DemoUsersManager';
 import { Layout } from './layouts/Layout/Layout';
 import { Home } from './pages/Home';
+import { Jobs } from './pages/Jobs/Jobs';
 import { NotFound } from './pages/NotFound/NotFound';
 import { SignUp } from './pages/SignUp/SignUp';
 import { Login } from './pages/Login/Login';
 import { OnboardingPersonal, OnboardingProfessional, OnboardingSkills } from './pages/Onboarding/';
 import { AuthRedirect } from './routes/AuthRedirect';
+import { PrivateRoute } from './routes/PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -31,11 +33,13 @@ const router = createBrowserRouter([
       },
       {
         path: '/users/list',
-        element: <DemoUsersList />,
+        element: <PrivateRoute />,
+        children: [{ path: '/users/list', element: <DemoUsersList /> }],
       },
       {
         path: '/users/manage',
-        element: <DemoUsersManager />,
+        element: <PrivateRoute />,
+        children: [{ path: '/users/manage', element: <DemoUsersManager /> }],
       },
       {
         element: <AuthRedirect />,
@@ -51,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />,
+      },
+      {
+        element: <PrivateRoute />,
+        children: [{ path: '/jobs', element: <Jobs /> }],
       },
     ],
   },

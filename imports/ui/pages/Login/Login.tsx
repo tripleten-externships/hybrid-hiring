@@ -3,6 +3,7 @@ import { useLogin } from '../../hooks/useLogin';
 import { Button } from '../../components/Button/Button';
 import { TextInput } from '../../components/TextInput/TextInput';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import './Login.css';
 
@@ -12,6 +13,7 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const navigate = useNavigate();
 
   const { error, isLoading, handleLogin } = useLogin();
 
@@ -20,6 +22,7 @@ export const Login = () => {
     const onSuccess = () => {
       setEmail('');
       setPassword('');
+      navigate('/jobs');
     };
 
     const hasEmailError =
@@ -47,7 +50,8 @@ export const Login = () => {
       <img src="/assets/hhr-logo.svg" alt="Company Logo" className="login__form-company-logo" />
       <div className="login__form-container">
         <form className="login__form" onSubmit={onSubmit}>
-          <h2 className="login__form-title">Welcome back or Log In to your account</h2>
+          <h2 className="login__form-title">Welcome back!</h2>
+          <p className="login__form-subtitle">Log in to continue</p>
           <div className="login__form-inputs">
             {emailError && <div className="login__form-error">{emailError}</div>}
             <TextInput
@@ -95,9 +99,10 @@ export const Login = () => {
           >
             {isLoading ? 'Logging in...' : 'Log In'}
           </Button>
-          <h3 className="login__form-signup-btn">
-            Don't have an account? <Link to="/signup">Sign up</Link>
-          </h3>
+          <div className="login__form-signup-no-account">Don't have an account?</div>
+          <div className="login__form-signup-link">
+            <Link to="/signup">Sign up</Link>
+          </div>
         </form>
       </div>
     </>
