@@ -10,7 +10,7 @@ export const Footer = () => {
       <div className="footer__content">
         <div className="footer__brand">
           <img
-            src="./assets/company-logo.svg"
+            src="/assets/company-logo.svg"
             alt="Hybrid Hiring Solutions Logo"
             className="footer__logo"
           />
@@ -51,21 +51,21 @@ export const Footer = () => {
           {/* TODO: replace href values with real social URLs when available */}
           <a href="#" className="footer__socials-link" aria-label="Facebook">
             <img
-              src="./assets/facebook-logo.svg"
+              src="/assets/facebook-logo.svg"
               alt="Facebook Logo"
               className="footer__socials-icon"
             />
           </a>
           <a href="#" className="footer__socials-link" aria-label="LinkedIn">
             <img
-              src="./assets/linkedin-logo.svg"
+              src="/assets/linkedin-logo.svg"
               alt="LinkedIn Logo"
               className="footer__socials-icon"
             />
           </a>
           <a href="#" className="footer__socials-link" aria-label="Instagram">
             <img
-              src="./assets/instagram-logo.svg"
+              src="/assets/instagram-logo.svg"
               alt="Instagram Logo"
               className="footer__socials-icon"
             />

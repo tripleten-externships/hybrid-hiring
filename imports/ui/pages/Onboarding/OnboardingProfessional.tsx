@@ -26,7 +26,7 @@ export const OnboardingProfessional = () => {
         className="onboarding-main__back-button"
         onClick={() => navigate('/onboarding/personal')}
       >
-        <img src="../../assets/material-symbols_arrow-back.svg" alt="Back" />
+        <img src="/assets/material-symbols_arrow-back.svg" alt="Back" />
       </button>
 
       <div className="onboarding-main__progress">Page 2 of 3</div>
@@ -61,7 +61,7 @@ export const OnboardingProfessional = () => {
           />
 
           <label htmlFor="resumeUpload" className="onboarding-main__upload-button">
-            <img src="../../assets/material-symbols_upload.svg" alt="" />
+            <img src="/assets/material-symbols_upload.svg" alt="" />
             Upload Document
           </label>
 
