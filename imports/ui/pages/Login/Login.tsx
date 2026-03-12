@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-// import { Navigate } from 'react-router-dom';
-// import { Meteor } from 'meteor/meteor';
-import './Login.css';
 import { useLogin } from '../../hooks/useLogin';
 import { Button } from '../../components/Button/Button';
-import TextInput from '../../components/TextInput';
+import { TextInput } from '../../components/TextInput/TextInput';
 import { Link } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +11,6 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  // const navigate = useNavigate();
 
   const { error, isLoading, handleLogin } = useLogin();
 
