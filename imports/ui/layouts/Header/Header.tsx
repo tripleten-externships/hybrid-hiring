@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { MobileNavOverlay } from '../MobileNavOverlay/MobileNavOverlay';
 import { useIsLoggedIn } from '../../hooks/useCurrentUser';
@@ -9,6 +9,12 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAdmin, logOut } = useAuth();
   const isLoggedIn = useIsLoggedIn();
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    logOut();
+    navigate('/');
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className="site-header">
@@ -47,7 +53,7 @@ export const Header = () => {
 
       <div className="site-header__auth">
         {isLoggedIn ? (
-          <button className="site-header__auth-btn" onClick={logOut}>
+          <button className="site-header__auth-btn" onClick={handleLogOut}>
             Log Out
           </button>
         ) : (
@@ -79,7 +85,7 @@ export const Header = () => {
         onClose={() => setIsMenuOpen(false)}
         isLoggedIn={isLoggedIn}
         isAdmin={isAdmin}
-        onLogOut={logOut}
+        onLogOut={handleLogOut}
       />
     </header>
   );
