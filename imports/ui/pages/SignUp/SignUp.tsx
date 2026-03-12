@@ -1,46 +1,53 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Accounts } from 'meteor/accounts-base';
 import './SignUp.css';
-import { Link } from 'react-router-dom';
 
 export const SignUp: FC = () => {
-  //local state for signup page
+  // local state for signup page
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  // loading state should be used when API submission is implemented
-  // const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  // basic client-side validation before submission
-  const handleSubmit = (evt: React.FormEvent) => {
-    evt.preventDefault();
+  const navigate = useNavigate();
 
-    // required fields validation
-    if (!firstName || !lastName || !email || !password || !confirmPassword) {
-      setError('All fields are required.');
-      return;
-    }
-
-    // basic email format validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError('Please enter a valid email address.');
-      return;
-    }
-
-    // password match validation
-    if (password !== confirmPassword) {
-      setError('Passwords do not match.');
-      return;
-    }
-
-    // all validations pass
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
     setError('');
-  };
 
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    setIsLoading(true);
+
+    Accounts.createUser(
+      {
+        email,
+        password,
+        profile: { name: `${firstName} ${lastName}` },
+      },
+      (err) => {
+        if (err) {
+          let message = 'Unable to create account. Please try again.';
+
+          if ('error' in err && err.error === 403) {
+            message = 'An account with this email may already exist.';
+          }
+
+          setError(message);
+        } else {
+          navigate('/onboarding/1');
+        }
+
+        setIsLoading(false);
+      }
+    );
+  };
   return (
     <div className="sign-up">
       <div className="sign-up__header">
@@ -66,36 +73,38 @@ export const SignUp: FC = () => {
           <div className="sign-up__basic">
             {' '}
             <input
+              value={firstName}
               id="firstName"
               className="sign-up__input first-name"
               type="text"
               placeholder="First Name"
-              value={firstName}
               onChange={(evt) => {
                 setFirstName(evt.target.value);
                 setError('');
               }}
+              required
             />
             <input
+              value={lastName}
               id="lastName"
               className="sign-up__input last-name"
               type="text"
               placeholder="Last Name"
-              value={lastName}
               onChange={(evt) => {
                 setLastName(evt.target.value);
                 setError('');
               }}
+              required
             />
           </div>
 
           <input
             id="email"
+            value={email}
             className="sign-up__input"
             type="email"
             placeholder="Email"
             autoComplete="email"
-            value={email}
             onChange={(evt) => {
               setEmail(evt.target.value);
               setError('');
@@ -120,21 +129,23 @@ export const SignUp: FC = () => {
             placeholder="Re-enter password"
             autoComplete="new-password"
             value={confirmPassword}
-            onChange={(evt) => {
-              setConfirmPassword(evt.target.value);
-              setError('');
-            }}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
-
-          {error && <p className="sign-up__error">{error}</p>}
-
-          <button type="submit" className="sign-up__btn btn-create">
-            Build My Profile
+          {error && <div className="sign-up__error">{error}</div>}
+          <button type="submit" className="sign-up__btn btn-create" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <span className="sign-up__spinner"></span>
+                Creating account...
+              </>
+            ) : (
+              'Build My Profile'
+            )}
           </button>
         </form>
 
         <p className="sign-up__login-link">
-          Already have an account? <Link to="/LogIn"> Log In </Link>{' '}
+          Already have an account? <Link to="/login"> Log In </Link>{' '}
         </p>
       </div>
     </div>
