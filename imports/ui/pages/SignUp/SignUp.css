@@ -1,15 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-}
-
-h1,
-p {
-  margin: 0;
-}
-
 .sign-up {
   background-color: #eaeaea;
   margin: 0;
@@ -119,6 +107,8 @@ p {
   font-size: clamp(16px, calc(4.43px + 2.63vw), 24px);
   font-weight: 500;
   line-height: 40px;
+  display: flex;
+  gap: 4px;
 }
 
 .btn-back {
@@ -141,6 +131,33 @@ p {
 
 .sign-up__login-link a {
   text-decoration: none;
+}
+
+.sign-up__error {
+  text-align: center;
+  color: #b91c1c;
+}
+
+/* will take this off when spinner component is integrated */
+.sign-up__spinner {
+  border: 1px solid grey;
+  border-top: 1px solid rgb(243, 243, 243);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media screen and (max-width: 440px) {
@@ -169,5 +186,10 @@ p {
 
   .sign-up__login-link {
     font-size: 14px;
+  }
+
+  .sign-up__spinner {
+    width: 14px;
+    height: 14px;
   }
 }
