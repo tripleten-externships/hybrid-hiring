@@ -1,6 +1,26 @@
 @import '../imports/vendor/fonts.css';
 
 :root {
+  /* Color Pallet from Figma */
+  --color-primary-light: #96bf43;
+  --color-primary-dark: #3c784c;
+  --color-secondary-light: #d5dde5;
+  --color-secondary-dark: #345077;
+  --color-accent-1: #d3991e;
+  --color-accent-2: #cb6843;
+  --color-accent-3: #59392b;
+
+  /* Interface Pallet from Figma */
+  --color-1: #000000;
+  --color-2: #636363;
+  --color-3: #8f8c8c;
+  --color-4: #b7b7b7;
+  --color-5: #eaeaea;
+  --color-6: #ffffff;
+
+  /* Overlay Pallet from Figma */
+  --color-overlay-1: #000000;
+
   --color-primary: #2563eb; /* used for links and focus states */
   --color-secondary: #ffffff; /* temporary placeholder */
   --color-text: #ffffff;
@@ -8,8 +28,10 @@
   --color-surface: #3c784c;
   --color-background: #3c784c;
   --color-border: #636363;
-  --color-error: #c0392b;
-  --color-success: #2a7a2a;
+  /* Status Pallet from Figma */
+  --color-success: #07d344;
+  --color-warning: #ffda07;
+  --color-error: #da3a3d;
   --font-size-xs: 12px;
   --font-size-sm: 14px;
   --font-size-md: 20px;
@@ -57,48 +79,4 @@
   a {
     color: inherit;
   }
-}
-
-/* This one really got me...what's the form-control meant to be? */
-.form-control {
-  font-family: var(--font-family-base);
-}
-
-.form-label {
-  font-family: var(--font-family-base);
-  border-color: var(--color-border);
-  border-radius: var(--radius-sm);
-  color: var(--color-border);
-}
-
-.field-error {
-  border: var(--color-error);
-}
-
-/* Design Tokens */
-:root {
-  /* Color Pallet from Figma */
-  --color-primary-light: #96bf43;
-  --color-primary-dark: #3c784c;
-  --color-secondary-light: #d5dde5;
-  --color-secondary-dark: #345077;
-  --color-accent-1: #d3991e;
-  --color-accent-2: #cb6843;
-  --color-accent-3: #59392b;
-
-  /* Status Pallet from Figma */
-  --color-success: #07d344;
-  --color-warning: #ffda07;
-  --color-error: #da3a3d;
-
-  /* Interface Pallet from Figma */
-  --color-1: #000000;
-  --color-2: #636363;
-  --color-3: #8f8c8c;
-  --color-4: #b7b7b7;
-  --color-5: #eaeaea;
-  --color-6: #ffffff;
-
-  /* Overlay Pallet from Figma */
-  --color-overlay-1: #000000;
 }
