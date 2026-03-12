@@ -14,7 +14,7 @@ export const sampleJobs: Job[] = [
     description:
       'Maintain and inspect natural gas pipeline systems. Work with field teams to ensure safe energy delivery.',
     externalApplyUrl: 'https://example.com/apply',
-    postedAt: new Date(),
+    postedAt: new Date('2026-02-10'),
     isActive: true,
   },
   {
@@ -30,7 +30,7 @@ export const sampleJobs: Job[] = [
     description:
       'Supervise electrical crews on commercial job sites. Ensure projects meet safety and quality standards.',
     externalApplyUrl: 'https://example.com/apply',
-    postedAt: new Date(),
+    postedAt: new Date('2026-02-14'),
     isActive: true,
   },
   {
@@ -46,7 +46,7 @@ export const sampleJobs: Job[] = [
     description:
       'Conduct safety inspections across multiple industrial facilities. Identify hazards and recommend corrective actions.',
     externalApplyUrl: 'https://example.com/apply',
-    postedAt: new Date(),
+    postedAt: new Date('2026-02-20'),
     isActive: true,
   },
   {
@@ -62,7 +62,7 @@ export const sampleJobs: Job[] = [
     description:
       'Operate construction machinery on active job sites. Assist crews with excavation and site preparation.',
     externalApplyUrl: 'https://example.com/apply',
-    postedAt: new Date(),
+    postedAt: new Date('2026-02-25'),
     isActive: true,
   },
   {
@@ -78,7 +78,7 @@ export const sampleJobs: Job[] = [
     description:
       'Install and repair HVAC systems for residential and commercial clients. Diagnose system issues and perform preventative maintenance.',
     externalApplyUrl: 'https://example.com/apply',
-    postedAt: new Date(),
+    postedAt: new Date('2026-03-01'),
     isActive: true,
   },
   {
@@ -94,7 +94,7 @@ export const sampleJobs: Job[] = [
     description:
       'Provide engineering support on infrastructure projects. Coordinate with contractors and ensure technical specifications are met.',
     externalApplyUrl: 'https://example.com/apply',
-    postedAt: new Date(),
+    postedAt: new Date('2026-03-05'),
     isActive: true,
   },
 ];

@@ -88,8 +88,7 @@ Meteor.startup(async () => {
   });
 
   // Seed the Jobs collection with sample data if it is empty.
-  const count = await JobsCollection.find().countAsync();
-  if (count === 0) {
+  if ((await JobsCollection.find().countAsync()) === 0) {
     for (const job of sampleJobs) {
       await JobsCollection.insertAsync(job);
     }
