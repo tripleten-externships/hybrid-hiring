@@ -3,9 +3,9 @@ import { DemoUsersList } from './examples/DemoUsersList';
 import { DemoUsersManager } from './examples/DemoUsersManager';
 import { Layout } from './layouts/Layout/Layout';
 import { Home } from './pages/Home';
-import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
+import { NotFound } from './pages/NotFound/NotFound';
 import { SignUp } from './pages/SignUp/SignUp';
-import { OnboardingPage2 } from './pages/OnboardingPage2/OnboardingPage2';
+import { OnboardingPersonal, OnboardingProfessional, OnboardingSkills } from './pages/Onboarding/';
 
 const router = createBrowserRouter([
   {
@@ -16,12 +16,20 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/users/list',
-        element: <DemoUsersList />,
+        path: '/onboarding/personal',
+        element: <OnboardingPersonal />,
       },
       {
-        path: '/onboarding/2',
-        element: <OnboardingPage2 />,
+        path: '/onboarding/professional',
+        element: <OnboardingProfessional />,
+      },
+      {
+        path: '/onboarding/skills',
+        element: <OnboardingSkills />,
+      },
+      {
+        path: '/users/list',
+        element: <DemoUsersList />,
       },
       {
         path: '/users/manage',
@@ -33,7 +41,7 @@ const router = createBrowserRouter([
       },
       {
         path: '*',
-        element: <NotFoundPage />,
+        element: <NotFound />,
       },
     ],
   },
