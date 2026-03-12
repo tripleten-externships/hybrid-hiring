@@ -1,14 +1,13 @@
 import React from 'react';
 
-type SpinnerSize = 'sm' | 'md' | 'lg';
+type SpinnerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 interface SpinnerProps {
   className?: string;
   size?: SpinnerSize;
 }
 
-export const Spinner = ({ className, size = 'md' }: SpinnerProps) => {
+export const Spinner = ({ className = 'spinner', size = 'md' }: SpinnerProps) => {
   const classes = ['spinner', `spinner--${size}`, className].filter(Boolean).join(' ');
-
   return (
     <svg className={classes} fill="none" viewBox="0 0 24 24" aria-hidden="true">
       <circle
