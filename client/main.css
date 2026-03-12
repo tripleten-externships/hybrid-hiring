@@ -2,7 +2,7 @@
 
 :root {
   --color-primary: #2563eb; /* used for links and focus states */
-  --color-secondary: ;
+  --color-secondary: #ffffff; /* temporary placeholder */
   --color-text: #ffffff;
   --color-text-muted: #b7b7b7;
   --color-surface: #3c784c;

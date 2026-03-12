@@ -11,7 +11,6 @@ const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const loggedIn = Meteor.user();
   const from = location.state?.from;
 
-
   if (!loggedIn) {
     // if not logged in, redirect to login page, after the user logs in they'll be redirected to jobs
     return <Navigate state={{ from: location }} to="/login" replace />;
