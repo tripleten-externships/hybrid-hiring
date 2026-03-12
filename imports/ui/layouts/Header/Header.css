@@ -17,7 +17,7 @@
 }
 
 .site-header__logo:hover {
-  color: var(--color-primary, #2563eb);
+  color: var(--color-primary);
 }
 
 .site-header__nav {
@@ -29,13 +29,13 @@
 
 .site-header__link {
   text-decoration: none;
-  color: var(--color-text-muted, #555);
+  color: var(--color-text);
   font-size: 0.95rem;
   white-space: nowrap;
 }
 
 .site-header__link:hover {
-  color: var(--color-text, #333);
+  color: var(--color-text-muted, #333);
 }
 
 .site-header__link.active {
@@ -58,18 +58,17 @@
 
 .site-header__nav a {
   text-decoration: none;
-  color: var(--color-text-muted, #555);
   font-size: 0.95rem;
   white-space: nowrap;
 }
 
 .site-header__nav a:hover {
-  color: var(--color-text, #333);
+  color: var(--color-text-muted, #333);
 }
 
 .site-header__nav a.active {
-  color: var(--color-primary, #2563eb);
-  font-weight: 600;
+  color: var(--color-text);
+  font-weight: 700;
 }
 
 .site-header__auth {
