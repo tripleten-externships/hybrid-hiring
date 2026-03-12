@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { ProfilesCollection } from './collection';
 
-Meteor.publish('userProfiles.mine', function () {
+Meteor.publish('userProfiles.getCurrentUser', function () {
   if (!this.userId) {
     this.ready();
     return;

@@ -17,7 +17,7 @@ export const useIsLoggedIn = () => {
 
 export const useMyProfile = () => {
   const userId = useUserId();
-  const isLoading = useSubscribe(userId ? 'myProfile' : undefined);
+  const isLoading = useSubscribe(userId ? 'userProfiles.getCurrentUser' : undefined);
   const profiles = useFind(
     () => ProfilesCollection.find({ userId: userId ?? undefined }),
     [userId]
