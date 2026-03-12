@@ -41,7 +41,7 @@ export const SignUp: FC = () => {
 
           setError(message);
         } else {
-          navigate('/onboarding/1');
+          navigate('/onboarding/personal');
         }
 
         setIsLoading(false);
