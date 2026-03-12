@@ -1,29 +1,49 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { MobileNavOverlay } from '../MobileNavOverlay/MobileNavOverlay';
+import { useIsLoggedIn } from '../../hooks/useCurrentUser';
 import './Header.css';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isLoggedIn, isAdmin, logOut } = useAuth();
+  const { isAdmin, logOut } = useAuth();
+  const isLoggedIn = useIsLoggedIn();
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    logOut();
+    navigate('/');
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className="site-header">
       <NavLink to="/" className="site-header__logo">
-        Hybrid Hiring Solutions
+        <img src="/assets/company-logo.svg" alt="Hybrid Hiring Solutions" />
       </NavLink>
 
       <nav className="site-header__nav">
-        <NavLink to="/users/list" className="site-header__link">
+        {/* <NavLink to="/users/list" className="site-header__link">
           Users List
         </NavLink>
         <NavLink to="/users/manage" className="site-header__link">
           Users Manager
+        </NavLink> */}
+        <NavLink to="/employers" className="site-header__link">
+          Employers
         </NavLink>
-        {/* <NavLink to="/about" className="site-header__link">About</NavLink>
-        <NavLink to="/contact" className="site-header__link">Contact</NavLink>
-        <NavLink to="/jobs" className="site-header__link">Jobs</NavLink> */}
+        <NavLink to="/jobs" className="site-header__link">
+          Jobs
+        </NavLink>
+        <NavLink to="/resources" className="site-header__link">
+          Resources
+        </NavLink>
+        <NavLink to="/contact" className="site-header__link">
+          Contact
+        </NavLink>
+        <NavLink to="/about" className="site-header__link">
+          About
+        </NavLink>
         {isAdmin && (
           <NavLink to="/admin" className="site-header__link">
             Admin
@@ -33,7 +53,7 @@ export const Header = () => {
 
       <div className="site-header__auth">
         {isLoggedIn ? (
-          <button className="site-header__auth-btn" onClick={logOut}>
+          <button className="site-header__auth-btn" onClick={handleLogOut}>
             Log Out
           </button>
         ) : (
@@ -65,7 +85,7 @@ export const Header = () => {
         onClose={() => setIsMenuOpen(false)}
         isLoggedIn={isLoggedIn}
         isAdmin={isAdmin}
-        onLogOut={logOut}
+        onLogOut={handleLogOut}
       />
     </header>
   );

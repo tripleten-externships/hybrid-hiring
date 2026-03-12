@@ -62,18 +62,23 @@ export const MobileNavOverlay = ({
           <NavLink to="/contact" onClick={handleNavClick}>
             Contact
           </NavLink> */}
-          {isAdmin && (
-            <NavLink to="/admin" onClick={handleNavClick}>
-              Admin
-            </NavLink>
-          )}
         </nav>
 
         <hr className="mobile-nav-divider" />
 
         <div className="mobile-nav-auth">
+          {isAdmin && (
+            <NavLink to="/admin" onClick={handleNavClick}>
+              Admin
+            </NavLink>
+          )}
           {isLoggedIn ? (
-            <button onClick={handleLogOut}>Log Out</button>
+            <>
+              <NavLink to="/account" onClick={handleNavClick}>
+                Account
+              </NavLink>
+              <button onClick={handleLogOut}>Log Out</button>
+            </>
           ) : (
             <>
               <NavLink to="/login" onClick={handleNavClick}>
