@@ -59,6 +59,22 @@
   }
 }
 
+/* This one really got me...what's the form-control meant to be? */
+.form-control {
+  font-family: var(--font-family-base);
+}
+
+.form-label {
+  font-family: var(--font-family-base);
+  border-color: var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-border);
+}
+
+.field-error {
+  border: var(--color-error);
+}
+
 /* Design Tokens */
 :root {
   /* Color Pallet from Figma */
@@ -86,138 +102,3 @@
   /* Overlay Pallet from Figma */
   --color-overlay-1: #000000;
 }
-
-/* Design Tokens (Figma updates needed) */
-:root {
-  --color-primary: green; /* base primary background */
-  --color-primary-hover: #006400; /* darkgreen for hover */
-  --color-primary-text: #ffffff; /* white text on primary */
-
-  --color-secondary: #66bb6a; /* lighter green secondary */
-  --color-secondary-hover: #43a047; /* darker hover */
-  --color-secondary-text: #1b1b1b; /* dark text on light green */
-
-  --color-outline-border: green; /* outline border color */
-  --color-outline-text: green; /* text matches outline border */
-  --color-outline-hover-bg: #e8f5e9; /* subtle green-tinted hover bg */
-
-  --color-ghost-text: green; /* ghost button text */
-  --color-ghost-hover-bg: #e8f5e9; /* light green hover background */
-
-  --color-disabled-bg: #c8e6c9; /* pale, disabled background */
-  --color-disabled-text: #757575; /* muted gray disabled text */
-}
-
-/* Button Styles============ */
-/* Button Base  (Figma updates needed) */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-/* Button Variants (Figma updates needed) */
-.btn--primary {
-  background-color: var(--color-primary);
-  color: var(--color-primary-text);
-  border-color: var(--color-primary);
-}
-.btn--primary:hover:not(.btn--disabled) {
-  background-color: var(--color-primary-hover);
-  border-color: var(--color-primary-hover);
-}
-
-.btn--secondary {
-  background-color: var(--color-secondary);
-  color: var(--color-secondary-text);
-  border-color: var(--color-secondary);
-}
-.btn--secondary:hover:not(.btn--disabled) {
-  background-color: var(--color-secondary-hover);
-  border-color: var(--color-secondary-hover);
-}
-
-.btn--outline {
-  background-color: transparent;
-  color: var(--color-outline-text);
-  border-color: var(--color-outline-border);
-}
-.btn--outline:hover:not(.btn--disabled) {
-  background-color: var(--color-outline-hover-bg);
-}
-
-.btn--ghost {
-  background-color: transparent;
-  color: var(--color-ghost-text);
-  border-color: transparent;
-}
-.btn--ghost:hover:not(.btn--disabled) {
-  background-color: var(--color-ghost-hover-bg);
-}
-
-/* Button Sizes (Figma updates needed) */
-.btn--sm {
-  padding: 2px;
-  font-size: 2px;
-}
-
-.btn--md {
-  padding: 4px;
-  font-size: 4px;
-}
-
-.btn--lg {
-  padding: 6px;
-  font-size: 6px;
-}
-
-/* Button Full Width */
-.btn--full-width {
-  width: 100%;
-}
-
-/* Button Disabled  */
-.btn--disabled,
-.btn:disabled {
-  background-color: var(--color-disabled-bg);
-  color: var(--color-disabled-text);
-  border-color: var(--color-disabled-bg);
-  cursor: not-allowed;
-  pointer-events: none;
-}
-.btn--outline.btn--disabled,
-.btn--ghost.btn--disabled {
-  background-color: transparent;
-  border-color: var(--color-disabled-bg);
-}
-
-/* Button Spinner (Figma input needed) */
-.btn__spinner {
-  width: 1em;
-  height: 1em;
-  flex-shrink: 0;
-  margin-right: 0.5em;
-  animation: btn-spin 0.75s linear infinite;
-}
-.btn__spinner-track {
-  opacity: 0.25;
-}
-.btn__spinner-arc {
-  opacity: 0.85;
-}
-
-@keyframes btn-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Button Hidden */
-.btn__label--hidden {
-  opacity: 0;
-}
-/* End Button Styles============ */
