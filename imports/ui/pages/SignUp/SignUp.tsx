@@ -10,9 +10,8 @@ export const SignUp: FC = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -69,26 +68,32 @@ export const SignUp: FC = () => {
             Build your profile and we will begin the hunt for you.
           </p>
         </div>
-        <form onSubmit={handleSubmit} className="sign-up__inputs">
+        <form className="sign-up__inputs" onSubmit={handleSubmit} noValidate>
           {/* Name - two column for desktop */}
           <div className="sign-up__basic">
             {' '}
             <input
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
               id="firstName"
               className="sign-up__input first-name"
               type="text"
               placeholder="First Name"
+              onChange={(evt) => {
+                setFirstName(evt.target.value);
+                setError('');
+              }}
               required
             />
             <input
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
               id="lastName"
               className="sign-up__input last-name"
               type="text"
               placeholder="Last Name"
+              onChange={(evt) => {
+                setLastName(evt.target.value);
+                setError('');
+              }}
               required
             />
           </div>
@@ -96,11 +101,14 @@ export const SignUp: FC = () => {
           <input
             id="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
             className="sign-up__input"
             type="email"
             placeholder="Email"
             autoComplete="email"
+            onChange={(evt) => {
+              setEmail(evt.target.value);
+              setError('');
+            }}
           />
           <input
             id="password"
@@ -109,7 +117,10 @@ export const SignUp: FC = () => {
             placeholder="Password"
             autoComplete="new-password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(evt) => {
+              setPassword(evt.target.value);
+              setError('');
+            }}
           />
           <input
             id="confirmPassword"
