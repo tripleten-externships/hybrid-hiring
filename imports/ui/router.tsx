@@ -9,6 +9,7 @@ import { SignUp } from './pages/SignUp/SignUp';
 import { Login } from './pages/Login/Login';
 import { OnboardingPersonal, OnboardingProfessional, OnboardingSkills } from './pages/Onboarding/';
 import { AuthRedirect } from './routes/AuthRedirect';
+import { PrivateRoute } from './routes/PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -32,11 +33,13 @@ const router = createBrowserRouter([
       },
       {
         path: '/users/list',
-        element: <DemoUsersList />,
+        element: <PrivateRoute />,
+        children: [{ path: '/users/list', element: <DemoUsersList /> }],
       },
       {
         path: '/users/manage',
-        element: <DemoUsersManager />,
+        element: <PrivateRoute />,
+        children: [{ path: '/users/manage', element: <DemoUsersManager /> }],
       },
       {
         element: <AuthRedirect />,
@@ -54,8 +57,8 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: '/jobs',
-        element: <Jobs />,
+        element: <PrivateRoute />,
+        children: [{ path: '/jobs', element: <Jobs /> }],
       },
     ],
   },
