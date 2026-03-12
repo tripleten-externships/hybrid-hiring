@@ -16,7 +16,7 @@ export const SignUp: FC = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -26,10 +26,6 @@ export const SignUp: FC = () => {
     }
     setIsLoading(true);
 
-    // wait time so we can witness spinner
-    // await new Promise((res) => setTimeout(res, 1000));
-
-    // create user
     Accounts.createUser(
       {
         email,
@@ -38,8 +34,6 @@ export const SignUp: FC = () => {
       },
       (err) => {
         if (err) {
-          console.log('Signup error:', err);
-
           let message = 'Unable to create account. Please try again.';
 
           if ('error' in err && err.error === 403) {
@@ -86,6 +80,7 @@ export const SignUp: FC = () => {
               className="sign-up__input first-name"
               type="text"
               placeholder="First Name"
+              required
             />
             <input
               value={lastName}
@@ -94,6 +89,7 @@ export const SignUp: FC = () => {
               className="sign-up__input last-name"
               type="text"
               placeholder="Last Name"
+              required
             />
           </div>
 
@@ -138,7 +134,7 @@ export const SignUp: FC = () => {
         </form>
 
         <p className="sign-up__login-link">
-          Already have an account? <Link to="/LogIn"> Log In </Link>{' '}
+          Already have an account? <Link to="/login"> Log In </Link>{' '}
         </p>
       </div>
     </div>

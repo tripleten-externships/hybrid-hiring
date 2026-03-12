@@ -135,7 +135,7 @@
 
 .sign-up__error {
   text-align: center;
-  color: rgb(82, 82, 82);
+  color: #b91c1c;
 }
 
 /* will take this off when spinner component is integrated */
