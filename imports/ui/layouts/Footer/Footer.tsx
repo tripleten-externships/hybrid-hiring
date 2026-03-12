@@ -1,9 +1,15 @@
 import { NavLink } from 'react-router-dom';
-import { Meteor } from 'meteor/meteor';
+import { useIsLoggedIn } from '../../hooks/useCurrentUser';
+import { useAuth } from '../../hooks/useAuth';
 import './Footer.css';
 
 export const Footer = () => {
-  const loggedIn = Meteor.user();
+  const loggedIn = useIsLoggedIn();
+  const { isAdmin } = useAuth();
+
+  const handleNavClick = () => {
+    // no-op for now
+  };
 
   return (
     <footer className="footer">
@@ -32,6 +38,11 @@ export const Footer = () => {
           <NavLink to="/about" className="footer__nav-link">
             About Us
           </NavLink>
+          {isAdmin && (
+            <NavLink to="/admin" onClick={handleNavClick}>
+              Admin
+            </NavLink>
+          )}
           {loggedIn ? (
             <NavLink to="/account" className="footer__nav-link">
               Account
