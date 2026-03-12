@@ -1,16 +1,16 @@
 @import '../imports/vendor/fonts.css';
 
 :root {
-    /* Color Pallet from Figma */
-    --color-primary-light: #96bf43;
-    --color-primary-dark: #3c784c;
-    --color-secondary-light: #d5dde5;
-    --color-secondary-dark: #345077;
-    --color-accent-1: #d3991e;
-    --color-accent-2: #cb6843;
-    --color-accent-3: #59392b;
+  /* Color Pallet from Figma */
+  --color-primary-light: #96bf43;
+  --color-primary-dark: #3c784c;
+  --color-secondary-light: #d5dde5;
+  --color-secondary-dark: #345077;
+  --color-accent-1: #d3991e;
+  --color-accent-2: #cb6843;
+  --color-accent-3: #59392b;
 
-      /* Interface Pallet from Figma */
+  /* Interface Pallet from Figma */
   --color-1: #000000;
   --color-2: #636363;
   --color-3: #8f8c8c;
