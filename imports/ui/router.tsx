@@ -5,7 +5,9 @@ import { Layout } from './layouts/Layout/Layout';
 import { Home } from './pages/Home';
 import { NotFound } from './pages/NotFound/NotFound';
 import { SignUp } from './pages/SignUp/SignUp';
+import { Login } from './pages/Login/Login';
 import { OnboardingPersonal, OnboardingProfessional, OnboardingSkills } from './pages/Onboarding/';
+import { AuthRedirect } from './routes/AuthRedirect';
 
 const router = createBrowserRouter([
   {
@@ -36,8 +38,11 @@ const router = createBrowserRouter([
         element: <DemoUsersManager />,
       },
       {
-        path: '/signup',
-        element: <SignUp />,
+        element: <AuthRedirect />,
+        children: [
+          { path: '/login', element: <Login /> },
+          { path: '/signup', element: <SignUp /> },
+        ],
       },
       {
         path: '*',

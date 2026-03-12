@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check, Match } from 'meteor/check';
+import { check } from 'meteor/check';
 import { UserProfile, ProfilesCollection } from './collection';
 
 const requireUser = (userId: string | null): string => {
@@ -11,20 +11,32 @@ const requireUser = (userId: string | null): string => {
 };
 
 export async function create(data: UserProfile) {
+  requireUser(Meteor.userId());
   return ProfilesCollection.insertAsync({ ...data });
 }
 
 export async function update(_id: string, data: Mongo.Modifier<UserProfile>) {
+  const userId = requireUser(Meteor.userId());
   check(_id, String);
+  const profile = await ProfilesCollection.findOneAsync(_id);
+  if (!profile || profile.userId !== userId) {
+    throw new Meteor.Error('not-authorized', 'Not your profile');
+  }
   return ProfilesCollection.updateAsync(_id, { ...data });
 }
 
 export async function remove(_id: string) {
+  const userId = requireUser(Meteor.userId());
   check(_id, String);
+  const profile = await ProfilesCollection.findOneAsync(_id);
+  if (!profile || profile.userId !== userId) {
+    throw new Meteor.Error('not-authorized', 'Not your profile');
+  }
   return ProfilesCollection.removeAsync(_id);
 }
 
 export async function findById(_id: string) {
+  requireUser(Meteor.userId());
   check(_id, String);
   return ProfilesCollection.findOneAsync(_id);
 }
@@ -32,16 +44,17 @@ export async function findById(_id: string) {
 const upsert = async (data: UserProfile) => {
   const userId = requireUser(Meteor.userId());
 
-  check(data, Match.ObjectIncluding({}));
+  const { userId: _ignoredUserId, createdAt: _ignoredCreatedAt, ...safeData } = data;
+
   const profile = await ProfilesCollection.findOneAsync({ userId });
 
   if (profile && profile._id) {
     await ProfilesCollection.updateAsync(profile._id, {
-      $set: { ...data, updatedAt: new Date() },
+      $set: { ...safeData, updatedAt: new Date() },
     });
   } else {
     await ProfilesCollection.insertAsync({
-      ...data,
+      ...safeData,
       userId,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -58,7 +71,6 @@ const toggleSaveJob = async (jobId: string) => {
   const savedJobIds = profile?.savedJobs || [];
 
   if (savedJobIds.includes(jobId)) {
-    // remove job
     await ProfilesCollection.updateAsync(
       { userId },
       {
@@ -69,7 +81,6 @@ const toggleSaveJob = async (jobId: string) => {
 
     return false; // job removed
   } else {
-    // add job
     if (profile) {
       await ProfilesCollection.updateAsync(
         { userId },
@@ -91,10 +102,10 @@ const toggleSaveJob = async (jobId: string) => {
 };
 
 Meteor.methods({
-  'Profile.create': create,
-  'Profile.update': update,
-  'Profile.remove': remove,
-  'Profile.find': findById,
+  'UserProfiles.create': create,
+  'UserProfiles.update': update,
+  'UserProfiles.remove': remove,
+  'UserProfiles.findById': findById,
   'UserProfiles.upsert': upsert,
   'UserProfiles.toggleSaveJob': toggleSaveJob,
 });
