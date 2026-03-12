@@ -47,7 +47,7 @@ export const Button = ({
       onClick={onClick}
       aria-busy={loading}
     >
-      {loading && <Spinner />}
+      {loading && <Spinner className={'btn__spinner btn__spin'} size={size} />}
       <span className={loading ? 'btn__label btn__label--hidden' : 'btn__label'}>{children}</span>
     </button>
   );

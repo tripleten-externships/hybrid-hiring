@@ -138,6 +138,11 @@
   border-color: var(--color-3);
 }
 
+.btn__spinner {
+  width: 16px;
+  height: 16px;
+}
+
 .btn-spin {
   animation: btn-spin 0.75s linear infinite;
 }
