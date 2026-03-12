@@ -5,6 +5,7 @@ import { Layout } from './layouts/Layout/Layout';
 import { Home } from './pages/Home';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 import { SignUp } from './pages/SignUp/SignUp';
+import { OnboardingPage2 } from "./pages/OnboardingPage2/OnboardingPage2";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: '/users/list',
         element: <DemoUsersList />,
+      },
+      {
+        path:"/onboarding/2", 
+        element: <OnboardingPage2 />,
       },
       {
         path: '/users/manage',
