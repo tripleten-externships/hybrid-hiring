@@ -27,7 +27,7 @@ export const SignUp: FC = () => {
     setIsLoading(true);
 
     // wait time so we can witness spinner
-    await new Promise((res) => setTimeout(res, 1000));
+    // await new Promise((res) => setTimeout(res, 1000));
 
     // create user
     Accounts.createUser(
