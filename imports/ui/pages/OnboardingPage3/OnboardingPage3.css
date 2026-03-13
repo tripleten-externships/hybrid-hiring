@@ -1,0 +1,93 @@
+.onboarding__page-3 {
+  background-color: #eaeaea;
+}
+
+.onboarding__header {
+  display: flex;
+  margin: 30px 0 40px;
+}
+
+.onboarding__back-btn {
+  width: 14px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.onboarding__page-display {
+  text-align: center;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.onboarding__content {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 16px;
+  margin: 0 0 30px 0;
+}
+
+.onboarding__skills-title {
+  margin: 0;
+  text-align: center;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 40px;
+  letter-spacing: -2px;
+}
+.onboarding__skills-subtitle {
+  text-align: center;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -1px;
+  margin: 36px 0 45px 0;
+}
+
+.onboarding__input-wrapper {
+  align-self: center;
+  width: 35%;
+}
+
+.input {
+  padding: 16px;
+}
+
+.onboarding__skills-chips {
+  margin: 45px 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}
+
+.onboarding__skill-close-btn {
+  cursor: pointer;
+}
+
+.onboarding__skill-chip {
+  display: flex;
+  align-items: center;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -1px;
+}
+
+.btn {
+  width: 35%;
+}
+
+.onboarding__footer {
+  display: flex;
+  justify-content: center;
+}
