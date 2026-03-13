@@ -54,8 +54,14 @@
   width: 35%;
 }
 
-.input {
+.onboarding__skills-input {
   padding: 16px;
+  width: 100%;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -1px;
 }
 
 .onboarding__skills-chips {

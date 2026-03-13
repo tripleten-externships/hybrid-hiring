@@ -1,12 +1,34 @@
 import React, { useState } from 'react';
-import { TextInput } from '../../components/TextInput/TextInput';
+
 import { Button } from '../../components/Button/Button';
 import './OnboardingPage3.css';
 
 export const OnboardingPage3 = () => {
-  const [skills, setSkills] = useState('');
+  const [skills, setSkills] = useState<string[]>([]);
+  const [skillInput, setSkillInput] = useState<string>('');
 
-  const handleSubmit = () => {};
+  const addSkill = () => {
+    const trimmedInput = skillInput.trim();
+    if (!trimmedInput) return;
+    setSkills((prevSkills) => [...prevSkills, trimmedInput]);
+    setSkillInput('');
+  };
+
+  const removeSkill = (index: number) => {
+    setSkills((prevSkills) => prevSkills.filter((_, i) => i !== index));
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && skillInput.trim() !== '') {
+      e.preventDefault();
+      addSkill();
+    }
+  };
+
+  const handleSubmit = () => {
+    // Handle form submission, e.g., send skills to backend or move to next page
+    console.log('Submitted skills:', skills);
+  };
 
   return (
     <div className="onboarding__page-3">
@@ -20,24 +42,28 @@ export const OnboardingPage3 = () => {
           This is optional, but your answers help us make better job recommendations
         </p>
         <div className="onboarding__input-wrapper">
-          <TextInput
-            label=""
+          <input
             id="skills"
             type="text"
-            value={skills}
-            onChange={(e) => setSkills(e.target.value)}
+            value={skillInput}
+            onChange={(e) => setSkillInput(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Add skills"
+            className="onboarding__skills-input"
           />
         </div>
         <ul className="onboarding__skills-chips">
-          <li className="onboarding__skill-chip">
-            <img src="/assets/chip-close.svg" alt="" className="onboarding__skill-close-btn" />
-            JavaScript
-          </li>
-          <li className="onboarding__skill-chip">
-            <img src="/assets/chip-close.svg" alt="" className="onboarding__skill-close-btn" />
-            React
-          </li>
+          {skills.map((skill, index) => (
+            <li key={index} className="onboarding__skill-chip">
+              <img
+                src="/assets/chip-close.svg"
+                alt=""
+                className="onboarding__skill-close-btn"
+                onClick={() => removeSkill(index)}
+              />
+              {skill}
+            </li>
+          ))}
         </ul>
       </div>
       <div className="onboarding__footer">
