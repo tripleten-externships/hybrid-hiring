@@ -1,5 +1,6 @@
 import { useState, type ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Meteor } from 'meteor/meteor';
 import { TextInput } from '../../components/TextInput/TextInput';
 import './Onboarding.css';
 
@@ -7,8 +8,31 @@ export const OnboardingProfessional = () => {
   const [resumeFileName, setResumeFileName] = useState('');
   const [certUrl, setCertUrl] = useState('');
   const [needsResumeHelp, setNeedsResumeHelp] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const navigate = useNavigate();
+  const handleContinue = async () => {
+    if (!resumeFileName && !certUrl) {
+      alert('Please upload a document or add a credential title.');
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+
+      await Meteor.callAsync('UserProfiles.upsert', {
+        resumeUrl: resumeFileName,
+        certUrl,
+        needsResumeHelp,
+      });
+
+      navigate('/onboarding/skills');
+    } catch (error) {
+      console.error('Failed to save profile:', error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -80,7 +104,7 @@ export const OnboardingProfessional = () => {
               type="checkbox"
               checked={needsResumeHelp}
               aria-labelledby="resume-help-label"
-              onChange={() => setNeedsResumeHelp(!needsResumeHelp)}
+              onChange={() => setNeedsResumeHelp((prev) => !prev)}
             />
             <span className="onboarding-main__toggle-slider"></span>
           </label>
@@ -90,9 +114,10 @@ export const OnboardingProfessional = () => {
       <button
         type="button"
         className="onboarding-main__continue-button"
-        onClick={() => navigate('/onboarding/skills')}
+        onClick={handleContinue}
+        disabled={isSaving}
       >
-        Continue
+        {isSaving ? 'Saving...' : 'Continue'}
       </button>
     </div>
   );
