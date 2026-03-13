@@ -61,7 +61,10 @@ const router = createBrowserRouter([
         element: <PrivateRoute />,
         children: [{ path: '/jobs', element: <Jobs /> }],
       },
-      { path: '/onboarding/3', element: <OnboardingPage3 /> },
+      {
+        element: <PrivateRoute />,
+        children: [{ path: '/onboarding/3', element: <OnboardingPage3 /> }],
+      },
     ],
   },
 ]);
