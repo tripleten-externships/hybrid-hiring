@@ -22,23 +22,19 @@ type JobCardProps = {
 };
 
 export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
-      console.log(job.basePay, typeof job.basePay);
+  console.log(job.basePay, typeof job.basePay);
 
-  const formatPay = (val: number | undefined) =>
-  val != null && !isNaN(val) ? `$${val}` : null;
+  const formatPay = (val: number | undefined) => (val != null && !isNaN(val) ? `$${val}` : null);
 
-  const pay = (() =>{
-
-    const base = formatPay (job.basePay);
+  const pay = (() => {
+    const base = formatPay(job.basePay);
     const max = formatPay(job.payMax);
     if (!base) return 'Pay not listed';
     return max ? `${base} - ${max}` : `${base}/${job.payUnit}`;
-
-  }) (); 
+  })();
 
   return (
     <div className="job-card">
-
       <div className="job-card__content">
         {/* Title       */}
         <Link to={`/jobs/${job._id}`} className="job-card__title">
@@ -56,26 +52,28 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
         {/* Pay */}
         <div className="job-card__pay">Base Pay: {pay}</div>
 
-{/* Chip tags */}
+        {/* Chip tags */}
         <div className="job-card__chip-tags">
           <SelectionLabel label={job.jobType} selected={false} onClick={() => {}} />
-            {job.tags?.map((tag) => (
-              <SelectionLabel key={tag} label={tag} selected={false} onClick={() => {}} />
-            ))}
-          </div>
+          {job.tags?.map((tag) => (
+            <SelectionLabel key={tag} label={tag} selected={false} onClick={() => {}} />
+          ))}
+        </div>
 
-        <Button size="sm" variant='primary' fullWidth>Quick Apply</Button>
-        <Button size="sm" variant='outline' fullWidth>More Details</Button>
+        <Button size="sm" variant="primary" fullWidth>
+          Quick Apply
+        </Button>
+        <Button size="sm" variant="outline" fullWidth>
+          More Details
+        </Button>
       </div>
 
       {/* Bookmark */}
       {onSave && (
-        <button className="job-card__bookmark"
-        onClick={onSave} 
-        aria-pressed={isSaved}>
-          <img 
-          src={isSaved ? "/assets/bookmark-saved.svg" : "/assets/bookmark.svg" }
-          alt={isSaved ? "Saved" : "Saved Job"} 
+        <button className="job-card__bookmark" onClick={onSave} aria-pressed={isSaved}>
+          <img
+            src={isSaved ? '/assets/bookmark-saved.svg' : '/assets/bookmark.svg'}
+            alt={isSaved ? 'Saved' : 'Saved Job'}
           />
         </button>
       )}
