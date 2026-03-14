@@ -22,17 +22,22 @@ type JobCardProps = {
 };
 
 export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
-  // JIRA ticket discrepancy
-  // const firstLetter = job.company.charAt(0).toUpperCase();
+      console.log(job.basePay, typeof job.basePay);
 
-  const pay = job.payMax
-    ? `$${job.basePay}–${job.payMax}/${job.payUnit}`
-    : `$${job.basePay}/${job.payUnit}`;
+  const formatPay = (val: number | undefined) =>
+  val != null && !isNaN(val) ? `$${val}` : null;
+
+  const pay = (() =>{
+
+    const base = formatPay (job.basePay);
+    const max = formatPay(job.payMax);
+    if (!base) return 'Pay not listed';
+    return max ? `${base} - ${max}` : `${base}/${job.payUnit}`;
+
+  }) (); 
 
   return (
     <div className="job-card">
-      {/* Company Badge  JIRA ticket discrepancy*/}
-      {/* <div className="job-card__badge">{firstLetter}</div> */}
 
       <div className="job-card__content">
         {/* Title       */}
@@ -44,33 +49,34 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
         <div className="job-card__company-location">
           {/* Company */}
           <div className="job-card__company">{job.company}</div>
-
           {/* Location */}
           <div className="job-card__location">{job.location}</div>
         </div>
+
         {/* Pay */}
-        <div className="job-card__pay">Base Pay:{pay}</div>
+        <div className="job-card__pay">Base Pay: {pay}</div>
 
+{/* Chip tags */}
         <div className="job-card__chip-tags">
-          {/* Job Type Chip */}
           <SelectionLabel label={job.jobType} selected={false} onClick={() => {}} />
-
-          {/* Tags */}
-          <div className="job-card__tags">
             {job.tags?.map((tag) => (
               <SelectionLabel key={tag} label={tag} selected={false} onClick={() => {}} />
             ))}
           </div>
-        </div>
 
-        <Button size="lg">Quick Apply</Button>
-        <Button size="lg">More Details</Button>
+        <Button size="sm" variant='primary' fullWidth>Quick Apply</Button>
+        <Button size="sm" variant='outline' fullWidth>More Details</Button>
       </div>
 
       {/* Bookmark */}
       {onSave && (
-        <button className={`job-card__bookmark ${isSaved ? 'saved' : ''}`} onClick={onSave}>
-          <img src="/bookmark.svg" alt="bookmark" />
+        <button className="job-card__bookmark"
+        onClick={onSave} 
+        aria-pressed={isSaved}>
+          <img 
+          src={isSaved ? "/assets/bookmark-saved.svg" : "/assets/bookmark.svg" }
+          alt={isSaved ? "Saved" : "Saved Job"} 
+          />
         </button>
       )}
     </div>

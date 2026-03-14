@@ -5,30 +5,12 @@
   width: 400px;
   height: auto;
   padding: var(--space-4);
-  background: #f3f3f3;
+  background: var(--color-5);
   border: 1px solid var(--color-1);
-  border-radius: 12px;
+  border-radius: var(--space-3);
   font-family: 'Inter';
 }
 
-/* Company badge, JIRA ticket discrepancy */
-/* .job-card__badge {
-  width: 42px;
-  height: 42px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #ffffff;
-  border: 1px solid #222;
-  border-radius: 8px;
-
-  font-weight: 700;
-  font-size: 18px;
-} */
-
-/* Content column */
 .job-card__content {
   flex: 1;
   display: flex;
@@ -36,11 +18,10 @@
   gap: var(--space-5);
 }
 
-/* Title */
 .job-card__title {
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
-  color: #111;
+  color: var(--color-1);
   text-decoration: none;
 }
 
@@ -49,45 +30,57 @@
 }
 
 .job-card__company {
-  font-size: 14px;
-  color: #333;
+  font-size: var(--font-size-sm);
+  color: var(--color-1);
 }
 
 .job-card__location {
-  font-size: 13px;
-  color: #666;
+  font-size: var(--font-size-sm);
+  color: var(--color-1);
 }
 
 .job-card__pay {
-  margin-top: 6px;
-  font-size: 15px;
+  font-size: var(--font-size-md);
   font-weight: 700;
+  color: var(--color-1);
 }
 
+/* Chip-tags */
 .job-card__chip-tags {
   display: flex;
-}
-
-.job-card__tags {
-  margin-top: 8px;
-  display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: var(--space-2);
+  align-items: center;
+  height: 29px;
 }
 
-.job-card__tag {
-  padding: 4px 10px;
-  font-size: 12px;
-  border-radius: 6px;
-  border: 1px solid #8dc63f;
-  background: #f7fff0;
-  color: #2a5d1b;
+.chip {
+  height: 100%;
+  padding: 0 10px;
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-primary-light);
+  background: transparent;
+  color: var(--color-1);
+  cursor: pointer;
+  font-family: 'Inter';
+  font-size: var(--font-size-sm);
+  line-height: 17px;
+}
+
+.chip--selected {
+  background: #8dc63f;
+  color: #fff;
+}
+
+.chip:hover {
+  background: #f0f9e8;
 }
 
 .job-card__bookmark {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: var(--space-3);
+  right: var(--space-3);
   border: none;
   background: none;
   cursor: pointer;
@@ -95,6 +88,6 @@
 }
 
 .job-card__bookmark img {
-  width: 22px;
-  height: 22px;
+  width: 22.5px;
+  height: 22.5px;
 }
