@@ -1,6 +1,6 @@
 import './JobCard.css';
 import { Link } from 'react-router-dom';
-import SelectionLabel from '/imports/ui/components/SelectionLabel/SelectionLabel';
+import {SelectionLabel} from '/imports/ui/components/SelectionLabel/SelectionLabel';
 import { Button } from '../Button/Button';
 
 type Job = {
