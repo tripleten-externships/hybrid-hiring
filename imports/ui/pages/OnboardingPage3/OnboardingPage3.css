@@ -1,16 +1,27 @@
 .onboarding__page-3 {
   background-color: #eaeaea;
+  padding: 50px 80px 50px 80px;
 }
 
 .onboarding__header {
   display: flex;
-  margin: 30px 0 40px;
+  margin: 0 0 40px 0;
 }
 
 .onboarding__back-btn {
-  width: 14px;
-  height: 24px;
   cursor: pointer;
+}
+
+.onboarding__company-logo {
+  visibility: hidden;
+}
+
+.onboarding__skip-text {
+  visibility: hidden;
+}
+
+.onboarding__skip-btn {
+  visibility: hidden;
 }
 
 .onboarding__page-display {
@@ -96,4 +107,101 @@
 .onboarding__footer {
   display: flex;
   justify-content: center;
+}
+
+@media screen and (max-width: 360px) {
+  .site-header {
+    display: none;
+  }
+
+  .footer {
+    display: none;
+  }
+
+  .onboarding__page-3 {
+    padding: 20px;
+    height: 100vh;
+  }
+
+  .onboarding__header {
+    margin: 0;
+    align-items: center;
+  }
+
+  .onboarding__logo-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .onboarding__company-logo {
+    visibility: visible;
+    margin: 0 auto;
+    position: absolute;
+    top: 54px;
+  }
+
+  .onboarding__skip-text {
+    visibility: visible;
+    font-family: Inter, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0 11px 0 auto;
+    visibility: visible;
+  }
+
+  .onboarding__skip-btn {
+    visibility: visible;
+  }
+
+  .onboarding__page-display {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    margin: 75px 0 30px 0;
+  }
+
+  .onboarding__content {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .onboarding__skills-title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .onboarding__skills-subtitle {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: left;
+    margin: 2px 0 16px 0;
+  }
+
+  .onboarding__input-wrapper {
+    width: 100%;
+  }
+
+  .onboarding__skills-input {
+    padding: 13.5px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .onboarding__skills-chips {
+    margin: 36.5px 0 0 0;
+  }
+
+  .onboarding__skills-chip {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+  }
 }

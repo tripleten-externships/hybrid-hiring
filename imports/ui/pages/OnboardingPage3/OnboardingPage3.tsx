@@ -34,12 +34,21 @@ export const OnboardingPage3 = () => {
     <div className="onboarding__page-3">
       <div className="onboarding__header">
         <img src="/assets/back.svg" alt="Backbutton" className="onboarding__back-btn" />
+        <p className="onboarding__skip-text">Skip</p>
+        <img src="/assets/skip.svg" alt="" className="onboarding__skip-btn" />
+      </div>
+      <div className="onboarding__logo-wrapper">
+        <img
+          src="/assets/company-logo.svg"
+          alt="Company Logo"
+          className="onboarding__company-logo"
+        />
       </div>
       <p className="onboarding__page-display">Page 3 of 3</p>
       <div className="onboarding__content">
         <h3 className="onboarding__skills-title">Add your skills.</h3>
         <p className="onboarding__skills-subtitle">
-          This is optional, but your answers help us make better job recommendations
+          This is optional, but your answers help us make better job recommendations.
         </p>
         <div className="onboarding__input-wrapper">
           <input
