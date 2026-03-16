@@ -193,6 +193,8 @@
 
   .btn {
     width: 100%;
+    font-size: 16px;
+    font-weight: 500;
   }
 
   .onboarding__skills-chips {
