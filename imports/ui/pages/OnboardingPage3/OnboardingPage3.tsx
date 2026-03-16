@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Button } from '../../components/Button/Button';
+import '../../../api/profiles/methods';
 import { useNavigate } from 'react-router-dom';
 import './OnboardingPage3.css';
 
 export const OnboardingPage3 = () => {
   const [skills, setSkills] = useState<string[]>([]);
   const [skillInput, setSkillInput] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const addSkill = () => {
@@ -29,10 +32,14 @@ export const OnboardingPage3 = () => {
 
   const handleFinish = async () => {
     try {
-      await Meteor.callAsync('Profiles.upsert', { skills });
-      navigate('/jobs'); // Redirect to jobs page after finishing onboarding
+      setIsLoading(true);
+      await Meteor.callAsync('UserProfiles.upsert', { skills });
+      navigate('/jobs');
     } catch (error) {
       console.error('Error updating profile:', error);
+      setError('Failed to update profile. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -82,11 +89,12 @@ export const OnboardingPage3 = () => {
         </ul>
       </div>
       <div className="onboarding__footer">
+        {error && <p className="onboarding__error-text">{error}</p>}
         <Button
           variant="primary"
           size="md"
-          loading={false}
-          disabled={false}
+          loading={isLoading}
+          disabled={isLoading}
           fullWidth={false}
           type="submit"
           onClick={handleFinish}
