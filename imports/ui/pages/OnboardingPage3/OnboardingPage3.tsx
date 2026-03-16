@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-
+import { Meteor } from 'meteor/meteor';
 import { Button } from '../../components/Button/Button';
+import { useNavigate } from 'react-router-dom';
 import './OnboardingPage3.css';
 
 export const OnboardingPage3 = () => {
   const [skills, setSkills] = useState<string[]>([]);
   const [skillInput, setSkillInput] = useState<string>('');
+  const navigate = useNavigate();
 
   const addSkill = () => {
     const trimmedInput = skillInput.trim();
@@ -25,9 +27,13 @@ export const OnboardingPage3 = () => {
     }
   };
 
-  const handleSubmit = () => {
-    // Handle form submission, e.g., send skills to backend or move to next page
-    console.log('Submitted skills:', skills);
+  const handleFinish = async () => {
+    try {
+      await Meteor.callAsync('Profiles.upsert', { skills });
+      navigate('/jobs'); // Redirect to jobs page after finishing onboarding
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
   };
 
   return (
@@ -83,7 +89,7 @@ export const OnboardingPage3 = () => {
           disabled={false}
           fullWidth={false}
           type="submit"
-          onClick={handleSubmit}
+          onClick={handleFinish}
         >
           Finish
         </Button>
