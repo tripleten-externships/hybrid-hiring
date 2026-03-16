@@ -70,10 +70,10 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
 
       {/* Bookmark */}
       {onSave && (
-        <button className="job-card__bookmark" onClick={onSave} aria-pressed={isSaved}>
+        <button className="job-card__bookmark" onClick={onSave} aria-pressed={isSaved}  aria-label={isSaved ? 'Remove from saved jobs' : 'Save job'}>
           <img
             src={isSaved ? '/assets/bookmark-saved.svg' : '/assets/bookmark.svg'}
-            alt={isSaved ? 'Saved' : 'Saved Job'}
+            alt='' aria-hidden="true"
           />
         </button>
       )}
