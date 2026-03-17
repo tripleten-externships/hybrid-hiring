@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 
 export interface Job {
- _id?: string;
+  _id?: string;
   title: string;
   company: string;
   location: string;
@@ -16,7 +16,6 @@ export interface Job {
   externalApplyUrl: string;
   isActive: boolean;
   owner?: string;
-  
 }
 
 export const JobsCollection = new Mongo.Collection<Job>('jobs');
