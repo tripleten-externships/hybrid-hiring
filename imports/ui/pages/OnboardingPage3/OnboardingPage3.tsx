@@ -32,11 +32,12 @@ export const OnboardingPage3 = () => {
 
   const handleFinish = async () => {
     try {
+      setError('');
       setIsLoading(true);
       await Meteor.callAsync('UserProfiles.upsert', { skills });
       navigate('/jobs');
-    } catch (error) {
-      console.error('Error updating profile:', error);
+    } catch (err) {
+      console.error('Error updating profile:', err);
       setError('Failed to update profile. Please try again.');
     } finally {
       setIsLoading(false);
