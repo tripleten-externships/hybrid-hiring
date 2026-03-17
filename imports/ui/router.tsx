@@ -10,6 +10,8 @@ import { Login } from './pages/Login/Login';
 import { OnboardingPersonal, OnboardingProfessional, OnboardingSkills } from './pages/Onboarding/';
 import { AuthRedirect } from './routes/AuthRedirect';
 import { PrivateRoute } from './routes/PrivateRoute';
+import { JobBoard } from './pages/JobBoard';
+
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,7 @@ const router = createBrowserRouter([
         path: '/onboarding/skills',
         element: <OnboardingSkills />,
       },
+       
       {
         path: '/users/list',
         element: <PrivateRoute />,
@@ -52,14 +55,20 @@ const router = createBrowserRouter([
         path: '*',
         element: <NotFound />,
       },
+     
       {
         path: '/login',
         element: <Login />,
       },
+        {
+          path: '/jobs',
+          element: <JobBoard />,
+        },
       {
         element: <PrivateRoute />,
         children: [{ path: '/jobs', element: <Jobs /> }],
       },
+      
     ],
   },
 ]);
