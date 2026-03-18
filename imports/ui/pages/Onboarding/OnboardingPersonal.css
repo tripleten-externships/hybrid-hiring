@@ -2,7 +2,7 @@
   background-color: #eaeaea;
   margin: 0;
   padding: clamp(30px, 2vw, 60px) clamp(20px, 4vw, 80px) clamp(60px, calc(397px - 23.4vw), 294px);
-  gap: clamp(60px, calc(103.2px - 3vw), 90px);
+  gap: 40px;
   display: flex;
   flex-direction: column;
   font-style: normal;
@@ -34,10 +34,18 @@
   font-size: 2px;
 }
 
-
 .onboarding-personal__btn .btn--primary,
 .onboarding-personal__btn .btn--primary span {
   font-size: clamp(16px, calc(4.43px + 2.63vw), 24px) !important;
+}
+
+.onboarding-personal__btn {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .btn-skip {
@@ -280,6 +288,10 @@
     text-align: start;
   }
 
+  .onboarding-personal__header {
+    gap: 30px;
+  }
+
   .onboarding-personal__logo {
     display: flex;
     position: absolute;
@@ -291,5 +303,13 @@
     width: 100%;
     max-width: 314px;
     padding: 13px clamp(70px, calc(-260px + 75vw), 190px);
+  }
+
+  .onboarding-personal {
+    gap: 30px;
+  }
+
+  .top-title {
+    padding-top: 20px;
   }
 }

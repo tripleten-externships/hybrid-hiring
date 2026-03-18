@@ -40,27 +40,26 @@ export const OnboardingPersonal = () => {
   };
 
   return (
-
     <div className="onboarding-personal">
-          {/* // section 1 */}
+      {/* // section 1 */}
       <div className="onboarding-personal__header">
         <div className="onboarding-personal__nav">
           <div className="btn-back">
-            <Button type="button" variant="ghost">
+            <button type="button" className="onboarding-personal__btn btn-back">
               <img src="/assets/skip.svg" alt="Back" />
-            </Button>
+            </button>
           </div>
 
           <div className="onboarding-personal__logo">
             <img src="/assets/company-logo.svg" alt="Logo" />
           </div>
 
-          <Button type="button" variant="ghost" onClick={() => navigate('/jobs')}>
+          <button type="button" className="onboarding-personal__btn btn-skip" onClick={() => navigate('/jobs')}>
             Skip <img src="/assets/skip.svg" alt="Skip" />
-          </Button>
+          </button>
         </div>
 
-        <h1 className="onboarding-personal__title">Profile Builder</h1>
+        <h1 className="onboarding-personal__title top-title">Profile Builder</h1>
         <p className="onboarding-personal__subtitle">Page 1 of 3</p>
       </div>
 
