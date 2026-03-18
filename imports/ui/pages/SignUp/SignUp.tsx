@@ -1,22 +1,20 @@
 import React, { FC, useState, FormEvent } from 'react';
-import './SignUp.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { Accounts } from 'meteor/accounts-base';
 
 export const SignUp: FC = () => {
-  //local state for signup page
+  // local state for signup page
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -26,10 +24,6 @@ export const SignUp: FC = () => {
     }
     setIsLoading(true);
 
-    //wait time so we can witness spinner
-    await new Promise((res) => setTimeout(res, 1000));
-
-    //reate user
     Accounts.createUser(
       {
         email,
@@ -38,8 +32,6 @@ export const SignUp: FC = () => {
       },
       (err) => {
         if (err) {
-          console.log('Signup error:', err);
-
           let message = 'Unable to create account. Please try again.';
 
           if ('error' in err && err.error === 403) {
@@ -48,7 +40,7 @@ export const SignUp: FC = () => {
 
           setError(message);
         } else {
-          navigate('/onboarding/1');
+          navigate('/onboarding/personal');
         }
 
         setIsLoading(false);
@@ -58,14 +50,14 @@ export const SignUp: FC = () => {
   return (
     <div className="sign-up">
       <div className="sign-up__header">
-        <button type="button" className="sign-up__btn btn-back">
-          <img src="/SignUp/skip.svg" alt="Skip" />
+        <button onClick={() => navigate('/')} type="button" className="sign-up__btn btn-back">
+          <img src="/assets/skip.svg" alt="Skip" />
         </button>
         <div className="sign-up__logo">
-          <img src="/SignUp/CompanyLogo.svg" alt="Logo" />
+          <img src="/assets/company-logo.svg" alt="Logo" />
         </div>
-        <button type="button" className="sign-up__btn btn-skip">
-          Skip <img src="/SignUp/skip.svg" alt="Skip" />{' '}
+        <button onClick={() => navigate('/jobs')} type="button" className="sign-up__btn btn-skip">
+          Skip <img src="/assets/skip.svg" alt="Skip" />{' '}
         </button>
       </div>
       <div className="sign-up__main-content">
@@ -75,36 +67,47 @@ export const SignUp: FC = () => {
             Build your profile and we will begin the hunt for you.
           </p>
         </div>
-        <form onSubmit={handleSubmit} className="sign-up__inputs">
+        <form className="sign-up__inputs" onSubmit={handleSubmit} noValidate>
           {/* Name - two column for desktop */}
           <div className="sign-up__basic">
             {' '}
             <input
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
               id="firstName"
               className="sign-up__input first-name"
               type="text"
               placeholder="First Name"
+              onChange={(evt) => {
+                setFirstName(evt.target.value);
+                setError('');
+              }}
+              required
             />
             <input
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
               id="lastName"
               className="sign-up__input last-name"
               type="text"
               placeholder="Last Name"
+              onChange={(evt) => {
+                setLastName(evt.target.value);
+                setError('');
+              }}
+              required
             />
           </div>
 
           <input
             id="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
             className="sign-up__input"
             type="email"
             placeholder="Email"
             autoComplete="email"
+            onChange={(evt) => {
+              setEmail(evt.target.value);
+              setError('');
+            }}
           />
           <input
             id="password"
@@ -113,7 +116,10 @@ export const SignUp: FC = () => {
             placeholder="Password"
             autoComplete="new-password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(evt) => {
+              setPassword(evt.target.value);
+              setError('');
+            }}
           />
           <input
             id="confirmPassword"
@@ -138,7 +144,7 @@ export const SignUp: FC = () => {
         </form>
 
         <p className="sign-up__login-link">
-          Already have an account? <Link to="/LogIn"> Log In </Link>{' '}
+          Already have an account? <Link to="/login"> Log In </Link>{' '}
         </p>
       </div>
     </div>

@@ -1,0 +1,162 @@
+/* Button Base */
+.btn {
+  font-family: var(--font-family-base);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Primary */
+.btn--primary {
+  background-color: var(--color-primary-dark);
+  color: var(--color-6);
+  border-color: var(--color-primary-dark);
+}
+.btn--primary:hover:not(.btn--disabled) {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+/* Secondary */
+.btn--secondary {
+  background-color: var(--color-secondary-light);
+  color: var(--color-1);
+  border-color: var(--color-secondary-light);
+}
+.btn--secondary:hover:not(.btn--disabled) {
+  background-color: var(--color-secondary-light);
+  border-color: var(--color-secondary-light);
+}
+
+/* Outline */
+.btn--outline {
+  background-color: transparent;
+  color: var(--color-primary-dark);
+  border: 1px solid var(--color-primary-dark);
+}
+.btn--outline:hover:not(.btn--disabled) {
+  background-color: var(--color-primary-dark);
+  color: var(--color-6);
+  border-color: var(--color-primary-dark);
+}
+
+/* Ghost */
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+/* TODO HH-44: Confirm ghost hover style with Figma design */
+.btn--ghost:hover:not(.btn--disabled) {
+  background-color: var(--color-primary-dark);
+  color: var(--color-6);
+  border-color: var(--color-primary-dark);
+}
+
+/* Button Sizes (desktop-first, reduces at 768px) */
+.btn--sm {
+  width: 100px;
+  height: 40px;
+  padding: 8px 12px;
+  gap: 10px;
+  font-size: 16px;
+  line-height: 28px;
+}
+
+@media (max-width: 768px) {
+  .btn--sm {
+    width: 88px;
+    height: 37px;
+    padding: 6px 9px;
+    gap: 8px;
+    font-size: 14px;
+    line-height: 24px;
+  }
+}
+
+.btn--md {
+  width: 197px;
+  height: 49px;
+  padding: 13px 10px;
+  gap: 10px;
+  font-size: 24px;
+  line-height: 40px;
+}
+
+@media (max-width: 768px) {
+  .btn--md {
+    width: 174px;
+    height: 45px;
+    padding: 10px 8px;
+    gap: 8px;
+    font-size: 20px;
+    line-height: 36px;
+  }
+}
+
+.btn--lg {
+  width: 343px;
+  height: 49px;
+  padding: 13px 13px;
+  gap: 10px;
+  font-size: 24px;
+  line-height: 40px;
+}
+
+@media (max-width: 768px) {
+  .btn--lg {
+    width: 303px;
+    height: 45px;
+    padding: 10px 10px;
+    gap: 8px;
+    font-size: 20px;
+    line-height: 36px;
+  }
+}
+
+/* Button Full Width */
+.btn--full-width {
+  width: 100%;
+}
+
+/* Button Disabled */
+.btn--disabled,
+.btn:disabled {
+  background-color: var(--color-secondary-light);
+  color: var(--color-3);
+  border-color: var(--color-secondary-light);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.btn--outline.btn--disabled,
+.btn--ghost.btn--disabled {
+  background-color: transparent;
+  border-color: var(--color-3);
+}
+
+.btn--spinner {
+  width: 16px;
+  height: 16px;
+}
+
+.btn-spin {
+  animation: btn-spin 0.75s linear infinite;
+}
+
+@keyframes btn-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Button Label Hidden */
+.btn-label--hidden {
+  opacity: 0;
+}
