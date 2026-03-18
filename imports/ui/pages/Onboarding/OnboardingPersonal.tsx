@@ -54,7 +54,11 @@ export const OnboardingPersonal = () => {
             <img src="/assets/company-logo.svg" alt="Logo" />
           </div>
 
-          <button type="button" className="onboarding-personal__btn btn-skip" onClick={() => navigate('/jobs')}>
+          <button
+            type="button"
+            className="onboarding-personal__btn btn-skip"
+            onClick={() => navigate('/jobs')}
+          >
             Skip <img src="/assets/skip.svg" alt="Skip" />
           </button>
         </div>
