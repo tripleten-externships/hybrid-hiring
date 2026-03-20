@@ -9,9 +9,9 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
-    
+
     requireAdmin(this.userId!);
-    
+
     check(jobData.title, String);
     check(jobData.company, String);
     check(jobData.location, String);
@@ -35,9 +35,9 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
-    
+
     requireAdmin(this.userId!);
-    
+
     check(jobId, String);
     check(updates, {
       title: Match.Optional(String),
@@ -51,7 +51,6 @@ Meteor.methods({
       externalApplyUrl: Match.Optional(String),
       isActive: Match.Optional(Boolean),
     });
-    
 
     return JobsCollection.update({ _id: jobId }, { $set: updates });
   },
@@ -62,7 +61,7 @@ Meteor.methods({
     }
 
     requireAdmin(this.userId!);
-    
+
     check(jobId, String);
     return JobsCollection.remove({ _id: jobId });
   },
