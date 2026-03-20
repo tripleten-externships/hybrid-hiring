@@ -16,6 +16,7 @@ export interface Job {
   externalApplyUrl: string;
   isActive: boolean;
   owner?: string;
+  
 }
 
 export const JobsCollection = new Mongo.Collection<Job>('jobs');
