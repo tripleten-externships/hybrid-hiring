@@ -157,3 +157,377 @@
 .onboarding-main__continue-button:hover {
   filter: brightness(0.9);
 }
+
+/* Narrow mobile: fullscreen-style onboarding (shared by personal & skills steps) */
+@media screen and (max-width: 360px) {
+  .site-header {
+    display: none;
+  }
+
+  .footer {
+    display: none;
+  }
+}
+
+.onboarding-personal {
+  background-color: #eaeaea;
+  margin: 0;
+  padding: clamp(30px, 2vw, 60px) clamp(20px, 4vw, 80px) clamp(60px, calc(397px - 23.4vw), 294px);
+  gap: 40px;
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+  align-items: center;
+  justify-content: center;
+}
+.onboarding-personal__nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+}
+.onboarding-personal__header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+}
+
+.onboarding-personal__btn {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.onboarding-personal__btn .btn--primary,
+.onboarding-personal__btn .btn--primary span {
+  font-size: clamp(16px, calc(4.43px + 2.63vw), 24px) !important;
+}
+
+.btn-skip {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  gap: 10px;
+}
+
+.btn-back img {
+  transform: rotate(180deg);
+}
+.onboarding-personal__title,
+.onboarding-personal__subtitle {
+  margin: 0;
+  padding: 0;
+}
+
+.onboarding-personal__title {
+  font-size: clamp(16px, 2vw, 36px);
+  font-weight: 500;
+  line-height: clamp(24px, 2vw, 40px);
+  letter-spacing: clamp(-2px, calc(0.88px - 0.2vw), 0px);
+}
+
+.onboarding-personal__subtitle {
+  font-size: clamp(14px, 1.5vw, 20px);
+  font-weight: 400;
+  line-height: clamp(16px, 1.5vw, 28px);
+  letter-spacing: clamp(-1px, calc(0.88px - 0.2vw), -0.5px);
+}
+
+.onboarding-personal__main-content {
+  display: flex;
+  gap: 26px;
+  align-items: center;
+  flex-direction: column;
+  padding: 16px;
+  border: 1px solid #000;
+  align-self: stretch;
+  border-radius: 5px;
+}
+
+.onboarding-personal__description {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2px, calc(-12.96px + 3.4vw), 36px);
+  align-items: center;
+  align-self: stretch;
+  text-align: center;
+}
+
+.onboarding-personal__inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  max-width: 392px;
+  width: 100%;
+}
+.onboarding-personal__input {
+  display: flex;
+  align-items: center;
+  /* width: 391.412px; */
+  padding: 16px 11px;
+  gap: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--Interface-Color-2, #636363);
+  background: var(--Interface-Color-6, #fff);
+  box-sizing: border-box;
+}
+.onboarding-personal .btn--ghost {
+  border: none;
+}
+
+.onboarding-personal .btn__label {
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.onboarding-personal__input input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 20px;
+  width: 100%;
+  max-width: 369px;
+}
+
+.onboarding-personal__input-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toggle {
+  border: none;
+  padding: 0;
+  border-radius: 100px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  background: var(--Interface-Color-4, #b7b7b7);
+  width: 47px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.onboarding-personal__logo {
+  display: none;
+}
+
+.toggle::after {
+  content: '';
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: var(--Interface-Color-1, #000);
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  transform: translateY(-50%);
+  transition: transform 0.2s;
+}
+
+.toggle--on::after {
+  content: '';
+}
+.toggle--on {
+  background: var(--Color-Pallet-Secondary, #d5dde5);
+}
+
+.toggle--on::after {
+  transform: translate(22px, -50%);
+}
+
+.onboarding-personal__main-contents {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  max-width: 1248px;
+  align-items: center;
+}
+
+.onboarding-personal__finish-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.onboarding-personal__error-text {
+  margin: 0;
+  color: var(--color-error, #da3a3d);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.onboarding-personal__skills-chips {
+  margin: 45px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  width: 100%;
+}
+
+.onboarding-personal__skill-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(14px, 1.5vw, 20px);
+  font-weight: 400;
+  line-height: clamp(16px, 1.5vw, 28px);
+  letter-spacing: clamp(-1px, calc(0.88px - 0.2vw), -0.5px);
+}
+
+.onboarding-personal__skill-remove {
+  cursor: pointer;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  display: flex;
+  align-items: center;
+}
+
+.onboarding-personal__btn .btn--primary {
+  width: 100%;
+  max-width: 314px;
+  padding: 15px 190px;
+}
+
+.onboarding-personal__btn .btn__label {
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(16px, 2vw, 36px);
+  font-weight: 700;
+}
+
+.onboarding-personal__input-pay {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pay-period .chip {
+  padding: 10px 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+  font-size: 24px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: none;
+  border: none;
+}
+
+.pay-period .chip:hover {
+  background: none;
+  color: none;
+}
+
+.pay-period .chip:not(.chip--selected) {
+  background: var(--Color-Pallet-Secondary, #d5dde5);
+  color: var(--Interface-Color-1, #000);
+}
+
+.pay-period .chip.chip--selected {
+  background: var(--Color-Pallet-Secondary-Dark, #345077);
+  color: var(--Interface-Color-6, #fff);
+}
+
+.job-type .chip {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  padding: 20px 12px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background: #fff;
+  color: #000;
+  transition: none;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  align-items: center;
+}
+
+.job-type .chip.chip--selected {
+  background: #345077;
+  color: #fff;
+}
+
+.job-type .chip.chip--selected img {
+  display: none;
+}
+
+.chip-label {
+  font-size: clamp(14px, 2vw, 24px);
+}
+
+.job-tags__list-delete {
+  border: none;
+  margin: 0;
+  cursor: pointer;
+}
+@media screen and (max-width: 440px) {
+  .onboarding-personal__description {
+    align-items: flex-start;
+    text-align: start;
+  }
+
+  .onboarding-personal__header {
+    gap: 30px;
+  }
+
+  .onboarding-personal__logo {
+    display: flex;
+    position: absolute;
+    top: 21px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .onboarding-personal__btn .btn--primary {
+    width: 100%;
+    max-width: 314px;
+    padding: 13px clamp(70px, calc(-260px + 75vw), 190px);
+  }
+
+  .onboarding-personal {
+    gap: 30px;
+  }
+
+  .top-title {
+    padding-top: 20px;
+  }
+
+  .onboarding-personal__skills-chips {
+    margin: 36.5px 0 0;
+  }
+
+  .onboarding-personal__skill-chip {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
