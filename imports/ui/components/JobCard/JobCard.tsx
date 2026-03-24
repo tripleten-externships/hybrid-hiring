@@ -22,8 +22,6 @@ type JobCardProps = {
 };
 
 export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
-  console.log(job.basePay, typeof job.basePay);
-
   const formatPay = (val: number | undefined) => (val != null && !isNaN(val) ? `$${val}` : null);
 
   const pay = (() => {
@@ -60,10 +58,24 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
           ))}
         </div>
 
-        <Button size="sm" variant="primary" fullWidth>
+        <Button
+          size="sm"
+          variant="primary"
+          fullWidth
+          onClick={() => {
+            /* TODO --to quick apply*/
+          }}
+        >
           Quick Apply
         </Button>
-        <Button size="sm" variant="outline" fullWidth>
+        <Button
+          size="sm"
+          variant="outline"
+          fullWidth
+          onClick={() => {
+            /* TODO --job details*/
+          }}
+        >
           More Details
         </Button>
       </div>
