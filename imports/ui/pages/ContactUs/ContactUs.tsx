@@ -25,7 +25,7 @@ export const ContactUs = () => {
 
       <div className="contact-us__right">
         <div className="contact-us__form-container">
-          <h2 className="contact-us__title">Send Us a Message</h2>
+         
 
           <form className="contact-us__form">
             <div className="contact-us__row">
@@ -75,7 +75,9 @@ export const ContactUs = () => {
               rows={4}
             />
 
-            <Button type="submit">Send Message</Button>
+          <Button type="submit" className="contact-us__submit">
+  Send Message
+</Button>
           </form>
         </div>
       </div>
