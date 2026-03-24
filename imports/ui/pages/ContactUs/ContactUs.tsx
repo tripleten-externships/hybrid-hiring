@@ -8,8 +8,8 @@ import './ContactUs.css';
 export const ContactUs = () => {
   const phoneNumber = '+1 (555) 000-0000';
   const emailAddress = 'contact@hybridhiring.com';
-  
-  const [form, setForm] = useState({  
+
+  const [form, setForm] = useState({
     firstName: '',
     lastName: '',
     email: '',
@@ -25,7 +25,9 @@ export const ContactUs = () => {
   return (
     <main className="contact-us">
       {/* LEFT PANEL (placeholder for HH-97) */}
-      <div className="contact-us__left"><ContactInfoPanel phone={phoneNumber} email={emailAddress} /></div>
+      <div className="contact-us__left">
+        <ContactInfoPanel phone={phoneNumber} email={emailAddress} />
+      </div>
 
       <div className="contact-us__right">
         <div className="contact-us__form-container">
