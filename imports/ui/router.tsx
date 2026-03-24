@@ -44,9 +44,9 @@ const router = createBrowserRouter([
         children: [{ path: '/users/manage', element: <DemoUsersManager /> }],
       },
       {
-  path: '/contact',
-  element: <ContactUs />,
-},
+        path: '/contact',
+        element: <ContactUs />,
+      },
       {
         element: <AuthRedirect />,
         children: [
@@ -70,7 +70,6 @@ const router = createBrowserRouter([
         element: <PrivateRoute />,
         children: [{ path: '/onboarding/3', element: <OnboardingPage3 /> }],
       },
-      
     ],
   },
 ]);

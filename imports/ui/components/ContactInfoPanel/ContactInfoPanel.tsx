@@ -1,4 +1,4 @@
-import "./ContactInfoPanel.css";
+import './ContactInfoPanel.css';
 
 export const ContactInfoPanel = () => {
   return (
@@ -9,7 +9,7 @@ export const ContactInfoPanel = () => {
         <p className="contact-info__description">
           If you have any questions, feel free to get in contact with us.
         </p>
-        
+
         <div className="contact-info__row">
           <img
             src="/assets/ic_baseline-phone.svg"
@@ -18,7 +18,7 @@ export const ContactInfoPanel = () => {
           />
           <span className="contact-info__text">+1 (555) 000-0000</span>
         </div>
-       
+
         <div className="contact-info__row">
           <img
             src="/assets/ic_baseline-email.svg"
@@ -37,34 +37,21 @@ export const ContactInfoPanel = () => {
           />
           <span>Book an appointment</span>
         </button>
-        
       </div>
-     
-        <div className="contact-info__socials">
-          <a
-            href="#"
-            className="contact-info__social-link"
-            aria-label="Facebook"
-          >
-            <img src="/assets/ri_facebook-fill.svg" alt="" />
-          </a>
 
-          <a
-            href="#"
-            className="contact-info__social-link"
-            aria-label="LinkedIn"
-          >
-            <img src="/assets/linkedin-logo.svg" alt="" />
-          </a>
+      <div className="contact-info__socials">
+        <a href="#" className="contact-info__social-link" aria-label="Facebook">
+          <img src="/assets/ri_facebook-fill.svg" alt="" />
+        </a>
 
-          <a
-            href="#"
-            className="contact-info__social-link"
-            aria-label="Instagram"
-          >
-            <img src="/assets/ri_instagram-fill.svg" alt="" />
-          </a>
-        </div>
+        <a href="#" className="contact-info__social-link" aria-label="LinkedIn">
+          <img src="/assets/linkedin-logo.svg" alt="" />
+        </a>
+
+        <a href="#" className="contact-info__social-link" aria-label="Instagram">
+          <img src="/assets/ri_instagram-fill.svg" alt="" />
+        </a>
+      </div>
     </section>
   );
 };

@@ -1,5 +1,5 @@
-import { ContactInfoPanel } from "../../components/ContactInfoPanel/ContactInfoPanel";
-import "./ContactUs.css";
+import { ContactInfoPanel } from '../../components/ContactInfoPanel/ContactInfoPanel';
+import './ContactUs.css';
 
 export const ContactUs = () => {
   return (
@@ -8,9 +8,7 @@ export const ContactUs = () => {
         <ContactInfoPanel />
       </div>
 
-      <div className="contact-us__right">
-        {/* Empty for HH-97 */}
-      </div>
+      <div className="contact-us__right">{/* Empty for HH-97 */}</div>
     </main>
   );
 };
