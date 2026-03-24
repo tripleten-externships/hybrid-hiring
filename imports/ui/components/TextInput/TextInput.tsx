@@ -29,7 +29,6 @@ export const TextInput = ({
   disabled = false,
   required = false,
   pattern,
-  
 }: TextInputProps) => {
   return (
     <div className={`text-input ${fullWidth ? 'full-width' : ''}`}>
