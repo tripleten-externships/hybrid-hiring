@@ -35,13 +35,15 @@ export const ContactInfoPanel = ({ phone, email }: ContactInfoPanelProps) => {
         </div>
 
         <Button className="contact-info__cta">
-          <img
-            src="/assets/book-appointment-Icons.svg"
-            alt=""
-            aria-hidden="true"
-            className="contact-info__cta-icon"
-          />
-          <span>Book an appointment</span>
+          <div className="contact-info__cta-icon-container">
+            <img
+              src="/assets/book-appointment-Icons.svg"
+              alt=""
+              aria-hidden="true"
+              className="contact-info__cta-icon"
+            />
+          <span className="contact-info__cta-text">Book an appointment</span>
+          </div>
         </Button>
       </div>
 
