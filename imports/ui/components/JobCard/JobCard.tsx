@@ -1,6 +1,5 @@
 import './JobCard.css';
 import { Link } from 'react-router-dom';
-import { SelectionLabel } from '/imports/ui/components/SelectionLabel/SelectionLabel';
 import { Button } from '../Button/Button';
 
 type Job = {
@@ -52,10 +51,10 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
 
         {/* Chip tags */}
         <div className="job-card__chip-tags">
-          <SelectionLabel label={job.jobType} selected={false} onClick={() => {}} />
-          {job.tags?.map((tag) => (
-            <SelectionLabel key={tag} label={tag} selected={false} onClick={() => {}} />
-          ))}
+       <span className="chip">{job.jobType}</span>
+{job.tags?.map((tag) => (
+  <span key={tag} className="chip">{tag}</span>
+))}
         </div>
 
         <Button
