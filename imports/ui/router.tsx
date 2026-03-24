@@ -11,6 +11,7 @@ import { OnboardingPersonal, OnboardingProfessional, OnboardingSkills } from './
 import { AuthRedirect } from './routes/AuthRedirect';
 import { PrivateRoute } from './routes/PrivateRoute';
 import { OnboardingPage3 } from './pages/OnboardingPage3/OnboardingPage3';
+import { ContactUs } from './pages/ContactUs/ContactUs';
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
         children: [{ path: '/users/manage', element: <DemoUsersManager /> }],
       },
       {
+  path: '/contact',
+  element: <ContactUs />,
+},
+      {
         element: <AuthRedirect />,
         children: [
           { path: '/login', element: <Login /> },
@@ -65,6 +70,7 @@ const router = createBrowserRouter([
         element: <PrivateRoute />,
         children: [{ path: '/onboarding/3', element: <OnboardingPage3 /> }],
       },
+      
     ],
   },
 ]);

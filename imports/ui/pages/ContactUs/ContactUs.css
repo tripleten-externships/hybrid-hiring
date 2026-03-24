@@ -1,0 +1,15 @@
+.contact-us {
+  display: flex;
+  height: 736px;
+}
+
+.contact-us__left {
+  width: 575px;
+  flex-shrink: 0;
+}
+
+.contact-us__right {
+  width: 865px;
+  flex-shrink: 0;
+  background-color: #f9f9f9;
+}
