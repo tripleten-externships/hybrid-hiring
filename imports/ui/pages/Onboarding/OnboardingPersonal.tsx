@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './OnboardingPersonal.css';
-import { Button, SelectionLabel } from '../../components';
 import { useNavigate } from 'react-router-dom';
+import { Button, SelectionLabel } from '../../components';
+import './Onboarding.css';
 
 export const OnboardingPersonal = () => {
   const navigate = useNavigate();

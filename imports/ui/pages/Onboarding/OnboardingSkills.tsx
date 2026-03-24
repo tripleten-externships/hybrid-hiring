@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../../components/Button/Button';
 import './Onboarding.css';
@@ -9,6 +10,7 @@ interface Skill {
 }
 
 export const OnboardingSkills = () => {
+  const navigate = useNavigate();
   const [skills, setSkills] = useState<Skill[]>([]);
   const [skillInput, setSkillInput] = useState<string>('');
   const nextId = useRef(0);
@@ -37,62 +39,80 @@ export const OnboardingSkills = () => {
   };
 
   return (
-    <div className="onboarding__skills">
-      <div className="onboarding__header">
-        <img src="/assets/back.svg" alt="Backbutton" className="onboarding__back-btn" />
-        <p className="onboarding__skip-text">Skip</p>
-        <img src="/assets/skip.svg" alt="" className="onboarding__skip-btn" />
-      </div>
-      <div className="onboarding__logo-wrapper">
-        <img
-          src="/assets/company-logo.svg"
-          alt="Company Logo"
-          className="onboarding__company-logo"
-        />
-      </div>
-      <p className="onboarding__skills-page-display">Page 3 of 3</p>
-      <div className="onboarding__skills-content">
-        <h3 className="onboarding__skills-title">Add your skills.</h3>
-        <p className="onboarding__skills-subtitle">
-          This is optional, but your answers help us make better job recommendations.
-        </p>
-        <div className="onboarding__skills-input-wrapper">
-          <input
-            id="skills"
-            type="text"
-            value={skillInput}
-            onChange={(e) => setSkillInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Add skills"
-            className="onboarding__skills-input"
-          />
+    <div className="onboarding-personal">
+      <div className="onboarding-personal__header">
+        <div className="onboarding-personal__nav">
+          <div className="btn-back">
+            <button
+              type="button"
+              className="onboarding-personal__btn btn-back"
+              onClick={() => navigate(-1)}
+            >
+              <img src="/assets/skip.svg" alt="Back" />
+            </button>
+          </div>
+
+          <div className="onboarding-personal__logo">
+            <img src="/assets/company-logo.svg" alt="Logo" />
+          </div>
+
+          <button
+            type="button"
+            className="onboarding-personal__btn btn-skip"
+            onClick={() => navigate('/jobs')}
+          >
+            Skip <img src="/assets/skip.svg" alt="Skip" />
+          </button>
         </div>
-        <ul className="onboarding__skills-skills-chips">
-          {skills.map((skill) => (
-            <li key={skill.id} className="onboarding__skills-skill-chip">
-              <img
-                src="/assets/chip-close.svg"
-                alt=""
-                className="onboarding__skills-skill-close-btn"
-                onClick={() => removeSkill(skill.id)}
-              />
-              {skill.value}
-            </li>
-          ))}
-        </ul>
+
+        <h1 className="onboarding-personal__title top-title">Profile Builder</h1>
+        <p className="onboarding-personal__subtitle">Page 3 of 3</p>
       </div>
-      <div className="onboarding__skills-footer">
-        <Button
-          variant="primary"
-          size="md"
-          loading={false}
-          disabled={false}
-          fullWidth={false}
-          type="submit"
-          onClick={handleSubmit}
-        >
-          Finish
-        </Button>
+
+      <div className="onboarding-personal__main-contents">
+        <div className="onboarding-personal__main-content">
+          <div className="onboarding-personal__description">
+            <h2 className="onboarding-personal__title">Add your skills.</h2>
+            <p className="onboarding-personal__subtitle">
+              This is optional, but your answers help us make better job recommendations.
+            </p>
+          </div>
+
+          <div className="onboarding-personal__inputs">
+            <div className="onboarding-personal__input">
+              <input
+                id="skills"
+                type="text"
+                value={skillInput}
+                onChange={(e) => setSkillInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Add skills"
+              />
+            </div>
+
+            <ul className="onboarding-personal__skills-chips" aria-label="Added skills">
+              {skills.map((skill) => (
+                <li key={skill.id} className="onboarding-personal__skill-chip">
+                  <button
+                    type="button"
+                    className="onboarding-personal__skill-remove"
+                    onClick={() => removeSkill(skill.id)}
+                    aria-label={`Remove ${skill.value}`}
+                  >
+                    <img src="/assets/chip-close.svg" alt="" />
+                  </button>
+                  {skill.value}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="onboarding-personal__btn">
+          <Button variant="primary" type="button" onClick={handleSubmit}>
+            Finish
+          </Button>
+        </div>
       </div>
     </div>
   );
