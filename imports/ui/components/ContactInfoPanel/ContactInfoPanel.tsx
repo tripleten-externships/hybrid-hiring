@@ -1,4 +1,5 @@
 import './ContactInfoPanel.css';
+import { Button } from "../../components/Button/Button";
 
 export const ContactInfoPanel = () => {
   return (
@@ -28,15 +29,15 @@ export const ContactInfoPanel = () => {
           <span className="contact-info__text">email@example.com</span>
         </div>
 
-        <button type="button" className="contact-info__cta">
-          <img
-            src="/assets/book-appointment-Icons.svg"
-            alt=""
-            aria-hidden="true"
-            className="contact-info__cta-icon"
-          />
-          <span>Book an appointment</span>
-        </button>
+        <Button className="contact-info__cta">
+  <img
+    src="/assets/book-appointment-Icons.svg"
+    alt=""
+    aria-hidden="true"
+    className="contact-info__cta-icon"
+  />
+  <span>Book an appointment</span>
+</Button>
       </div>
 
       <div className="contact-info__socials">
