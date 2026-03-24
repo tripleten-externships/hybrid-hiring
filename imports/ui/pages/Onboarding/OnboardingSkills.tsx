@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
+import { Meteor } from 'meteor/meteor';
 import { useNavigate } from 'react-router-dom';
 
+import '../../../api/profiles/methods';
 import { Button } from '../../components/Button/Button';
 import './Onboarding.css';
 
@@ -13,6 +15,8 @@ export const OnboardingSkills = () => {
   const navigate = useNavigate();
   const [skills, setSkills] = useState<Skill[]>([]);
   const [skillInput, setSkillInput] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const nextId = useRef(0);
 
   const addSkill = () => {
@@ -33,9 +37,19 @@ export const OnboardingSkills = () => {
     }
   };
 
-  const handleSubmit = () => {
-    // Handle form submission, e.g., send skills to backend or move to next page
-    console.log('Submitted skills:', skills);
+  const handleFinish = async () => {
+    const skillValues = skills.map((s) => s.value);
+    try {
+      setError('');
+      setIsLoading(true);
+      await Meteor.callAsync('UserProfiles.upsert', { skills: skillValues });
+      navigate('/jobs');
+    } catch (err) {
+      console.error('Error updating profile:', err);
+      setError('Failed to update profile. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -108,10 +122,23 @@ export const OnboardingSkills = () => {
           </div>
         </div>
 
-        <div className="onboarding-personal__btn">
-          <Button variant="primary" type="button" onClick={handleSubmit}>
-            Finish
-          </Button>
+        <div className="onboarding-personal__finish-section">
+          {error ? (
+            <p className="onboarding-personal__error-text" role="alert">
+              {error}
+            </p>
+          ) : null}
+          <div className="onboarding-personal__btn">
+            <Button
+              variant="primary"
+              type="button"
+              loading={isLoading}
+              disabled={isLoading}
+              onClick={handleFinish}
+            >
+              Finish
+            </Button>
+          </div>
         </div>
       </div>
     </div>

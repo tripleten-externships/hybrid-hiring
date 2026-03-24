@@ -42,7 +42,7 @@ export const ContactInfoPanel = ({ phone, email }: ContactInfoPanelProps) => {
               aria-hidden="true"
               className="contact-info__cta-icon"
             />
-          <span className="contact-info__cta-text">Book an appointment</span>
+            <span className="contact-info__cta-text">Book an appointment</span>
           </div>
         </Button>
       </div>
