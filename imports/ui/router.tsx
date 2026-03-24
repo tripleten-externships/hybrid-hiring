@@ -68,6 +68,10 @@ const router = createBrowserRouter([
         element: <PrivateRoute />,
         children: [{ path: '/jobs', element: <Jobs /> }],
       },
+      {
+        path: '/sign-up',
+        element: <SignUp />,
+      },
     ],
   },
 ]);
