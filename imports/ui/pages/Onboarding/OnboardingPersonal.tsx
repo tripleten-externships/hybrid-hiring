@@ -12,11 +12,13 @@ export const OnboardingPersonal = () => {
   const [pay, setPay] = useState('');
   const [payPeriod, setPayPeriod] = useState<'hour' | 'year'>('hour');
 
-  const [fullTime, setFullTime] = useState(false);
-  const [partTime, setPartTime] = useState(false);
-  const [contractTime, setContractTime] = useState(false);
-  const [temporaryTime, setTemporaryTime] = useState(false);
-  const [internshipTime, setInternshipTime] = useState(false);
+  const [selectedJobTypes, setSelectedJobTypes] = useState<string[]>([]);
+
+  const toggleJobType = (type: string) => {
+    setSelectedJobTypes((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
+    );
+  };
 
   const [jobTitleInput, setJobTitleInput] = useState('');
   const [jobTitles, setJobTitles] = useState<string[]>([]);
@@ -35,17 +37,20 @@ export const OnboardingPersonal = () => {
     }
   };
 
-  const handleRemoveJobTitle = (index: number) => {
-    setJobTitles(jobTitles.filter((_, i) => i !== index));
+  const handleRemoveJobTitle = (title: string) => {
+    setJobTitles((prev) => prev.filter((t) => t !== title));
   };
 
   return (
     <div className="onboarding-personal">
-      {/* // section 1 */}
       <div className="onboarding-personal__header">
         <div className="onboarding-personal__nav">
           <div className="btn-back">
-            <button type="button" className="onboarding-personal__btn btn-back">
+            <button
+              type="button"
+              className="onboarding-personal__btn btn-back"
+              onClick={() => navigate(-1)}
+            >
               <img src="/assets/skip.svg" alt="Back" />
             </button>
           </div>
@@ -101,7 +106,10 @@ export const OnboardingPersonal = () => {
             <div className="onboarding-personal__input-toggle">
               <span className="onboarding-personal__subtitle">I’m interested in remote work</span>
 
-              <div
+              <button
+                type="button"
+                role="switch"
+                aria-checked={remote}
                 className={`toggle ${remote ? 'toggle--on' : ''}`}
                 onClick={() => setRemote(!remote)}
               />
@@ -110,7 +118,7 @@ export const OnboardingPersonal = () => {
         </div>
 
         {/* salary */}
-        <div className="onboarding-personal__location onboarding-personal__main-content">
+        <div className="onboarding-personal__main-content">
           <div className="onboarding-personal__description">
             <h2 className="onboarding-personal__title">
               What’s the minimum pay you’re looking for?
@@ -149,9 +157,7 @@ export const OnboardingPersonal = () => {
           </div>
         </div>
 
-        {/* it was so difficult to style selectionlabel becasue it does not support variant or prop, i struggled with it with the above two.
-         so i decided not to use it */}
-        <div className="onboarding-personal__location onboarding-personal__main-content">
+        <div className="onboarding-personal__main-content">
           <div className="onboarding-personal__description">
             <h2 className="onboarding-personal__title">What type of job are you interested in?</h2>
 
@@ -159,55 +165,24 @@ export const OnboardingPersonal = () => {
           </div>
 
           <div className="onboarding-personal__inputs job-type">
-            <button
-              type="button"
-              className={`chip ${fullTime ? 'chip--selected' : ''}`}
-              onClick={() => setFullTime(!fullTime)}
-            >
-              <img src="/assets/plus.svg" alt="" />
-              Full-time
-            </button>
-
-            <button
-              type="button"
-              className={`chip ${partTime ? 'chip--selected' : ''}`}
-              onClick={() => setPartTime(!partTime)}
-            >
-              <img src="/assets/plus.svg" alt="" />
-              Part-time
-            </button>
-
-            <button
-              type="button"
-              className={`chip ${contractTime ? 'chip--selected' : ''}`}
-              onClick={() => setContractTime(!contractTime)}
-            >
-              <img src="/assets/plus.svg" alt="" />
-              Contract
-            </button>
-
-            <button
-              type="button"
-              className={`chip ${temporaryTime ? 'chip--selected' : ''}`}
-              onClick={() => setTemporaryTime(!temporaryTime)}
-            >
-              <img src="/assets/plus.svg" alt="" />
-              Temporary
-            </button>
-
-            <button
-              type="button"
-              className={`chip ${internshipTime ? 'chip--selected' : ''}`}
-              onClick={() => setInternshipTime(!internshipTime)}
-            >
-              <img src="/assets/plus.svg" alt="" />
-              Internship
-            </button>
+            {(['Full-time', 'Part-time', 'Contract', 'Temporary', 'Internship'] as const).map(
+              (type) => (
+                <button
+                  key={type}
+                  type="button"
+                  className={`chip ${selectedJobTypes.includes(type) ? 'chip--selected' : ''}`}
+                  onClick={() => toggleJobType(type)}
+                >
+                  <img src="/assets/plus.svg" alt="" />
+                  {type}
+                </button>
+              )
+            )}
           </div>
         </div>
 
         {/* job side */}
-        <div className="onboarding-personal__location onboarding-personal__main-content">
+        <div className="onboarding-personal__main-content">
           <div className="onboarding-personal__description">
             <h2 className="onboarding-personal__title">What job are you looking for?</h2>
 
@@ -230,13 +205,13 @@ export const OnboardingPersonal = () => {
             {/* user creates their own tags */}
             {jobTitles.length > 0 && (
               <div className="job-tags__list onboarding-personal__subtitle">
-                {jobTitles.map((title, index) => (
-                  <span key={index} className="job-tag">
+                {jobTitles.map((title) => (
+                  <span key={title} className="job-tag">
                     {title}
                     <button
                       type="button"
                       className="job-tags__list-delete"
-                      onClick={() => handleRemoveJobTitle(index)}
+                      onClick={() => handleRemoveJobTitle(title)}
                     >
                       X
                     </button>
@@ -248,7 +223,10 @@ export const OnboardingPersonal = () => {
             <div className="onboarding-personal__input-toggle">
               <span className="onboarding-personal__subtitle">I’m open to any job position</span>
 
-              <div
+              <button
+                type="button"
+                role="switch"
+                aria-checked={openAnyJob}
                 className={`toggle ${openAnyJob ? 'toggle--on' : ''}`}
                 onClick={() => setOpenAnyJob(!openAnyJob)}
               />

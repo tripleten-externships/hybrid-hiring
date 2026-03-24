@@ -31,21 +31,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 2px;
 }
 
 .onboarding-personal__btn .btn--primary,
 .onboarding-personal__btn .btn--primary span {
   font-size: clamp(16px, calc(4.43px + 2.63vw), 24px) !important;
-}
-
-.onboarding-personal__btn {
-  border: none;
-  background-color: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
 }
 
 .btn-skip {
@@ -145,6 +135,8 @@
 }
 
 .toggle {
+  border: none;
+  padding: 0;
   border-radius: 100px;
   position: relative;
   cursor: pointer;
@@ -154,6 +146,7 @@
   height: 26px;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .onboarding-personal__logo {
@@ -161,10 +154,7 @@
 }
 
 .toggle::after {
-  content: 'x';
-  color: white;
-  text-align: center;
-  font-weight: 200;
+  content: '';
   width: 21px;
   height: 21px;
   border-radius: 50%;
