@@ -25,8 +25,6 @@ export const ContactUs = () => {
 
       <div className="contact-us__right">
         <div className="contact-us__form-container">
-         
-
           <form className="contact-us__form">
             <div className="contact-us__row">
               <TextInput
@@ -75,9 +73,9 @@ export const ContactUs = () => {
               rows={4}
             />
 
-          <Button type="submit" className="contact-us__submit">
-  Send Message
-</Button>
+            <Button type="submit" className="contact-us__submit">
+              Send Message
+            </Button>
           </form>
         </div>
       </div>

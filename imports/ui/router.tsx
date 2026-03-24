@@ -33,9 +33,9 @@ const router = createBrowserRouter([
         element: <OnboardingSkills />,
       },
       {
-  path: '/contact',
-  element: <ContactUs />,
-},
+        path: '/contact',
+        element: <ContactUs />,
+      },
       {
         path: '/users/list',
         element: <PrivateRoute />,

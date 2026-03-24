@@ -27,7 +27,7 @@ export const Button = ({
   type = 'button',
   onClick,
   children,
-  className = '', 
+  className = '',
 }: ButtonProps) => {
   const isDisabled = disabled || loading;
 
@@ -37,7 +37,7 @@ export const Button = ({
     `btn--${size}`,
     fullWidth ? 'btn--full-width' : '',
     isDisabled ? 'btn--disabled' : '',
-    className, 
+    className,
   ]
     .filter(Boolean)
     .join(' ');
