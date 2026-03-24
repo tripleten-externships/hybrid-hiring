@@ -13,6 +13,7 @@ type TextInputProps = {
   fullWidth?: boolean;
   disabled?: boolean;
   required?: boolean;
+  pattern?: string;
 };
 
 export const TextInput = ({
@@ -27,6 +28,8 @@ export const TextInput = ({
   fullWidth = false,
   disabled = false,
   required = false,
+  pattern,
+  
 }: TextInputProps) => {
   return (
     <div className={`text-input ${fullWidth ? 'full-width' : ''}`}>
@@ -41,6 +44,7 @@ export const TextInput = ({
         placeholder={placeholder}
         disabled={disabled}
         required={required}
+        pattern={pattern}
         className={error ? 'input error' : 'input'}
         aria-invalid={!!error}
         aria-describedby={error ? `${id}-error` : undefined}

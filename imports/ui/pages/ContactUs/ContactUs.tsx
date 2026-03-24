@@ -3,6 +3,7 @@ import { TextInput } from '../../components/TextInput/TextInput';
 import { TextArea } from '../../components/TextArea/TextArea';
 import { Button } from '../../components/Button/Button';
 import { ContactInfoPanel } from '../../components/ContactInfoPanel/ContactInfoPanel';
+import { Meteor } from "meteor/meteor";
 import './ContactUs.css';
 
 export const ContactUs = () => {
@@ -18,9 +19,57 @@ export const ContactUs = () => {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
+  const { name, value } = e.target;
+
+  setSuccess(false);
+  setError(""); 
+
+  setForm((prev) => ({ ...prev, [name]: value }));
+};
+
+
+
+
+const [success, setSuccess] = useState(false);
+const [isLoading, setIsLoading] = useState(false);
+const [error, setError] = useState("");
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (
+    !form.firstName ||
+    !form.lastName ||
+    !form.email ||
+    !form.phone ||
+    !form.message
+  ) {
+    setError("All fields are required");
+    return;
+  }
+
+  setIsLoading(true);
+  setError("");
+
+  try {
+    await Meteor.callAsync("Contacts.submit", form);
+
+    setSuccess(true);
+
+    setForm({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      message: "",
+    });
+  } catch (err: any) {
+    setError(err.reason || err.message || "Something went wrong");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   return (
     <main className="contact-us">
@@ -31,7 +80,18 @@ export const ContactUs = () => {
 
       <div className="contact-us__right">
         <div className="contact-us__form-container">
-          <form className="contact-us__form">
+          {success && (
+  <div className="contact-us__success">
+    Your message has been sent successfully!
+  </div>
+)}
+
+{error && (
+  <div className="contact-us__error">
+    {error}
+  </div>
+)}
+          <form className="contact-us__form" onSubmit={handleSubmit} noValidate>
             <div className="contact-us__row">
               <TextInput
                 label="First name"
@@ -47,6 +107,7 @@ export const ContactUs = () => {
                 name="lastName"
                 value={form.lastName}
                 onChange={handleChange}
+              
               />
             </div>
 
@@ -67,6 +128,7 @@ export const ContactUs = () => {
                 type="tel"
                 value={form.phone}
                 onChange={handleChange}
+               
               />
             </div>
 
@@ -79,7 +141,7 @@ export const ContactUs = () => {
               rows={4}
             />
 
-            <Button type="submit" className="contact-us__submit">
+            <Button type="submit" className="contact-us__submit" loading={isLoading}>
               Send Message
             </Button>
           </form>
