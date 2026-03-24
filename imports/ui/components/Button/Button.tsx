@@ -15,7 +15,7 @@ interface ButtonProps {
   type?: ButtonType;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   children: React.ReactNode;
-   className?: string;
+  className?: string;
 }
 
 export const Button = ({
@@ -27,7 +27,7 @@ export const Button = ({
   type = 'button',
   onClick,
   children,
-  className = '', 
+  className = '',
 }: ButtonProps) => {
   const isDisabled = disabled || loading;
 

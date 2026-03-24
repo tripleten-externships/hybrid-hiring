@@ -1,5 +1,5 @@
 import './ContactInfoPanel.css';
-import { Button } from "../../components/Button/Button";
+import { Button } from '../../components/Button/Button';
 
 export const ContactInfoPanel = () => {
   return (
@@ -30,14 +30,14 @@ export const ContactInfoPanel = () => {
         </div>
 
         <Button className="contact-info__cta">
-  <img
-    src="/assets/book-appointment-Icons.svg"
-    alt=""
-    aria-hidden="true"
-    className="contact-info__cta-icon"
-  />
-  <span>Book an appointment</span>
-</Button>
+          <img
+            src="/assets/book-appointment-Icons.svg"
+            alt=""
+            aria-hidden="true"
+            className="contact-info__cta-icon"
+          />
+          <span>Book an appointment</span>
+        </Button>
       </div>
 
       <div className="contact-info__socials">
