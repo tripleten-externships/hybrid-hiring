@@ -5,19 +5,30 @@
 }
 
 .contact-us__left {
-  width: 575px;
-  flex-shrink: 0;
+  flex: 0 0 40%;
+  max-width: 575px;
 }
 
 .contact-us__right {
-  width: 865px;
-  flex-shrink: 0;
-  background-color: #ffffff;
+  flex: 1;
+  background-color: #f9f9f9;
+}
 
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 80px;
+@media screen and (max-width: 768px) {
+  .contact-us {
+    flex-direction: column;
+  }
+
+  .contact-us__left {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .contact-us__right {
+    flex: none;
+    width: 100%;
+  }
 }
 
 /* FORM */

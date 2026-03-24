@@ -22,15 +22,18 @@ const router = createBrowserRouter([
       },
       {
         path: '/onboarding/personal',
-        element: <OnboardingPersonal />,
+        element: <PrivateRoute />,
+        children: [{ path: '/onboarding/personal', element: <OnboardingPersonal /> }],
       },
       {
         path: '/onboarding/professional',
-        element: <OnboardingProfessional />,
+        element: <PrivateRoute />,
+        children: [{ path: '/onboarding/professional', element: <OnboardingProfessional /> }],
       },
       {
         path: '/onboarding/skills',
-        element: <OnboardingSkills />,
+        element: <PrivateRoute />,
+        children: [{ path: '/onboarding/skills', element: <OnboardingSkills /> }],
       },
       {
         path: '/contact',
@@ -45,6 +48,10 @@ const router = createBrowserRouter([
         path: '/users/manage',
         element: <PrivateRoute />,
         children: [{ path: '/users/manage', element: <DemoUsersManager /> }],
+      },
+      {
+        path: '/contact',
+        element: <ContactUs />,
       },
       {
         element: <AuthRedirect />,
@@ -64,6 +71,10 @@ const router = createBrowserRouter([
       {
         element: <PrivateRoute />,
         children: [{ path: '/jobs', element: <Jobs /> }],
+      },
+      {
+        path: '/sign-up',
+        element: <SignUp />,
       },
     ],
   },

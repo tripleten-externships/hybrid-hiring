@@ -1,7 +1,6 @@
 import React, { FC, useState, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Accounts } from 'meteor/accounts-base';
-import './SignUp.css';
 
 export const SignUp: FC = () => {
   // local state for signup page
