@@ -16,6 +16,7 @@ Meteor.methods({
     check(jobData.company, String);
     check(jobData.location, String);
     check(jobData.basePay, Number);
+    check(jobData.payMax, Match.Optional(Number));
     check(jobData.payUnit, Match.OneOf('hourly', 'salary'));
     check(jobData.jobType, Match.OneOf('full-time', 'part-time', 'contract'));
     check(jobData.tags, [String]);
@@ -41,8 +42,10 @@ Meteor.methods({
     check(jobId, String);
     check(updates, {
       title: Match.Optional(String),
+      company: Match.Optional(String),
       description: Match.Optional(String),
       location: Match.Optional(String),
+      basePay: Match.Optional(Number),
       payUnit: Match.Optional(Match.OneOf('hourly', 'salary')),
       payMax: Match.Optional(Number),
       jobType: Match.Optional(Match.OneOf('full-time', 'part-time', 'contract')),
@@ -55,7 +58,7 @@ Meteor.methods({
     return JobsCollection.update({ _id: jobId }, { $set: updates });
   },
 
-  'jobs.remove'(jobId) {
+  'jobs.remove'(jobId: string) {
     if (!this.userId) {
       throw new Meteor.Error('not-authorized');
     }

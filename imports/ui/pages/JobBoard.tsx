@@ -11,7 +11,6 @@ import './JobBoard.css';
 
 export const JobBoard: React.FC = () => {
   const isLoggedIn = useIsLoggedIn();
-  console.log('User logged in:', isLoggedIn);
 
   const isLoading = useSubscribe('jobs.all');
 

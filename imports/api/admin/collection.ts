@@ -16,6 +16,6 @@ export const isAdmin = (userId: string) => {
 
 export const requireAdmin = (userId?: string) => {
   if (!userId || !isAdmin(userId)) {
-    throw new Meteor.Error('Not authorized');
+    throw new Meteor.Error('not-authorized');
   }
 };
