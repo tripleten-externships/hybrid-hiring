@@ -1,21 +1,27 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { Button } from '../../components/Button/Button';
 import './Onboarding.css';
 
+interface Skill {
+  id: number;
+  value: string;
+}
+
 export const OnboardingSkills = () => {
-  const [skills, setSkills] = useState<string[]>([]);
+  const [skills, setSkills] = useState<Skill[]>([]);
   const [skillInput, setSkillInput] = useState<string>('');
+  const nextId = useRef(0);
 
   const addSkill = () => {
     const trimmedInput = skillInput.trim();
     if (!trimmedInput) return;
-    setSkills((prevSkills) => [...prevSkills, trimmedInput]);
+    setSkills((prevSkills) => [...prevSkills, { id: nextId.current++, value: trimmedInput }]);
     setSkillInput('');
   };
 
-  const removeSkill = (index: number) => {
-    setSkills((prevSkills) => prevSkills.filter((_, i) => i !== index));
+  const removeSkill = (id: number) => {
+    setSkills((prevSkills) => prevSkills.filter((skill) => skill.id !== id));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -62,15 +68,15 @@ export const OnboardingSkills = () => {
           />
         </div>
         <ul className="onboarding__skills-skills-chips">
-          {skills.map((skill, index) => (
-            <li key={index} className="onboarding__skills-skill-chip">
+          {skills.map((skill) => (
+            <li key={skill.id} className="onboarding__skills-skill-chip">
               <img
                 src="/assets/chip-close.svg"
                 alt=""
                 className="onboarding__skills-skill-close-btn"
-                onClick={() => removeSkill(index)}
+                onClick={() => removeSkill(skill.id)}
               />
-              {skill}
+              {skill.value}
             </li>
           ))}
         </ul>

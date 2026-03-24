@@ -1,7 +1,12 @@
 import './ContactInfoPanel.css';
 import { Button } from '../../components/Button/Button';
 
-export const ContactInfoPanel = () => {
+interface ContactInfoPanelProps {
+  phone: string;
+  email: string;
+}
+
+export const ContactInfoPanel = ({ phone, email }: ContactInfoPanelProps) => {
   return (
     <section className="contact-info">
       <div className="contact-info__card">
@@ -17,7 +22,7 @@ export const ContactInfoPanel = () => {
             alt="Phone icon"
             className="contact-info__icon"
           />
-          <span className="contact-info__text">+1 (555) 000-0000</span>
+          <span className="contact-info__text">{phone}</span>
         </div>
 
         <div className="contact-info__row">
@@ -26,7 +31,7 @@ export const ContactInfoPanel = () => {
             alt="Email icon"
             className="contact-info__icon"
           />
-          <span className="contact-info__text">email@example.com</span>
+          <span className="contact-info__text">{email}</span>
         </div>
 
         <Button className="contact-info__cta">
