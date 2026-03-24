@@ -1,0 +1,25 @@
+.contact-us {
+  display: flex;
+}
+
+.contact-us__left {
+  flex: 0 0 40%;
+  max-width: 575px;
+}
+
+.contact-us__right {
+  flex: 1;
+  background-color: #f9f9f9;
+}
+
+@media screen and (max-width: 768px) {
+  .contact-us {
+    flex-direction: column;
+  }
+
+  .contact-us__left {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+  }
+}
