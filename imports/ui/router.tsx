@@ -10,7 +10,6 @@ import { Login } from './pages/Login/Login';
 import { OnboardingPersonal, OnboardingProfessional, OnboardingSkills } from './pages/Onboarding/';
 import { AuthRedirect } from './routes/AuthRedirect';
 import { PrivateRoute } from './routes/PrivateRoute';
-import { OnboardingPage3 } from './pages/OnboardingPage3/OnboardingPage3';
 import { ContactUs } from './pages/ContactUs/ContactUs';
 
 const router = createBrowserRouter([
@@ -23,15 +22,18 @@ const router = createBrowserRouter([
       },
       {
         path: '/onboarding/personal',
-        element: <OnboardingPersonal />,
+        element: <PrivateRoute />,
+        children: [{ path: '/onboarding/personal', element: <OnboardingPersonal /> }],
       },
       {
         path: '/onboarding/professional',
-        element: <OnboardingProfessional />,
+        element: <PrivateRoute />,
+        children: [{ path: '/onboarding/professional', element: <OnboardingProfessional /> }],
       },
       {
         path: '/onboarding/skills',
-        element: <OnboardingSkills />,
+        element: <PrivateRoute />,
+        children: [{ path: '/onboarding/skills', element: <OnboardingSkills /> }],
       },
       {
         path: '/users/list',
@@ -65,10 +67,6 @@ const router = createBrowserRouter([
       {
         element: <PrivateRoute />,
         children: [{ path: '/jobs', element: <Jobs /> }],
-      },
-      {
-        element: <PrivateRoute />,
-        children: [{ path: '/onboarding/3', element: <OnboardingPage3 /> }],
       },
     ],
   },

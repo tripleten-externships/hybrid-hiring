@@ -157,3 +157,213 @@
 .onboarding-main__continue-button:hover {
   filter: brightness(0.9);
 }
+
+.onboarding__skills {
+  background-color: #eaeaea;
+  padding: 50px 80px 50px 80px;
+}
+
+.onboarding__skills-header {
+  display: flex;
+  margin: 0 0 40px 0;
+}
+
+.onboarding__skills-back-btn {
+  cursor: pointer;
+}
+
+.onboarding__skills-company-logo {
+  visibility: hidden;
+}
+
+.onboarding__skills-skip-text {
+  visibility: hidden;
+}
+
+.onboarding__skills-skip-btn {
+  visibility: hidden;
+}
+
+.onboarding__skills-page-display {
+  text-align: center;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.onboarding__skills-content {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 16px;
+  margin: 0 0 30px 0;
+}
+
+.onboarding__skills-skills-title {
+  margin: 0;
+  text-align: center;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 40px;
+  letter-spacing: -2px;
+}
+.onboarding__skills-skills-subtitle {
+  text-align: center;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -1px;
+  margin: 36px 0 45px 0;
+}
+
+.onboarding__skills-input-wrapper {
+  align-self: center;
+  width: 35%;
+}
+
+.onboarding__skills-skills-input {
+  padding: 16px;
+  width: 100%;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -1px;
+}
+
+.onboarding__skills-skills-chips {
+  margin: 45px 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}
+
+.onboarding__skills-skill-close-btn {
+  cursor: pointer;
+}
+
+.onboarding__skills-skill-chip {
+  display: flex;
+  align-items: center;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -1px;
+}
+
+.onboarding__skills-btn {
+  width: 35%;
+}
+
+.onboarding__skills-footer {
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 360px) {
+  .site-header {
+    display: none;
+  }
+
+  .footer {
+    display: none;
+  }
+
+  .onboarding__skills {
+    padding: 20px;
+    height: 100vh;
+  }
+
+  .onboarding__skills-header {
+    margin: 0;
+    align-items: center;
+  }
+
+  .onboarding__skills-logo-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .onboarding__skills-company-logo {
+    visibility: visible;
+    margin: 0 auto;
+    position: absolute;
+    top: 54px;
+  }
+
+  .onboarding__skills-skip-text {
+    visibility: visible;
+    font-family: Inter, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0 11px 0 auto;
+    visibility: visible;
+  }
+
+  .onboarding__skills-skip-btn {
+    visibility: visible;
+  }
+
+  .onboarding__skills-page-display {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    margin: 75px 0 30px 0;
+  }
+
+  .onboarding__skills-content {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .onboarding__skills-skills-title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .onboarding__skills-skills-subtitle {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: left;
+    margin: 2px 0 16px 0;
+  }
+
+  .onboarding__skills-input-wrapper {
+    width: 100%;
+  }
+
+  .onboarding__skills-skills-input {
+    padding: 13.5px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .onboarding__skills-btn {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .onboarding__skills-skills-chips {
+    margin: 36.5px 0 0 0;
+  }
+
+  .onboarding__skills-skill-chip {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
