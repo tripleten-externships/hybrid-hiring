@@ -51,10 +51,12 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
 
         {/* Chip tags */}
         <div className="job-card__chip-tags">
-       <span className="chip">{job.jobType}</span>
-{job.tags?.map((tag) => (
-  <span key={tag} className="chip">{tag}</span>
-))}
+          <span className="chip">{job.jobType}</span>
+          {job.tags?.map((tag) => (
+            <span key={tag} className="chip">
+              {tag}
+            </span>
+          ))}
         </div>
 
         <Button
