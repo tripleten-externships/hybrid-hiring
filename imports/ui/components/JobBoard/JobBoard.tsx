@@ -4,30 +4,16 @@ import { useSubscribe, useTracker, useFind } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 
 import { Button } from '/imports/ui/components/Button/Button';
-// import JobCard from '/imports/ui/components/JobCard/jobCard';
-import { JobsCollection, Job } from '/imports/api/jobs';
+// import JobCard from '/imports/ui/components/JobCard/JobCard';
+import { JobsCollection } from '/imports/api/jobs';
 
 import './JobBoard.css';
 
-// job type place holder
-// type Job = {
-//   _id: string;
-//   title: string;
-//   company: string;
-//   location: string;
-//   basePay: number;
-//   payMax?: number;
-//   payUnit: string;
-//   jobType: string;
-//   tags?: string[];
-// };
-
-// Sub element
 function LoadingState() {
   return (
     <div className="job-board__loading" aria-live="polite" aria-busy="true">
-      {Array.from({ length: 6 }).map((_) => (
-        <div key={1} className="job-card-skeleton" />
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} className="job-card-skeleton" />
       ))}
     </div>
   );
@@ -45,18 +31,17 @@ function EmptyState() {
   );
 }
 
-// Main element
 export default function JobBoard() {
   const user = useTracker(() => Meteor.user(), []);
   const isLoggedIn = !!user;
   const firstName = user?.username ?? 'there';
 
-  //   Subscribe to auth state publication
+  // Subscription
   const subName = isLoggedIn ? 'jobs.recommended' : 'jobs.all';
   const isLoading = useSubscribe(subName);
 
-  const jobs: Job[] = useFind(
-    () => JobsCollection.find({}, { sort: { postedAt: -1 } }),
+  const jobs = useFind(
+    () => JobsCollection.find({ isActive: true }, { sort: { postedAt: -1 } }),
     [isLoggedIn]
   );
 
@@ -94,7 +79,16 @@ export default function JobBoard() {
           ) : jobs.length === 0 ? (
             <EmptyState />
           ) : (
-            <div className="job-board__grid">{/* JobCard place holder */})</div>
+            <div className="job-board__grid">
+              {jobs.map((job) => (
+                // placeholder until JobCard.jsx is wiredup
+                <div key={job._id}>{job.title}</div>
+                // <JobCard
+                //   key={job._id}
+                //   job={job}
+                //   isSaved={false} />
+              ))}
+            </div>
           )}
         </section>
       </div>

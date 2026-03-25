@@ -1,0 +1,29 @@
+.job-board {
+  padding: var(--space-6);
+}
+
+.job-board__header {
+  margin-bottom: var(--space-8);
+}
+
+.job-board__heading {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-2);
+}
+
+.job-board__subheading {
+  color: var(--color-2);
+  margin-bottom: var(--space-4);
+}
+
+.job-board__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.job-board__skeleton {
+  height: 180px;
+  background: var(--color-5);
+  border-radius: var(--radius-md);
+}
