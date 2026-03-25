@@ -34,10 +34,8 @@ function EmptyState() {
 export default function JobBoard() {
   const user = useTracker(() => Meteor.user(), []);
   const isLoggedIn = !!user;
-const firstName =
-  (user?.profile as { firstName?: string })?.firstName ||
-  user?.username ||
-  'there';
+  const firstName =
+    (user?.profile as { firstName?: string })?.firstName || user?.username || 'there';
 
   // Subscription
   const subName = isLoggedIn ? 'jobs.recommended' : 'jobs.all';
@@ -83,17 +81,15 @@ const firstName =
           ) : jobs.length === 0 ? (
             isLoggedIn ? (
               <div className="job-board__empty">
-                <h3 className="job-board__empty-heading">
-                  No suggested jobs yet
-                </h3>
+                <h3 className="job-board__empty-heading">No suggested jobs yet</h3>
                 <p className="job-board__empty-body">
                   Complete your profile to see perononalized recommendatins.
                 </p>
               </div>
-            ) :(
-            <EmptyState />
-          ) 
-        ) : (
+            ) : (
+              <EmptyState />
+            )
+          ) : (
             <div className="job-board__grid">
               {jobs.map((job) => (
                 // placeholder until JobCard.jsx is wiredup
