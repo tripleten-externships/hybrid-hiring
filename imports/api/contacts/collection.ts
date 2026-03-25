@@ -1,6 +1,5 @@
 import { Mongo } from 'meteor/mongo';
 
-
 export interface ContactSubmission {
   _id?: string;
   firstName: string;
