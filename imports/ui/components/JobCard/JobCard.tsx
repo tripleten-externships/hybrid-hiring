@@ -10,11 +10,12 @@ type JobCardProps = {
 };
 
 export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
-const formatDollar = (n: number) => (n >= 1000 ? `$${Math.round(n / 1000)}K` : `$${n}`);
-const unit = job.payUnit === 'salary' ? '/yr' : '/hr';
-const pay = job.payMax && job.payMax !== job.basePay
-  ? `${formatDollar(job.basePay)} - ${formatDollar(job.payMax)}${unit}`
-  : `${formatDollar(job.basePay)}${unit}`;
+  const formatDollar = (n: number) => (n >= 1000 ? `$${Math.round(n / 1000)}K` : `$${n}`);
+  const unit = job.payUnit === 'salary' ? '/yr' : '/hr';
+  const pay =
+    job.payMax && job.payMax !== job.basePay
+      ? `${formatDollar(job.basePay)} - ${formatDollar(job.payMax)}${unit}`
+      : `${formatDollar(job.basePay)}${unit}`;
 
   return (
     <div className="job-card">

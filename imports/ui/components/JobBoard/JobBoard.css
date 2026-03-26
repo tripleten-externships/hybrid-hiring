@@ -3,7 +3,7 @@
 }
 
 .job-board__header {
-  display: flex;
+  /* display: flex; */
   font-display: column;
   align-items: flex-start;
   gap: var(--space-2);
