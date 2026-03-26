@@ -2,14 +2,16 @@ import { Meteor } from 'meteor/meteor';
 import { ContactsCollection } from './collection';
 import { requireAdmin } from '/imports/api/admin/collection';
 
-
-async function submit(this: Meteor.MethodThisType, data: {
-  firstName: string;
-  lastName?: string;
-  email: string;
-  phone?: string;
-  message: string;
-}) {
+async function submit(
+  this: Meteor.MethodThisType,
+  data: {
+    firstName: string;
+    lastName?: string;
+    email: string;
+    phone?: string;
+    message: string;
+  }
+) {
   const { firstName, lastName, email, phone, message } = data;
 
   if (!firstName || !email || !message) {
@@ -25,7 +27,6 @@ async function submit(this: Meteor.MethodThisType, data: {
     submittedAt: new Date(),
   });
 }
-
 
 async function remove(this: Meteor.MethodThisType, contactId: string) {
   requireAdmin(this.userId ?? undefined);
