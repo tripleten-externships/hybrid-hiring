@@ -86,19 +86,23 @@ export default function JobBoard() {
         {/* <div className='job-board__searchbar' aria-hidden='true'/>
         </div> */}
 
-         <section className="job-board__grid-section" aria-label="Job listings">
-        {isLoading() ? (
-          <LoadingState />
-        ) : jobs.length === 0 ? (
-          isLoggedIn ? <UserEmptyState /> : <GuestEmptyState />
-        ) : (
-          <div className="job-board__grid">
-            {jobs.map((job) => (
-              <JobCard key={job._id} job={job} isSaved={false} />
-            ))}
-          </div>
-        )}
-      </section>
+        <section className="job-board__grid-section" aria-label="Job listings">
+          {isLoading() ? (
+            <LoadingState />
+          ) : jobs.length === 0 ? (
+            isLoggedIn ? (
+              <UserEmptyState />
+            ) : (
+              <GuestEmptyState />
+            )
+          ) : (
+            <div className="job-board__grid">
+              {jobs.map((job) => (
+                <JobCard key={job._id} job={job} isSaved={false} />
+              ))}
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );
