@@ -64,6 +64,7 @@ export default function JobBoard() {
         {isLoggedIn ? (
           <>
             <h1 className="job-board__heading">Welcome back, {firstName}!</h1>
+            {/* TODO: Filter Chip */}
             <p className="job-board__subheading">Suggested jobs for you</p>
           </>
         ) : (
