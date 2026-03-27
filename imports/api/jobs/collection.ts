@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo';
-import { JobType } from '../../types/jobs';
+import type { JobType } from '/imports/types/jobs';
 
 export interface Job {
   _id?: string;
