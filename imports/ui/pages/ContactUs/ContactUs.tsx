@@ -29,37 +29,38 @@ export const ContactUs = () => {
 
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!form.firstName || !form.lastName || !form.email || !form.phone || !form.message) {
-      setError('All fields are required');
-      return;
-    }
+  if (!form.firstName || !form.email || !form.message) {
+    setError('First name, email, and message are required');
+    return;
+  }
 
-    setIsLoading(true);
-    setError('');
+  setIsLoading(true);
+  setError(null);
+  setSuccess(false);
 
-    try {
-      await Meteor.callAsync('Contacts.submit', form);
+  try {
+    await Meteor.callAsync('contacts.submit', form);
 
-      setSuccess(true);
+    setSuccess(true);
 
-      setForm({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        message: '',
-      });
-    } catch (err: any) {
-      setError(err.reason || err.message || 'Something went wrong');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    setForm({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      message: '',
+    });
+  } catch (err: any) {
+    setError(err.reason || err.message || 'Something went wrong');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <main className="contact-us">
