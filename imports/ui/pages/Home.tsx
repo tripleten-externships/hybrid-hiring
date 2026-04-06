@@ -4,7 +4,6 @@ import { Hello } from '../examples/Hello';
 import { TextArea, TextInput } from '../components';
 
 export const Home = () => {
-
   const [message, setMessage] = useState('');
   const [email, setEmail] = useState('');
 
