@@ -31,7 +31,7 @@ Meteor.publish('jobs.recommended', function () {
 
   return JobsCollection.find({
     isActive: true,
-    jobType: { $in: profile.jobTypes as ('full-time' | 'part-time' | 'contract')[] },
+    jobType: { $in: profile.jobTypes },
     basePay: { $gte: profile.minPay },
   });
 });
