@@ -11,4 +11,4 @@ export interface ContactSubmission {
 }
 
 export const ContactsCollection = new Mongo.Collection<ContactSubmission>('contacts');
-console.log('ContactsCollection initialized:', ContactsCollection);
+
