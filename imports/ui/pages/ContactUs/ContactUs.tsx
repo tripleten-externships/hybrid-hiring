@@ -84,6 +84,7 @@ export const ContactUs = () => {
                 name="firstName"
                 value={form.firstName}
                 onChange={handleChange}
+                placeholder="First name"
               />
 
               <TextInput
@@ -92,6 +93,8 @@ export const ContactUs = () => {
                 name="lastName"
                 value={form.lastName}
                 onChange={handleChange}
+                placeholder="Last name"
+
               />
             </div>
 
@@ -103,6 +106,7 @@ export const ContactUs = () => {
                 type="email"
                 value={form.email}
                 onChange={handleChange}
+                placeholder="email@example.com"
               />
 
               <TextInput
@@ -112,6 +116,7 @@ export const ContactUs = () => {
                 type="tel"
                 value={form.phone}
                 onChange={handleChange}
+                placeholder="(555) 000-0000"
               />
             </div>
 
@@ -122,6 +127,7 @@ export const ContactUs = () => {
               value={form.message}
               onChange={handleChange}
               rows={4}
+              placeholder="Your message..."
             />
 
             <Button type="submit" className="contact-us__submit" loading={isLoading}>
