@@ -6,7 +6,7 @@ import { Job } from './collection';
 
 Meteor.methods({
   'jobs.create'(jobData: Omit<Job, 'owner' | 'postedAt' | 'isActive'>) {
-    requireAdmin(this.userId!); 
+    requireAdmin(this.userId!);
 
     check(jobData.title, String);
     check(jobData.company, String);
@@ -29,7 +29,7 @@ Meteor.methods({
   },
 
   'jobs.update'(jobId: string, updates: Partial<Job>) {
-    requireAdmin(this.userId!); 
+    requireAdmin(this.userId!);
 
     check(jobId, String);
     check(updates, {
@@ -51,7 +51,7 @@ Meteor.methods({
   },
 
   'jobs.remove'(jobId: string) {
-    requireAdmin(this.userId!); 
+    requireAdmin(this.userId!);
 
     check(jobId, String);
     return JobsCollection.remove({ _id: jobId });
