@@ -6,11 +6,7 @@ import { Job } from './collection';
 
 Meteor.methods({
   'jobs.create'(jobData: Omit<Job, 'owner' | 'postedAt' | 'isActive'>) {
-    if (!this.userId) {
-      throw new Meteor.Error('not-authorized');
-    }
-
-    requireAdmin(this.userId!);
+    requireAdmin(this.userId!); 
 
     check(jobData.title, String);
     check(jobData.company, String);
@@ -33,11 +29,7 @@ Meteor.methods({
   },
 
   'jobs.update'(jobId: string, updates: Partial<Job>) {
-    if (!this.userId) {
-      throw new Meteor.Error('not-authorized');
-    }
-
-    requireAdmin(this.userId!);
+    requireAdmin(this.userId!); 
 
     check(jobId, String);
     check(updates, {
@@ -59,11 +51,7 @@ Meteor.methods({
   },
 
   'jobs.remove'(jobId: string) {
-    if (!this.userId) {
-      throw new Meteor.Error('not-authorized');
-    }
-
-    requireAdmin(this.userId!);
+    requireAdmin(this.userId!); 
 
     check(jobId, String);
     return JobsCollection.remove({ _id: jobId });
