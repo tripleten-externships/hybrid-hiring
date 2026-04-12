@@ -94,7 +94,6 @@ export const ContactUs = () => {
                 value={form.lastName}
                 onChange={handleChange}
                 placeholder="Last name"
-
               />
             </div>
 
