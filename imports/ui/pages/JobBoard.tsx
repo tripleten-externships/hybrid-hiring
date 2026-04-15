@@ -8,6 +8,8 @@ import { Spinner } from '../components/Spinner/Spinner';
 import '../components/Spinner/Spinner.css';
 
 import './JobBoard.css';
+import { SearchBar } from '../components/SearchBar/SearchBar';
+
 
 export const JobBoard: React.FC = () => {
   const isLoggedIn = useIsLoggedIn();
@@ -26,6 +28,7 @@ export const JobBoard: React.FC = () => {
   }
   return (
     <div className="job-board-container">
+      <SearchBar />
       {!isLoggedIn && (
         <section className="cta-section">
           <h1 className="cta-title">Your job search starts here</h1>
