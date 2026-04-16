@@ -1,5 +1,6 @@
 .job-board {
   padding: 0 var(--space-6);
+  background-color: var(--color-5);
 }
 
 .job-board__header {
