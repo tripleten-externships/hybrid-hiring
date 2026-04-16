@@ -73,7 +73,7 @@ export default function JobBoard() {
             <p className="job-board__subheading">
               Create an account or sign in for recommended jobs.
             </p>
-            <Link to="/signup" className='job-board__button'>
+            <Link to="/signup" className="job-board__button">
               <Button variant="primary" size="lg" fullWidth>
                 Get Started
               </Button>
@@ -99,7 +99,7 @@ export default function JobBoard() {
           ) : (
             <div className="job-board__grid">
               {jobs.map((job) => (
-                <JobCard key={job._id} job={job} isSaved={false} onSave={() => {}}/>
+                <JobCard key={job._id} job={job} isSaved={false} onSave={() => {}} />
               ))}
             </div>
           )}
