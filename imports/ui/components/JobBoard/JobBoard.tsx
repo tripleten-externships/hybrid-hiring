@@ -71,11 +71,11 @@ export default function JobBoard() {
           <>
             <h1 className="job-board__heading">Your job search starts here</h1>
             <p className="job-board__subheading">
-              Discover opportunities that match your skills and goals.
+              Create an account or sign in for recommended jobs.
             </p>
-            <Link to="/signup">
-              <Button variant="primary" size="md">
-                Create Account
+            <Link to="/signup" className='job-board__button'>
+              <Button variant="primary" size="lg" fullWidth>
+                Get Started
               </Button>
             </Link>
           </>
@@ -99,7 +99,7 @@ export default function JobBoard() {
           ) : (
             <div className="job-board__grid">
               {jobs.map((job) => (
-                <JobCard key={job._id} job={job} isSaved={false} />
+                <JobCard key={job._id} job={job} isSaved={false} onSave={() => {}}/>
               ))}
             </div>
           )}
