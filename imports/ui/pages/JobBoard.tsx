@@ -1,24 +1,37 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router-dom';
 import { useIsLoggedIn } from '../hooks/useCurrentUser';
 import { JobsCollection } from '../../api/jobs/collection';
-import { useSubscribe, useFind } from 'meteor/react-meteor-data';
-import type { Job } from '../../api/jobs/collection';
+import { useTracker } from 'meteor/react-meteor-data';
 import { Spinner } from '../components/Spinner/Spinner';
 import '../components/Spinner/Spinner.css';
 
 import './JobBoard.css';
 import { SearchBar } from '../components/SearchBar/SearchBar';
 
-
 export const JobBoard: React.FC = () => {
   const isLoggedIn = useIsLoggedIn();
 
-  const isLoading = useSubscribe('jobs.all');
+  const [searchQuery, setSearchQuery] = React.useState("");
 
-  const jobs: Job[] = useFind(() => JobsCollection.find({}, { sort: { postedAt: -1 } }));
+  const { isLoading, jobs } = useTracker(() => {
+    let subscription;
+    if (searchQuery) {
+      subscription = Meteor.subscribe('jobs.search', searchQuery, '');
+    } else if (isLoggedIn) {
+      subscription = Meteor.subscribe('jobs.recommended');
+    } else {
+      subscription = Meteor.subscribe('jobs.all');
+    }
 
-  if (isLoading()) {
+    return {
+      isLoading: !subscription.ready(),
+      jobs: JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch(),
+    };
+  }, [searchQuery, isLoggedIn]);
+
+  if (isLoading) {
     return (
       <div className="job-board-loading">
         <Spinner size="lg" />
@@ -28,7 +41,7 @@ export const JobBoard: React.FC = () => {
   }
   return (
     <div className="job-board-container">
-      <SearchBar />
+      <SearchBar value={searchQuery} onSearch={setSearchQuery} delay={300} />
       {!isLoggedIn && (
         <section className="cta-section">
           <h1 className="cta-title">Your job search starts here</h1>
