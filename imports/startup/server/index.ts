@@ -76,7 +76,7 @@ Meteor.startup(async () => {
   });
 
   // Pub for all jobs
-   Meteor.publish('jobs.all', function () {
+  Meteor.publish('jobs.all', function () {
     return JobsCollection.find({ isActive: true }, { sort: { postedAt: -1 } });
   });
 
@@ -105,6 +105,4 @@ Meteor.startup(async () => {
     }
     return true;
   });
-
-  
 });

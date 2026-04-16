@@ -1,8 +1,6 @@
 import React from 'react';
 
-export const Jobs = () => 
-  
-  {
+export const Jobs = () => {
   return (
     <div>
       <h2>Hi, I'm the Jobs page!</h2>
