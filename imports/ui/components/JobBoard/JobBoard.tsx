@@ -59,8 +59,16 @@ export default function JobBoard() {
     } else {
       sub = Meteor.subscribe('jobs.all');
     }
+    // lines 63-71 for testing purposes
     const jobsData = JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch();
-    console.log('JobBoard searchQuery:', searchQuery, 'isLoggedIn:', isLoggedIn, 'jobs length:', jobsData.length);
+    console.log(
+      'JobBoard searchQuery:',
+      searchQuery,
+      'isLoggedIn:',
+      isLoggedIn,
+      'jobs length:',
+      jobsData.length
+    );
     return {
       isLoading: !sub.ready(),
       jobs: JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch(),
@@ -69,6 +77,10 @@ export default function JobBoard() {
 
   return (
     <div className="job-board">
+      <section className="job-board__search">
+        <SearchBar value={searchQuery} onSearch={setSearchQuery} delay={300} />
+        <hr className="job-board__header-divider" />
+      </section>
       <section className="job-board__header">
         {isLoggedIn ? (
           <>
@@ -92,7 +104,6 @@ export default function JobBoard() {
       </section>
 
       <div className="job-board__controls">
-        <SearchBar value={searchQuery} onSearch={setSearchQuery} delay={300} />
         <section className="job-board__grid-section" aria-label="Job listings">
           {isLoading ? (
             <LoadingState />

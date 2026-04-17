@@ -14,20 +14,20 @@ export const SearchBar: React.FC<SearchBarProps> = ({ value = '', onSearch, dela
   const [debouncedValue] = useDebounce(inputValue, delay);
 
   React.useEffect(() => {
-    console.log("debounce has happened");
+    console.log('debounce has happened');
     onSearch(debouncedValue);
   }, [debouncedValue]);
 
   return (
     <section className="search__container">
-      <img src="/assets/search-icon.svg" alt="Search Icon" className="search__icon" />
       <input
         type="text"
         value={inputValue}
         placeholder="Job title, keywords, or company"
         onChange={(e) => setInputValue(e.target.value)}
         className="search__input"
-      />
+      ></input>
+      <img src="/assets/search-icon.svg" alt="Search Icon" className="search__icon" />
       <button type="button" className="search__button">
         Search
       </button>
