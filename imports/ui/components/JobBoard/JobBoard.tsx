@@ -1,11 +1,13 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { useSubscribe, useTracker, useFind } from 'meteor/react-meteor-data';
+import { useTracker } from 'meteor/react-meteor-data';
+import { useIsLoggedIn } from '../../hooks/useCurrentUser';
 import { Link } from 'react-router-dom';
 
 import { Button } from '/imports/ui/components/Button/Button';
 import JobCard from '/imports/ui/components/JobCard/JobCard';
 import { JobsCollection } from '/imports/api/jobs';
+import { SearchBar } from '../SearchBar/SearchBar';
 
 import './JobBoard.css';
 
@@ -44,19 +46,26 @@ function UserEmptyState() {
 
 export default function JobBoard() {
   const user = useTracker(() => Meteor.user(), []);
-  const isLoggedIn = !!user;
-  const firstName =
-    (user?.profile as { firstName?: string })?.firstName || user?.username || 'there';
+  const isLoggedIn = useIsLoggedIn();
+  const firstName = (user?.profile as { firstName?: string })?.firstName || user?.username || 'there';
+  const [searchQuery, setSearchQuery] = React.useState('');
 
-  // Subscription
-  const subName = isLoggedIn ? 'jobs.recommended' : 'jobs.all';
-  const isLoading = useSubscribe(subName);
-
-  // active job data
-  const jobs = useFind(
-    () => JobsCollection.find({ isActive: true }, { sort: { postedAt: -1 } }),
-    [isLoggedIn]
-  );
+  const { isLoading, jobs } = useTracker(() => {
+    let sub;
+    if (searchQuery) {
+      sub = Meteor.subscribe('jobs.search', searchQuery, '');
+    } else if (isLoggedIn) {
+      sub = Meteor.subscribe('jobs.recommended');
+    } else {
+      sub = Meteor.subscribe('jobs.all');
+    }
+    const jobsData = JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch();
+    console.log('JobBoard searchQuery:', searchQuery, 'isLoggedIn:', isLoggedIn, 'jobs length:', jobsData.length);
+    return {
+      isLoading: !sub.ready(),
+      jobs: JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch(),
+    };
+  }, [searchQuery, isLoggedIn]);
 
   return (
     <div className="job-board">
@@ -83,12 +92,9 @@ export default function JobBoard() {
       </section>
 
       <div className="job-board__controls">
-        {/* SearchBar */}
-        {/* <div className='job-board__searchbar' aria-hidden='true'/>
-        </div> */}
-
+        <SearchBar value={searchQuery} onSearch={setSearchQuery} delay={300} />
         <section className="job-board__grid-section" aria-label="Job listings">
-          {isLoading() ? (
+          {isLoading ? (
             <LoadingState />
           ) : jobs.length === 0 ? (
             isLoggedIn ? (
@@ -99,7 +105,7 @@ export default function JobBoard() {
           ) : (
             <div className="job-board__grid">
               {jobs.map((job) => (
-                <JobCard key={job._id} job={job} isSaved={false} onSave={() => {}} />
+                <JobCard key={job._id} job={job} isSaved={false} onSave={() => { }} />
               ))}
             </div>
           )}

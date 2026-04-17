@@ -3,7 +3,6 @@ import { JobsCollection } from './collection';
 import { ProfilesCollection } from '../profiles/collection';
 
 Meteor.publish('jobs.all', function () {
-  console.log('jobs.all called');
   return JobsCollection.find({ isActive: true });
 });
 
@@ -22,7 +21,6 @@ Meteor.publish('jobs.search', function (query: string, jobType: string) {
 });
 
 Meteor.publish('jobs.recommended', function () {
-  console.log('jobs.recommended called');
   if (!this.userId) {
     return this.ready();
   }

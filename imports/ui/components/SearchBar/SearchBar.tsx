@@ -2,10 +2,6 @@ import React from 'react';
 import { useDebounce } from 'use-debounce';
 import './SearchBar.css';
 
-// MY THOUGHTS:
-// Search button needs to be inside the input, but I'm getting errors
-// Maybe I can achieve that with CSS, I'll worry about it after the addition of the location input
-
 type SearchBarProps = {
   value: string;
   onSearch: (query: string) => void;
@@ -18,6 +14,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ value = '', onSearch, dela
   const [debouncedValue] = useDebounce(inputValue, delay);
 
   React.useEffect(() => {
+    console.log("debounce has happened");
     onSearch(debouncedValue);
   }, [debouncedValue]);
 
