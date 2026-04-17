@@ -13,7 +13,7 @@ import { SearchBar } from '../components/SearchBar/SearchBar';
 export const JobBoard: React.FC = () => {
   const isLoggedIn = useIsLoggedIn();
 
-  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   const { isLoading, jobs } = useTracker(() => {
     let subscription;
