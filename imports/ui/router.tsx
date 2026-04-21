@@ -4,7 +4,7 @@ import { DemoUsersManager } from './examples/DemoUsersManager';
 import { Layout } from './layouts/Layout/Layout';
 import { ContactUs } from './pages/ContactUs/ContactUs';
 import { Home } from './pages/Home';
-import { JobBoard } from './pages/JobBoard';
+import JobBoard from './pages/JobBoard';
 import { Login } from './pages/Login/Login';
 import { NotFound } from './pages/NotFound/NotFound';
 import { OnboardingPersonal, OnboardingProfessional, OnboardingSkills } from './pages/Onboarding';

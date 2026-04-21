@@ -62,9 +62,28 @@ Meteor.startup(async () => {
     }
   }
 
+  // Seed the Jobs collection with sample data if it is empty.
+  if ((await JobsCollection.find().countAsync()) === 0) {
+    for (const job of sampleJobs) {
+      await JobsCollection.insertAsync(job);
+    }
+    console.log('Sample jobs inserted into the database.');
+  }
+
   // Publish the entire Links collection to all clients.
   Meteor.publish('links', function () {
     return LinksCollection.find();
+  });
+
+  // Pub for all jobs
+  Meteor.publish('jobs.all', function () {
+    return JobsCollection.find({ isActive: true }, { sort: { postedAt: -1 } });
+  });
+
+  // Pub for recommended jobs
+  Meteor.publish('jobs.recommended', function () {
+    if (!this.userId) return this.ready();
+    return JobsCollection.find({ isActive: true }, { sort: { postedAt: -1 } });
   });
 
   Accounts.validateNewUser((user: Meteor.User) => {
@@ -86,12 +105,4 @@ Meteor.startup(async () => {
     }
     return true;
   });
-
-  // Seed the Jobs collection with sample data if it is empty.
-  if ((await JobsCollection.find().countAsync()) === 0) {
-    for (const job of sampleJobs) {
-      await JobsCollection.insertAsync(job);
-    }
-    console.log('Sample jobs inserted into the database.');
-  }
 });

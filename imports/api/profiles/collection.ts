@@ -1,11 +1,12 @@
 import { Mongo } from 'meteor/mongo';
+import type { JobType } from '/imports/types/jobs';
 
 export interface UserProfile {
   _id?: string;
   userId: string;
   name?: string;
   role?: 'admin' | 'user';
-  jobTypes?: string[];
+  jobTypes?: JobType[];
   minPay?: number;
   payUnit?: 'hourly' | 'yearly';
   city?: string;
