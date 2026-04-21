@@ -5,6 +5,8 @@ import { DemoUsersCollection } from '../../api/demo-users/collection';
 import { AdminCollection } from '../../api/admin/collection';
 import { sampleJobs } from '../../api/jobs/sample';
 import { JobsCollection } from '../../api/jobs/collection';
+import '../../api/contacts/methods';
+import '../../api/contacts/publications';
 
 async function insertLink({ title, url }: Pick<Link, 'title' | 'url'>) {
   await LinksCollection.insertAsync({ title, url, createdAt: new Date() });

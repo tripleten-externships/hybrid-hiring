@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo';
 export interface ContactSubmission {
   _id?: string;
   firstName: string;
-  lastName: string;
+  lastName?: string;
   email: string;
   phone?: string;
   message: string;

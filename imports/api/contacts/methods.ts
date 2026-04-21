@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
+import { check, Match } from 'meteor/check';
 import { ContactsCollection } from './collection';
-import { requireAdmin } from '/imports/api/admin/collection';
+import { requireAdmin } from '../admin/collection';
 
 async function submit(
   this: Meteor.MethodThisType,
@@ -14,13 +15,15 @@ async function submit(
 ) {
   const { firstName, lastName, email, phone, message } = data;
 
-  if (!firstName || !email || !message) {
-    throw new Meteor.Error('validation-error', 'Missing required fields');
-  }
+  check(firstName, String);
+  check(email, String);
+  check(message, String);
+  check(lastName, Match.Optional(String));
+  check(phone, Match.Optional(String));
 
   return await ContactsCollection.insertAsync({
     firstName,
-    lastName: lastName || '',
+    lastName,
     email,
     phone,
     message,
