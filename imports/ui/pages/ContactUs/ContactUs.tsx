@@ -10,6 +10,9 @@ export const ContactUs = () => {
   const phoneNumber = '+1 (555) 000-0000';
   const emailAddress = 'contact@hybridhiring.com';
 
+  const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -26,10 +29,6 @@ export const ContactUs = () => {
 
     setForm((prev) => ({ ...prev, [name]: value }));
   };
-
-  const [success, setSuccess] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,8 +54,14 @@ export const ContactUs = () => {
         phone: '',
         message: '',
       });
-    } catch (err: any) {
-      setError(err.reason || err.message || 'Something went wrong');
+    } catch (err: unknown) {
+      if (err instanceof Meteor.Error) {
+        setError(err.reason || err.message || 'Something went wrong');
+      } else if (err instanceof Error) {
+        setError(err.message || 'Something went wrong');
+      } else {
+        setError('Something went wrong');
+      }
     } finally {
       setIsLoading(false);
     }
