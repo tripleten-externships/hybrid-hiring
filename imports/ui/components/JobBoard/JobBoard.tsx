@@ -1,13 +1,13 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { useIsLoggedIn } from '/imports/ui/hooks/useCurrentUser';
+import { useIsLoggedIn } from '../../hooks/useCurrentUser';
 import { Link } from 'react-router-dom';
 
 import { Button } from '/imports/ui/components/Button/Button';
 import JobCard from '/imports/ui/components/JobCard/JobCard';
 import { JobsCollection } from '/imports/api/jobs';
-import { SearchBar } from '/imports/ui/components/SearchBar/SearchBar';
+import { SearchBar } from '../SearchBar/SearchBar';
 
 import './JobBoard.css';
 
@@ -47,8 +47,7 @@ function UserEmptyState() {
 export default function JobBoard() {
   const user = useTracker(() => Meteor.user(), []);
   const isLoggedIn = useIsLoggedIn();
-  const firstName =
-    (user?.profile as { firstName?: string })?.firstName || user?.username || 'there';
+  const firstName = (user?.profile as { firstName?: string })?.firstName || user?.username || 'there';
   const [searchQuery, setSearchQuery] = React.useState('');
 
   const { isLoading, jobs } = useTracker(() => {
@@ -60,6 +59,16 @@ export default function JobBoard() {
     } else {
       sub = Meteor.subscribe('jobs.all');
     }
+    // lines 63-71 for testing purposes
+    const jobsData = JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch();
+    console.log(
+      'JobBoard searchQuery:',
+      searchQuery,
+      'isLoggedIn:',
+      isLoggedIn,
+      'jobs length:',
+      jobsData.length
+    );
     return {
       isLoading: !sub.ready(),
       jobs: JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch(),
@@ -72,7 +81,6 @@ export default function JobBoard() {
         <SearchBar value={searchQuery} onSearch={setSearchQuery} delay={300} />
         <hr className="job-board__header-divider" />
       </section>
-
       <section className="job-board__header">
         {isLoggedIn ? (
           <>
@@ -108,7 +116,7 @@ export default function JobBoard() {
           ) : (
             <div className="job-board__grid">
               {jobs.map((job) => (
-                <JobCard key={job._id} job={job} isSaved={false} onSave={() => {}} />
+                <JobCard key={job._id} job={job} isSaved={false} onSave={() => { }} />
               ))}
             </div>
           )}
