@@ -47,7 +47,8 @@ function UserEmptyState() {
 export default function JobBoard() {
   const user = useTracker(() => Meteor.user(), []);
   const isLoggedIn = useIsLoggedIn();
-  const firstName = (user?.profile as { firstName?: string })?.firstName || user?.username || 'there';
+  const firstName =
+    (user?.profile as { firstName?: string })?.firstName || user?.username || 'there';
   const [searchQuery, setSearchQuery] = React.useState('');
 
   const { isLoading, jobs } = useTracker(() => {
@@ -116,7 +117,7 @@ export default function JobBoard() {
           ) : (
             <div className="job-board__grid">
               {jobs.map((job) => (
-                <JobCard key={job._id} job={job} isSaved={false} onSave={() => { }} />
+                <JobCard key={job._id} job={job} isSaved={false} onSave={() => {}} />
               ))}
             </div>
           )}
