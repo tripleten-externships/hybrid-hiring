@@ -5,6 +5,8 @@ import { DemoUsersCollection } from '../../api/demo-users/collection';
 import { AdminCollection } from '../../api/admin/collection';
 import { sampleJobs } from '../../api/jobs/sample';
 import { JobsCollection } from '../../api/jobs/collection';
+import '../../api/contacts/methods';
+import '../../api/contacts/publications';
 
 async function insertLink({ title, url }: Pick<Link, 'title' | 'url'>) {
   await LinksCollection.insertAsync({ title, url, createdAt: new Date() });
@@ -73,17 +75,6 @@ Meteor.startup(async () => {
   // Publish the entire Links collection to all clients.
   Meteor.publish('links', function () {
     return LinksCollection.find();
-  });
-
-  // Pub for all jobs
-  Meteor.publish('jobs.all', function () {
-    return JobsCollection.find({ isActive: true }, { sort: { postedAt: -1 } });
-  });
-
-  // Pub for recommended jobs
-  Meteor.publish('jobs.recommended', function () {
-    if (!this.userId) return this.ready();
-    return JobsCollection.find({ isActive: true }, { sort: { postedAt: -1 } });
   });
 
   Accounts.validateNewUser((user: Meteor.User) => {

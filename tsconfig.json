@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    /* Basic Options */
     "target": "es2018",
     "module": "esNext",
     "lib": ["esnext", "dom"],
@@ -9,33 +8,27 @@
     "jsx": "preserve",
     "incremental": true,
     "noEmit": true,
-
-    /* Strict Type-Checking Options */
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
+    "ignoreDeprecations": "5.0",
 
-    /* Additional Checks */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": false,
-    "noFallthroughCasesInSwitch": false,
 
-    /* Module Resolution Options */
     "baseUrl": ".",
     "paths": {
-      /* Support absolute /imports/* with a leading '/' */
-      "/*": ["*"],
-      /* Pull in type declarations for Meteor packages from either zodern:types or @types/meteor packages */
-      "meteor/*": ["node_modules/@types/meteor/*", ".meteor/local/types/packages.d.ts"]
+      "/imports/*": ["imports/*"],
+      "imports/*": ["imports/*"]
     },
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
+    "moduleDetection": "force",
+
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "types": ["node", "mocha"],
     "esModuleInterop": true,
-    "preserveSymlinks": true,
-    "skipLibCheck": true
+    "preserveSymlinks": true
   },
   "exclude": [
     "./.meteor/**",

@@ -3,12 +3,16 @@ import { TextInput } from '../../components/TextInput/TextInput';
 import { TextArea } from '../../components/TextArea/TextArea';
 import { Button } from '../../components/Button/Button';
 import { ContactInfoPanel } from '../../components/ContactInfoPanel/ContactInfoPanel';
+import { Meteor } from 'meteor/meteor';
 import './ContactUs.css';
 
 export const ContactUs = () => {
   const phoneNumber = '+1 (555) 000-0000';
   const emailAddress = 'contact@hybridhiring.com';
 
+  const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -19,7 +23,48 @@ export const ContactUs = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+
+    setSuccess(false);
+    setError('');
+
     setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!form.firstName || !form.email || !form.message) {
+      setError('First name, email, and message are required');
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      await Meteor.callAsync('contacts.submit', form);
+
+      setSuccess(true);
+
+      setForm({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        message: '',
+      });
+    } catch (err: unknown) {
+      if (err instanceof Meteor.Error) {
+        setError(err.reason || err.message || 'Something went wrong');
+      } else if (err instanceof Error) {
+        setError(err.message || 'Something went wrong');
+      } else {
+        setError('Something went wrong');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -31,7 +76,12 @@ export const ContactUs = () => {
 
       <div className="contact-us__right">
         <div className="contact-us__form-container">
-          <form className="contact-us__form">
+          {success && (
+            <div className="contact-us__success">Your message has been sent successfully!</div>
+          )}
+
+          {error && <div className="contact-us__error">{error}</div>}
+          <form className="contact-us__form" onSubmit={handleSubmit} noValidate>
             <div className="contact-us__row">
               <TextInput
                 label="First name"
@@ -39,6 +89,7 @@ export const ContactUs = () => {
                 name="firstName"
                 value={form.firstName}
                 onChange={handleChange}
+                placeholder="First name"
               />
 
               <TextInput
@@ -47,6 +98,7 @@ export const ContactUs = () => {
                 name="lastName"
                 value={form.lastName}
                 onChange={handleChange}
+                placeholder="Last name"
               />
             </div>
 
@@ -58,6 +110,7 @@ export const ContactUs = () => {
                 type="email"
                 value={form.email}
                 onChange={handleChange}
+                placeholder="email@example.com"
               />
 
               <TextInput
@@ -67,6 +120,7 @@ export const ContactUs = () => {
                 type="tel"
                 value={form.phone}
                 onChange={handleChange}
+                placeholder="(555) 000-0000"
               />
             </div>
 
@@ -77,9 +131,10 @@ export const ContactUs = () => {
               value={form.message}
               onChange={handleChange}
               rows={4}
+              placeholder="Your message..."
             />
 
-            <Button type="submit" className="contact-us__submit">
+            <Button type="submit" className="contact-us__submit" loading={isLoading}>
               Send Message
             </Button>
           </form>
