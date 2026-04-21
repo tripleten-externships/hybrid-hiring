@@ -1,30 +1,134 @@
 .about-us {
+  width: 100%;
+  margin: -16px;
+  width: calc(100% + 32px);
+  margin-bottom: -24px;
 }
 
 .about-hero {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  background-image: url('/assets/hero-background.jpg');
+  background-size: cover;
+  background-position: center 53%;
+  background-repeat: no-repeat;
+  padding: 60px 80px;
 }
 
 .about-hero__overlay {
+  /* position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.55) 45%,
+    rgba(0, 0, 0, 0.15) 100%
+  ); */
 }
 
 .about-hero__mobile-img {
+  display: none;
 }
 
 .about-hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .about-hero__headline {
+  font-size: var(--font-size-2xl,);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-6);
+  line-height: var(--space-15);
+  margin: 0;
 }
 
 .about-hero__body {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-6);
+  line-height: var(--space-8);
+  margin: 0;
+}
+
+.about-hero__body--mobile {
+  display: none;
 }
 
 .about-hero__emphasis {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-6);
 }
 
 /* Mobile */
 @media (max-width: 768px) {
+  .about-hero {
+    background-image: none;
+    background-color: var(--color-6,);
+    min-height: unset;
+    align-items: flex-start;
+  }
+
+  .about-hero__overlay {
+    display: none;
+  }
+
+  .about-hero__mobile-img {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    min-height: 192px;
+    background-image: url('/assets/hero-bg__mobile.png');
+    background-size: cover;
+    background-position: center 53%;
+    border-radius: 0 0 0 8px;
+  }
+
+  .about-hero__content {
+    color: #d3991e;
+    padding: 20px 16px 28px;
+    max-width: 100%;
+    gap: 14px;
+  }
+
+  .about-hero__headline {
+    font-size: var(--font-size-xl);
+    color: var(--color-1,);
+    padding-right: 44%;
+    line-height: 1.2;
+  }
+
+  .about-hero__body {
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+    padding-right: 0;
+  }
+
+  .about-hero__emphasis {
+    color: var(--color-1);
+  }
 }
 
 @media (max-width: 480px) {
+  .about-hero__headline {
+    font-size: var(--font-size-xl);
+  }
+
+  .about-hero__mobile-img {
+    width: 38%;
+    height: 140px;
+  }
+
+  .about-hero__headline {
+    padding-right: 40%;
+  }
 }
