@@ -6,7 +6,11 @@ import { Job } from './collection';
 
 Meteor.methods({
   'jobs.create'(jobData: Omit<Job, 'owner' | 'postedAt' | 'isActive'>) {
-    requireAdmin(this.userId!);
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    requireAdmin(this.userId);
 
     check(jobData.title, String);
     check(jobData.company, String);
@@ -20,16 +24,20 @@ Meteor.methods({
     check(jobData.description, String);
     check(jobData.externalApplyUrl, String);
 
-    return JobsCollection.insert({
+    return JobsCollection.insertAsync({
       ...jobData,
       postedAt: new Date(),
       isActive: true,
-      owner: this.userId!,
+      owner: this.userId,
     });
   },
 
   'jobs.update'(jobId: string, updates: Partial<Job>) {
-    requireAdmin(this.userId!);
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    requireAdmin(this.userId);
 
     check(jobId, String);
     check(updates, {
@@ -47,13 +55,17 @@ Meteor.methods({
       isActive: Match.Optional(Boolean),
     });
 
-    return JobsCollection.update({ _id: jobId }, { $set: updates });
+    return JobsCollection.updateAsync({ _id: jobId }, { $set: updates });
   },
 
   'jobs.remove'(jobId: string) {
-    requireAdmin(this.userId!);
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    requireAdmin(this.userId);
 
     check(jobId, String);
-    return JobsCollection.remove({ _id: jobId });
+    return JobsCollection.removeAsync({ _id: jobId });
   },
 });
