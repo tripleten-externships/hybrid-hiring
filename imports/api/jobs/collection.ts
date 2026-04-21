@@ -1,4 +1,5 @@
 import { Mongo } from 'meteor/mongo';
+import type { JobType } from '/imports/types/jobs';
 
 export interface Job {
   _id?: string;
@@ -8,7 +9,7 @@ export interface Job {
   basePay: number;
   payMax?: number;
   payUnit: 'hourly' | 'salary';
-  jobType: 'full-time' | 'part-time' | 'contract';
+  jobType: JobType;
   tags: string[];
   benefits: string[];
   description: string;

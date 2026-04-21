@@ -1,112 +1,128 @@
-.job-board-container {
-  max-width: 1280px;
-  margin: 0 auto;
+.job-board {
+  padding: 0 var(--space-6);
+  background-color: var(--color-5);
+}
+
+.job-board__header {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-bottom: var(--space-10);
 }
 
-.job-board-loading {
+.job-board__heading {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-1);
+  margin: var(--space-10) 0 0;
+}
+
+.job-board__subheading {
+  color: var(--color-1);
+  margin: 0;
+  font-size: var(--font-size-lg);
+}
+
+.job-board__controls {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 200px;
-  font-family: 'Inter', sans-serif;
-  font-size: 18px;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
 }
 
-.cta-section {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 441px;
-  margin: 0;
-  text-align: center;
+.job-board__grid-section {
+  width: 100%;
 }
 
-.cta-title {
-  font-family: 'Inter', sans-serif;
-  font-size: 36px;
-  font-weight: 500;
-  line-height: 40px;
-  letter-spacing: -2px;
-  margin: 0;
-  padding: 0;
-  text-align: left;
-}
-
-.cta-description {
-  font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 20px;
-  color: rgba(0, 0, 0, 1);
-  margin: 0;
-  padding: 0;
-  text-align: left;
-}
-
-.btn-jb-signup {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  height: 49px;
-  width: 212px;
-  padding: 4px 39px;
-  border-radius: 5px;
-  gap: 10px;
-
-  background-color: rgba(60, 120, 76, 1);
-  color: rgba(255, 255, 255, 1);
-  text-decoration: none;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 20px;
-
-  cursor: pointer;
-}
-
-.jobs-list-jb {
-  max-width: 1280px;
-  margin: 0 auto;
-
+.job-board__grid {
   display: grid;
-  grid-template-columns: repeat(3, 398px);
-  gap: 42px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 400px));
+  gap: var(--space-11);
+}
 
+.job-board__skeleton {
+  height: 180px;
+  background: var(--color-5);
+  border-radius: var(--radius-md);
+}
+
+.job-board__loading {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.job-board__skeleton,
+.job-card-skeleton {
+  height: 180px;
+  background: var(--color-5);
+  border-radius: var(--radius-md);
+  background-image: linear-gradient(90deg, var(--color-5) 25%, #ddd 50%, var(--color-5) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.job-board__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  text-align: center;
+  padding: var(--space-16) var(--space-4);
+  gap: var(--space-2);
 }
 
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  .jobs-list-jb {
-    grid-template-columns: repeat(2, 398px);
-    gap: 30px;
-  }
+.job-board__empty-icon {
+  font-size: 2.5rem;
+  margin: 0 0 var(--space-2);
 }
 
-@media (max-width: 768px) {
-  .jobs-list-jb {
-    grid-template-columns: 100%;
-    gap: 20px;
+.job-board__empty-heading {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-1);
+  margin: 0;
+}
+
+.job-board__empty-body {
+  font-size: var(--font-size-sm);
+  color: var(--color-2);
+  max-width: 380px;
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .job-board {
+    padding: 0;
   }
 
-  .cta-section {
+  .job-board__heading {
+    font-size: var(--font-size-lg);
+  }
+
+  .job-board__subheading {
+    font-size: var(--font-size-md);
+  }
+
+  .job-board__button {
     width: 100%;
-    text-align: center;
+    display: block;
   }
 
-  .cta-title,
-  .cta-description {
-    text-align: center;
-  }
-
-  .btn-jb-signup {
+  .job-board__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 400px));
+    gap: var(--space-10);
     justify-content: center;
-    width: 100%;
   }
 }

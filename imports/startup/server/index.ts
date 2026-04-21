@@ -5,6 +5,8 @@ import { DemoUsersCollection } from '../../api/demo-users/collection';
 import { AdminCollection } from '../../api/admin/collection';
 import { sampleJobs } from '../../api/jobs/sample';
 import { JobsCollection } from '../../api/jobs/collection';
+import '../../api/contacts/methods';
+import '../../api/contacts/publications';
 
 async function insertLink({ title, url }: Pick<Link, 'title' | 'url'>) {
   await LinksCollection.insertAsync({ title, url, createdAt: new Date() });
@@ -62,6 +64,14 @@ Meteor.startup(async () => {
     }
   }
 
+  // Seed the Jobs collection with sample data if it is empty.
+  if ((await JobsCollection.find().countAsync()) === 0) {
+    for (const job of sampleJobs) {
+      await JobsCollection.insertAsync(job);
+    }
+    console.log('Sample jobs inserted into the database.');
+  }
+
   // Publish the entire Links collection to all clients.
   Meteor.publish('links', function () {
     return LinksCollection.find();
@@ -86,12 +96,4 @@ Meteor.startup(async () => {
     }
     return true;
   });
-
-  // Seed the Jobs collection with sample data if it is empty.
-  if ((await JobsCollection.find().countAsync()) === 0) {
-    for (const job of sampleJobs) {
-      await JobsCollection.insertAsync(job);
-    }
-    console.log('Sample jobs inserted into the database.');
-  }
 });

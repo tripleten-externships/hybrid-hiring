@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import { Meteor } from 'meteor/meteor';
 import { App } from '/imports/ui/App';
+import '/imports/api/contacts';
 
 Meteor.startup(() => {
   const container = document.getElementById('react-target');
