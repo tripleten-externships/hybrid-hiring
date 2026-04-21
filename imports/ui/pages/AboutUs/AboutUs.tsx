@@ -4,12 +4,10 @@ export const AboutUs = () => {
   return (
     <main className="about-us">
       <section className="about-hero">
-
         {/* Desktop */}
         <div className="about-hero__overlay" aria-hidden="true" />
 
         <div className="about-hero__content about-hero__content--desktop">
-
           <h1 className="about-hero__headline">About Hybrid Hiring Solutions</h1>
 
           <p className="about-hero__body">
@@ -20,15 +18,14 @@ export const AboutUs = () => {
             focuses often require specialized skills such as chemists, equipment operators, and
             financial analysts.
           </p>
-          </div>
+        </div>
 
-          {/* Mobile */}
-          <div className="about-hero__mobile-top">
+        {/* Mobile */}
+        <div className="about-hero__mobile-top">
+          <h1 className="about-hero__headline">About Hybrid Hiring Solutions</h1>
+        </div>
 
-            <h1 className="about-hero__headline">About Hybrid Hiring Solutions</h1>
-                    </div>
-
-<div className="about-hero__mobile-body">
+        <div className="about-hero__mobile-body">
           <p className="about-hero__body">
             Hybrid Hiring Solutions is a staffing company located in NE Pennsylvania that provides a{' '}
             <strong className="about-hero__emphasis">personalized experience </strong>
@@ -36,17 +33,15 @@ export const AboutUs = () => {
           </p>
           <p className="about-hero__body">
             {' '}
-            
             The organization largely supports clients in the gas and energy industry that have jobs
             in Northeastern Pennsylvania as well as globally.
           </p>
           <p className="about-hero__body">
-           {' '}
+            {' '}
             The jobs Hybrid Hiring Solutions focuses often require specialized skills such as
             chemists, equipment operators, and financial analysts.
           </p>
         </div>
-
       </section>
     </main>
   );
