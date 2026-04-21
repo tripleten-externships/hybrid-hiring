@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { DemoUsersList } from './examples/DemoUsersList';
 import { DemoUsersManager } from './examples/DemoUsersManager';
 import { Layout } from './layouts/Layout/Layout';
+import { AboutUs } from './pages/AboutUs/AboutUs';
 import { ContactUs } from './pages/ContactUs/ContactUs';
 import { Home } from './pages/Home';
 import JobBoard from './pages/JobBoard';
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
           { path: '/signup', element: <SignUp /> },
         ],
       },
+      { path: '/about', element: <AboutUs /> },
       { path: '/contact', element: <ContactUs /> },
       { path: '/jobs', element: <JobBoard /> },
       {
