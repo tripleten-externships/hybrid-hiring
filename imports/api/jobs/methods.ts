@@ -10,7 +10,7 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
 
-    requireAdmin(this.userId!);
+    requireAdmin(this.userId);
 
     check(jobData.title, String);
     check(jobData.company, String);
@@ -24,11 +24,11 @@ Meteor.methods({
     check(jobData.description, String);
     check(jobData.externalApplyUrl, String);
 
-    return JobsCollection.insert({
+    return JobsCollection.insertAsync({
       ...jobData,
       postedAt: new Date(),
       isActive: true,
-      owner: this.userId!,
+      owner: this.userId,
     });
   },
 
@@ -37,7 +37,7 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
 
-    requireAdmin(this.userId!);
+    requireAdmin(this.userId);
 
     check(jobId, String);
     check(updates, {
@@ -55,7 +55,7 @@ Meteor.methods({
       isActive: Match.Optional(Boolean),
     });
 
-    return JobsCollection.update({ _id: jobId }, { $set: updates });
+    return JobsCollection.updateAsync({ _id: jobId }, { $set: updates });
   },
 
   'jobs.remove'(jobId: string) {
@@ -63,9 +63,9 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
 
-    requireAdmin(this.userId!);
+    requireAdmin(this.userId);
 
     check(jobId, String);
-    return JobsCollection.remove({ _id: jobId });
+    return JobsCollection.removeAsync({ _id: jobId });
   },
 });

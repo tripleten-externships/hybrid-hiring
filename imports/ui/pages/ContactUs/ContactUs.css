@@ -64,6 +64,21 @@
   font-size: clamp(1rem, 2.2vw, 1.25rem);
   word-break: break-word;
 }
+.contact-us__success {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 6px;
+}
+
+.contact-us__error {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #fdecea;
+  color: #c62828;
+  border-radius: 6px;
+}
 
 @media screen and (max-width: 900px) {
   .contact-us {
@@ -89,7 +104,6 @@
   }
 }
 
-/* FORM */
 .contact-us__form-container {
   width: 100%;
   max-width: 100%;

@@ -3,3 +3,6 @@ import '../imports/api/admin';
 import '../imports/api/demo-users';
 import '../imports/api/profiles';
 import '../imports/api/jobs';
+import '../imports/api/jobs/publications';
+import '../imports/api/contacts';
+import '../imports/api/contacts/publications';

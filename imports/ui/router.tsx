@@ -5,7 +5,7 @@ import { Layout } from './layouts/Layout/Layout';
 import { AboutUs } from './pages/AboutUs/AboutUs';
 import { ContactUs } from './pages/ContactUs/ContactUs';
 import { Home } from './pages/Home';
-import JobBoard from '../ui/components/JobBoard/JobBoard';
+import JobBoard from './pages/JobBoard';
 import { Login } from './pages/Login/Login';
 import { NotFound } from './pages/NotFound/NotFound';
 import { OnboardingPersonal, OnboardingProfessional, OnboardingSkills } from './pages/Onboarding';
