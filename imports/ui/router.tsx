@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { DemoUsersList } from './examples/DemoUsersList';
 import { DemoUsersManager } from './examples/DemoUsersManager';
 import { Layout } from './layouts/Layout/Layout';
-import {AboutUs} from './pages/AboutUs/AboutUs';
+import { AboutUs } from './pages/AboutUs/AboutUs';
 import { ContactUs } from './pages/ContactUs/ContactUs';
 import { Home } from './pages/Home';
 import JobBoard from '../ui/components/JobBoard/JobBoard';
