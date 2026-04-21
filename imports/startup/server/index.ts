@@ -75,17 +75,6 @@ Meteor.startup(async () => {
     return LinksCollection.find();
   });
 
-  // Pub for all jobs
-  Meteor.publish('jobs.all', function () {
-    return JobsCollection.find({ isActive: true }, { sort: { postedAt: -1 } });
-  });
-
-  // Pub for recommended jobs
-  Meteor.publish('jobs.recommended', function () {
-    if (!this.userId) return this.ready();
-    return JobsCollection.find({ isActive: true }, { sort: { postedAt: -1 } });
-  });
-
   Accounts.validateNewUser((user: Meteor.User) => {
     if (!user) {
       throw new Meteor.Error('invalidData');
