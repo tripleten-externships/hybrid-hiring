@@ -8,6 +8,7 @@ import { Button } from '/imports/ui/components/Button/Button';
 import JobCard from '/imports/ui/components/JobCard/JobCard';
 import { JobsCollection } from '/imports/api/jobs';
 import { SearchBar } from '/imports/ui/components/SearchBar/SearchBar';
+import { SelectionLabel } from '../components/SelectionLabel/SelectionLabel';
 
 import './JobBoard.css';
 
@@ -66,10 +67,28 @@ export default function JobBoard() {
     };
   }, [searchQuery, isLoggedIn]);
 
+  const [activeJobType, setActiveJobType] = React.useState("");
+  const [selected, setSelected] = React.useState(false);
+
+  // MY TASK:
+  // In JobBoard.tsx, add two <SelectionLabel> chips below SearchBar: Full-Time and Part-Time  X
+  // Maintain a activeJobType: string | null state  X
+  // Clicking a chip sets activeJobType to that value; clicking again deselects it (sets to null)  X
+  // Pass activeJobType as the jobType argument to the jobs.search subscription
+  // When activeJobType is set alongside a searchQuery, both filters apply simultaneously
+
+
+  // MY NOTES:
+  // - Selection boolean is toggling correctly, filter string is not toggling to null: gotta figure that out
+  // - This means filters are being applied but the subscription doesn't know that yet
+  // - Styling for the filters seems to indicate that both filters are active even if only one has been clicked
+
   return (
     <div className="job-board">
       <section className="job-board__search">
         <SearchBar value={searchQuery} onSearch={setSearchQuery} delay={300} />
+        <SelectionLabel label="Full-Time" selected={selected} onClick={() => { setActiveJobType("Full-Time"); setSelected((prevSelected) => !prevSelected); console.log("activeJobType:", activeJobType, "selected:", selected) }} />
+        <SelectionLabel label="Part-Time" selected={selected} onClick={() => { setActiveJobType("Part-Time"); setSelected((prevSelected) => !prevSelected); console.log("activeJobType:", activeJobType, "selected:", selected) }} />
         <hr className="job-board__header-divider" />
       </section>
 
@@ -77,8 +96,7 @@ export default function JobBoard() {
         {isLoggedIn ? (
           <>
             <h1 className="job-board__heading">Welcome back, {firstName}!</h1>
-            {/* TODO: Filter Chip */}
-            <p className="job-board__subheading">Suggested jobs for you</p>
+            {/* TODO: Filter Chips */}
           </>
         ) : (
           <>
@@ -108,7 +126,7 @@ export default function JobBoard() {
           ) : (
             <div className="job-board__grid">
               {jobs.map((job) => (
-                <JobCard key={job._id} job={job} isSaved={false} onSave={() => {}} />
+                <JobCard key={job._id} job={job} isSaved={false} onSave={() => { }} />
               ))}
             </div>
           )}

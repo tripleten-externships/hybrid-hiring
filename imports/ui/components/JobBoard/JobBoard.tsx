@@ -60,7 +60,7 @@ export default function JobBoard() {
     } else {
       sub = Meteor.subscribe('jobs.all');
     }
-    // lines 63-71 for testing purposes
+
     const jobsData = JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch();
     console.log(
       'JobBoard searchQuery:',
@@ -117,7 +117,7 @@ export default function JobBoard() {
           ) : (
             <div className="job-board__grid">
               {jobs.map((job) => (
-                <JobCard key={job._id} job={job} isSaved={false} onSave={() => {}} />
+                <JobCard key={job._id} job={job} isSaved={false} onSave={() => { }} />
               ))}
             </div>
           )}
