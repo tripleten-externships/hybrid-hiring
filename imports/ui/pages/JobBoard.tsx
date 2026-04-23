@@ -48,47 +48,45 @@ function UserEmptyState() {
 export default function JobBoard() {
   const user = useTracker(() => Meteor.user(), []);
   const isLoggedIn = useIsLoggedIn();
-  const firstName =
-    (user?.profile as { firstName?: string })?.firstName || user?.username || 'there';
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const firstName = (user?.profile as { firstName?: string })?.firstName || user?.username || 'there';
+
+  const [searchQuery, setSearchQuery] = React.useState<string>('');
+  const [activeJobType, setActiveJobType] = React.useState<'full-time' | 'part-time' | null>(null);
 
   const { isLoading, jobs } = useTracker(() => {
     let sub;
-    if (searchQuery) {
-      sub = Meteor.subscribe('jobs.search', searchQuery, '');
+    if (searchQuery || activeJobType) {
+      sub = Meteor.subscribe('jobs.search', searchQuery, activeJobType);
     } else if (isLoggedIn) {
       sub = Meteor.subscribe('jobs.recommended');
     } else {
       sub = Meteor.subscribe('jobs.all');
     }
+
     return {
       isLoading: !sub.ready(),
       jobs: JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch(),
     };
-  }, [searchQuery, isLoggedIn]);
-
-  const [activeJobType, setActiveJobType] = React.useState("");
-  const [selected, setSelected] = React.useState(false);
-
-  // MY TASK:
-  // In JobBoard.tsx, add two <SelectionLabel> chips below SearchBar: Full-Time and Part-Time  X
-  // Maintain a activeJobType: string | null state  X
-  // Clicking a chip sets activeJobType to that value; clicking again deselects it (sets to null)  X
-  // Pass activeJobType as the jobType argument to the jobs.search subscription
-  // When activeJobType is set alongside a searchQuery, both filters apply simultaneously
-
-
-  // MY NOTES:
-  // - Selection boolean is toggling correctly, filter string is not toggling to null: gotta figure that out
-  // - This means filters are being applied but the subscription doesn't know that yet
-  // - Styling for the filters seems to indicate that both filters are active even if only one has been clicked
+  }, [searchQuery, isLoggedIn, activeJobType]);
 
   return (
     <div className="job-board">
       <section className="job-board__search">
         <SearchBar value={searchQuery} onSearch={setSearchQuery} delay={300} />
-        <SelectionLabel label="Full-Time" selected={selected} onClick={() => { setActiveJobType("Full-Time"); setSelected((prevSelected) => !prevSelected); console.log("activeJobType:", activeJobType, "selected:", selected) }} />
-        <SelectionLabel label="Part-Time" selected={selected} onClick={() => { setActiveJobType("Part-Time"); setSelected((prevSelected) => !prevSelected); console.log("activeJobType:", activeJobType, "selected:", selected) }} />
+        <SelectionLabel
+          label="Full-Time"
+          selected={activeJobType === 'full-time'}
+          onClick={() => {
+            setActiveJobType(activeJobType === 'full-time' ? null : 'full-time');
+          }}
+        />
+        <SelectionLabel
+          label="Part-Time"
+          selected={activeJobType === 'part-time'}
+          onClick={() => {
+            setActiveJobType(activeJobType === 'part-time' ? null : 'part-time');
+          }}
+        />
         <hr className="job-board__header-divider" />
       </section>
 
@@ -96,7 +94,6 @@ export default function JobBoard() {
         {isLoggedIn ? (
           <>
             <h1 className="job-board__heading">Welcome back, {firstName}!</h1>
-            {/* TODO: Filter Chips */}
           </>
         ) : (
           <>

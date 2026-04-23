@@ -7,6 +7,7 @@ Meteor.publish('jobs.all', function () {
 });
 
 Meteor.publish('jobs.search', function (query: string, jobType: string) {
+  console.log('jobs.search called with:', { query, jobType });
   const searchRegex = new RegExp(query, 'i');
 
   const filter: any = {

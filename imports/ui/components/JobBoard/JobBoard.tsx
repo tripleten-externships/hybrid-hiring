@@ -117,7 +117,7 @@ export default function JobBoard() {
           ) : (
             <div className="job-board__grid">
               {jobs.map((job) => (
-                <JobCard key={job._id} job={job} isSaved={false} onSave={() => { }} />
+                <JobCard key={job._id} job={job} isSaved={false} onSave={() => {}} />
               ))}
             </div>
           )}
