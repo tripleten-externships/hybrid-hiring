@@ -1,96 +1,87 @@
 .contact-info {
-  height: 736px;
-
-  background-image: url('/assets/Background.png');
+  min-height: 100%;
+  background-image: url('/assets/images/hh_contact_worker.png');
   background-size: cover;
-  background-position: center;
-
+  background-position: center 60%;
   display: flex;
   flex-direction: column;
-  gap: 250px;
-  align-items: flex-start;
-  font-family: inter;
-  padding: 40px;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  padding: var(--space-10) var(--space-8);
 }
 
+/* Dark card at the top */
 .contact-info__card {
-  background: rgba(0, 0, 0, 0.75);
-
-  padding: 32px;
-  border-radius: 8px;
-  width: 465px;
-  height: 351px;
-  color: #ffffff;
+  background: rgba(0, 0, 0, 0.72);
+  padding: var(--space-8) var(--space-8);
+  border-radius: var(--radius-md);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 440px;
 }
 
 .contact-info__title {
-  font-size: 42px;
-  margin: 0 0 12px 0;
-  font-weight: 500;
-  font-family: inter;
+  font-size: 36px;
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+  line-height: 1.15;
 }
 
 .contact-info__description {
-  font-size: 24px;
-  line-height: 1;
-  margin-bottom: 40px;
-  color: #d1d5db;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
 }
 
 .contact-info__row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.contact-info__text {
-  font-size: 20px;
-  white-space: nowrap;
+  gap: var(--space-3);
 }
 
 .contact-info__icon {
-  width: 30px;
-  height: 30px;
+  width: 22px;
+  height: 22px;
   flex-shrink: 0;
+  filter: invert(1);
 }
 
+.contact-info__text {
+  font-size: var(--font-size-sm);
+  color: #fff;
+}
+
+/* "Book an appointment" CTA */
 .contact-info__cta {
-  margin-top: 20px;
-  width: 358px;
-  height: 49px;
-  padding: 12px;
-
-  background-color: #4caf50;
-  border: none;
-  border-radius: 4px;
-
-  font-weight: 500;
-  color: #ffffff;
-  cursor: pointer;
-  font-size: 24px;
-
-  display: flex;
+  margin-top: var(--space-2);
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  transition: background-color 0.2s ease;
+  gap: var(--space-2);
+  background-color: var(--color-primary-dark);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-4);
+  width: fit-content;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  color: #fff;
+  transition: opacity 0.15s ease;
 }
 
 .contact-info__cta:hover {
-  background-color: #43a047;
+  opacity: 0.85;
 }
 
-.contact-info__cta-icon {
-  width: 25px;
-  height: 25px;
-}
-
+/* Social icons at the bottom */
 .contact-info__socials {
-  margin-top: 20px;
   display: flex;
-  gap: 20px;
+  gap: var(--space-5);
+  align-items: center;
+  padding-top: var(--space-6);
 }
 
 .contact-info__social-link {
@@ -100,10 +91,12 @@
 }
 
 .contact-info__social-link img {
-  width: 25px;
-  height: 25px;
+  width: 26px;
+  height: 26px;
+  filter: invert(1);
+  filter: brightness(0) invert(1);
   opacity: 0.85;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.15s ease;
 }
 
 .contact-info__social-link img:hover {

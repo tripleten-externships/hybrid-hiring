@@ -2,47 +2,74 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  margin-top: var(--space-6);
-  margin-bottom: var(--space-5);
+  width: 100%;
   height: fit-content;
   position: relative;
 }
 
 .search__input {
-  width: 486px;
+  width: 100%;
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-normal);
-  font-size: 16px;
+  font-size: var(--font-size-sm);
   border-radius: var(--radius-sm);
-  border: solid, 1px, rgba(0, 0, 0, 1);
+  border: 1px solid var(--color-3);
   padding: var(--space-3);
-  padding-inline-start: calc(var(--space-3) + 24px);
-  padding-inline-end: calc(var(--space-3) + 60px);
+  background: #fff;
+  color: var(--color-1);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.search__input:focus {
+  border-color: var(--color-primary-dark);
+}
+
+.search__input::placeholder {
+  color: var(--color-3);
+}
+
+/* When an icon is present, indent the text to avoid overlap */
+.search__input--has-icon {
+  padding-inline-start: calc(var(--space-3) + 22px);
+}
+
+/* When the button is rendered, make room on the right */
+.search__input:has(+ .search__button) {
+  padding-inline-end: calc(var(--space-3) + 64px);
 }
 
 .search__icon {
   position: absolute;
-  inset-inline-start: 8px; /* Tuck inside left edge */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Center vertically */
+  inset-inline-start: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  color: var(--color-3);
 }
 
 .search__button {
   position: absolute;
-  inset-inline-end: 2px; /* Tuck inside right edge */
-  top: 50%; /* Center vertically */
+  inset-inline-end: 2px;
+  top: 50%;
   transform: translateY(-50%);
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-medium);
-  font-size: 16px;
+  font-size: var(--font-size-sm);
   border-radius: var(--radius-sm);
-  background-color: var(--color-background);
-  color: var(--color-text);
+  border: none;
+  background-color: var(--color-primary-dark);
+  color: #fff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 10px var(--space-3);
+  padding: 8px var(--space-4);
+  transition: opacity 0.15s ease;
+}
+
+.search__button:hover {
+  opacity: 0.85;
 }

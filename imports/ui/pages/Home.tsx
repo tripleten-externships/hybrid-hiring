@@ -1,47 +1,114 @@
-import React, { ChangeEvent, useState } from 'react';
-import { Info } from '../examples/Info';
-import { Hello } from '../examples/Hello';
-import { TextArea, TextInput } from '../components';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import './Home.css';
 
 export const Home = () => {
-  const [message, setMessage] = useState('');
-  const [email, setEmail] = useState('');
-
-  const handleMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setMessage(e.target.value);
-  };
-
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
   return (
-    <div>
-      <h1>Welcome to Hybrid Hiring Solutions!</h1>
+    <div className="home">
+      {/* Hero */}
+      <section className="home__hero">
+        <div className="home__hero-content">
+          <h1 className="home__hero-title">
+            Innovate.
+            <br />
+            Grow.
+            <br />
+            Succeed.
+          </h1>
+          <p className="home__hero-subtitle">
+            Whether you're a job seeker or an employer, Hybrid Hiring Solutions has you covered.
+            Find clarity towards a new or current career path through our personalized solutions.
+          </p>
+          <div className="home__hero-actions">
+            <Link to="/jobs" className="home__hero-btn home__hero-btn--primary">
+              Find a Job
+            </Link>
+            <Link to="/employers" className="home__hero-btn home__hero-btn--outline">
+              Find Talent
+            </Link>
+          </div>
+        </div>
+      </section>
 
-      <Hello />
-      <br />
+      {/* What we do */}
+      <section className="home__what-we-do">
+        <div className="home__cards">
+          <div className="home__card">
+            <div className="home__card-icon" aria-hidden="true">
+              <img src="/assets/icons/search_jobs.svg" alt="Search Jobs" />
+            </div>
+            <p className="home__card-body">
+              Help job seekers find new career paths through our network within the industry.
+            </p>
+            <Link to="/jobs" className="home__card-btn">
+              Search jobs
+            </Link>
+          </div>
 
-      <Info />
-      <br />
+          <div className="home__card">
+            <div className="home__card-icon" aria-hidden="true">
+              <img src="/assets/icons/more_info.svg" alt="More info" />
+            </div>
+            <p className="home__card-body">
+              Provide employers connections to talented workers in the gas and energy industry of
+              Northeast Pennsylvania.
+            </p>
+            <Link to="/employers" className="home__card-btn">
+              More info
+            </Link>
+          </div>
 
-      <TextArea
-        label="Message"
-        id="message"
-        value={message}
-        onChange={handleMessageChange}
-        rows={10}
-        error={!message ? 'Required' : undefined}
-        fullWidth
-      />
+          <div className="home__card">
+            <div className="home__card-icon" aria-hidden="true">
+              <img src="/assets/icons/find_resources.svg" alt="Find resources" />
+            </div>
+            <p className="home__card-body">
+              Provide resources for refining resumes and job search strategies.
+            </p>
+            <Link to="/resources" className="home__card-btn">
+              Find resources
+            </Link>
+          </div>
+        </div>
+      </section>
 
-      <TextInput
-        label="Email"
-        id="email"
-        value={email}
-        onChange={handleEmailChange}
-        error={!email ? 'Required' : undefined}
-      />
+      {/* Start Your New Beginning + Testimonial */}
+      <section className="home__cta-banner">
+        <div className="home__cta-content">
+          <h2 className="home__cta-title">Start Your New Beginning</h2>
+          <p className="home__cta-subtitle">
+            Get in contact with us, and we'll schedule a consultation to discuss your needs.
+          </p>
+          <div className="home__cta-actions">
+            <Link to="/contact" className="home__cta-btn">
+              <FontAwesomeIcon icon={faCalendar} />
+              Book an appointment
+            </Link>
+            <a href="tel:+1-570-930-2566" className="home__cta-btn home__cta-btn--outline">
+              <FontAwesomeIcon icon={faPhone} />
+              Call us
+            </a>
+            <a
+              href="mailto:hybridhiringsolutions@gmail.com"
+              className="home__cta-btn home__cta-btn--outline"
+            >
+              <FontAwesomeIcon icon={faEnvelope} />
+              Email us
+            </a>
+          </div>
+        </div>
+
+        <blockquote className="home__quote">
+          <p className="home__quote-text">
+            "Finding the right jobs for my skills has always been difficult, but with Hybrid Hiring
+            Solutions it didn't take long for me to find the right path."
+          </p>
+          <footer className="home__quote-attribution">
+            - <em>John Smith, Gas plant operator</em>
+          </footer>
+        </blockquote>
+      </section>
     </div>
   );
 };

@@ -25,11 +25,6 @@ export const useMyProfile = () => {
   return { profile: profiles[0], isLoading: isLoading() };
 };
 
-export const useAuthenticatedUserIsAdmin = () => {
-  const { profile, isLoading } = useMyProfile();
-  return { isAdmin: profile ? profile.role === 'admin' : false, isLoading };
-};
-
 export const useIsAdmin = () => {
   const userId = useUserId();
   const isLoading = useSubscribe(userId ? 'myAdminRecord' : undefined);

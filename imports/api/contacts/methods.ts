@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import { ContactsCollection } from './collection';
-import { requireAdmin } from '../admin/collection';
+import { requireAdminAsync } from '../admin/collection';
 
 async function submit(
   this: Meteor.MethodThisType,
@@ -32,7 +32,7 @@ async function submit(
 }
 
 async function remove(this: Meteor.MethodThisType, contactId: string) {
-  requireAdmin(this.userId ?? undefined);
+  await requireAdminAsync(this.userId ?? undefined);
 
   return await ContactsCollection.removeAsync({ _id: contactId });
 }

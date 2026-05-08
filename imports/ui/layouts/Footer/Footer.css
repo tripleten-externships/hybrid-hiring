@@ -30,6 +30,7 @@
   line-height: 56px;
   letter-spacing: -2px;
   margin: 0;
+  margin-bottom: 20px;
 }
 
 .footer__title-nav {
@@ -56,8 +57,16 @@
   margin-bottom: 2px;
 }
 
+.footer__nav-link:hover {
+  text-decoration: underline;
+}
+
 .footer__nav-link-title {
   margin: 20px 0;
+}
+
+.footer__account-link {
+  margin-top: 20px;
 }
 
 .footer__socials {

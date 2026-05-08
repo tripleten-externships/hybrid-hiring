@@ -1,14 +1,13 @@
 import { Meteor } from 'meteor/meteor';
-import { AdminCollection } from './collection';
+import { AdminCollection, isAdminAsync } from './collection';
 
 Meteor.publish('myAdminRecord', function publishMyAdminRecord() {
   if (!this.userId) return this.ready();
   return AdminCollection.find({ userId: this.userId });
 });
 
-Meteor.publish('allAdminRecords', function publishAllAdminRecords() {
+Meteor.publish('allAdminRecords', async function publishAllAdminRecords() {
   if (!this.userId) return this.ready();
-  const isAdmin = AdminCollection.findOne({ userId: this.userId });
-  if (!isAdmin) return this.ready();
+  if (!(await isAdminAsync(this.userId))) return this.ready();
   return AdminCollection.find({});
 });

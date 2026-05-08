@@ -6,3 +6,5 @@ import '../imports/api/jobs';
 import '../imports/api/jobs/publications';
 import '../imports/api/contacts';
 import '../imports/api/contacts/publications';
+import '../imports/api/notifications';
+import '../imports/api/notifications/publications';

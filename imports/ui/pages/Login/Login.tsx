@@ -1,10 +1,6 @@
-import React, { useState } from 'react';
+import { type FormEvent, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLogin } from '../../hooks/useLogin';
-import { Button } from '../../components/Button/Button';
-import { TextInput } from '../../components/TextInput/TextInput';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-
 import './Login.css';
 
 export const Login = () => {
@@ -17,96 +13,96 @@ export const Login = () => {
 
   const { error, isLoading, handleLogin } = useLogin();
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const onSuccess = () => {
-      setEmail('');
-      setPassword('');
-      navigate('/jobs');
-    };
 
-    const hasEmailError =
+    const emailErr =
       email.trim() === ''
         ? 'Email is required.'
         : !/\S+@\S+\.\S+/.test(email)
           ? 'Invalid email format.'
           : '';
+    const pwErr = password.trim() === '' ? 'Password is required.' : '';
 
-    const hasPasswordError = password.trim() === '' ? 'Password is required.' : '';
+    setEmailError(emailErr);
+    setPasswordError(pwErr);
+    if (emailErr || pwErr) return;
 
-    setEmailError(hasEmailError);
-    setPasswordError(hasPasswordError);
-
-    if (hasEmailError || hasPasswordError) {
-      return;
-    }
-
-    handleLogin(email, password, onSuccess);
+    handleLogin(email, password, () => {
+      setEmail('');
+      setPassword('');
+      navigate('/jobs');
+    });
   };
 
   return (
-    <>
-      <img src="/assets/back.svg" alt="Back button" className="login__form-back-btn" />
-      <img src="/assets/hhr-logo.svg" alt="Company Logo" className="login__form-company-logo" />
-      <div className="login__form-container">
-        <form className="login__form" onSubmit={onSubmit}>
-          <h2 className="login__form-title">Welcome back!</h2>
-          <p className="login__form-subtitle">Log in to continue</p>
-          <div className="login__form-inputs">
-            {emailError && <div className="login__form-error">{emailError}</div>}
-            <TextInput
-              type="email"
-              id="email"
-              label=""
-              value={email}
-              placeholder="Enter your email"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+    <div className="login">
+      {/* ─── Card ─── */}
+      <div className="login__card">
+        <div className="login__description">
+          <h1 className="login__title">Welcome back!</h1>
+          <p className="login__subtitle">Log in to continue your job search.</p>
+        </div>
 
-            <div className="login__form-password-wrapper">
-              <TextInput
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                label=""
-                value={password}
-                placeholder="Enter your password"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              {passwordError && <div className="login__form-error">{passwordError}</div>}
-              <button
-                className="login__form-pword-toggle"
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                <img
-                  className="login__form-toggle-img"
-                  src="/assets/eye.svg"
-                  alt="Toggle Password Visibility"
-                />
-              </button>
-            </div>
+        <form className="login__form" onSubmit={onSubmit} noValidate>
+          <div>
+            <input
+              id="email"
+              type="email"
+              className="login__input"
+              placeholder="Email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError('');
+              }}
+            />
+            {emailError && <p className="login__error">{emailError}</p>}
           </div>
-          {error && <div className="login__form-error">{error}</div>}
-          <Button
-            type="submit"
-            loading={isLoading}
-            variant="primary"
-            size="lg"
-            fullWidth
-            disabled={isLoading}
-          >
-            {isLoading ? 'Logging in...' : 'Log In'}
-          </Button>
-          <div className="login__form-signup-no-account">Don't have an account?</div>
-          <div className="login__form-signup-link">
-            <Link to="/signup">Sign up</Link>
+
+          <div className="login__password-wrapper">
+            <input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              className="login__input"
+              placeholder="Password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError('');
+              }}
+            />
+            <button
+              type="button"
+              className="login__password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label="Toggle password visibility"
+            >
+              <img src="/assets/icons/eye.svg" alt="" />
+            </button>
+            {passwordError && <p className="login__error">{passwordError}</p>}
           </div>
+
+          {error && <p className="login__error">{error}</p>}
+
+          <button type="submit" className="login__submit-btn" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <span className="login__spinner" />
+                Logging in...
+              </>
+            ) : (
+              'Log In'
+            )}
+          </button>
         </form>
+
+        <p className="login__signup-link">
+          Don't have an account? <Link to="/signup">Sign up</Link>
+        </p>
       </div>
-    </>
+    </div>
   );
 };
-
-export default Login;

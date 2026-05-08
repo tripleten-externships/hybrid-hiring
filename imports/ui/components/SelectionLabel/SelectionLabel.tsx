@@ -1,4 +1,3 @@
-import React from 'react';
 import './SelectionLabel.css';
 
 type SelectionLabelProps = {

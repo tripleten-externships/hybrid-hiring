@@ -58,9 +58,10 @@
 
 .mobile-nav-links a {
   text-decoration: none;
-  color: var(--color-text-muted, #555);
+  color: var(--color-text, #ffffff);
   font-size: 1.1rem;
   padding: 10px 8px;
+  font-weight: 300;
   border-radius: 6px;
   transition:
     background 150ms ease,
@@ -68,18 +69,18 @@
 }
 
 .mobile-nav-links a:hover {
-  background: var(--color-surface-overlay, #f0f0f0);
-  color: var(--color-text, #333);
+  background: var(--color-surface-overlay, #f0f0f01f);
+  color: var(--color-text, #ffffff);
 }
 
 .mobile-nav-links a.active {
-  color: var(--color-primary, #2563eb);
+  color: var(--color-text, #ffffff);
   font-weight: 600;
 }
 
 .mobile-nav-divider {
   border: none;
-  border-top: 1px solid var(--color-border, #ddd);
+  border-top: 1px solid #ffffffc0;
   margin: 16px 0;
 }
 
@@ -106,22 +107,22 @@
 }
 
 .mobile-nav-auth a {
-  color: var(--color-text-muted, #555);
+  color: var(--color-text, #ffffff);
 }
 
 .mobile-nav-auth a:hover {
-  background: var(--color-surface-overlay, #f0f0f0);
+  background: #f0f0f01f;
   color: var(--color-text, #333);
 }
 
 .mobile-nav-auth button {
   background: none;
-  border: 1px solid var(--color-border, #ddd);
-  color: var(--color-text-muted, #555);
+  border: 1px solid var(--color-text, #ffffffc0);
+  color: var(--color-text, #ffffff);
   font-family: inherit;
 }
 
 .mobile-nav-auth button:hover {
-  background: var(--color-surface-overlay, #f0f0f0);
-  color: var(--color-text, #333);
+  background: #f0f0f01f;
+  color: var(--color-text, #ffffff);
 }
