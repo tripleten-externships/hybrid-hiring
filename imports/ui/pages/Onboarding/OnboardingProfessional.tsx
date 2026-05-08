@@ -7,7 +7,13 @@ import './Onboarding.css';
 function ChevronIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M6 12l4-4-4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M6 12l4-4-4-4"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -15,8 +21,19 @@ function ChevronIcon() {
 function UploadIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path d="M10 13V4M10 4L7 7M10 4l3 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M3 14v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path
+        d="M10 13V4M10 4L7 7M10 4l3 3"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M3 14v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -108,7 +125,10 @@ export const OnboardingProfessional = () => {
               name="certUrl"
               value={certUrl}
               placeholder="e.g. OSHA 10, AWS Certified Welder"
-              onChange={(e) => { setCertUrl(e.target.value); setError(''); }}
+              onChange={(e) => {
+                setCertUrl(e.target.value);
+                setError('');
+              }}
             />
 
             <div className="ob-upload">
@@ -124,10 +144,7 @@ export const OnboardingProfessional = () => {
                 {resumeFileName ? 'Replace document' : 'Upload document'}
               </label>
 
-              {resumeFileName && (
-                <p className="ob-upload__filename">{resumeFileName}</p>
-              )}
-
+              {resumeFileName && <p className="ob-upload__filename">{resumeFileName}</p>}
             </div>
 
             <div className="ob-toggle-row">

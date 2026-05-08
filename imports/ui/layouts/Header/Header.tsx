@@ -9,9 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 
 function AccountIcon() {
-  return (
-    <FontAwesomeIcon icon={faCircleUser} color='white' size='xl' />
-  );
+  return <FontAwesomeIcon icon={faCircleUser} color="white" size="xl" />;
 }
 
 export const Header = () => {

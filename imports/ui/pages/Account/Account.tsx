@@ -6,8 +6,11 @@ import { useMyProfile, useCurrentUser } from '/imports/ui/hooks/useCurrentUser';
 import JobCard from '/imports/ui/components/JobCard/JobCard';
 import './Account.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleDollarToSlot, faLocationDot, faBriefcase } from '@fortawesome/free-solid-svg-icons';
-
+import {
+  faCircleDollarToSlot,
+  faLocationDot,
+  faBriefcase,
+} from '@fortawesome/free-solid-svg-icons';
 
 function LocationIcon() {
   return <FontAwesomeIcon icon={faLocationDot} className="account__pref-icon" />;

@@ -14,7 +14,13 @@ const JOB_TYPE_OPTIONS = [
 function ChevronIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M6 12l4-4-4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M6 12l4-4-4-4"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -151,7 +157,9 @@ export const OnboardingPersonal = () => {
         <div className="ob-card">
           <div className="ob-card__description">
             <h2 className="ob-card__heading">What's the minimum pay you're looking for?</h2>
-            <p className="ob-card__subheading">We match you with jobs that pay at or above this amount.</p>
+            <p className="ob-card__subheading">
+              We match you with jobs that pay at or above this amount.
+            </p>
           </div>
 
           <div className="ob-fields">

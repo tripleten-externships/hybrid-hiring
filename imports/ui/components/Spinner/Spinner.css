@@ -14,8 +14,14 @@
 }
 
 @keyframes spinner-rotate {
-  from { transform: rotate(0deg); transform-origin: center; }
-  to   { transform: rotate(360deg); transform-origin: center; }
+  from {
+    transform: rotate(0deg);
+    transform-origin: center;
+  }
+  to {
+    transform: rotate(360deg);
+    transform-origin: center;
+  }
 }
 
 /* Full-page centering wrapper */

@@ -31,7 +31,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <div className="search__container">
-      {icon && <span className="search__icon" aria-hidden="true">{icon}</span>}
+      {icon && (
+        <span className="search__icon" aria-hidden="true">
+          {icon}
+        </span>
+      )}
       <input
         type="text"
         value={value}

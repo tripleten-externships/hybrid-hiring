@@ -131,7 +131,10 @@ export const SignUp: FC = () => {
                 autoComplete="given-name"
                 aria-invalid={!!fieldErrors.firstName}
                 aria-describedby={fieldErrors.firstName ? 'firstName-error' : undefined}
-                onChange={(e) => { setFirstName(e.target.value); clearFieldError('firstName'); }}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                  clearFieldError('firstName');
+                }}
               />
               {fieldErrors.firstName && (
                 <span id="firstName-error" className="sign-up__field-error">
@@ -150,7 +153,10 @@ export const SignUp: FC = () => {
                 autoComplete="family-name"
                 aria-invalid={!!fieldErrors.lastName}
                 aria-describedby={fieldErrors.lastName ? 'lastName-error' : undefined}
-                onChange={(e) => { setLastName(e.target.value); clearFieldError('lastName'); }}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                  clearFieldError('lastName');
+                }}
               />
               {fieldErrors.lastName && (
                 <span id="lastName-error" className="sign-up__field-error">
@@ -171,7 +177,10 @@ export const SignUp: FC = () => {
               autoComplete="email"
               aria-invalid={!!fieldErrors.email}
               aria-describedby={fieldErrors.email ? 'email-error' : undefined}
-              onChange={(e) => { setEmail(e.target.value); clearFieldError('email'); }}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                clearFieldError('email');
+              }}
             />
             {fieldErrors.email && (
               <span id="email-error" className="sign-up__field-error">
@@ -191,7 +200,10 @@ export const SignUp: FC = () => {
               value={password}
               aria-invalid={!!fieldErrors.password}
               aria-describedby={fieldErrors.password ? 'password-error' : undefined}
-              onChange={(e) => { setPassword(e.target.value); clearFieldError('password'); }}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                clearFieldError('password');
+              }}
             />
             {fieldErrors.password && (
               <span id="password-error" className="sign-up__field-error">
@@ -211,7 +223,10 @@ export const SignUp: FC = () => {
               value={confirmPassword}
               aria-invalid={!!fieldErrors.confirmPassword}
               aria-describedby={fieldErrors.confirmPassword ? 'confirmPassword-error' : undefined}
-              onChange={(e) => { setConfirmPassword(e.target.value); clearFieldError('confirmPassword'); }}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                clearFieldError('confirmPassword');
+              }}
             />
             {fieldErrors.confirmPassword && (
               <span id="confirmPassword-error" className="sign-up__field-error">

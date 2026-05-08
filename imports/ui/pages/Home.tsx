@@ -89,7 +89,10 @@ export const Home = () => {
               <FontAwesomeIcon icon={faPhone} />
               Call us
             </a>
-            <a href="mailto:hybridhiringsolutions@gmail.com" className="home__cta-btn home__cta-btn--outline">
+            <a
+              href="mailto:hybridhiringsolutions@gmail.com"
+              className="home__cta-btn home__cta-btn--outline"
+            >
               <FontAwesomeIcon icon={faEnvelope} />
               Email us
             </a>
@@ -101,7 +104,9 @@ export const Home = () => {
             "Finding the right jobs for my skills has always been difficult, but with Hybrid Hiring
             Solutions it didn't take long for me to find the right path."
           </p>
-          <footer className="home__quote-attribution">- <em>John Smith, Gas plant operator</em></footer>
+          <footer className="home__quote-attribution">
+            - <em>John Smith, Gas plant operator</em>
+          </footer>
         </blockquote>
       </section>
     </div>

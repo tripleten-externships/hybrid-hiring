@@ -79,9 +79,7 @@ export function JobBoard() {
   const [minPayInput, setMinPayInput] = React.useState('');
 
   const activeFilterCount =
-    selectedJobTypes.length +
-    (selectedPayUnit ? 1 : 0) +
-    (minPayInput ? 1 : 0);
+    selectedJobTypes.length + (selectedPayUnit ? 1 : 0) + (minPayInput ? 1 : 0);
 
   const hasFilters = !!(activeTitle || activeLocation || activeFilterCount);
 
@@ -164,7 +162,15 @@ export function JobBoard() {
             icon={
               <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
                 <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="1.8" />
-                <line x1="13.5" y1="13.5" x2="18" y2="18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                <line
+                  x1="13.5"
+                  y1="13.5"
+                  x2="18"
+                  y2="18"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
               </svg>
             }
           />
@@ -178,7 +184,12 @@ export function JobBoard() {
             showButton={false}
             icon={
               <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-                <path d="M10 2a6 6 0 0 1 6 6c0 4-6 10-6 10S4 12 4 8a6 6 0 0 1 6-6z" stroke="currentColor" strokeWidth="1.8" fill="none" />
+                <path
+                  d="M10 2a6 6 0 0 1 6 6c0 4-6 10-6 10S4 12 4 8a6 6 0 0 1 6-6z"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  fill="none"
+                />
                 <circle cx="10" cy="8" r="2" stroke="currentColor" strokeWidth="1.6" fill="none" />
               </svg>
             }
@@ -218,8 +229,26 @@ export function JobBoard() {
               <line x1="0" y1="2" x2="14" y2="2" stroke="currentColor" strokeWidth="1.5" />
               <line x1="0" y1="6" x2="14" y2="6" stroke="currentColor" strokeWidth="1.5" />
               <line x1="0" y1="10" x2="14" y2="10" stroke="currentColor" strokeWidth="1.5" />
-              <rect x="3" y="0.25" width="3" height="3.5" rx="1" fill="white" stroke="currentColor" strokeWidth="1.2" />
-              <rect x="8" y="4.25" width="3" height="3.5" rx="1" fill="white" stroke="currentColor" strokeWidth="1.2" />
+              <rect
+                x="3"
+                y="0.25"
+                width="3"
+                height="3.5"
+                rx="1"
+                fill="white"
+                stroke="currentColor"
+                strokeWidth="1.2"
+              />
+              <rect
+                x="8"
+                y="4.25"
+                width="3"
+                height="3.5"
+                rx="1"
+                fill="white"
+                stroke="currentColor"
+                strokeWidth="1.2"
+              />
             </svg>
             Filters
             {activeFilterCount > 0 && (
@@ -300,15 +329,17 @@ export function JobBoard() {
       <section className="job-board__listings" aria-label="Job listings">
         <h2 className="job-board__listings-title">
           {showingSearch ? 'Search Results' : isLoggedIn ? 'Suggested jobs for you' : 'All Jobs'}
-          {!isLoading && (
-            <span className="job-board__result-count"> ({filteredJobs.length})</span>
-          )}
+          {!isLoading && <span className="job-board__result-count"> ({filteredJobs.length})</span>}
         </h2>
 
         {isLoading && jobs.length === 0 ? (
           <LoadingState />
         ) : filteredJobs.length === 0 && !isLoading ? (
-          isLoggedIn ? <UserEmptyState /> : <GuestEmptyState />
+          isLoggedIn ? (
+            <UserEmptyState />
+          ) : (
+            <GuestEmptyState />
+          )
         ) : (
           <div className={`job-board__grid${isLoading ? ' job-board__grid--refreshing' : ''}`}>
             {filteredJobs.map((job) => (

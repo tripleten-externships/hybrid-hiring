@@ -9,9 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 
 function BellIcon() {
-  return (
-    <FontAwesomeIcon icon={faBell} color='white' style={{ fontSize: '1.5rem' }} />
-  );
+  return <FontAwesomeIcon icon={faBell} color="white" style={{ fontSize: '1.5rem' }} />;
 }
 
 function formatRelativeTime(date: Date): string {
@@ -90,11 +88,7 @@ export function NotificationBell() {
           <div className="notif-bell__panel-header">
             <span className="notif-bell__panel-title">Notifications</span>
             {unreadCount > 0 && (
-              <button
-                type="button"
-                className="notif-bell__mark-all"
-                onClick={handleMarkAllRead}
-              >
+              <button type="button" className="notif-bell__mark-all" onClick={handleMarkAllRead}>
                 Mark all read
               </button>
             )}

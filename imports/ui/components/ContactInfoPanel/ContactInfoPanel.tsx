@@ -15,7 +15,8 @@ export const ContactInfoPanel = ({ phone, email }: ContactInfoPanelProps) => {
         <h2 className="contact-info__title">Contact Information</h2>
 
         <p className="contact-info__description">
-          Have a question or looking to post a job opening? Reach out and we'll get back to you shortly.
+          Have a question or looking to post a job opening? Reach out and we'll get back to you
+          shortly.
         </p>
 
         <div className="contact-info__row">
