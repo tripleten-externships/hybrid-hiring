@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
+import { faCalendar, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './ContactInfoPanel.css';
-import { Button } from '../../components/Button/Button';
 
 interface ContactInfoPanelProps {
   phone: string;
@@ -13,51 +15,36 @@ export const ContactInfoPanel = ({ phone, email }: ContactInfoPanelProps) => {
         <h2 className="contact-info__title">Contact Information</h2>
 
         <p className="contact-info__description">
-          If you have any questions, feel free to get in contact with us.
+          Have a question or looking to post a job opening? Reach out and we'll get back to you shortly.
         </p>
 
         <div className="contact-info__row">
-          <img
-            src="/assets/ic_baseline-phone.svg"
-            alt="Phone icon"
-            className="contact-info__icon"
-          />
+          <FontAwesomeIcon icon={faPhone} />
           <span className="contact-info__text">{phone}</span>
         </div>
 
         <div className="contact-info__row">
-          <img
-            src="/assets/ic_baseline-email.svg"
-            alt="Email icon"
-            className="contact-info__icon"
-          />
+          <FontAwesomeIcon icon={faEnvelope} />
           <span className="contact-info__text">{email}</span>
         </div>
 
-        <Button className="contact-info__cta">
-          <div className="contact-info__cta-icon-container">
-            <img
-              src="/assets/book-appointment-Icons.svg"
-              alt=""
-              aria-hidden="true"
-              className="contact-info__cta-icon"
-            />
-            <span className="contact-info__cta-text">Book an appointment</span>
-          </div>
-        </Button>
+        <Link to="/contact" className="contact-info__cta">
+          <FontAwesomeIcon icon={faCalendar} />
+          <span className="contact-info__cta-text">Book an appointment</span>
+        </Link>
       </div>
 
       <div className="contact-info__socials">
         <a href="#" className="contact-info__social-link" aria-label="Facebook">
-          <img src="/assets/ri_facebook-fill.svg" alt="" />
+          <img src="/assets/icons/ri_facebook-fill.svg" alt="" />
         </a>
 
         <a href="#" className="contact-info__social-link" aria-label="LinkedIn">
-          <img src="/assets/linkedin-logo.svg" alt="" />
+          <img src="/assets/icons/linkedin-logo.svg" alt="" />
         </a>
 
         <a href="#" className="contact-info__social-link" aria-label="Instagram">
-          <img src="/assets/ri_instagram-fill.svg" alt="" />
+          <img src="/assets/icons/ri_instagram-fill.svg" alt="" />
         </a>
       </div>
     </section>

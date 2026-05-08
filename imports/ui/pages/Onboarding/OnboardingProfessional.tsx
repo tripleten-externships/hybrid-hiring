@@ -4,31 +4,50 @@ import { Meteor } from 'meteor/meteor';
 import { TextInput } from '../../components/TextInput/TextInput';
 import './Onboarding.css';
 
+function ChevronIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M6 12l4-4-4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function UploadIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="M10 13V4M10 4L7 7M10 4l3 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M3 14v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export const OnboardingProfessional = () => {
   const [resumeFileName, setResumeFileName] = useState('');
   const [certUrl, setCertUrl] = useState('');
   const [needsResumeHelp, setNeedsResumeHelp] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState('');
 
   const navigate = useNavigate();
+
   const handleContinue = async () => {
     if (!resumeFileName && !certUrl) {
-      alert('Please upload a document or add a credential title.');
+      setError('Please upload a document or add a credential title before continuing.');
       return;
     }
 
     try {
+      setError('');
       setIsSaving(true);
-
       await Meteor.callAsync('UserProfiles.upsert', {
         resumeUrl: resumeFileName,
         certUrl,
         needsResumeHelp,
       });
-
       navigate('/onboarding/skills');
-    } catch (error) {
-      console.error('Failed to save profile:', error);
+    } catch (err) {
+      console.error('Failed to save profile:', err);
+      setError('Failed to save your profile. Please try again.');
     } finally {
       setIsSaving(false);
     }
@@ -36,89 +55,111 @@ export const OnboardingProfessional = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-
     if (file) {
       // TODO [HH-69]: replace with actual file upload once backend supports it
       setResumeFileName(file.name);
+      setError('');
     }
   };
 
   return (
-    <div className="onboarding-main">
-      <button
-        type="button"
-        className="onboarding-main__back-button"
-        onClick={() => navigate('/onboarding/personal')}
-      >
-        <img src="/assets/material-symbols_arrow-back.svg" alt="Back" />
-      </button>
-
-      <div className="onboarding-main__progress">Page 2 of 3</div>
-
-      <div className="onboarding-main__card">
-        <h2 className="onboarding-main__title">
-          Upload your credentials (resume, certificates, etc.)
-        </h2>
-
-        <p className="onboarding-main__subtitle">
-          Don't worry, you'll only have to upload these once.
-        </p>
-
-        <div className="onboarding-main__input-wrapper">
-          <TextInput
-            label="Credential title"
-            id="certUrl"
-            name="certUrl"
-            value={certUrl}
-            placeholder="Insert title"
-            onChange={(e) => setCertUrl(e.target.value)}
-          />
-        </div>
-
-        <div className="onboarding-main__upload">
-          <input
-            id="resumeUpload"
-            type="file"
-            accept=".pdf,.doc,.docx"
-            onChange={handleFileChange}
-            hidden
-          />
-
-          <label htmlFor="resumeUpload" className="onboarding-main__upload-button">
-            <img src="/assets/material-symbols_upload.svg" alt="" />
-            Upload Document
-          </label>
-
-          {resumeFileName && <p className="onboarding-main__file-name">{resumeFileName}</p>}
-
-          <button type="button" className="onboarding-main__add-document">
-            + Add another document
+    <div className="ob-page">
+      <div className="ob-step">
+        {/* Nav */}
+        <div className="ob-nav">
+          <button
+            type="button"
+            className="ob-nav__back"
+            onClick={() => navigate('/onboarding/personal')}
+          >
+            <ChevronIcon />
+            Back
+          </button>
+          <button type="button" className="ob-nav__skip" onClick={() => navigate('/jobs')}>
+            Skip
+            <ChevronIcon />
           </button>
         </div>
 
-        <div className="onboarding-main__toggle-section">
-          <span id="resume-help-label">I need help building my resume</span>
+        {/* Progress */}
+        <div className="ob-progress">
+          <h1 className="ob-progress__title">Profile Builder</h1>
+          <p className="ob-progress__label">Step 2 of 3</p>
+          <div className="ob-progress__dots">
+            <span className="ob-progress__dot ob-progress__dot--done" />
+            <span className="ob-progress__dot ob-progress__dot--active" />
+            <span className="ob-progress__dot" />
+          </div>
+        </div>
 
-          <label className="onboarding-main__toggle">
-            <input
-              type="checkbox"
-              checked={needsResumeHelp}
-              aria-labelledby="resume-help-label"
-              onChange={() => setNeedsResumeHelp((prev) => !prev)}
+        {/* Credentials card */}
+        <div className="ob-card">
+          <div className="ob-card__description">
+            <h2 className="ob-card__heading">Upload your credentials</h2>
+            <p className="ob-card__subheading">
+              Resume, certificates, licences — you'll only need to do this once.
+            </p>
+          </div>
+
+          <div className="ob-fields">
+            <TextInput
+              label="Credential title"
+              id="certUrl"
+              name="certUrl"
+              value={certUrl}
+              placeholder="e.g. OSHA 10, AWS Certified Welder"
+              onChange={(e) => { setCertUrl(e.target.value); setError(''); }}
             />
-            <span className="onboarding-main__toggle-slider"></span>
-          </label>
+
+            <div className="ob-upload">
+              <input
+                id="resumeUpload"
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={handleFileChange}
+                hidden
+              />
+              <label htmlFor="resumeUpload" className="ob-upload__trigger">
+                <UploadIcon />
+                {resumeFileName ? 'Replace document' : 'Upload document'}
+              </label>
+
+              {resumeFileName && (
+                <p className="ob-upload__filename">{resumeFileName}</p>
+              )}
+
+            </div>
+
+            <div className="ob-toggle-row">
+              <span className="ob-toggle-row__label">I need help building my resume</span>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={needsResumeHelp}
+                className={`ob-toggle${needsResumeHelp ? ' ob-toggle--on' : ''}`}
+                onClick={() => setNeedsResumeHelp((prev) => !prev)}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="ob-footer">
+          {error && (
+            <p className="ob-error" role="alert">
+              {error}
+            </p>
+          )}
+          <button
+            type="button"
+            className="ob-btn-continue"
+            onClick={handleContinue}
+            disabled={isSaving}
+          >
+            {isSaving ? 'Saving…' : 'Continue'}
+          </button>
         </div>
       </div>
-
-      <button
-        type="button"
-        className="onboarding-main__continue-button"
-        onClick={handleContinue}
-        disabled={isSaving}
-      >
-        {isSaving ? 'Saving...' : 'Continue'}
-      </button>
     </div>
   );
 };

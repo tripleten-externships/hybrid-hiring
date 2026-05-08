@@ -3,12 +3,19 @@ import { Meteor } from 'meteor/meteor';
 import { useNavigate } from 'react-router-dom';
 
 import '../../../api/profiles/methods';
-import { Button } from '../../components/Button/Button';
 import './Onboarding.css';
 
 interface Skill {
   id: number;
   value: string;
+}
+
+function ChevronIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M6 12l4-4-4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
 }
 
 export const OnboardingSkills = () => {
@@ -53,92 +60,87 @@ export const OnboardingSkills = () => {
   };
 
   return (
-    <div className="onboarding-personal">
-      <div className="onboarding-personal__header">
-        <div className="onboarding-personal__nav">
-          <div className="btn-back">
-            <button
-              type="button"
-              className="onboarding-personal__btn btn-back"
-              onClick={() => navigate(-1)}
-            >
-              <img src="/assets/skip.svg" alt="Back" />
-            </button>
-          </div>
-
-          <div className="onboarding-personal__logo">
-            <img src="/assets/company-logo.svg" alt="Logo" />
-          </div>
-
-          <button
-            type="button"
-            className="onboarding-personal__btn btn-skip"
-            onClick={() => navigate('/jobs')}
-          >
-            Skip <img src="/assets/skip.svg" alt="Skip" />
+    <div className="ob-page">
+      <div className="ob-step">
+        {/* Nav */}
+        <div className="ob-nav">
+          <button type="button" className="ob-nav__back" onClick={() => navigate(-1)}>
+            <ChevronIcon />
+            Back
+          </button>
+          <button type="button" className="ob-nav__skip" onClick={() => navigate('/jobs')}>
+            Skip
+            <ChevronIcon />
           </button>
         </div>
 
-        <h1 className="onboarding-personal__title top-title">Profile Builder</h1>
-        <p className="onboarding-personal__subtitle">Page 3 of 3</p>
-      </div>
+        {/* Progress */}
+        <div className="ob-progress">
+          <h1 className="ob-progress__title">Profile Builder</h1>
+          <p className="ob-progress__label">Step 3 of 3</p>
+          <div className="ob-progress__dots">
+            <span className="ob-progress__dot ob-progress__dot--done" />
+            <span className="ob-progress__dot ob-progress__dot--done" />
+            <span className="ob-progress__dot ob-progress__dot--active" />
+          </div>
+        </div>
 
-      <div className="onboarding-personal__main-contents">
-        <div className="onboarding-personal__main-content">
-          <div className="onboarding-personal__description">
-            <h2 className="onboarding-personal__title">Add your skills.</h2>
-            <p className="onboarding-personal__subtitle">
-              This is optional, but your answers help us make better job recommendations.
+        {/* Skills card */}
+        <div className="ob-card">
+          <div className="ob-card__description">
+            <h2 className="ob-card__heading">Add your skills</h2>
+            <p className="ob-card__subheading">
+              Optional, but your answers help us make better job recommendations. Press Enter to add each skill.
             </p>
           </div>
 
-          <div className="onboarding-personal__inputs">
-            <div className="onboarding-personal__input">
+          <div className="ob-fields">
+            <div className="ob-input">
               <input
                 id="skills"
                 type="text"
                 value={skillInput}
                 onChange={(e) => setSkillInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Add skills"
+                placeholder="e.g. Pipefitting, AutoCAD, Python…"
               />
             </div>
 
-            <ul className="onboarding-personal__skills-chips" aria-label="Added skills">
-              {skills.map((skill) => (
-                <li key={skill.id} className="onboarding-personal__skill-chip">
-                  <button
-                    type="button"
-                    className="onboarding-personal__skill-remove"
-                    onClick={() => removeSkill(skill.id)}
-                    aria-label={`Remove ${skill.value}`}
-                  >
-                    <img src="/assets/chip-close.svg" alt="" />
-                  </button>
-                  {skill.value}
-                </li>
-              ))}
-            </ul>
+            {skills.length > 0 && (
+              <ul className="ob-tags" aria-label="Added skills">
+                {skills.map((skill) => (
+                  <li key={skill.id} className="ob-tag">
+                    {skill.value}
+                    <button
+                      type="button"
+                      className="ob-tag__remove"
+                      onClick={() => removeSkill(skill.id)}
+                      aria-label={`Remove ${skill.value}`}
+                    >
+                      ×
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
 
-        <div className="onboarding-personal__finish-section">
-          {error ? (
-            <p className="onboarding-personal__error-text" role="alert">
+        {/* Footer */}
+        <div className="ob-footer">
+          {error && (
+            <p className="ob-error" role="alert">
               {error}
             </p>
-          ) : null}
-          <div className="onboarding-personal__btn">
-            <Button
-              variant="primary"
-              type="button"
-              loading={isLoading}
-              disabled={isLoading}
-              onClick={handleFinish}
-            >
-              Finish
-            </Button>
-          </div>
+          )}
+          <button
+            type="button"
+            className="ob-btn-continue"
+            onClick={handleFinish}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Saving…' : 'Finish & View Jobs'}
+          </button>
         </div>
       </div>
     </div>

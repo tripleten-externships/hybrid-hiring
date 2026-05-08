@@ -1,0 +1,127 @@
+.admin {
+  padding: var(--space-6);
+  background-color: var(--color-5);
+  min-height: 60vh;
+}
+
+.admin__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.admin__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.admin__title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-1);
+  margin: 0;
+}
+
+.admin__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-2);
+  margin: 0;
+}
+
+.admin__loading,
+.admin__empty {
+  color: var(--color-2);
+  font-size: var(--font-size-md);
+}
+
+.admin__table-wrapper {
+  overflow-x: auto;
+}
+
+.admin__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.admin__table thead {
+  background-color: var(--color-4, #f5f5f5);
+}
+
+.admin__table th {
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-2);
+  border-bottom: 2px solid var(--color-3);
+  white-space: nowrap;
+}
+
+.admin__table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-3);
+  color: var(--color-1);
+  vertical-align: middle;
+}
+
+.admin__row--inactive td {
+  opacity: 0.55;
+}
+
+.admin__cell-title {
+  font-weight: var(--font-weight-semibold);
+  max-width: 240px;
+}
+
+.admin__cell-date {
+  white-space: nowrap;
+}
+
+.admin__status {
+  display: inline-block;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm, 4px);
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-semibold);
+}
+
+.admin__status--active {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.admin__status--inactive {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.admin__toggle-btn {
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.admin__toggle-btn--deactivate {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.admin__toggle-btn--deactivate:hover {
+  background-color: #fecaca;
+}
+
+.admin__toggle-btn--activate {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.admin__toggle-btn--activate:hover {
+  background-color: #a7f3d0;
+}

@@ -10,11 +10,23 @@ export type Admin = {
 
 export const AdminCollection = new Mongo.Collection<Admin, Admin>('admin');
 
-export const isAdmin = (userId: string) => {
+export const isAdminAsync = async (userId: string): Promise<boolean> => {
+  return !!(await AdminCollection.findOneAsync({ userId }));
+};
+
+export const requireAdminAsync = async (userId?: string): Promise<void> => {
+  if (!userId || !(await isAdminAsync(userId))) {
+    throw new Meteor.Error('not-authorized');
+  }
+};
+
+/** @deprecated Use isAdminAsync on the server. Safe only for Minimongo (client). */
+export const isAdmin = (userId: string): boolean => {
   return !!AdminCollection.findOne({ userId });
 };
 
-export const requireAdmin = (userId?: string) => {
+/** @deprecated Use requireAdminAsync on the server. Safe only for Minimongo (client). */
+export const requireAdmin = (userId?: string): void => {
   if (!userId || !isAdmin(userId)) {
     throw new Meteor.Error('not-authorized');
   }

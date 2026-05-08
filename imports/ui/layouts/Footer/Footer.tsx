@@ -1,22 +1,17 @@
 import { NavLink } from 'react-router-dom';
-import { useIsLoggedIn } from '../../hooks/useCurrentUser';
-import { useAuth } from '../../hooks/useAuth';
+import { useIsLoggedIn, useIsAdmin } from '../../hooks/useCurrentUser';
 import './Footer.css';
 
 export const Footer = () => {
   const loggedIn = useIsLoggedIn();
-  const { isAdmin } = useAuth();
-
-  const handleNavClick = () => {
-    // no-op for now
-  };
+  const { isAdmin } = useIsAdmin();
 
   return (
     <footer className="footer">
       <div className="footer__content">
         <div className="footer__brand">
           <img
-            src="/assets/company-logo.svg"
+            src="/assets/icons/company-logo.svg"
             alt="Hybrid Hiring Solutions Logo"
             className="footer__logo"
           />
@@ -24,22 +19,25 @@ export const Footer = () => {
             <h2 className="footer__title">Hybrid Hiring Solutions</h2>
           </NavLink>
         </div>
+
         <nav className="footer__nav">
-          <p className="footer__nav-link footer__nav-link-title">Quick Links</p>
           <NavLink to="/employers" className="footer__nav-link">
             Employers
           </NavLink>
           <NavLink to="/jobs" className="footer__nav-link">
             Jobs
           </NavLink>
+          <NavLink to="/resources" className="footer__nav-link">
+            Resources
+          </NavLink>
           <NavLink to="/contact" className="footer__nav-link">
-            Contact Us
+            Contact
           </NavLink>
           <NavLink to="/about" className="footer__nav-link">
             About Us
           </NavLink>
           {isAdmin && (
-            <NavLink to="/admin" onClick={handleNavClick}>
+            <NavLink to="/admin" className="footer__nav-link">
               Admin
             </NavLink>
           )}
@@ -58,37 +56,44 @@ export const Footer = () => {
             </>
           )}
         </nav>
+
         <div className="footer__socials">
-          {/* TODO: replace href values with real social URLs when available */}
           <a href="#" className="footer__socials-link" aria-label="Facebook">
             <img
-              src="/assets/facebook-logo.svg"
-              alt="Facebook Logo"
+              src="/assets/icons/ri_facebook-fill.svg"
+              alt=""
+              aria-hidden="true"
               className="footer__socials-icon"
             />
           </a>
           <a href="#" className="footer__socials-link" aria-label="LinkedIn">
             <img
-              src="/assets/linkedin-logo.svg"
-              alt="LinkedIn Logo"
+              src="/assets/icons/mdi_linkedin.svg"
+              alt=""
+              aria-hidden="true"
               className="footer__socials-icon"
             />
           </a>
           <a href="#" className="footer__socials-link" aria-label="Instagram">
             <img
-              src="/assets/instagram-logo.svg"
-              alt="Instagram Logo"
+              src="/assets/icons/ri_instagram-fill.svg"
+              alt=""
+              aria-hidden="true"
               className="footer__socials-icon"
             />
           </a>
         </div>
+
         <div className="footer__copyright">
           <hr className="footer__divider" />
-          {/* TODO: add legal disclaimer copy */}
-          <p className="footer__copyright-text">Legal Disclaimer</p>
+          <p className="footer__copyright-text">
+            <strong>Legal Disclaimer:</strong> Hybrid Hiring Solutions is a job matching platform.
+            We do not guarantee employment and are not responsible for the accuracy of third-party
+            job listings. By using this site you agree to our Terms of Service and Privacy Policy.
+          </p>
           <hr className="footer__divider" />
           <p className="footer__copyright-text">
-            © Hybrid Hiring Solutions {new Date().getFullYear()} All Rights Reserved
+            © Hybrid Hiring Solutions {new Date().getFullYear()}. All rights reserved
           </p>
         </div>
       </div>

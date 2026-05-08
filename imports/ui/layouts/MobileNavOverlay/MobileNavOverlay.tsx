@@ -47,21 +47,21 @@ export const MobileNavOverlay = ({
           <NavLink to="/" onClick={handleNavClick}>
             Home
           </NavLink>
-          <NavLink to="/users/list" onClick={handleNavClick}>
-            Users List
+          <NavLink to="/employers" onClick={handleNavClick}>
+            Employers
           </NavLink>
-          <NavLink to="/users/manage" onClick={handleNavClick}>
-            Users Manager
-          </NavLink>
-          {/* <NavLink to="/jobs" onClick={handleNavClick}>
+          <NavLink to="/jobs" onClick={handleNavClick}>
             Jobs
+          </NavLink>
+          <NavLink to="/resources" onClick={handleNavClick}>
+            Resources
+          </NavLink>
+          <NavLink to="/contact" onClick={handleNavClick}>
+            Contact
           </NavLink>
           <NavLink to="/about" onClick={handleNavClick}>
             About
           </NavLink>
-          <NavLink to="/contact" onClick={handleNavClick}>
-            Contact
-          </NavLink> */}
         </nav>
 
         <hr className="mobile-nav-divider" />

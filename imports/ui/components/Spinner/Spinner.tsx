@@ -1,24 +1,51 @@
-import React from 'react';
+import './Spinner.css';
 
-type SpinnerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type SpinnerSize = 'sm' | 'md' | 'lg';
+
 interface SpinnerProps {
-  className?: string;
   size?: SpinnerSize;
 }
 
-export const Spinner = ({ className = 'spinner', size = 'md' }: SpinnerProps) => {
-  const classes = ['spinner', `spinner--${size}`, className].filter(Boolean).join(' ');
+const SIZE_PX: Record<SpinnerSize, number> = {
+  sm: 18,
+  md: 32,
+  lg: 48,
+};
+
+export const Spinner = ({ size = 'md' }: SpinnerProps) => {
+  const px = SIZE_PX[size];
   return (
-    <svg className={classes} fill="none" viewBox="0 0 24 24" aria-hidden="true">
+    <svg
+      className="spinner"
+      width={px}
+      height={px}
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-label="Loading"
+      role="status"
+    >
       <circle
-        className="spinner-track"
         cx="12"
         cy="12"
         r="10"
         stroke="currentColor"
-        strokeWidth="4"
+        strokeWidth="3"
+        className="spinner__track"
       />
-      <path className="spinner-arc" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+      <path
+        d="M12 2a10 10 0 0 1 10 10"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        className="spinner__arc"
+      />
     </svg>
   );
 };
+
+/** Full-page centered spinner for route-level loading states */
+export const PageSpinner = () => (
+  <div className="spinner-page">
+    <Spinner size="lg" />
+  </div>
+);

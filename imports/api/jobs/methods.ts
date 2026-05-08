@@ -1,16 +1,18 @@
-import { requireAdmin } from '../admin/collection';
+import { requireAdminAsync } from '../admin/collection';
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import { JobsCollection } from './collection';
 import { Job } from './collection';
+import { sampleJobs } from './sample';
+import { createJobMatchNotifications } from '../notifications/helpers';
 
 Meteor.methods({
-  'jobs.create'(jobData: Omit<Job, 'owner' | 'postedAt' | 'isActive'>) {
+  async 'jobs.create'(jobData: Omit<Job, 'owner' | 'postedAt' | 'isActive'>) {
     if (!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
 
-    requireAdmin(this.userId);
+    await requireAdminAsync(this.userId);
 
     check(jobData.title, String);
     check(jobData.company, String);
@@ -24,20 +26,23 @@ Meteor.methods({
     check(jobData.description, String);
     check(jobData.externalApplyUrl, String);
 
-    return JobsCollection.insertAsync({
+    const newJob = {
       ...jobData,
       postedAt: new Date(),
       isActive: true,
       owner: this.userId,
-    });
+    };
+    const jobId = await JobsCollection.insertAsync(newJob);
+    await createJobMatchNotifications(newJob, jobId);
+    return jobId;
   },
 
-  'jobs.update'(jobId: string, updates: Partial<Job>) {
+  async 'jobs.update'(jobId: string, updates: Partial<Job>) {
     if (!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
 
-    requireAdmin(this.userId);
+    await requireAdminAsync(this.userId);
 
     check(jobId, String);
     check(updates, {
@@ -58,14 +63,39 @@ Meteor.methods({
     return JobsCollection.updateAsync({ _id: jobId }, { $set: updates });
   },
 
-  'jobs.remove'(jobId: string) {
+  async 'jobs.remove'(jobId: string) {
     if (!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
 
-    requireAdmin(this.userId);
+    await requireAdminAsync(this.userId);
 
     check(jobId, String);
     return JobsCollection.removeAsync({ _id: jobId });
+  },
+
+  /**
+   * Dev/admin helper: inserts any sample jobs not already in the database
+   * (matched by title + company). Safe to call multiple times.
+   * Usage from browser console: await Meteor.callAsync('jobs.seed')
+   */
+  async 'jobs.seed'() {
+    if (Meteor.isServer) {
+      await requireAdminAsync(this.userId ?? undefined);
+    }
+
+    let inserted = 0;
+    for (const job of sampleJobs) {
+      const exists = await JobsCollection.findOneAsync({
+        title: job.title,
+        company: job.company,
+      });
+      if (!exists) {
+        const jobId = await JobsCollection.insertAsync(job);
+        await createJobMatchNotifications(job, jobId);
+        inserted++;
+      }
+    }
+    return { inserted, total: sampleJobs.length };
   },
 });

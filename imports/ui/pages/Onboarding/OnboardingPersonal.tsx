@@ -1,37 +1,49 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, SelectionLabel } from '../../components';
+import { Meteor } from 'meteor/meteor';
+import { SelectionLabel } from '../../components';
+import type { JobType } from '/imports/types/jobs';
 import './Onboarding.css';
+
+const JOB_TYPE_OPTIONS = [
+  { label: 'Full-time', value: 'full-time' as JobType },
+  { label: 'Part-time', value: 'part-time' as JobType },
+  { label: 'Contract', value: 'contract' as JobType },
+] as const;
+
+function ChevronIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M6 12l4-4-4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export const OnboardingPersonal = () => {
   const navigate = useNavigate();
   const [city, setCity] = useState('');
   const [zip, setZip] = useState('');
   const [remote, setRemote] = useState(false);
-
   const [pay, setPay] = useState('');
   const [payPeriod, setPayPeriod] = useState<'hour' | 'year'>('hour');
-
-  const [selectedJobTypes, setSelectedJobTypes] = useState<string[]>([]);
-
-  const toggleJobType = (type: string) => {
-    setSelectedJobTypes((prev) =>
-      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
-    );
-  };
-
+  const [selectedJobTypes, setSelectedJobTypes] = useState<JobType[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState('');
   const [jobTitleInput, setJobTitleInput] = useState('');
   const [jobTitles, setJobTitles] = useState<string[]>([]);
-
   const [openAnyJob, setOpenAnyJob] = useState(false);
+
+  const toggleJobType = (value: JobType) => {
+    setSelectedJobTypes((prev) =>
+      prev.includes(value) ? prev.filter((t) => t !== value) : [...prev, value]
+    );
+  };
 
   const handleAddJobTitle = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && jobTitleInput.trim()) {
       e.preventDefault();
-
       if (jobTitles.length >= 10) return;
       if (jobTitles.includes(jobTitleInput.trim())) return;
-
       setJobTitles([...jobTitles, jobTitleInput.trim()]);
       setJobTitleInput('');
     }
@@ -41,51 +53,72 @@ export const OnboardingPersonal = () => {
     setJobTitles((prev) => prev.filter((t) => t !== title));
   };
 
+  const handleContinue = async () => {
+    try {
+      setError('');
+      setIsSaving(true);
+
+      const cityParts = city.trim().split(',');
+      const cityName = cityParts[0]?.trim() || city.trim();
+      const stateName = cityParts[1]?.trim() || '';
+      const minPay = pay ? parseFloat(pay) : undefined;
+      const payUnit: 'hourly' | 'yearly' = payPeriod === 'hour' ? 'hourly' : 'yearly';
+
+      await Meteor.callAsync('UserProfiles.upsert', {
+        city: cityName,
+        state: stateName,
+        zip: zip.trim() || undefined,
+        remoteOk: remote,
+        ...(minPay !== undefined && { minPay, payUnit }),
+        jobTypes: selectedJobTypes,
+        preferredTitle: jobTitles.join(', ') || undefined,
+        activelyLooking: !openAnyJob,
+      });
+
+      navigate('/onboarding/professional');
+    } catch (err) {
+      console.error('Failed to save profile:', err);
+      setError('Failed to save your preferences. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
-    <div className="onboarding-personal">
-      <div className="onboarding-personal__header">
-        <div className="onboarding-personal__nav">
-          <div className="btn-back">
-            <button
-              type="button"
-              className="onboarding-personal__btn btn-back"
-              onClick={() => navigate(-1)}
-            >
-              <img src="/assets/skip.svg" alt="Back" />
-            </button>
-          </div>
-
-          <div className="onboarding-personal__logo">
-            <img src="/assets/company-logo.svg" alt="Logo" />
-          </div>
-
-          <button
-            type="button"
-            className="onboarding-personal__btn btn-skip"
-            onClick={() => navigate('/jobs')}
-          >
-            Skip <img src="/assets/skip.svg" alt="Skip" />
+    <div className="ob-page">
+      <div className="ob-step">
+        {/* Nav */}
+        <div className="ob-nav">
+          <button type="button" className="ob-nav__back" onClick={() => navigate(-1)}>
+            <ChevronIcon />
+            Back
+          </button>
+          <button type="button" className="ob-nav__skip" onClick={() => navigate('/jobs')}>
+            Skip
+            <ChevronIcon />
           </button>
         </div>
 
-        <h1 className="onboarding-personal__title top-title">Profile Builder</h1>
-        <p className="onboarding-personal__subtitle">Page 1 of 3</p>
-      </div>
+        {/* Progress */}
+        <div className="ob-progress">
+          <h1 className="ob-progress__title">Profile Builder</h1>
+          <p className="ob-progress__label">Step 1 of 3</p>
+          <div className="ob-progress__dots">
+            <span className="ob-progress__dot ob-progress__dot--active" />
+            <span className="ob-progress__dot" />
+            <span className="ob-progress__dot" />
+          </div>
+        </div>
 
-      <div className="onboarding-personal__main-contents">
-        {/* locations */}
-        <div className="onboarding-personal__location onboarding-personal__main-content">
-          <div className="onboarding-personal__description">
-            <h2 className="onboarding-personal__title">
-              Let’s make sure your preferences are up-to-date. Where are you located?
-            </h2>
-            <p className="onboarding-personal__subtitle">
-              We use this to match you with nearby jobs.
-            </p>
+        {/* Location */}
+        <div className="ob-card">
+          <div className="ob-card__description">
+            <h2 className="ob-card__heading">Where are you located?</h2>
+            <p className="ob-card__subheading">We use this to match you with nearby jobs.</p>
           </div>
 
-          <div className="onboarding-personal__inputs">
-            <div className="onboarding-personal__input">
+          <div className="ob-fields">
+            <div className="ob-input">
               <input
                 type="text"
                 value={city}
@@ -93,8 +126,7 @@ export const OnboardingPersonal = () => {
                 placeholder="City, State"
               />
             </div>
-
-            <div className="onboarding-personal__input">
+            <div className="ob-input">
               <input
                 type="text"
                 value={zip}
@@ -102,52 +134,44 @@ export const OnboardingPersonal = () => {
                 placeholder="Zip Code"
               />
             </div>
-
-            <div className="onboarding-personal__input-toggle">
-              <span className="onboarding-personal__subtitle">I’m interested in remote work</span>
-
+            <div className="ob-toggle-row">
+              <span className="ob-toggle-row__label">I'm interested in remote work</span>
               <button
                 type="button"
                 role="switch"
                 aria-checked={remote}
-                className={`toggle ${remote ? 'toggle--on' : ''}`}
+                className={`ob-toggle${remote ? ' ob-toggle--on' : ''}`}
                 onClick={() => setRemote(!remote)}
               />
             </div>
           </div>
         </div>
 
-        {/* salary */}
-        <div className="onboarding-personal__main-content">
-          <div className="onboarding-personal__description">
-            <h2 className="onboarding-personal__title">
-              What’s the minimum pay you’re looking for?
-            </h2>
-
-            <p className="onboarding-personal__subtitle">
-              We use this to match you with jobs that pay around and above this amount.
-            </p>
+        {/* Salary */}
+        <div className="ob-card">
+          <div className="ob-card__description">
+            <h2 className="ob-card__heading">What's the minimum pay you're looking for?</h2>
+            <p className="ob-card__subheading">We match you with jobs that pay at or above this amount.</p>
           </div>
 
-          <div className="onboarding-personal__inputs pay-period">
-            <div className="onboarding-personal__input">
+          <div className="ob-fields">
+            <div className="ob-input">
+              <span className="ob-input__prefix">$</span>
               <input
                 type="number"
                 value={pay}
                 onChange={(e) => setPay(e.target.value)}
-                placeholder="Minimum base pay $"
+                placeholder="Minimum base pay"
               />
             </div>
 
-            <div className="onboarding-personal__input-pay">
-              <p className="onboarding-personal__subtitle">Pay period:</p>
-
+            <div className="ob-pay-row">
+              <p className="ob-pay-row__label">Pay period:</p>
               <SelectionLabel
                 label="Per Hour"
                 selected={payPeriod === 'hour'}
                 onClick={() => setPayPeriod('hour')}
               />
-
               <SelectionLabel
                 label="Per Year"
                 selected={payPeriod === 'year'}
@@ -157,87 +181,94 @@ export const OnboardingPersonal = () => {
           </div>
         </div>
 
-        <div className="onboarding-personal__main-content">
-          <div className="onboarding-personal__description">
-            <h2 className="onboarding-personal__title">What type of job are you interested in?</h2>
-
-            <p className="onboarding-personal__subtitle">Select all that apply.</p>
+        {/* Job type */}
+        <div className="ob-card">
+          <div className="ob-card__description">
+            <h2 className="ob-card__heading">What type of job are you interested in?</h2>
+            <p className="ob-card__subheading">Select all that apply.</p>
           </div>
 
-          <div className="onboarding-personal__inputs job-type">
-            {(['Full-time', 'Part-time', 'Contract', 'Temporary', 'Internship'] as const).map(
-              (type) => (
-                <button
-                  key={type}
-                  type="button"
-                  className={`chip ${selectedJobTypes.includes(type) ? 'chip--selected' : ''}`}
-                  onClick={() => toggleJobType(type)}
-                >
-                  <img src="/assets/plus.svg" alt="" />
-                  {type}
-                </button>
-              )
-            )}
+          <div className="ob-chips">
+            {JOB_TYPE_OPTIONS.map(({ label, value }) => (
+              <button
+                key={value}
+                type="button"
+                className={`ob-chip${selectedJobTypes.includes(value) ? ' ob-chip--selected' : ''}`}
+                onClick={() => toggleJobType(value)}
+                aria-pressed={selectedJobTypes.includes(value)}
+              >
+                {label}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* job side */}
-        <div className="onboarding-personal__main-content">
-          <div className="onboarding-personal__description">
-            <h2 className="onboarding-personal__title">What job are you looking for?</h2>
-
-            <p className="onboarding-personal__subtitle">
-              This helps us show you the most relevant jobs.
+        {/* Preferred titles */}
+        <div className="ob-card">
+          <div className="ob-card__description">
+            <h2 className="ob-card__heading">What job are you looking for?</h2>
+            <p className="ob-card__subheading">
+              Press Enter to add a title. This helps us surface the most relevant listings.
             </p>
           </div>
 
-          <div className="onboarding-personal__inputs pay-period">
-            <div className="onboarding-personal__input">
+          <div className="ob-fields">
+            <div className="ob-input">
               <input
                 type="text"
                 value={jobTitleInput}
                 onChange={(e) => setJobTitleInput(e.target.value)}
                 onKeyDown={handleAddJobTitle}
-                placeholder="Job title: Add up to 10 job titles"
+                placeholder="e.g. Pipeline Technician, Electrician…"
               />
             </div>
 
-            {/* user creates their own tags */}
             {jobTitles.length > 0 && (
-              <div className="job-tags__list onboarding-personal__subtitle">
+              <ul className="ob-tags">
                 {jobTitles.map((title) => (
-                  <span key={title} className="job-tag">
+                  <li key={title} className="ob-tag">
                     {title}
                     <button
                       type="button"
-                      className="job-tags__list-delete"
+                      className="ob-tag__remove"
                       onClick={() => handleRemoveJobTitle(title)}
+                      aria-label={`Remove ${title}`}
                     >
-                      X
+                      ×
                     </button>
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             )}
 
-            <div className="onboarding-personal__input-toggle">
-              <span className="onboarding-personal__subtitle">I’m open to any job position</span>
-
+            <div className="ob-toggle-row">
+              <span className="ob-toggle-row__label">I'm open to any job position</span>
               <button
                 type="button"
                 role="switch"
                 aria-checked={openAnyJob}
-                className={`toggle ${openAnyJob ? 'toggle--on' : ''}`}
+                className={`ob-toggle${openAnyJob ? ' ob-toggle--on' : ''}`}
                 onClick={() => setOpenAnyJob(!openAnyJob)}
               />
             </div>
           </div>
         </div>
 
-        <div className="onboarding-personal__btn">
-          <Button variant="primary" type="button">
-            Continue
-          </Button>
+        {/* Footer */}
+        <div className="ob-footer">
+          {error && (
+            <p className="ob-error" role="alert">
+              {error}
+            </p>
+          )}
+          <button
+            type="button"
+            className="ob-btn-continue"
+            onClick={handleContinue}
+            disabled={isSaving}
+          >
+            {isSaving ? 'Saving…' : 'Continue'}
+          </button>
         </div>
       </div>
     </div>

@@ -2,14 +2,25 @@ import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { MobileNavOverlay } from '../MobileNavOverlay/MobileNavOverlay';
-import { useIsLoggedIn } from '../../hooks/useCurrentUser';
+import { useIsLoggedIn, useIsAdmin } from '../../hooks/useCurrentUser';
+import { NotificationBell } from '../../components/NotificationBell/NotificationBell';
 import './Header.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
+
+function AccountIcon() {
+  return (
+    <FontAwesomeIcon icon={faCircleUser} color='white' size='xl' />
+  );
+}
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isAdmin, logOut } = useAuth();
+  const { logOut } = useAuth();
   const isLoggedIn = useIsLoggedIn();
+  const { isAdmin } = useIsAdmin();
   const navigate = useNavigate();
+
   const handleLogOut = () => {
     logOut();
     navigate('/');
@@ -19,16 +30,10 @@ export const Header = () => {
   return (
     <header className="site-header">
       <NavLink to="/" className="site-header__logo">
-        <img src="/assets/company-logo.svg" alt="Hybrid Hiring Solutions" />
+        <img src="/assets/icons/company-logo.svg" alt="Hybrid Hiring Solutions" />
       </NavLink>
 
       <nav className="site-header__nav">
-        {/* <NavLink to="/users/list" className="site-header__link">
-          Users List
-        </NavLink>
-        <NavLink to="/users/manage" className="site-header__link">
-          Users Manager
-        </NavLink> */}
         <NavLink to="/employers" className="site-header__link">
           Employers
         </NavLink>
@@ -51,17 +56,23 @@ export const Header = () => {
         )}
       </nav>
 
-      <div className="site-header__auth">
+      <div className="site-header__actions">
         {isLoggedIn ? (
-          <button className="site-header__auth-btn" onClick={handleLogOut}>
-            Log Out
-          </button>
+          <>
+            <NotificationBell />
+            <NavLink to="/account" className="site-header__icon-btn" aria-label="Account">
+              <AccountIcon />
+            </NavLink>
+            <button className="site-header__logout-btn" onClick={handleLogOut}>
+              Log Out
+            </button>
+          </>
         ) : (
           <>
-            <NavLink to="/login" className="site-header__link">
+            <NavLink to="/login" className="site-header__auth-link">
               Log In
             </NavLink>
-            <NavLink to="/signup" className="site-header__link site-header__link--cta">
+            <NavLink to="/signup" className="site-header__auth-btn">
               Sign Up
             </NavLink>
           </>

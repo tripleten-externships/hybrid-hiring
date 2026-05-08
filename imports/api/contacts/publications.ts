@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { ContactsCollection } from './collection';
-import { isAdmin } from '/imports/api/admin/collection';
+import { isAdminAsync } from '/imports/api/admin/collection';
 
-Meteor.publish('contacts.all', function () {
-  if (!this.userId || !isAdmin(this.userId)) {
+Meteor.publish('contacts.all', async function () {
+  if (!this.userId || !(await isAdminAsync(this.userId))) {
     return this.ready();
   }
 

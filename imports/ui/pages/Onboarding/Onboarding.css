@@ -1,533 +1,406 @@
-.onboarding-main {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 135px 0 60px;
+/* ─── Page shell ─────────────────────────────────────────────────────────────── */
+.ob-page {
+  min-height: calc(100vh - 62px);
   background-color: var(--color-5);
-  width: 100%;
-  font-size: 20px;
-  text-align: center;
-}
-
-.onboarding-main__back-button {
-  position: absolute;
-  left: var(--space-8);
-  top: var(--space-8);
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.onboarding-main__back-button img {
-  width: 35px;
-  height: 35px;
-}
-
-.onboarding-main__progress {
-  margin-bottom: 30px;
-  font-size: var(--font-size-lg);
-}
-
-.onboarding-main__card {
-  max-width: 1280px;
-  width: 100%;
-  min-height: 429px;
-  padding: var(--space-6);
-  border: 1px solid var(--color-1);
-  border-radius: var(--radius-sm);
-}
-
-.onboarding-main__title {
-  font-size: 36px;
-  font-weight: var(--font-weight-medium);
-  line-height: 40px;
-}
-
-.onboarding-main__subtitle {
-  margin-bottom: 26px;
-}
-
-.onboarding-main__input-wrapper {
-  display: flex;
-  justify-content: center;
-}
-
-.onboarding-main__input-wrapper input {
-  width: 392px;
-  height: 60px;
-}
-
-.onboarding-main__upload {
-  margin-top: 26px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: var(--space-8) var(--space-5) var(--space-16);
 }
 
-.onboarding-main__upload-button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  margin-bottom: 26px;
-}
-
-.onboarding-main__upload-button img {
-  width: 20px;
-  height: 20px;
-}
-
-.onboarding-main__file-name {
-  margin-top: 6px;
-}
-
-.onboarding-main__add-document {
-  margin-top: var(--space-5);
-  margin-bottom: var(--space-5);
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-.onboarding-main__add-document:hover {
-  text-decoration: underline;
-}
-
-.onboarding-main__toggle-section {
-  margin-top: var(--space-5);
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.onboarding-main__toggle {
-  position: relative;
-  width: 36px;
-  height: 20px;
-}
-
-.onboarding-main__toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.onboarding-main__toggle-slider {
-  position: absolute;
-  inset: 0;
-  background: var(--color-4);
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-.onboarding-main__toggle-slider::before {
-  content: '';
-  position: absolute;
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  top: 3px;
-  background: var(--color-6);
-  border-radius: 50%;
-  transition: 0.2s;
-}
-
-.onboarding-main__toggle input:checked + .onboarding-main__toggle-slider {
-  background: var(--color-2);
-}
-
-.onboarding-main__toggle input:checked + .onboarding-main__toggle-slider::before {
-  transform: translateX(16px);
-}
-
-.onboarding-main__continue-button {
-  margin-top: var(--space-6);
-  width: 220px;
-  padding: 10px;
-  background: var(--color-primary-dark);
-  color: var(--color-6);
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-size: var(--font-size-lg);
-}
-
-.onboarding-main__continue-button:hover {
-  filter: brightness(0.9);
-}
-
-/* Narrow mobile: fullscreen-style onboarding (shared by personal & skills steps) */
-@media screen and (max-width: 360px) {
-  .site-header {
-    display: none;
-  }
-
-  .footer {
-    display: none;
-  }
-}
-
-.onboarding-personal {
-  background-color: #eaeaea;
-  margin: 0;
-  padding: clamp(30px, 2vw, 60px) clamp(20px, 4vw, 80px) clamp(60px, calc(397px - 23.4vw), 294px);
-  gap: 40px;
+/* ─── Centered content column ────────────────────────────────────────────────── */
+.ob-step {
+  width: 100%;
+  max-width: 640px;
   display: flex;
   flex-direction: column;
-  font-style: normal;
-  align-items: center;
-  justify-content: center;
+  gap: var(--space-5);
 }
-.onboarding-personal__nav {
+
+/* ─── Top navigation row ─────────────────────────────────────────────────────── */
+.ob-nav {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  width: 100%;
-  position: relative;
-}
-.onboarding-personal__header {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 40px;
-  justify-content: center;
-  align-items: center;
+  margin-bottom: var(--space-2);
 }
 
-.onboarding-personal__btn {
+.ob-nav__back,
+.ob-nav__skip {
+  background: none;
   border: none;
-  background-color: transparent;
+  cursor: pointer;
+  font-family: inherit;
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-1);
+  padding: var(--space-1) 0;
+  transition: opacity 0.15s ease;
 }
 
-.onboarding-personal__btn .btn--primary,
-.onboarding-personal__btn .btn--primary span {
-  font-size: clamp(16px, calc(4.43px + 2.63vw), 24px) !important;
+.ob-nav__back:hover,
+.ob-nav__skip:hover {
+  opacity: 0.65;
 }
 
-.btn-skip {
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 24px;
-  gap: 10px;
-}
-
-.btn-back img {
+.ob-nav__back svg {
   transform: rotate(180deg);
 }
-.onboarding-personal__title,
-.onboarding-personal__subtitle {
+
+/* ─── Step progress ──────────────────────────────────────────────────────────── */
+.ob-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.ob-progress__label {
+  font-size: var(--font-size-sm);
+  color: var(--color-2);
+  font-weight: var(--font-weight-medium);
   margin: 0;
-  padding: 0;
 }
 
-.onboarding-personal__title {
-  font-size: clamp(16px, 2vw, 36px);
-  font-weight: 500;
-  line-height: clamp(24px, 2vw, 40px);
-  letter-spacing: clamp(-2px, calc(0.88px - 0.2vw), 0px);
-}
-
-.onboarding-personal__subtitle {
-  font-size: clamp(14px, 1.5vw, 20px);
-  font-weight: 400;
-  line-height: clamp(16px, 1.5vw, 28px);
-  letter-spacing: clamp(-1px, calc(0.88px - 0.2vw), -0.5px);
-}
-
-.onboarding-personal__main-content {
-  display: flex;
-  gap: 26px;
-  align-items: center;
-  flex-direction: column;
-  padding: 16px;
-  border: 1px solid #000;
-  align-self: stretch;
-  border-radius: 5px;
-}
-
-.onboarding-personal__description {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(2px, calc(-12.96px + 3.4vw), 36px);
-  align-items: center;
-  align-self: stretch;
+.ob-progress__title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-1);
+  margin: 0;
   text-align: center;
 }
 
-.onboarding-personal__inputs {
+.ob-progress__dots {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.ob-progress__dot {
+  width: 28px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-3);
+  transition: background 0.2s ease;
+}
+
+.ob-progress__dot--done {
+  background: var(--color-primary-dark);
+  opacity: 0.4;
+}
+
+.ob-progress__dot--active {
+  background: var(--color-primary-dark);
+}
+
+/* ─── Section cards ──────────────────────────────────────────────────────────── */
+.ob-card {
+  background: #fff;
+  border: 1px solid var(--color-3);
+  border-radius: var(--radius-md);
+  padding: var(--space-6) var(--space-7);
   display: flex;
   flex-direction: column;
-  gap: 26px;
-  max-width: 392px;
-  width: 100%;
-}
-.onboarding-personal__input {
-  display: flex;
-  align-items: center;
-  /* width: 391.412px; */
-  padding: 16px 11px;
-  gap: 10px;
-  border-radius: 5px;
-  border: 1px solid var(--Interface-Color-2, #636363);
-  background: var(--Interface-Color-6, #fff);
-  box-sizing: border-box;
-}
-.onboarding-personal .btn--ghost {
-  border: none;
+  gap: var(--space-5);
 }
 
-.onboarding-personal .btn__label {
-  color: #000;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 16px;
-  font-weight: 700;
+.ob-card__heading {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-1);
+  margin: 0;
+  line-height: 1.4;
 }
 
-.onboarding-personal__input input {
+.ob-card__subheading {
+  font-size: var(--font-size-sm);
+  color: var(--color-2);
+  margin: 0;
+}
+
+.ob-card__description {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* ─── Inputs ─────────────────────────────────────────────────────────────────── */
+.ob-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ob-input {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--color-3);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  gap: var(--space-2);
+  transition: border-color 0.15s ease;
+}
+
+.ob-input:focus-within {
+  border-color: var(--color-primary-dark);
+}
+
+.ob-input input {
+  flex: 1;
   border: none;
-  background: transparent;
   outline: none;
-  font-size: 20px;
-  width: 100%;
-  max-width: 369px;
+  background: transparent;
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  color: var(--color-1);
 }
 
-.onboarding-personal__input-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.ob-input input::placeholder {
+  color: var(--color-3);
 }
 
-.toggle {
-  border: none;
-  padding: 0;
-  border-radius: 100px;
-  position: relative;
-  cursor: pointer;
-  transition: background 0.2s;
-  background: var(--Interface-Color-4, #b7b7b7);
-  width: 47px;
-  height: 26px;
-  display: flex;
-  align-items: center;
+.ob-input__prefix {
+  font-size: var(--font-size-sm);
+  color: var(--color-2);
   flex-shrink: 0;
 }
 
-.onboarding-personal__logo {
-  display: none;
-}
-
-.toggle::after {
-  content: '';
-  width: 21px;
-  height: 21px;
-  border-radius: 50%;
-  background: var(--Interface-Color-1, #000);
-  position: absolute;
-  top: 50%;
-  left: 3px;
-  transform: translateY(-50%);
-  transition: transform 0.2s;
-}
-
-.toggle--on::after {
-  content: '';
-}
-.toggle--on {
-  background: var(--Color-Pallet-Secondary, #d5dde5);
-}
-
-.toggle--on::after {
-  transform: translate(22px, -50%);
-}
-
-.onboarding-personal__main-contents {
+/* ─── Toggle row ─────────────────────────────────────────────────────────────── */
+.ob-toggle-row {
   display: flex;
-  flex-direction: column;
-  gap: 30px;
-  width: 100%;
-  max-width: 1248px;
   align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
 }
 
-.onboarding-personal__finish-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-}
-
-.onboarding-personal__error-text {
+.ob-toggle-row__label {
+  font-size: var(--font-size-sm);
+  color: var(--color-1);
   margin: 0;
-  color: var(--color-error, #da3a3d);
-  font-size: 14px;
-  line-height: 20px;
-  text-align: center;
 }
 
-.onboarding-personal__skills-chips {
-  margin: 45px 0 0;
+.ob-toggle {
+  flex-shrink: 0;
+  width: 44px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--color-3);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s ease;
   padding: 0;
+}
+
+.ob-toggle::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.ob-toggle--on {
+  background: var(--color-primary-dark);
+}
+
+.ob-toggle--on::after {
+  transform: translateX(20px);
+}
+
+/* ─── Chip selectors (job type, pay period) ──────────────────────────────────── */
+.ob-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 22px;
-  justify-content: center;
-  align-items: center;
-  list-style: none;
-  width: 100%;
+  gap: var(--space-2);
 }
 
-.onboarding-personal__skill-chip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: clamp(14px, 1.5vw, 20px);
-  font-weight: 400;
-  line-height: clamp(16px, 1.5vw, 28px);
-  letter-spacing: clamp(-1px, calc(0.88px - 0.2vw), -0.5px);
-}
-
-.onboarding-personal__skill-remove {
+.ob-chip {
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  border: 1px solid var(--color-3);
+  border-radius: 999px;
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  color: var(--color-2);
   cursor: pointer;
-  border: none;
-  margin: 0;
-  padding: 0;
-  background: none;
-  display: flex;
-  align-items: center;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
-.onboarding-personal__btn .btn--primary {
-  width: 100%;
-  max-width: 314px;
-  padding: 15px 190px;
+.ob-chip:hover {
+  border-color: var(--color-primary-dark);
+  color: var(--color-primary-dark);
 }
 
-.onboarding-personal__btn .btn__label {
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: clamp(16px, 2vw, 36px);
-  font-weight: 700;
-}
-
-.onboarding-personal__input-pay {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.pay-period .chip {
-  padding: 10px 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  border-radius: 5px;
-  font-size: 24px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: none;
-  border: none;
-}
-
-.pay-period .chip:hover {
-  background: none;
-  color: none;
-}
-
-.pay-period .chip:not(.chip--selected) {
-  background: var(--Color-Pallet-Secondary, #d5dde5);
-  color: var(--Interface-Color-1, #000);
-}
-
-.pay-period .chip.chip--selected {
-  background: var(--Color-Pallet-Secondary-Dark, #345077);
-  color: var(--Interface-Color-6, #fff);
-}
-
-.job-type .chip {
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px;
-  padding: 20px 12px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  background: #fff;
-  color: #000;
-  transition: none;
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  align-items: center;
-}
-
-.job-type .chip.chip--selected {
-  background: #345077;
+.ob-chip--selected {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
   color: #fff;
 }
 
-.job-type .chip.chip--selected img {
-  display: none;
-}
-
-.chip-label {
-  font-size: clamp(14px, 2vw, 24px);
-}
-
-.job-tags__list-delete {
-  border: none;
+/* ─── Tags (added job titles / skills) ───────────────────────────────────────── */
+.ob-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
   margin: 0;
-  cursor: pointer;
+  list-style: none;
 }
-@media screen and (max-width: 440px) {
-  .onboarding-personal__description {
-    align-items: flex-start;
-    text-align: start;
+
+.ob-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 4px 10px 4px 12px;
+  background: var(--color-5);
+  border: 1px solid var(--color-3);
+  border-radius: 999px;
+  font-size: var(--font-size-xs);
+  color: var(--color-1);
+}
+
+.ob-tag__remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  color: var(--color-2);
+  font-size: 14px;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+.ob-tag__remove:hover {
+  color: var(--color-1);
+}
+
+/* ─── Upload section ─────────────────────────────────────────────────────────── */
+.ob-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.ob-upload__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  background: transparent;
+  border: 1px solid var(--color-primary-dark);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-dark);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ob-upload__trigger:hover {
+  background: var(--color-primary-dark);
+  color: #fff;
+}
+
+.ob-upload__filename {
+  font-size: var(--font-size-sm);
+  color: var(--color-2);
+  margin: 0;
+}
+
+.ob-upload__add-more {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  color: var(--color-primary-dark);
+  cursor: pointer;
+  padding: 0;
+  font-weight: var(--font-weight-medium);
+}
+
+.ob-upload__add-more:hover {
+  text-decoration: underline;
+}
+
+/* ─── Pay period row ─────────────────────────────────────────────────────────── */
+.ob-pay-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.ob-pay-row__label {
+  font-size: var(--font-size-sm);
+  color: var(--color-2);
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* ─── Footer (CTA area) ──────────────────────────────────────────────────────── */
+.ob-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.ob-btn-continue {
+  width: 100%;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-primary-dark);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.ob-btn-continue:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.ob-btn-continue:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ob-error {
+  font-size: var(--font-size-sm);
+  color: var(--color-error, #da3a3d);
+  margin: 0;
+  text-align: center;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .ob-page {
+    padding: var(--space-5) var(--space-4) var(--space-12);
   }
 
-  .onboarding-personal__header {
-    gap: 30px;
+  .ob-card {
+    padding: var(--space-5) var(--space-4);
   }
 
-  .onboarding-personal__logo {
-    display: flex;
-    position: absolute;
-    top: 21px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .onboarding-personal__btn .btn--primary {
-    width: 100%;
-    max-width: 314px;
-    padding: 13px clamp(70px, calc(-260px + 75vw), 190px);
-  }
-
-  .onboarding-personal {
-    gap: 30px;
-  }
-
-  .top-title {
-    padding-top: 20px;
-  }
-
-  .onboarding-personal__skills-chips {
-    margin: 36.5px 0 0;
-  }
-
-  .onboarding-personal__skill-chip {
-    font-size: 16px;
-    line-height: 24px;
+  .ob-progress__title {
+    font-size: var(--font-size-lg);
   }
 }
