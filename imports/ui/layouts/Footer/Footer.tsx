@@ -30,19 +30,14 @@ export const Footer = () => {
           <NavLink to="/resources" className="footer__nav-link">
             Resources
           </NavLink>
+          <NavLink to="/about" className="footer__nav-link">
+            About
+          </NavLink>
           <NavLink to="/contact" className="footer__nav-link">
             Contact
           </NavLink>
-          <NavLink to="/about" className="footer__nav-link">
-            About Us
-          </NavLink>
-          {isAdmin && (
-            <NavLink to="/admin" className="footer__nav-link">
-              Admin
-            </NavLink>
-          )}
           {loggedIn ? (
-            <NavLink to="/account" className="footer__nav-link">
+            <NavLink to="/account" className="footer__nav-link footer__account-link">
               Account
             </NavLink>
           ) : (
@@ -54,6 +49,11 @@ export const Footer = () => {
                 Log In
               </NavLink>
             </>
+          )}
+          {isAdmin && (
+            <NavLink to="/admin" className="footer__nav-link">
+              Admin
+            </NavLink>
           )}
         </nav>
 

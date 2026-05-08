@@ -111,17 +111,22 @@ export function JobDetail() {
 
   return (
     <div className="job-detail">
-      <div className="job-detail__container">
-        {/* ─── Back nav ─── */}
+      {/* ─── Back nav ─── */}
+      <div className="job-detail__back-row">
         <button
           type="button"
           className="job-detail__back-btn"
           onClick={() => navigate(-1)}
           aria-label="Go back"
         >
-          ‹
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Back to Jobs
         </button>
+      </div>
 
+      <div className="job-detail__container">
         {/* ─── Title block (above card) ─── */}
         <div className="job-detail__title-block">
           <h1 className="job-detail__title">{job.title}</h1>

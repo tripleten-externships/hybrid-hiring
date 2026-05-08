@@ -15,21 +15,29 @@
 }
 
 /* ─── Back button ────────────────────────────────────────────────────────────── */
+.job-detail__back-row {
+  padding: var(--space-4) var(--space-6);
+}
+
 .job-detail__back-btn {
-  background: none;
-  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: #fff;
+  border: 1px solid var(--color-3);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   color: var(--color-1);
-  font-size: 32px;
-  font-weight: var(--font-weight-normal);
-  padding: 0;
-  line-height: 1;
-  width: fit-content;
-  transition: opacity 0.15s ease;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  font-family: 'Inter', sans-serif;
+  padding: var(--space-2) var(--space-4);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .job-detail__back-btn:hover {
-  opacity: 0.6;
+  background-color: var(--color-5);
+  border-color: var(--color-2);
 }
 
 /* ─── Title block (centered, above card) ────────────────────────────────────── */

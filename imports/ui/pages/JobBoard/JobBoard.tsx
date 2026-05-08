@@ -106,20 +106,17 @@ export function JobBoard() {
   };
 
   // ── Subscription ──────────────────────────────────────────────────────────
+  // Always subscribe to jobs.all for a stable, consistent document set.
+  // Recommended filtering is applied client-side below.
   const { isLoading, jobs } = useTracker(() => {
-    let sub;
-    if (debouncedTitle) {
-      sub = Meteor.subscribe('jobs.search', debouncedTitle, '');
-    } else if (isLoggedIn) {
-      sub = Meteor.subscribe('jobs.recommended');
-    } else {
-      sub = Meteor.subscribe('jobs.all');
-    }
+    const sub = debouncedTitle
+      ? Meteor.subscribe('jobs.search', debouncedTitle, '')
+      : Meteor.subscribe('jobs.all');
     return {
       isLoading: !sub.ready(),
-      jobs: JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch(),
+      jobs: JobsCollection.find({}, { sort: { postedAt: -1, _id: 1 } }).fetch(),
     };
-  }, [debouncedTitle, isLoggedIn]);
+  }, [debouncedTitle]);
 
   // ── Client-side filtering ─────────────────────────────────────────────────
   const filteredJobs = React.useMemo(() => {
