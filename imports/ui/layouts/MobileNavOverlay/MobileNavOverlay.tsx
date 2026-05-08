@@ -56,11 +56,11 @@ export const MobileNavOverlay = ({
           <NavLink to="/resources" onClick={handleNavClick}>
             Resources
           </NavLink>
-          <NavLink to="/contact" onClick={handleNavClick}>
-            Contact
-          </NavLink>
           <NavLink to="/about" onClick={handleNavClick}>
             About
+          </NavLink>
+          <NavLink to="/contact" onClick={handleNavClick}>
+            Contact
           </NavLink>
         </nav>
 

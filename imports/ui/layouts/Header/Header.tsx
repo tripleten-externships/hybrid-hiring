@@ -41,11 +41,11 @@ export const Header = () => {
         <NavLink to="/resources" className="site-header__link">
           Resources
         </NavLink>
-        <NavLink to="/contact" className="site-header__link">
-          Contact
-        </NavLink>
         <NavLink to="/about" className="site-header__link">
           About
+        </NavLink>
+        <NavLink to="/contact" className="site-header__link">
+          Contact
         </NavLink>
         {isAdmin && (
           <NavLink to="/admin" className="site-header__link">
