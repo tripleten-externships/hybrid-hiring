@@ -38,7 +38,22 @@ function UploadIcon() {
   );
 }
 
+/** Reads a File into a base64 string (without the data URL prefix). */
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      const base64 = result.includes(',') ? result.split(',')[1] : result;
+      resolve(base64);
+    };
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
 export const OnboardingProfessional = () => {
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeFileName, setResumeFileName] = useState('');
   const [certUrl, setCertUrl] = useState('');
   const [needsResumeHelp, setNeedsResumeHelp] = useState(false);
@@ -48,7 +63,7 @@ export const OnboardingProfessional = () => {
   const navigate = useNavigate();
 
   const handleContinue = async () => {
-    if (!resumeFileName && !certUrl) {
+    if (!resumeFile && !certUrl) {
       setError('Please upload a document or add a credential title before continuing.');
       return;
     }
@@ -56,15 +71,26 @@ export const OnboardingProfessional = () => {
     try {
       setError('');
       setIsSaving(true);
+
+      if (resumeFile) {
+        const base64 = await fileToBase64(resumeFile);
+        await Meteor.callAsync(
+          'resumes.upload',
+          resumeFile.name,
+          resumeFile.type || 'application/octet-stream',
+          base64
+        );
+      }
+
       await Meteor.callAsync('UserProfiles.upsert', {
-        resumeUrl: resumeFileName,
         certUrl,
         needsResumeHelp,
       });
       navigate('/onboarding/skills');
     } catch (err) {
       console.error('Failed to save profile:', err);
-      setError('Failed to save your profile. Please try again.');
+      const reason = err instanceof Meteor.Error ? err.reason : undefined;
+      setError(reason || 'Failed to save your profile. Please try again.');
     } finally {
       setIsSaving(false);
     }
@@ -73,7 +99,7 @@ export const OnboardingProfessional = () => {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // TODO [HH-69]: replace with actual file upload once backend supports it
+      setResumeFile(file);
       setResumeFileName(file.name);
       setError('');
     }

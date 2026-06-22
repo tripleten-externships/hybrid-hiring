@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useParams, useNavigate, Link } from 'react-router-dom';
@@ -71,6 +72,10 @@ export function JobDetail() {
 
   const isSaved = savedJobIds.includes(jobId ?? '');
 
+  const [applying, setApplying] = useState(false);
+  const [applied, setApplied] = useState(false);
+  const [applyError, setApplyError] = useState('');
+
   const handleToggleSave = () => {
     if (!isLoggedIn) {
       navigate('/signup');
@@ -78,6 +83,26 @@ export function JobDetail() {
     }
     if (!jobId) return;
     Meteor.callAsync('UserProfiles.toggleSaveJob', jobId);
+  };
+
+  const handleApply = async () => {
+    if (!isLoggedIn) {
+      navigate('/signup');
+      return;
+    }
+    if (!jobId || applying || applied) return;
+
+    try {
+      setApplyError('');
+      setApplying(true);
+      await Meteor.callAsync('applications.submit', jobId);
+      setApplied(true);
+    } catch (err) {
+      const reason = err instanceof Meteor.Error ? err.reason : undefined;
+      setApplyError(reason || 'Something went wrong submitting your application. Please try again.');
+    } finally {
+      setApplying(false);
+    }
   };
 
   if (isLoading) return <JobDetailSkeleton />;
@@ -133,6 +158,20 @@ export function JobDetail() {
       </div>
 
       <div className="job-detail__container">
+        {/* ─── Application confirmation alert ─── */}
+        {applied && (
+          <div className="job-detail__alert" role="alert">
+            <strong>Application submitted!</strong> Your application to "{job.title}" has been
+            successfully submitted. The Hybrid Hiring Team will be in contact after your application
+            has been reviewed.
+          </div>
+        )}
+        {applyError && (
+          <div className="job-detail__alert job-detail__alert--error" role="alert">
+            {applyError}
+          </div>
+        )}
+
         {/* ─── Title block (above card) ─── */}
         <div className="job-detail__title-block">
           <h1 className="job-detail__title">{job.title}</h1>
@@ -195,14 +234,15 @@ export function JobDetail() {
       {/* ─── Sticky footer ─── */}
       <div className="job-detail__footer">
         <div className="job-detail__footer-inner">
-          <a
-            href={job.externalApplyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
             className="job-detail__apply-btn"
+            onClick={handleApply}
+            disabled={applying || applied}
+            aria-disabled={applying || applied}
           >
-            Apply now
-          </a>
+            {applied ? 'Application submitted' : applying ? 'Submitting…' : 'Apply now'}
+          </button>
           <button
             type="button"
             className={`job-detail__save-btn${isSaved ? ' job-detail__save-btn--saved' : ''}`}

@@ -152,6 +152,28 @@ meteor run
 
 ---
 
+## Email Setup
+
+When a user submits a job application, the app emails the Hybrid Hiring contact address with the job details, the applicant's information, and their resume (attached when one is on file). Email delivery is configured entirely through environment variables.
+
+| Variable       | Required | Description                                                                                          |
+| -------------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| `CONTACT_EMAIL` | Yes      | The Hybrid Hiring inbox that receives application emails. Also used as the default `from` address.   |
+| `MAIL_URL`      | Prod     | SMTP connection string (e.g. `smtps://user:pass@smtp.provider.com:465`). Sends real email when set.  |
+| `MAIL_FROM`     | No       | Overrides the `from` address. Defaults to `CONTACT_EMAIL` when unset.                                |
+
+Add them to your `.env` file:
+
+```
+CONTACT_EMAIL=careers@hybridhiring.com
+MAIL_URL=smtps://username:password@smtp.provider.com:465
+MAIL_FROM=no-reply@hybridhiring.com
+```
+
+> **Development note:** If `MAIL_URL` is not set, Meteor does not send real email — it prints the full message to the server console instead. This lets you test the application flow locally without SMTP credentials.
+
+---
+
 ## 4. Project Structure
 
 ```

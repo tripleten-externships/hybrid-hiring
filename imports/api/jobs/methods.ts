@@ -24,10 +24,11 @@ Meteor.methods({
     check(jobData.tags, [String]);
     check(jobData.benefits, [String]);
     check(jobData.description, String);
-    check(jobData.externalApplyUrl, String);
+    check(jobData.externalApplyUrl, Match.Optional(String));
 
     const newJob = {
       ...jobData,
+      externalApplyUrl: jobData.externalApplyUrl ?? '',
       postedAt: new Date(),
       isActive: true,
       owner: this.userId,

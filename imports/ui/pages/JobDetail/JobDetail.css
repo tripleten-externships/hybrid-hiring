@@ -215,6 +215,33 @@
   opacity: 0.88;
 }
 
+.job-detail__apply-btn:disabled,
+.job-detail__apply-btn[aria-disabled='true'] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ─── Application alert ──────────────────────────────────────────────────────── */
+.job-detail__alert {
+  background: #e7f6ec;
+  border: 1px solid #b7e0c4;
+  color: #1d6b38;
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+}
+
+.job-detail__alert strong {
+  font-weight: var(--font-weight-bold);
+}
+
+.job-detail__alert--error {
+  background: #fdecea;
+  border-color: #f3c0ba;
+  color: #b3261e;
+}
+
 .job-detail__save-btn {
   display: flex;
   align-items: center;
