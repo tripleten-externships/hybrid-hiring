@@ -1,17 +1,38 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Navigate } from 'react-router-dom';
 import { JobsCollection } from '/imports/api/jobs';
 import { useIsAdmin } from '/imports/ui/hooks/useCurrentUser';
+import { SearchBar } from '/imports/ui/components/SearchBar/SearchBar';
 import { AdminJobForm } from './AdminJobForm';
 import './Admin.css';
+
+function SearchIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="1.8" />
+      <line
+        x1="13.5"
+        y1="13.5"
+        x2="18"
+        y2="18"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
 
 export function Admin() {
   const { isAdmin, isLoading: adminLoading } = useIsAdmin();
 
   const [pendingDelete, setPendingDelete] = useState<{ id: string; title: string } | null>(null);
   const [deleting, setDeleting] = useState(false);
+
+  const [searchInput, setSearchInput] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const { isLoading: jobsLoading, jobs } = useTracker(() => {
     const sub = Meteor.subscribe('jobs.allAdmin');
@@ -20,6 +41,14 @@ export function Admin() {
       jobs: JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch(),
     };
   }, []);
+
+  const filteredJobs = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return jobs;
+    return jobs.filter((job) =>
+      [job.title, job.company, job.location].some((field) => field?.toLowerCase().includes(q))
+    );
+  }, [jobs, searchQuery]);
 
   const closeModal = () => {
     if (deleting) return;
@@ -90,10 +119,29 @@ export function Admin() {
 
         <AdminJobForm />
 
+        {!jobsLoading && jobs.length > 0 && (
+          <form className="admin__search" role="search" onSubmit={(e) => e.preventDefault()}>
+            <SearchBar
+              value={searchInput}
+              onChange={setSearchInput}
+              onSearch={setSearchQuery}
+              placeholder="Filter by title, company, or location"
+              ariaLabel="Filter jobs by title, company, or location"
+              showButton={false}
+              icon={<SearchIcon />}
+            />
+            <span className="admin__search-count">
+              {filteredJobs.length} of {jobs.length}
+            </span>
+          </form>
+        )}
+
         {jobsLoading ? (
           <p className="admin__loading">Loading jobs...</p>
         ) : jobs.length === 0 ? (
           <p className="admin__empty">No jobs found.</p>
+        ) : filteredJobs.length === 0 ? (
+          <p className="admin__empty">No jobs match "{searchQuery}".</p>
         ) : (
           <div className="admin__table-wrapper">
             <table className="admin__table">
@@ -108,7 +156,7 @@ export function Admin() {
                 </tr>
               </thead>
               <tbody>
-                {jobs.map((job) => (
+                {filteredJobs.map((job) => (
                   <tr key={job._id} className={job.isActive ? '' : 'admin__row--inactive'}>
                     <td className="admin__cell-title">{job.title}</td>
                     <td>{job.company}</td>
@@ -150,11 +198,7 @@ export function Admin() {
       </div>
 
       {pendingDelete && (
-        <div
-          className="admin-modal__overlay"
-          onMouseDown={closeModal}
-          role="presentation"
-        >
+        <div className="admin-modal__overlay" onMouseDown={closeModal} role="presentation">
           <div
             className="admin-modal"
             role="alertdialog"

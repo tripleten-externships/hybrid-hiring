@@ -37,6 +37,23 @@
   font-size: var(--font-size-md);
 }
 
+.admin__search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.admin__search .search__container {
+  flex: 1;
+  max-width: 420px;
+}
+
+.admin__search-count {
+  font-size: var(--font-size-sm);
+  color: var(--color-2);
+  white-space: nowrap;
+}
+
 .admin__table-wrapper {
   overflow-x: auto;
 }
