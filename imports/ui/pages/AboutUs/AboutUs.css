@@ -6,7 +6,6 @@
 /* ─── Hero ───────────────────────────────────────────────────────────────────── */
 .about__hero {
   position: relative;
-  background: url('/assets/images/hh_about_header.jpg') 100% 50% / cover no-repeat;
   padding: var(--space-12) var(--space-12) var(--space-16);
   min-height: 280px;
   display: flex;
@@ -95,7 +94,7 @@
 /* ─── Services ───────────────────────────────────────────────────────────────── */
 .about__services {
   position: relative;
-  background: url('/assets/images/hh_about_services.png') 10% 60% / cover no-repeat;
+  background: url('/assets/images/hh_about_services.webp') 10% 60% / cover no-repeat;
   padding: var(--space-12) var(--space-12) var(--space-16);
 }
 

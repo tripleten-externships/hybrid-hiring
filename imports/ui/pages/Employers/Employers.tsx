@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBolt, faBullseye, faHandshake } from '@fortawesome/free-solid-svg-icons';
 import { faClipboard } from '@fortawesome/free-regular-svg-icons';
+import { PageBackground } from '../../components/PageBackground/PageBackground';
+import { BACKGROUND_IMAGES } from '../../constants/backgroundImages';
 import './Employers.css';
 
 function TargetIcon() {
@@ -69,7 +71,12 @@ const HOW_IT_WORKS = [
 export function Employers() {
   return (
     <div className="employers">
-      <section className="employers__hero">
+      <PageBackground
+        className="employers__hero"
+        src={BACKGROUND_IMAGES.employersHeader}
+        position="center 35%"
+        fetchPriority="high"
+      >
         <div className="employers__hero-content">
           <h1 className="employers__hero-title">Find Your Next Great Hire</h1>
           <p className="employers__hero-subtitle">
@@ -80,7 +87,7 @@ export function Employers() {
             Post a Job
           </Link>
         </div>
-      </section>
+      </PageBackground>
 
       <section className="employers__section">
         <h2 className="employers__section-title">Why Partner With Us?</h2>

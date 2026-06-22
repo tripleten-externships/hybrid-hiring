@@ -1,0 +1,26 @@
+.page-background {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-background__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Gradient/dim overlays (::before/::after on .home__hero, etc.) sit above the image. */
+.page-background::before,
+.page-background::after {
+  z-index: 1;
+  pointer-events: none;
+}
+
+.page-background > :not(.page-background__image) {
+  position: relative;
+  z-index: 2;
+}

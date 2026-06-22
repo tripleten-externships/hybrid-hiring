@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { PageBackground } from '../../components/PageBackground/PageBackground';
+import { BACKGROUND_IMAGES } from '../../constants/backgroundImages';
 import './Resources.css';
 
 const TIPS = [
@@ -50,14 +52,19 @@ const FAQS = [
 export function Resources() {
   return (
     <div className="resources">
-      <section className="resources__hero">
+      <PageBackground
+        className="resources__hero"
+        src={BACKGROUND_IMAGES.resourcesHeader}
+        position="center 40%"
+        fetchPriority="high"
+      >
         <div className="resources__hero-content">
           <h1 className="resources__hero-title">Job Search Resources</h1>
           <p className="resources__hero-subtitle">
             Tips, guides, and answers to help you land your next role with confidence.
           </p>
         </div>
-      </section>
+      </PageBackground>
 
       <div className="resources__content">
         <section className="resources__section">

@@ -5,7 +5,6 @@
 /* ─── Hero ───────────────────────────────────────────────────────────────────── */
 .employers__hero {
   position: relative;
-  background: url('/assets/images/hh_employers_header.jpg') center 35% / cover no-repeat;
   min-height: 280px;
   display: flex;
   align-items: flex-end;
@@ -105,7 +104,7 @@
 /* ─── How it works (dark bg band) ───────────────────────────────────────────── */
 .employers__section--alt {
   position: relative;
-  background: url('/assets/images/hh_new_beginning.jpg') center 65% / cover no-repeat;
+  background: url('/assets/images/hh_new_beginning.webp') center 65% / cover no-repeat;
   max-width: 100%;
   padding: var(--space-12) var(--space-12);
 }
