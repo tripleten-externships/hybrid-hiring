@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { PageBackground } from '../../components/PageBackground/PageBackground';
 import { BACKGROUND_IMAGES } from '../../constants/backgroundImages';
+import { useIsLoggedIn } from '../../hooks/useCurrentUser';
 import './Resources.css';
 
 const TIPS = [
@@ -50,6 +51,8 @@ const FAQS = [
 ];
 
 export function Resources() {
+  const isLoggedIn = useIsLoggedIn();
+
   return (
     <div className="resources">
       <PageBackground
@@ -94,8 +97,9 @@ export function Resources() {
         <section className="resources__section resources__cta">
           <h2 className="resources__section-title">Ready to Start Applying?</h2>
           <p className="resources__cta-body">
-            Browse current openings and create a free account to unlock personalized job
-            recommendations.
+            {isLoggedIn
+              ? 'Browse current openings and personalized job recommendations.'
+              : 'Browse current openings and create a free account to unlock personalized job recommendations.'}
           </p>
           <div className="resources__cta-links">
             <Link to="/jobs" className="resources__cta-btn resources__cta-btn--primary">

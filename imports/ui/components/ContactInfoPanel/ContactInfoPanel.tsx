@@ -20,6 +20,7 @@ export const ContactInfoPanel = ({ phone, email }: ContactInfoPanelProps) => {
         aria-hidden="true"
         className="contact-info__bg"
         decoding="async"
+        loading="lazy"
       />
       <div className="contact-info__card">
         <h2 className="contact-info__title">Contact Information</h2>
