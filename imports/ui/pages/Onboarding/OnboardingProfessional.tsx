@@ -1,7 +1,8 @@
-import { useState, type ChangeEvent } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { TextInput } from '../../components/TextInput/TextInput';
+import { useMyProfile } from '../../hooks/useCurrentUser';
 import './Onboarding.css';
 
 function ChevronIcon() {
@@ -53,17 +54,30 @@ function fileToBase64(file: File): Promise<string> {
 }
 
 export const OnboardingProfessional = () => {
+  const { profile, isLoading: profileLoading } = useMyProfile();
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeFileName, setResumeFileName] = useState('');
+  const [existingResumeName, setExistingResumeName] = useState('');
   const [certUrl, setCertUrl] = useState('');
   const [needsResumeHelp, setNeedsResumeHelp] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
+  const hydratedRef = useRef(false);
 
   const navigate = useNavigate();
 
+  // Pre-populate from the saved profile so editing never wipes existing data.
+  useEffect(() => {
+    if (hydratedRef.current || profileLoading) return;
+    hydratedRef.current = true;
+    if (!profile) return;
+    setCertUrl(profile.certUrl ?? '');
+    setNeedsResumeHelp(!!profile.needsResumeHelp);
+    setExistingResumeName(profile.resumeUrl ?? '');
+  }, [profile, profileLoading]);
+
   const handleContinue = async () => {
-    if (!resumeFile && !certUrl) {
+    if (!resumeFile && !certUrl && !existingResumeName) {
       setError('Please upload a document or add a credential title before continuing.');
       return;
     }
@@ -167,10 +181,16 @@ export const OnboardingProfessional = () => {
               />
               <label htmlFor="resumeUpload" className="ob-upload__trigger">
                 <UploadIcon />
-                {resumeFileName ? 'Replace document' : 'Upload document'}
+                {resumeFileName || existingResumeName ? 'Replace document' : 'Upload document'}
               </label>
 
-              {resumeFileName && <p className="ob-upload__filename">{resumeFileName}</p>}
+              {resumeFileName ? (
+                <p className="ob-upload__filename">{resumeFileName}</p>
+              ) : (
+                existingResumeName && (
+                  <p className="ob-upload__filename">{existingResumeName} (on file)</p>
+                )
+              )}
             </div>
 
             <div className="ob-toggle-row">

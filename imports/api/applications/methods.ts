@@ -69,6 +69,8 @@ Meteor.methods({
 
     const locationLine = [profile?.city, profile?.state].filter(Boolean).join(', ');
     const skillsLine = profile?.skills?.length ? profile.skills.join(', ') : '—';
+    const phoneLine = profile?.phone?.trim() || '—';
+    const resumeHelpLine = profile?.needsResumeHelp ? 'Yes' : 'No';
 
     const body = [
       'A new job application has been submitted.',
@@ -82,11 +84,13 @@ Meteor.methods({
       `Job ID:   ${jobId}`,
       '',
       '=== APPLICANT ===',
-      `Name:     ${applicantName}`,
-      `Email:    ${applicantEmail || '—'}`,
-      `Location: ${locationLine || '—'}`,
-      `Skills:   ${skillsLine}`,
-      `Resume:   ${resume ? resume.fileName : 'No resume on file'}`,
+      `Name:           ${applicantName}`,
+      `Email:          ${applicantEmail || '—'}`,
+      `Phone:          ${phoneLine}`,
+      `Location:       ${locationLine || '—'}`,
+      `Skills:         ${skillsLine}`,
+      `Resume:         ${resume ? resume.fileName : 'No resume on file'}`,
+      `Needs resume help: ${resumeHelpLine}`,
     ].join('\n');
 
     const attachments: Attachment[] | undefined = resume

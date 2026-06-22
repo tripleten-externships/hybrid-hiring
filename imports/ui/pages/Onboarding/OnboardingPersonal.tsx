@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { SelectionLabel } from '../../components';
+import { useMyProfile } from '../../hooks/useCurrentUser';
 import type { JobType } from '/imports/types/jobs';
 import './Onboarding.css';
 
@@ -27,8 +28,10 @@ function ChevronIcon() {
 
 export const OnboardingPersonal = () => {
   const navigate = useNavigate();
+  const { profile, isLoading: profileLoading } = useMyProfile();
   const [city, setCity] = useState('');
   const [zip, setZip] = useState('');
+  const [phone, setPhone] = useState('');
   const [remote, setRemote] = useState(false);
   const [pay, setPay] = useState('');
   const [payPeriod, setPayPeriod] = useState<'hour' | 'year'>('hour');
@@ -38,6 +41,31 @@ export const OnboardingPersonal = () => {
   const [jobTitleInput, setJobTitleInput] = useState('');
   const [jobTitles, setJobTitles] = useState<string[]>([]);
   const [openAnyJob, setOpenAnyJob] = useState(false);
+  const hydratedRef = useRef(false);
+
+  // Pre-populate from the saved profile so editing never wipes existing data.
+  useEffect(() => {
+    if (hydratedRef.current || profileLoading) return;
+    hydratedRef.current = true;
+    if (!profile) return;
+
+    setCity([profile.city, profile.state].filter(Boolean).join(', '));
+    setZip(profile.zip ?? '');
+    setPhone(profile.phone ?? '');
+    setRemote(!!profile.remoteOk);
+    setPay(profile.minPay != null ? String(profile.minPay) : '');
+    setPayPeriod(profile.payUnit === 'yearly' ? 'year' : 'hour');
+    setSelectedJobTypes(profile.jobTypes ?? []);
+    setJobTitles(
+      profile.preferredTitle
+        ? profile.preferredTitle
+            .split(',')
+            .map((t) => t.trim())
+            .filter(Boolean)
+        : []
+    );
+    setOpenAnyJob(profile.activelyLooking === false);
+  }, [profile, profileLoading]);
 
   const toggleJobType = (value: JobType) => {
     setSelectedJobTypes((prev) =>
@@ -70,14 +98,26 @@ export const OnboardingPersonal = () => {
       const minPay = pay ? parseFloat(pay) : undefined;
       const payUnit: 'hourly' | 'yearly' = payPeriod === 'hour' ? 'hourly' : 'yearly';
 
+      // Commit any title still in the input (user may not have pressed Enter).
+      const pendingTitle = jobTitleInput.trim();
+      const titlesToSave =
+        pendingTitle && !jobTitles.includes(pendingTitle)
+          ? [...jobTitles, pendingTitle]
+          : jobTitles;
+      if (pendingTitle && !jobTitles.includes(pendingTitle)) {
+        setJobTitles(titlesToSave);
+        setJobTitleInput('');
+      }
+
       await Meteor.callAsync('UserProfiles.upsert', {
         city: cityName,
         state: stateName,
         zip: zip.trim() || undefined,
+        phone: phone.trim() || undefined,
         remoteOk: remote,
         ...(minPay !== undefined && { minPay, payUnit }),
         jobTypes: selectedJobTypes,
-        preferredTitle: jobTitles.join(', ') || undefined,
+        preferredTitle: titlesToSave.length > 0 ? titlesToSave.join(', ') : '',
         activelyLooking: !openAnyJob,
       });
 
@@ -138,6 +178,15 @@ export const OnboardingPersonal = () => {
                 value={zip}
                 onChange={(e) => setZip(e.target.value)}
                 placeholder="Zip Code"
+              />
+            </div>
+            <div className="ob-input">
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Phone Number"
+                autoComplete="tel"
               />
             </div>
             <div className="ob-toggle-row">

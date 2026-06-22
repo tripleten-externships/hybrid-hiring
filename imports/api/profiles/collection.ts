@@ -11,10 +11,15 @@ export interface UserProfile {
   payUnit?: 'hourly' | 'yearly';
   city?: string;
   state?: string;
+  zip?: string;
+  remoteOk?: boolean;
   preferredTitle?: string;
   skills?: string[];
   resumeUrl?: string;
   certUrl?: string;
+  /** Whether the user requested help building their resume (from onboarding). */
+  needsResumeHelp?: boolean;
+  phone?: string;
   /** Profile picture as a compressed base64 image data URL. */
   avatar?: string;
   activelyLooking?: boolean;
