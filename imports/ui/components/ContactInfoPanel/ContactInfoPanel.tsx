@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { faCalendar, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAppSettings } from '../../hooks/useCurrentUser';
 import './ContactInfoPanel.css';
 
 interface ContactInfoPanelProps {
@@ -9,6 +10,8 @@ interface ContactInfoPanelProps {
 }
 
 export const ContactInfoPanel = ({ phone, email }: ContactInfoPanelProps) => {
+  const settings = useAppSettings();
+
   return (
     <section className="contact-info">
       <div className="contact-info__card">
@@ -35,19 +38,45 @@ export const ContactInfoPanel = ({ phone, email }: ContactInfoPanelProps) => {
         </Link>
       </div>
 
-      <div className="contact-info__socials">
-        <a href="#" className="contact-info__social-link" aria-label="Facebook">
-          <img src="/assets/icons/ri_facebook-fill.svg" alt="" />
-        </a>
+      {settings.showSocials && (
+        <div className="contact-info__socials">
+          {settings.socialLinks.facebook && (
+            <a
+              href={settings.socialLinks.facebook}
+              className="contact-info__social-link"
+              aria-label="Facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src="/assets/icons/ri_facebook-fill.svg" alt="" />
+            </a>
+          )}
 
-        <a href="#" className="contact-info__social-link" aria-label="LinkedIn">
-          <img src="/assets/icons/linkedin-logo.svg" alt="" />
-        </a>
+          {settings.socialLinks.linkedin && (
+            <a
+              href={settings.socialLinks.linkedin}
+              className="contact-info__social-link"
+              aria-label="LinkedIn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src="/assets/icons/linkedin-logo.svg" alt="" />
+            </a>
+          )}
 
-        <a href="#" className="contact-info__social-link" aria-label="Instagram">
-          <img src="/assets/icons/ri_instagram-fill.svg" alt="" />
-        </a>
-      </div>
+          {settings.socialLinks.instagram && (
+            <a
+              href={settings.socialLinks.instagram}
+              className="contact-info__social-link"
+              aria-label="Instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src="/assets/icons/ri_instagram-fill.svg" alt="" />
+            </a>
+          )}
+        </div>
+      )}
     </section>
   );
 };

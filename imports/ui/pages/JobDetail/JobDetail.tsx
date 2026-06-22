@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { JobsCollection } from '/imports/api/jobs';
-import { useIsLoggedIn, useMyProfile } from '/imports/ui/hooks/useCurrentUser';
+import { useIsLoggedIn, useMyProfile, useMyAppliedJobIds } from '/imports/ui/hooks/useCurrentUser';
 import './JobDetail.css';
 
 function DollarIcon() {
@@ -60,6 +61,7 @@ export function JobDetail() {
   const isLoggedIn = useIsLoggedIn();
   const { profile } = useMyProfile();
   const savedJobIds = profile?.savedJobs ?? [];
+  const appliedJobIds = useMyAppliedJobIds();
 
   const { isLoading, job } = useTracker(() => {
     const sub = Meteor.subscribe('jobs.byId', jobId);
@@ -71,6 +73,13 @@ export function JobDetail() {
 
   const isSaved = savedJobIds.includes(jobId ?? '');
 
+  const [applying, setApplying] = useState(false);
+  const [justApplied, setJustApplied] = useState(false);
+  const [applyError, setApplyError] = useState('');
+
+  const alreadyApplied = appliedJobIds.has(jobId ?? '');
+  const applied = justApplied || alreadyApplied;
+
   const handleToggleSave = () => {
     if (!isLoggedIn) {
       navigate('/signup');
@@ -78,6 +87,32 @@ export function JobDetail() {
     }
     if (!jobId) return;
     Meteor.callAsync('UserProfiles.toggleSaveJob', jobId);
+  };
+
+  const handleApply = async () => {
+    if (!isLoggedIn) {
+      navigate('/signup');
+      return;
+    }
+    if (!jobId || applying || applied) return;
+
+    try {
+      setApplyError('');
+      setApplying(true);
+      await Meteor.callAsync('applications.submit', jobId);
+      setJustApplied(true);
+    } catch (err) {
+      const reason = err instanceof Meteor.Error ? err.reason : undefined;
+      if (err instanceof Meteor.Error && err.error === 'already-applied') {
+        setJustApplied(true);
+      } else {
+        setApplyError(
+          reason || 'Something went wrong submitting your application. Please try again.'
+        );
+      }
+    } finally {
+      setApplying(false);
+    }
   };
 
   if (isLoading) return <JobDetailSkeleton />;
@@ -103,8 +138,10 @@ export function JobDetail() {
       : formatDollar(job.basePay);
   const payLabel = job.payUnit === 'salary' ? 'Base Salary:' : 'Base Pay:';
 
-  const allChips = [job.jobType, ...(job.tags ?? []), ...(job.benefits?.slice(0, 3) ?? [])].filter(
-    Boolean
+  const allChips = Array.from(
+    new Set(
+      [job.jobType, ...(job.tags ?? []), ...(job.benefits?.slice(0, 3) ?? [])].filter(Boolean)
+    )
   );
 
   const descriptionParagraphs = (job.description ?? '').split('\n').filter((p) => p.trim() !== '');
@@ -133,6 +170,20 @@ export function JobDetail() {
       </div>
 
       <div className="job-detail__container">
+        {/* ─── Application confirmation alert ─── */}
+        {justApplied && (
+          <div className="job-detail__alert" role="alert">
+            <strong>Application submitted!</strong> Your application to "{job.title}" has been
+            successfully submitted. The Hybrid Hiring Team will be in contact after your application
+            has been reviewed.
+          </div>
+        )}
+        {applyError && (
+          <div className="job-detail__alert job-detail__alert--error" role="alert">
+            {applyError}
+          </div>
+        )}
+
         {/* ─── Title block (above card) ─── */}
         <div className="job-detail__title-block">
           <h1 className="job-detail__title">{job.title}</h1>
@@ -154,8 +205,8 @@ export function JobDetail() {
 
             {allChips.length > 0 && (
               <div className="job-detail__chips">
-                {allChips.map((chip) => (
-                  <span key={chip} className="job-detail__chip">
+                {allChips.map((chip, i) => (
+                  <span key={`${chip}-${i}`} className="job-detail__chip">
                     {chip}
                   </span>
                 ))}
@@ -195,14 +246,15 @@ export function JobDetail() {
       {/* ─── Sticky footer ─── */}
       <div className="job-detail__footer">
         <div className="job-detail__footer-inner">
-          <a
-            href={job.externalApplyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
             className="job-detail__apply-btn"
+            onClick={handleApply}
+            disabled={applying || applied}
+            aria-disabled={applying || applied}
           >
-            Apply now
-          </a>
+            {applied ? 'Application submitted' : applying ? 'Submitting…' : 'Apply now'}
+          </button>
           <button
             type="button"
             className={`job-detail__save-btn${isSaved ? ' job-detail__save-btn--saved' : ''}`}

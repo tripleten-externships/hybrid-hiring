@@ -5,6 +5,11 @@ import { DemoUsersCollection } from '../../api/demo-users/collection';
 import { AdminCollection } from '../../api/admin/collection';
 import { sampleJobs } from '../../api/jobs/sample';
 import { JobsCollection } from '../../api/jobs/collection';
+import {
+  SettingsCollection,
+  DEFAULT_SETTINGS,
+  SETTINGS_DOC_ID,
+} from '../../api/settings/collection';
 import '../../api/contacts/methods';
 import '../../api/contacts/publications';
 
@@ -70,6 +75,12 @@ Meteor.startup(async () => {
       await JobsCollection.insertAsync(job);
     }
     console.log('Sample jobs inserted into the database.');
+  }
+
+  // Seed the global site-settings document if it does not exist yet.
+  if (!(await SettingsCollection.findOneAsync({ _id: SETTINGS_DOC_ID }))) {
+    await SettingsCollection.insertAsync({ ...DEFAULT_SETTINGS, updatedAt: new Date() });
+    console.log('Global site settings seeded.');
   }
 
   // Publish the entire Links collection to all clients.

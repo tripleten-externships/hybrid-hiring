@@ -3,9 +3,21 @@ import { Mongo } from 'meteor/mongo';
 import { JobsCollection, Job } from './collection';
 import { JobType } from '../../types/jobs';
 import { ProfilesCollection } from '../profiles/collection';
+import { isAdminAsync } from '../admin/collection';
 
 Meteor.publish('jobs.all', function () {
   return JobsCollection.find({ isActive: true });
+});
+
+/**
+ * Admin-only: publishes ALL jobs, including inactive ones, so the admin panel
+ * can manage (and remove) every posting regardless of status.
+ */
+Meteor.publish('jobs.allAdmin', async function () {
+  if (!this.userId || !(await isAdminAsync(this.userId))) {
+    return this.ready();
+  }
+  return JobsCollection.find({});
 });
 
 Meteor.publish('jobs.search', function (query: string, jobType: JobType | '') {

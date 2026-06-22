@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { useAppSettings } from '../hooks/useCurrentUser';
 import './Home.css';
 
 export const Home = () => {
+  const settings = useAppSettings();
+  const telHref = `tel:${settings.contact.phone.replace(/[^\d+]/g, '')}`;
+  const mailHref = `mailto:${settings.contact.email}`;
+
   return (
     <div className="home">
       {/* Hero */}
@@ -17,8 +22,10 @@ export const Home = () => {
             Succeed.
           </h1>
           <p className="home__hero-subtitle">
-            Whether you're a job seeker or an employer, Hybrid Hiring Solutions has you covered.
-            Find clarity towards a new or current career path through our personalized solutions.
+            At Hybrid Hiring Solutions, based in Northeast Pennsylvania, we offer a personalized
+            staffing experience to help our clients search for and source candidates for their job
+            openings. We support all industries with a specialty in the Energy industry. Our
+            services are mobile throughout the Northeast.
           </p>
           <div className="home__hero-actions">
             <Link to="/jobs" className="home__hero-btn home__hero-btn--primary">
@@ -85,14 +92,11 @@ export const Home = () => {
               <FontAwesomeIcon icon={faCalendar} />
               Book an appointment
             </Link>
-            <a href="tel:+1-570-930-2566" className="home__cta-btn home__cta-btn--outline">
+            <a href={telHref} className="home__cta-btn home__cta-btn--outline">
               <FontAwesomeIcon icon={faPhone} />
               Call us
             </a>
-            <a
-              href="mailto:hybridhiringsolutions@gmail.com"
-              className="home__cta-btn home__cta-btn--outline"
-            >
+            <a href={mailHref} className="home__cta-btn home__cta-btn--outline">
               <FontAwesomeIcon icon={faEnvelope} />
               Email us
             </a>
@@ -100,12 +104,13 @@ export const Home = () => {
         </div>
 
         <blockquote className="home__quote">
-          <p className="home__quote-text">
-            "Finding the right jobs for my skills has always been difficult, but with Hybrid Hiring
-            Solutions it didn't take long for me to find the right path."
-          </p>
+          <p className="home__quote-text">"{settings.testimonial.quote}"</p>
           <footer className="home__quote-attribution">
-            - <em>John Smith, Gas plant operator</em>
+            -{' '}
+            <em>
+              {settings.testimonial.authorName}
+              {settings.testimonial.authorTitle ? `, ${settings.testimonial.authorTitle}` : ''}
+            </em>
           </footer>
         </blockquote>
       </section>

@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 
-export type NotificationType = 'job_match' | 'announcement';
+export type NotificationType = 'job_match' | 'announcement' | 'application_submitted';
 
 export interface Notification {
   _id?: string;

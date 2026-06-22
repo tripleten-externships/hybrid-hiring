@@ -62,6 +62,45 @@ const upsert = async (data: UserProfile) => {
   }
 };
 
+// Avatars are resized client-side before upload; this caps the stored data URL
+// to a safe size (roughly ~1MB of base64) as a server-side guardrail.
+const MAX_AVATAR_CHARS = 1_400_000;
+const AVATAR_DATA_URL_RE = /^data:image\/(png|jpeg|jpg|webp|gif);base64,/i;
+
+const setAvatar = async (dataUrl: string) => {
+  const userId = requireUser(Meteor.userId());
+  check(dataUrl, String);
+
+  if (!AVATAR_DATA_URL_RE.test(dataUrl)) {
+    throw new Meteor.Error('invalid-image', 'Please upload a valid image file.');
+  }
+  if (dataUrl.length > MAX_AVATAR_CHARS) {
+    throw new Meteor.Error('image-too-large', 'Image is too large. Please choose a smaller photo.');
+  }
+
+  const profile = await ProfilesCollection.findOneAsync({ userId });
+  if (profile && profile._id) {
+    await ProfilesCollection.updateAsync(profile._id, {
+      $set: { avatar: dataUrl, updatedAt: new Date() },
+    });
+  } else {
+    await ProfilesCollection.insertAsync({
+      userId,
+      avatar: dataUrl,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+  }
+};
+
+const removeAvatar = async () => {
+  const userId = requireUser(Meteor.userId());
+  await ProfilesCollection.updateAsync(
+    { userId },
+    { $unset: { avatar: '' }, $set: { updatedAt: new Date() } }
+  );
+};
+
 const toggleSaveJob = async (jobId: string) => {
   const userId = requireUser(Meteor.userId());
 
@@ -108,4 +147,6 @@ Meteor.methods({
   'UserProfiles.findById': findById,
   'UserProfiles.upsert': upsert,
   'UserProfiles.toggleSaveJob': toggleSaveJob,
+  'UserProfiles.setAvatar': setAvatar,
+  'UserProfiles.removeAvatar': removeAvatar,
 });

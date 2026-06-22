@@ -1,7 +1,8 @@
-import { useState, type ChangeEvent } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { TextInput } from '../../components/TextInput/TextInput';
+import { useMyProfile } from '../../hooks/useCurrentUser';
 import './Onboarding.css';
 
 function ChevronIcon() {
@@ -38,17 +39,45 @@ function UploadIcon() {
   );
 }
 
+/** Reads a File into a base64 string (without the data URL prefix). */
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      const base64 = result.includes(',') ? result.split(',')[1] : result;
+      resolve(base64);
+    };
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
 export const OnboardingProfessional = () => {
+  const { profile, isLoading: profileLoading } = useMyProfile();
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeFileName, setResumeFileName] = useState('');
+  const [existingResumeName, setExistingResumeName] = useState('');
   const [certUrl, setCertUrl] = useState('');
   const [needsResumeHelp, setNeedsResumeHelp] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
+  const hydratedRef = useRef(false);
 
   const navigate = useNavigate();
 
+  // Pre-populate from the saved profile so editing never wipes existing data.
+  useEffect(() => {
+    if (hydratedRef.current || profileLoading) return;
+    hydratedRef.current = true;
+    if (!profile) return;
+    setCertUrl(profile.certUrl ?? '');
+    setNeedsResumeHelp(!!profile.needsResumeHelp);
+    setExistingResumeName(profile.resumeUrl ?? '');
+  }, [profile, profileLoading]);
+
   const handleContinue = async () => {
-    if (!resumeFileName && !certUrl) {
+    if (!resumeFile && !certUrl && !existingResumeName) {
       setError('Please upload a document or add a credential title before continuing.');
       return;
     }
@@ -56,15 +85,26 @@ export const OnboardingProfessional = () => {
     try {
       setError('');
       setIsSaving(true);
+
+      if (resumeFile) {
+        const base64 = await fileToBase64(resumeFile);
+        await Meteor.callAsync(
+          'resumes.upload',
+          resumeFile.name,
+          resumeFile.type || 'application/octet-stream',
+          base64
+        );
+      }
+
       await Meteor.callAsync('UserProfiles.upsert', {
-        resumeUrl: resumeFileName,
         certUrl,
         needsResumeHelp,
       });
       navigate('/onboarding/skills');
     } catch (err) {
       console.error('Failed to save profile:', err);
-      setError('Failed to save your profile. Please try again.');
+      const reason = err instanceof Meteor.Error ? err.reason : undefined;
+      setError(reason || 'Failed to save your profile. Please try again.');
     } finally {
       setIsSaving(false);
     }
@@ -73,7 +113,7 @@ export const OnboardingProfessional = () => {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // TODO [HH-69]: replace with actual file upload once backend supports it
+      setResumeFile(file);
       setResumeFileName(file.name);
       setError('');
     }
@@ -141,10 +181,16 @@ export const OnboardingProfessional = () => {
               />
               <label htmlFor="resumeUpload" className="ob-upload__trigger">
                 <UploadIcon />
-                {resumeFileName ? 'Replace document' : 'Upload document'}
+                {resumeFileName || existingResumeName ? 'Replace document' : 'Upload document'}
               </label>
 
-              {resumeFileName && <p className="ob-upload__filename">{resumeFileName}</p>}
+              {resumeFileName ? (
+                <p className="ob-upload__filename">{resumeFileName}</p>
+              ) : (
+                existingResumeName && (
+                  <p className="ob-upload__filename">{existingResumeName} (on file)</p>
+                )
+              )}
             </div>
 
             <div className="ob-toggle-row">

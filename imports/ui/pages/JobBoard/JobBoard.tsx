@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { useIsLoggedIn, useMyProfile } from '/imports/ui/hooks/useCurrentUser';
+import { useIsLoggedIn, useMyProfile, useMyAppliedJobIds } from '/imports/ui/hooks/useCurrentUser';
 import { Link } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 import type { JobType } from '/imports/types/jobs';
@@ -23,6 +23,12 @@ const PAY_UNIT_OPTIONS: { label: string; value: 'hourly' | 'salary' }[] = [
   { label: 'Hourly', value: 'hourly' },
   { label: 'Salary', value: 'salary' },
 ];
+
+/** Builds the className for a filter chip from its active state. */
+function filterOptionClass(isActive: boolean): string {
+  const base = 'job-board__filter-option';
+  return isActive ? `${base} ${base}--selected ${base}--active` : `${base} ${base}--inactive`;
+}
 
 function LoadingState() {
   return (
@@ -61,6 +67,7 @@ export function JobBoard() {
   const isLoggedIn = useIsLoggedIn();
   const { profile } = useMyProfile();
   const savedJobIds = profile?.savedJobs ?? [];
+  const appliedJobIds = useMyAppliedJobIds();
   const userProfile = user?.profile as { name?: string; firstName?: string } | undefined;
   const firstName =
     userProfile?.firstName || userProfile?.name?.split(' ')[0] || user?.username || 'there';
@@ -274,7 +281,7 @@ export function JobBoard() {
                   <button
                     key={value}
                     type="button"
-                    className={`job-board__filter-option${selectedJobTypes.includes(value) ? ' job-board__filter-option--selected' : ''}`}
+                    className={filterOptionClass(selectedJobTypes.includes(value))}
                     onClick={() => toggleJobType(value)}
                     aria-pressed={selectedJobTypes.includes(value)}
                   >
@@ -291,7 +298,7 @@ export function JobBoard() {
                   <button
                     key={value}
                     type="button"
-                    className={`job-board__filter-option${selectedPayUnit === value ? ' job-board__filter-option--selected' : ''}`}
+                    className={filterOptionClass(selectedPayUnit === value)}
                     onClick={() => setSelectedPayUnit((prev) => (prev === value ? '' : value))}
                     aria-pressed={selectedPayUnit === value}
                   >
@@ -344,6 +351,7 @@ export function JobBoard() {
                 key={job._id}
                 job={job}
                 isSaved={savedJobIds.includes(job._id ?? '')}
+                hasApplied={appliedJobIds.has(job._id ?? '')}
                 onSave={
                   isLoggedIn
                     ? () => Meteor.callAsync('UserProfiles.toggleSaveJob', job._id)

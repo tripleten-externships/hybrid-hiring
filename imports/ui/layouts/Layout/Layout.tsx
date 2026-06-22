@@ -6,7 +6,7 @@ import './Layout.css';
 
 export const Layout = () => {
   return (
-    <div>
+    <div className="layout">
       <ScrollToTop />
       <Header />
       <main className="main-content">

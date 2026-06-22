@@ -94,19 +94,26 @@ meteor npm ci
 
 ### Environment variables
 
-Create a `.env` file in the project root for local development:
+Create a `.env` file in the project root for local development. `npm start` loads it automatically (via `dotenv-cli`), so any variables defined here are available to the app — `CONTACT_EMAIL`, `MAIL_URL`, `ADMIN_EMAIL`, etc.
 
 ```
-MONGO_URL=mongodb://localhost:27017/hhs
+CONTACT_EMAIL=careers@hybridhiring.com
+# MONGO_URL=mongodb://localhost:27017/hhs   # only if running your own MongoDB
 ```
 
-This points Meteor at the `hhs` database on the bundled local MongoDB. Do not commit secrets to this file.
+Notes:
+
+- **`.env` is gitignored** — never commit secrets (SMTP passwords, app passwords) to the repo.
+- **`MONGO_URL` is optional.** Leave it unset (or commented) to use Meteor's bundled MongoDB, which is where your local data lives by default. Only set it if you run a separate MongoDB instance — pointing at a new URL uses a different (empty) database.
 
 ### Start the dev server
 
 ```bash
 npm start
-# equivalent to: meteor run
+# runs: dotenv -- meteor run  (loads .env, then starts Meteor)
+
+# To start WITHOUT loading .env:
+npm run start:no-env
 ```
 
 Open your browser to [http://localhost:3000](http://localhost:3000).
@@ -149,6 +156,28 @@ Windows:
 $env:ADMIN_EMAIL="admin@example.com"
 meteor run
 ```
+
+---
+
+## Email Setup
+
+When a user submits a job application, the app emails the Hybrid Hiring contact address with the job details, the applicant's information, and their resume (attached when one is on file). Email delivery is configured entirely through environment variables.
+
+| Variable        | Required | Description                                                                                         |
+| --------------- | -------- | --------------------------------------------------------------------------------------------------- |
+| `CONTACT_EMAIL` | Yes      | The Hybrid Hiring inbox that receives application emails. Also used as the default `from` address.  |
+| `MAIL_URL`      | Prod     | SMTP connection string (e.g. `smtps://user:pass@smtp.provider.com:465`). Sends real email when set. |
+| `MAIL_FROM`     | No       | Overrides the `from` address. Defaults to `CONTACT_EMAIL` when unset.                               |
+
+Add them to your `.env` file:
+
+```
+CONTACT_EMAIL=careers@hybridhiring.com
+MAIL_URL=smtps://username:password@smtp.provider.com:465
+MAIL_FROM=no-reply@hybridhiring.com
+```
+
+> **Development note:** If `MAIL_URL` is not set, Meteor does not send real email — it prints the full message to the server console instead. This lets you test the application flow locally without SMTP credentials.
 
 ---
 

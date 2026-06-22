@@ -1,6 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useNavigate } from 'react-router-dom';
+import { useMyProfile } from '../../hooks/useCurrentUser';
 
 import '../../../api/profiles/methods';
 import './Onboarding.css';
@@ -8,6 +9,14 @@ import './Onboarding.css';
 interface Skill {
   id: number;
   value: string;
+}
+
+/** Splits a comma-separated string into trimmed, non-empty values. */
+function splitSkills(raw: string): string[] {
+  return raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 
 function ChevronIcon() {
@@ -26,16 +35,41 @@ function ChevronIcon() {
 
 export const OnboardingSkills = () => {
   const navigate = useNavigate();
+  const { profile, isLoading: profileLoading } = useMyProfile();
   const [skills, setSkills] = useState<Skill[]>([]);
   const [skillInput, setSkillInput] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const nextId = useRef(0);
+  const hydratedRef = useRef(false);
 
-  const addSkill = () => {
-    const trimmedInput = skillInput.trim();
-    if (!trimmedInput) return;
-    setSkills((prevSkills) => [...prevSkills, { id: nextId.current++, value: trimmedInput }]);
+  // Pre-populate from the saved profile so finishing this step never wipes
+  // skills the user already had. Split any comma-joined values so each becomes
+  // its own chip.
+  useEffect(() => {
+    if (hydratedRef.current || profileLoading) return;
+    hydratedRef.current = true;
+    if (profile?.skills?.length) {
+      const values = profile.skills.flatMap(splitSkills);
+      setSkills(values.map((value) => ({ id: nextId.current++, value })));
+    }
+  }, [profile, profileLoading]);
+
+  // Adds one or more skills, splitting on commas and skipping duplicates.
+  const addSkills = (raw: string) => {
+    const additions = splitSkills(raw);
+    if (additions.length === 0) return;
+    setSkills((prevSkills) => {
+      const existing = new Set(prevSkills.map((s) => s.value.toLowerCase()));
+      const next = [...prevSkills];
+      for (const value of additions) {
+        if (!existing.has(value.toLowerCase())) {
+          existing.add(value.toLowerCase());
+          next.push({ id: nextId.current++, value });
+        }
+      }
+      return next;
+    });
     setSkillInput('');
   };
 
@@ -46,12 +80,21 @@ export const OnboardingSkills = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && skillInput.trim() !== '') {
       e.preventDefault();
-      addSkill();
+      addSkills(skillInput);
     }
   };
 
   const handleFinish = async () => {
-    const skillValues = skills.map((s) => s.value);
+    // Commit any text still in the input (user may not have pressed Enter),
+    // splitting on commas and skipping duplicates.
+    const existing = new Set(skills.map((s) => s.value.toLowerCase()));
+    const pending = splitSkills(skillInput).filter((v) => !existing.has(v.toLowerCase()));
+    const skillValues = [...skills.map((s) => s.value), ...pending];
+    if (pending.length > 0) {
+      setSkills((prev) => [...prev, ...pending.map((value) => ({ id: nextId.current++, value }))]);
+      setSkillInput('');
+    }
+
     try {
       setError('');
       setIsLoading(true);
