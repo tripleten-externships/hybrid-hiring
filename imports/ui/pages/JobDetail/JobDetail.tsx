@@ -130,8 +130,10 @@ export function JobDetail() {
       : formatDollar(job.basePay);
   const payLabel = job.payUnit === 'salary' ? 'Base Salary:' : 'Base Pay:';
 
-  const allChips = [job.jobType, ...(job.tags ?? []), ...(job.benefits?.slice(0, 3) ?? [])].filter(
-    Boolean
+  const allChips = Array.from(
+    new Set(
+      [job.jobType, ...(job.tags ?? []), ...(job.benefits?.slice(0, 3) ?? [])].filter(Boolean)
+    )
   );
 
   const descriptionParagraphs = (job.description ?? '').split('\n').filter((p) => p.trim() !== '');
@@ -195,8 +197,8 @@ export function JobDetail() {
 
             {allChips.length > 0 && (
               <div className="job-detail__chips">
-                {allChips.map((chip) => (
-                  <span key={chip} className="job-detail__chip">
+                {allChips.map((chip, i) => (
+                  <span key={`${chip}-${i}`} className="job-detail__chip">
                     {chip}
                   </span>
                 ))}

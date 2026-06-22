@@ -31,7 +31,9 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
       ? `${formatDollar(job.basePay)} - ${formatDollar(job.payMax)}${unit}`
       : `${formatDollar(job.basePay)}${unit}`;
 
-  const allChips = [job.jobType, ...(job.benefits ?? []), ...(job.tags ?? [])];
+  const allChips = Array.from(
+    new Set([job.jobType, ...(job.benefits ?? []), ...(job.tags ?? [])].filter(Boolean))
+  );
 
   return (
     <div className="job-card">
@@ -71,8 +73,8 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
         </div>
 
         <div className="job-card__chip-tags">
-          {allChips.map((tag) => (
-            <span key={tag} className="job-card__chip">
+          {allChips.map((tag, i) => (
+            <span key={`${tag}-${i}`} className="job-card__chip">
               {tag}
             </span>
           ))}
