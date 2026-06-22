@@ -32,10 +32,10 @@ export const ContactInfoPanel = ({ phone, email }: ContactInfoPanelProps) => {
           <span className="contact-info__text">{email}</span>
         </div>
 
-        <Link to="/contact" className="contact-info__cta">
+        {/* <Link to="/contact" className="contact-info__cta">
           <FontAwesomeIcon icon={faCalendar} />
           <span className="contact-info__cta-text">Book an appointment</span>
-        </Link>
+        </Link> */}
       </div>
 
       {settings.showSocials && (
