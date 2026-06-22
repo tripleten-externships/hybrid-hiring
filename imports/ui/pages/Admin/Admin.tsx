@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Navigate } from 'react-router-dom';
@@ -9,6 +10,9 @@ import './Admin.css';
 export function Admin() {
   const { isAdmin, isLoading: adminLoading } = useIsAdmin();
 
+  const [pendingDelete, setPendingDelete] = useState<{ id: string; title: string } | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
   const { isLoading: jobsLoading, jobs } = useTracker(() => {
     const sub = Meteor.subscribe('jobs.allAdmin');
     return {
@@ -16,6 +20,21 @@ export function Admin() {
       jobs: JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch(),
     };
   }, []);
+
+  const closeModal = () => {
+    if (deleting) return;
+    setPendingDelete(null);
+  };
+
+  useEffect(() => {
+    if (!pendingDelete) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeModal();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingDelete, deleting]);
 
   if (adminLoading) {
     return (
@@ -38,13 +57,20 @@ export function Admin() {
 
   const handleDelete = (jobId: string | undefined, title: string) => {
     if (!jobId) return;
-    const confirmed = window.confirm(
-      `Delete "${title}"? This permanently removes the posting and cannot be undone.`
-    );
-    if (!confirmed) return;
-    Meteor.callAsync('jobs.remove', jobId).catch((err) =>
-      console.error('Failed to delete job:', err)
-    );
+    setPendingDelete({ id: jobId, title });
+  };
+
+  const confirmDelete = async () => {
+    if (!pendingDelete) return;
+    try {
+      setDeleting(true);
+      await Meteor.callAsync('jobs.remove', pendingDelete.id);
+      setPendingDelete(null);
+    } catch (err) {
+      console.error('Failed to delete job:', err);
+    } finally {
+      setDeleting(false);
+    }
   };
 
   const formatDate = (date: Date) =>
@@ -122,6 +148,50 @@ export function Admin() {
           </div>
         )}
       </div>
+
+      {pendingDelete && (
+        <div
+          className="admin-modal__overlay"
+          onMouseDown={closeModal}
+          role="presentation"
+        >
+          <div
+            className="admin-modal"
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="admin-modal-title"
+            aria-describedby="admin-modal-desc"
+            onMouseDown={(e) => e.stopPropagation()}
+          >
+            <h2 id="admin-modal-title" className="admin-modal__title">
+              Delete job posting?
+            </h2>
+            <p id="admin-modal-desc" className="admin-modal__body">
+              This permanently removes <strong>"{pendingDelete.title}"</strong> and cannot be
+              undone.
+            </p>
+            <div className="admin-modal__actions">
+              <button
+                type="button"
+                className="admin-modal__btn admin-modal__btn--cancel"
+                onClick={closeModal}
+                disabled={deleting}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="admin-modal__btn admin-modal__btn--confirm"
+                onClick={confirmDelete}
+                disabled={deleting}
+                autoFocus
+              >
+                {deleting ? 'Deleting…' : 'Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
