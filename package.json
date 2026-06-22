@@ -6,7 +6,8 @@
     "email": "jonah.cost@tripleten.com"
   },
   "scripts": {
-    "start": "meteor run",
+    "start": "dotenv -- meteor run",
+    "start:no-env": "meteor run",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer",
@@ -36,6 +37,7 @@
     "@types/node": "^22.10.6",
     "@types/react": "^18.2.5",
     "@types/react-dom": "^18.2.4",
+    "dotenv-cli": "^11.0.0",
     "husky": "^9.1.7",
     "prettier": "^3.8.1",
     "react-refresh": "^0.17.0",

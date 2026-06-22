@@ -94,19 +94,26 @@ meteor npm ci
 
 ### Environment variables
 
-Create a `.env` file in the project root for local development:
+Create a `.env` file in the project root for local development. `npm start` loads it automatically (via `dotenv-cli`), so any variables defined here are available to the app — `CONTACT_EMAIL`, `MAIL_URL`, `ADMIN_EMAIL`, etc.
 
 ```
-MONGO_URL=mongodb://localhost:27017/hhs
+CONTACT_EMAIL=careers@hybridhiring.com
+# MONGO_URL=mongodb://localhost:27017/hhs   # only if running your own MongoDB
 ```
 
-This points Meteor at the `hhs` database on the bundled local MongoDB. Do not commit secrets to this file.
+Notes:
+
+- **`.env` is gitignored** — never commit secrets (SMTP passwords, app passwords) to the repo.
+- **`MONGO_URL` is optional.** Leave it unset (or commented) to use Meteor's bundled MongoDB, which is where your local data lives by default. Only set it if you run a separate MongoDB instance — pointing at a new URL uses a different (empty) database.
 
 ### Start the dev server
 
 ```bash
 npm start
-# equivalent to: meteor run
+# runs: dotenv -- meteor run  (loads .env, then starts Meteor)
+
+# To start WITHOUT loading .env:
+npm run start:no-env
 ```
 
 Open your browser to [http://localhost:3000](http://localhost:3000).
