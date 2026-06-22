@@ -1,10 +1,11 @@
 import { NavLink } from 'react-router-dom';
-import { useIsLoggedIn, useIsAdmin } from '../../hooks/useCurrentUser';
+import { useIsLoggedIn, useIsAdmin, useAppSettings } from '../../hooks/useCurrentUser';
 import './Footer.css';
 
 export const Footer = () => {
   const loggedIn = useIsLoggedIn();
   const { isAdmin } = useIsAdmin();
+  const settings = useAppSettings();
 
   return (
     <footer className="footer">
@@ -57,32 +58,58 @@ export const Footer = () => {
           )}
         </nav>
 
-        <div className="footer__socials">
-          <a href="#" className="footer__socials-link" aria-label="Facebook">
-            <img
-              src="/assets/icons/ri_facebook-fill.svg"
-              alt=""
-              aria-hidden="true"
-              className="footer__socials-icon"
-            />
-          </a>
-          <a href="#" className="footer__socials-link" aria-label="LinkedIn">
-            <img
-              src="/assets/icons/mdi_linkedin.svg"
-              alt=""
-              aria-hidden="true"
-              className="footer__socials-icon"
-            />
-          </a>
-          <a href="#" className="footer__socials-link" aria-label="Instagram">
-            <img
-              src="/assets/icons/ri_instagram-fill.svg"
-              alt=""
-              aria-hidden="true"
-              className="footer__socials-icon"
-            />
-          </a>
-        </div>
+        {settings.showSocials && (
+          <div className="footer__socials">
+            {settings.socialLinks.facebook && (
+              <a
+                href={settings.socialLinks.facebook}
+                className="footer__socials-link"
+                aria-label="Facebook"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="/assets/icons/ri_facebook-fill.svg"
+                  alt=""
+                  aria-hidden="true"
+                  className="footer__socials-icon"
+                />
+              </a>
+            )}
+            {settings.socialLinks.linkedin && (
+              <a
+                href={settings.socialLinks.linkedin}
+                className="footer__socials-link"
+                aria-label="LinkedIn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="/assets/icons/mdi_linkedin.svg"
+                  alt=""
+                  aria-hidden="true"
+                  className="footer__socials-icon"
+                />
+              </a>
+            )}
+            {settings.socialLinks.instagram && (
+              <a
+                href={settings.socialLinks.instagram}
+                className="footer__socials-link"
+                aria-label="Instagram"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="/assets/icons/ri_instagram-fill.svg"
+                  alt=""
+                  aria-hidden="true"
+                  className="footer__socials-icon"
+                />
+              </a>
+            )}
+          </div>
+        )}
 
         <div className="footer__copyright">
           <hr className="footer__divider" />

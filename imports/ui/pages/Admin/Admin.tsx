@@ -7,6 +7,7 @@ import { ApplicationsCollection } from '/imports/api/applications/collection';
 import { useIsAdmin } from '/imports/ui/hooks/useCurrentUser';
 import { SearchBar } from '/imports/ui/components/SearchBar/SearchBar';
 import { AdminJobForm } from './AdminJobForm';
+import { AdminSettingsForm } from './AdminSettingsForm';
 import './Admin.css';
 
 function SearchIcon() {
@@ -132,6 +133,10 @@ export function Admin() {
           <p className="admin__subtitle">Manage job listings</p>
         </header>
 
+        <h2 className="admin__section-title">Site Settings</h2>
+        <AdminSettingsForm />
+
+        <h2 className="admin__section-title">Job Postings</h2>
         <AdminJobForm
           leftSlot={
             !jobsLoading && jobs.length > 0 ? (

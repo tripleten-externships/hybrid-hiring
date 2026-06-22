@@ -3,6 +3,8 @@ import { useTracker, useSubscribe, useFind } from 'meteor/react-meteor-data';
 import { AdminCollection } from '../../api/admin/collection';
 import { ProfilesCollection } from '../../api/profiles/collection';
 import { ApplicationsCollection } from '../../api/applications/collection';
+import { SettingsCollection, DEFAULT_SETTINGS, SETTINGS_DOC_ID } from '../../api/settings/collection';
+import type { AppSettings } from '../../api/settings/collection';
 
 export const useCurrentUser = () => {
   return useTracker(() => Meteor.user(), []);
@@ -42,4 +44,11 @@ export const useMyAppliedJobIds = (): Set<string> => {
     [userId]
   );
   return new Set(applications.map((a) => a.jobId));
+};
+
+/** Reactive global site settings, falling back to defaults before load. */
+export const useAppSettings = (): AppSettings => {
+  useSubscribe('settings.app');
+  const docs = useFind(() => SettingsCollection.find({ _id: SETTINGS_DOC_ID }), []);
+  return docs[0] ?? DEFAULT_SETTINGS;
 };

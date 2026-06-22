@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TextInput } from '../../components/TextInput/TextInput';
 import { TextArea } from '../../components/TextArea/TextArea';
 import { ContactInfoPanel } from '../../components/ContactInfoPanel/ContactInfoPanel';
+import { useAppSettings } from '../../hooks/useCurrentUser';
 import { Meteor } from 'meteor/meteor';
 import './ContactUs.css';
 
@@ -45,8 +46,9 @@ function validate(form: FormFields): FieldErrors {
 }
 
 export const ContactUs = () => {
-  const phoneNumber = '+1 (570) 930-2566';
-  const emailAddress = 'hybridhiringsolutions@gmail.com';
+  const settings = useAppSettings();
+  const phoneNumber = settings.contact.phone;
+  const emailAddress = settings.contact.email;
 
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
