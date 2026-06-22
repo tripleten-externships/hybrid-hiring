@@ -24,6 +24,12 @@ const PAY_UNIT_OPTIONS: { label: string; value: 'hourly' | 'salary' }[] = [
   { label: 'Salary', value: 'salary' },
 ];
 
+/** Builds the className for a filter chip from its active state. */
+function filterOptionClass(isActive: boolean): string {
+  const base = 'job-board__filter-option';
+  return isActive ? `${base} ${base}--selected ${base}--active` : `${base} ${base}--inactive`;
+}
+
 function LoadingState() {
   return (
     <div className="job-board__loading" aria-live="polite" aria-busy="true">
@@ -275,7 +281,7 @@ export function JobBoard() {
                   <button
                     key={value}
                     type="button"
-                    className={`job-board__filter-option${selectedJobTypes.includes(value) ? ' job-board__filter-option--selected' : ''}`}
+                    className={filterOptionClass(selectedJobTypes.includes(value))}
                     onClick={() => toggleJobType(value)}
                     aria-pressed={selectedJobTypes.includes(value)}
                   >
@@ -292,7 +298,7 @@ export function JobBoard() {
                   <button
                     key={value}
                     type="button"
-                    className={`job-board__filter-option${selectedPayUnit === value ? ' job-board__filter-option--selected' : ''}`}
+                    className={filterOptionClass(selectedPayUnit === value)}
                     onClick={() => setSelectedPayUnit((prev) => (prev === value ? '' : value))}
                     aria-pressed={selectedPayUnit === value}
                   >

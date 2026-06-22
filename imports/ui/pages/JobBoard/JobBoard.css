@@ -214,11 +214,14 @@
 .job-board__filter-option {
   padding: var(--space-1) var(--space-3);
   background: transparent;
-  border: 1px solid var(--color-3);
+  /* --color-2 (#636363) gives ~5.7:1 against white — meets WCAG 1.4.11 (>=3:1)
+     for the chip outline, unlike the lighter --color-3 (#8f8c8c, ~2.9:1). */
+  border: 1px solid var(--color-2);
   border-radius: 999px;
   font-size: var(--font-size-sm);
   font-family: inherit;
-  color: var(--color-2);
+  /* #000 text gives 21:1; well above the 4.5:1 AA threshold. */
+  color: var(--color-1);
   cursor: pointer;
   transition:
     background 0.15s ease,
@@ -226,15 +229,41 @@
     color 0.15s ease;
 }
 
-.job-board__filter-option:hover {
+/* Keyboard focus indicator (WCAG 2.4.7). outline-offset keeps the ring on the
+   light page background so it stays high-contrast even on the green selected
+   chip. */
+.job-board__filter-option:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Unselected, hovered: solid green with white text (~4.8:1). Border matched to
+   the fill so the outline doesn't read as a stray gray edge. */
+.job-board__filter-option--inactive:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: #fff;
+}
+
+/* Selected, hovered: invert to white fill with green text (~4.8:1), keeping the
+   green border for definition. */
+.job-board__filter-option--active:hover {
+  background-color: #fff;
   border-color: var(--color-primary-dark);
   color: var(--color-primary-dark);
 }
 
+/* Selected: solid green with white text (~4.8:1). */
 .job-board__filter-option--selected {
   background: var(--color-primary-dark);
   border-color: var(--color-primary-dark);
   color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .job-board__filter-option {
+    transition: none;
+  }
 }
 
 .job-board__filter-pay {
