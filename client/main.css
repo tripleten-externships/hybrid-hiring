@@ -32,6 +32,10 @@
   --color-success: #07d344;
   --color-warning: #ffda07;
   --color-error: #da3a3d;
+  /* Use this instead of browser version
+	since safari does not natively understand
+	"transparent"    */
+  --color-transparent: rgba(255, 255, 255, 0);
   --font-size-xs: 12px;
   --font-size-sm: 14px;
   --font-size-md: 20px;

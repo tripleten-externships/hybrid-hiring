@@ -179,7 +179,7 @@ export function Admin() {
                     <td className="admin__cell-title">{job.title}</td>
                     <td>{job.company}</td>
                     <td>
-                      <span className="chip">{job.jobType}</span>
+                      <span className="admin__cell-job-type">{job.jobType}</span>
                     </td>
                     <td className="admin__cell-applicants">
                       {applicantCounts[job._id ?? ''] ?? 0}
