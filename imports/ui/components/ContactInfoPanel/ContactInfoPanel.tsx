@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { faCalendar, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+// import { Link } from 'react-router-dom';
+import { /* faCalendar, */ faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppSettings } from '../../hooks/useCurrentUser';
 import './ContactInfoPanel.css';
