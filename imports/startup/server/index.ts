@@ -5,7 +5,11 @@ import { DemoUsersCollection } from '../../api/demo-users/collection';
 import { AdminCollection } from '../../api/admin/collection';
 import { sampleJobs } from '../../api/jobs/sample';
 import { JobsCollection } from '../../api/jobs/collection';
-import { SettingsCollection, DEFAULT_SETTINGS, SETTINGS_DOC_ID } from '../../api/settings/collection';
+import {
+  SettingsCollection,
+  DEFAULT_SETTINGS,
+  SETTINGS_DOC_ID,
+} from '../../api/settings/collection';
 import '../../api/contacts/methods';
 import '../../api/contacts/publications';
 

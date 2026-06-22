@@ -27,8 +27,12 @@ function SearchIcon() {
   );
 }
 
+type AdminTab = 'jobs' | 'settings';
+
 export function Admin() {
   const { isAdmin, isLoading: adminLoading } = useIsAdmin();
+
+  const [activeTab, setActiveTab] = useState<AdminTab>('jobs');
 
   const [pendingDelete, setPendingDelete] = useState<{ id: string; title: string } | null>(null);
   const [deleting, setDeleting] = useState(false);
@@ -130,95 +134,142 @@ export function Admin() {
       <div className="admin__container">
         <header className="admin__header">
           <h1 className="admin__title">Admin Panel</h1>
-          <p className="admin__subtitle">Manage job listings</p>
+          <p className="admin__subtitle">
+            {activeTab === 'jobs' ? 'Manage job listings' : 'Manage site content and contact details'}
+          </p>
         </header>
 
-        <h2 className="admin__section-title">Site Settings</h2>
-        <AdminSettingsForm />
+        <div className="admin__tabs" role="tablist" aria-label="Admin sections">
+          <button
+            type="button"
+            role="tab"
+            id="admin-tab-jobs"
+            aria-selected={activeTab === 'jobs'}
+            aria-controls="admin-panel-jobs"
+            className={`admin__tab ${activeTab === 'jobs' ? 'admin__tab--active' : ''}`}
+            onClick={() => setActiveTab('jobs')}
+          >
+            Job Postings
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="admin-tab-settings"
+            aria-selected={activeTab === 'settings'}
+            aria-controls="admin-panel-settings"
+            className={`admin__tab ${activeTab === 'settings' ? 'admin__tab--active' : ''}`}
+            onClick={() => setActiveTab('settings')}
+          >
+            Site Settings
+          </button>
+        </div>
 
-        <h2 className="admin__section-title">Job Postings</h2>
-        <AdminJobForm
-          leftSlot={
-            !jobsLoading && jobs.length > 0 ? (
-              <form className="admin__search" role="search" onSubmit={(e) => e.preventDefault()}>
-                <SearchBar
-                  value={searchInput}
-                  onChange={setSearchInput}
-                  onSearch={setSearchQuery}
-                  placeholder="Filter by title, company, or location"
-                  ariaLabel="Filter jobs by title, company, or location"
-                  showButton={false}
-                  icon={<SearchIcon />}
-                />
-                <span className="admin__search-count">
-                  {filteredJobs.length} of {jobs.length}
-                </span>
-              </form>
-            ) : undefined
-          }
-        />
+        {activeTab === 'jobs' && (
+          <div
+            id="admin-panel-jobs"
+            role="tabpanel"
+            aria-labelledby="admin-tab-jobs"
+            className="admin__tabpanel"
+          >
+            <AdminJobForm
+              leftSlot={
+                !jobsLoading && jobs.length > 0 ? (
+                  <form
+                    className="admin__search"
+                    role="search"
+                    onSubmit={(e) => e.preventDefault()}
+                  >
+                    <SearchBar
+                      value={searchInput}
+                      onChange={setSearchInput}
+                      onSearch={setSearchQuery}
+                      placeholder="Filter by title, company, or location"
+                      ariaLabel="Filter jobs by title, company, or location"
+                      showButton={false}
+                      icon={<SearchIcon />}
+                    />
+                    <span className="admin__search-count">
+                      {filteredJobs.length} of {jobs.length}
+                    </span>
+                  </form>
+                ) : undefined
+              }
+            />
 
-        {jobsLoading ? (
-          <p className="admin__loading">Loading jobs...</p>
-        ) : jobs.length === 0 ? (
-          <p className="admin__empty">No jobs found.</p>
-        ) : filteredJobs.length === 0 ? (
-          <p className="admin__empty">No jobs match "{searchQuery}".</p>
-        ) : (
-          <div className="admin__table-wrapper">
-            <table className="admin__table">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Company</th>
-                  <th>Type</th>
-                  <th>Applicants</th>
-                  <th>Posted</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredJobs.map((job) => (
-                  <tr key={job._id} className={job.isActive ? '' : 'admin__row--inactive'}>
-                    <td className="admin__cell-title">{job.title}</td>
-                    <td>{job.company}</td>
-                    <td>
-                      <span className="admin__cell-job-type">{job.jobType}</span>
-                    </td>
-                    <td className="admin__cell-applicants">
-                      {applicantCounts[job._id ?? ''] ?? 0}
-                    </td>
-                    <td className="admin__cell-date">{formatDate(job.postedAt)}</td>
-                    <td>
-                      <span
-                        className={`admin__status ${job.isActive ? 'admin__status--active' : 'admin__status--inactive'}`}
-                      >
-                        {job.isActive ? 'Active' : 'Inactive'}
-                      </span>
-                    </td>
-                    <td>
-                      <div className="admin__actions">
-                        <button
-                          type="button"
-                          className={`admin__toggle-btn ${job.isActive ? 'admin__toggle-btn--deactivate' : 'admin__toggle-btn--activate'}`}
-                          onClick={() => handleToggleActive(job._id, job.isActive)}
-                        >
-                          {job.isActive ? 'Deactivate' : 'Activate'}
-                        </button>
-                        <button
-                          type="button"
-                          className="admin__toggle-btn admin__delete-btn"
-                          onClick={() => handleDelete(job._id, job.title)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            {jobsLoading ? (
+              <p className="admin__loading">Loading jobs...</p>
+            ) : jobs.length === 0 ? (
+              <p className="admin__empty">No jobs found.</p>
+            ) : filteredJobs.length === 0 ? (
+              <p className="admin__empty">No jobs match "{searchQuery}".</p>
+            ) : (
+              <div className="admin__table-wrapper">
+                <table className="admin__table">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Company</th>
+                      <th>Type</th>
+                      <th>Applicants</th>
+                      <th>Posted</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredJobs.map((job) => (
+                      <tr key={job._id} className={job.isActive ? '' : 'admin__row--inactive'}>
+                        <td className="admin__cell-title">{job.title}</td>
+                        <td>{job.company}</td>
+                        <td>
+                          <span className="admin__cell-job-type">{job.jobType}</span>
+                        </td>
+                        <td className="admin__cell-applicants">
+                          {applicantCounts[job._id ?? ''] ?? 0}
+                        </td>
+                        <td className="admin__cell-date">{formatDate(job.postedAt)}</td>
+                        <td>
+                          <span
+                            className={`admin__status ${job.isActive ? 'admin__status--active' : 'admin__status--inactive'}`}
+                          >
+                            {job.isActive ? 'Active' : 'Inactive'}
+                          </span>
+                        </td>
+                        <td>
+                          <div className="admin__actions">
+                            <button
+                              type="button"
+                              className={`admin__toggle-btn ${job.isActive ? 'admin__toggle-btn--deactivate' : 'admin__toggle-btn--activate'}`}
+                              onClick={() => handleToggleActive(job._id, job.isActive)}
+                            >
+                              {job.isActive ? 'Deactivate' : 'Activate'}
+                            </button>
+                            <button
+                              type="button"
+                              className="admin__toggle-btn admin__delete-btn"
+                              onClick={() => handleDelete(job._id, job.title)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === 'settings' && (
+          <div
+            id="admin-panel-settings"
+            role="tabpanel"
+            aria-labelledby="admin-tab-settings"
+            className="admin__tabpanel"
+          >
+            <AdminSettingsForm />
           </div>
         )}
       </div>

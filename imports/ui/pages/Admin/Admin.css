@@ -46,6 +46,46 @@
   border-bottom: 1px solid var(--color-3);
 }
 
+/* ─── Tabs ───────────────────────────────────────────────────────────────────── */
+.admin__tabs {
+  display: flex;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--color-3);
+}
+
+.admin__tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: -1px;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  font-family: inherit;
+  color: var(--color-2);
+  cursor: pointer;
+}
+
+.admin__tab:hover {
+  color: var(--color-1);
+}
+
+.admin__tab--active {
+  color: var(--color-1);
+  border-bottom-color: var(--color-primary-dark, #1d4ed8);
+}
+
+.admin__tab:focus-visible {
+  outline: 2px solid var(--color-primary-dark, #1d4ed8);
+  outline-offset: 2px;
+}
+
+.admin__tabpanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
 .admin__search {
   display: flex;
   align-items: center;

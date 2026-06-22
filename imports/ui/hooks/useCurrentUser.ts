@@ -3,7 +3,11 @@ import { useTracker, useSubscribe, useFind } from 'meteor/react-meteor-data';
 import { AdminCollection } from '../../api/admin/collection';
 import { ProfilesCollection } from '../../api/profiles/collection';
 import { ApplicationsCollection } from '../../api/applications/collection';
-import { SettingsCollection, DEFAULT_SETTINGS, SETTINGS_DOC_ID } from '../../api/settings/collection';
+import {
+  SettingsCollection,
+  DEFAULT_SETTINGS,
+  SETTINGS_DOC_ID,
+} from '../../api/settings/collection';
 import type { AppSettings } from '../../api/settings/collection';
 
 export const useCurrentUser = () => {
