@@ -23,7 +23,7 @@
   gap: 0;
   width: 100%;
   max-width: 680px;
-  margin: var(--space-5) auto var(--space-6);
+  margin: var(--space-5) auto var(--space-10);
 }
 
 /* SearchBar instances inside the form should look borderless / transparent */
@@ -93,7 +93,7 @@
 
 .job-board__heading {
   font-size: 40px;
-  font-weight: var(--font-weight-bold);
+  font-weight: 500;
   color: var(--color-1);
   margin: 0;
 }
@@ -169,7 +169,7 @@
 
 /* ─── Filter Panel ──────────────────────────────────────────────────────────── */
 .job-board__filter-panel {
-  width: 100%;
+  width: fit-content;
   background: #fff;
   border: 1px solid var(--color-3);
   border-radius: var(--radius-md);
@@ -273,8 +273,8 @@
 
 /* Result count next to heading */
 .job-board__result-count {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-normal, 400);
+  font-size: var(--font-size-md);
+  font-weight: 300;
   color: var(--color-2);
 }
 
@@ -287,7 +287,7 @@
 
 .job-board__listings-title {
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
+  font-weight: 500;
   color: var(--color-1);
   margin: 0;
 }

@@ -17,8 +17,9 @@ export const Home = () => {
             Succeed.
           </h1>
           <p className="home__hero-subtitle">
-            Whether you're a job seeker or an employer, Hybrid Hiring Solutions has you covered.
-            Find clarity towards a new or current career path through our personalized solutions.
+            At Hybrid Hiring Solutions, based in Northeast Pennsylvania, we offer a personalized staffing experience to help our clients search for 
+            and source candidates for their job openings. We support all industries with a specialty in the Energy industry. Our services are mobile 
+            throughout the Northeast.
           </p>
           <div className="home__hero-actions">
             <Link to="/jobs" className="home__hero-btn home__hero-btn--primary">

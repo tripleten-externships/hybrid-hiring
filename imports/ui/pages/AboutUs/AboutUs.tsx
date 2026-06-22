@@ -17,14 +17,14 @@ const servicesList = [
   {
     Icon: EmployerIcon,
     title: 'For Employers',
-    body: 'Work directly with staffing agencies to find the right talent. Get the word out and find new hires with specific skills, without spending time screening unqualified candidates.',
+    body: 'Find the right talent faster. We help you promote your opportunities, identify qualified candidates, and streamline the hiring process—eliminating the time and expense of screening unqualified applicants.',
     cta: 'Learn more',
     to: '/employers',
   },
   {
     Icon: JobSeekerIcon,
     title: 'For Job Seekers',
-    body: 'Provide new job opportunities that match current skill set. Build resumes and get resources for finding relevant jobs or growth opportunities.',
+    body: 'Identify and connect with job opportunities that align with your skills, experience, and career goals. Receive assistance with resume development, job search strategies, and access to valuable resources that support career advancement, skill development, and professional growth.',
     cta: 'Search jobs',
     to: '/jobs',
   },
@@ -44,13 +44,23 @@ export const AboutUs = () => {
       <section className="about__hero">
         <div className="about__hero-content">
           <h1 className="about__hero-title">About Hybrid Hiring Solutions</h1>
-          <p className="about__hero-body">
-            Hybrid Hiring Solutions is a staffing company located in NE Pennsylvania that provides a
-            personalized experience to search and source candidates for job openings clients have.
-            The organization largely supports clients in the gas and energy industry that have jobs
-            in NE PA as well as globally. The jobs Hybrid Hiring Solutions focuses often require
-            specialized skills such as chemists, equipment operators, and financial analysts.
-          </p>
+          <div className="about__hero-body">
+            <p>
+            Hybrid Hiring Solutions is a staffing and recruitment firm based in Northeast Pennsylvania, dedicated to 
+            connecting employers with qualified talent through a personalized and hands-on approach. We specialize in 
+            sourcing, recruiting, and matching candidates with opportunities that align with their skills, experience, and career goals.
+            </p>
+            <p>
+            Our primary focus is supporting businesses within the energy, natural gas, and related industries throughout 
+            Northeast Pennsylvania and the surrounding region. By understanding the unique needs of both employers and job 
+            seekers, we create meaningful connections that help businesses grow and individuals build successful careers.
+            </p>
+            <p>
+            At Hybrid Hiring Solutions, we believe in a simple philosophy: <strong>Live Local. Work Local.</strong> We are committed to strengthening 
+            our communities by helping local talent find rewarding employment opportunities close to home while providing employers 
+            with access to a skilled and reliable workforce.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -65,13 +75,10 @@ export const AboutUs = () => {
           <div className="about__mission-text">
             <h2 className="about__mission-title">Our Mission</h2>
             <p className="about__mission-body">
-              At Hybrid Hiring Solutions our mission is clear:{' '}
-              <strong>
-                to provide job seekers and employers the connections and resources they need to
-                succeed.
-              </strong>{' '}
-              When it comes to new career paths, and fresh opportunities, Hybrid Hiring Solutions
-              thrives in creating a personal atmosphere that can accommodate your needs.
+              At Hybrid Hiring Solutions, we believe that the right connection can change everything. Our mission is to bridge the gap 
+              between talented job seekers and growing employers by providing personalized support, valuable resources, and 
+              meaningful opportunities. Whether you're pursuing a new career path or building a stronger workforce, we're dedicated 
+              to helping you achieve success.
             </p>
           </div>
         </div>
