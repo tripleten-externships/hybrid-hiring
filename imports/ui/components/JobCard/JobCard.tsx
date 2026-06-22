@@ -1,6 +1,9 @@
 import './JobCard.css';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Meteor } from 'meteor/meteor';
 import { Job } from '/imports/api/jobs';
+import { useIsLoggedIn } from '/imports/ui/hooks/useCurrentUser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
@@ -17,6 +20,36 @@ function BookmarkIcon({ filled }: { filled: boolean }) {
 
 export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
   const navigate = useNavigate();
+  const isLoggedIn = useIsLoggedIn();
+
+  const [applying, setApplying] = useState(false);
+  const [applied, setApplied] = useState(false);
+  const [applyError, setApplyError] = useState('');
+
+  const handleQuickApply = async () => {
+    if (!isLoggedIn) {
+      navigate('/signup');
+      return;
+    }
+    if (!job._id || applying || applied) return;
+
+    try {
+      setApplyError('');
+      setApplying(true);
+      await Meteor.callAsync('applications.submit', job._id);
+      setApplied(true);
+    } catch (err) {
+      const reason = err instanceof Meteor.Error ? err.reason : undefined;
+      // Treat "already applied" as a success-like state rather than an error.
+      if (err instanceof Meteor.Error && err.error === 'already-applied') {
+        setApplied(true);
+      } else {
+        setApplyError(reason || 'Could not submit. Try again.');
+      }
+    } finally {
+      setApplying(false);
+    }
+  };
 
   const formatDollar = (n: number) => {
     if (n >= 1000) return `$${Math.round(n / 1000)}K`;
@@ -84,9 +117,11 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
           <button
             type="button"
             className="job-card__btn job-card__btn--primary"
-            onClick={() => window.open(job.externalApplyUrl, '_blank', 'noopener,noreferrer')}
+            onClick={handleQuickApply}
+            disabled={applying || applied}
+            aria-disabled={applying || applied}
           >
-            Quick Apply
+            {applied ? 'Applied ✓' : applying ? 'Submitting…' : 'Quick Apply'}
           </button>
           <button
             type="button"
@@ -96,6 +131,12 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
             More Details
           </button>
         </div>
+
+        {applyError && (
+          <p className="job-card__apply-error" role="alert">
+            {applyError}
+          </p>
+        )}
       </div>
     </div>
   );

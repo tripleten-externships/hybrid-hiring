@@ -118,6 +118,19 @@
   opacity: 0.85;
 }
 
+.job-card__btn:disabled,
+.job-card__btn[aria-disabled='true'] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.job-card__apply-error {
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-xs);
+  color: #b3261e;
+  line-height: 1.4;
+}
+
 .job-card__btn--outline {
   background-color: transparent;
   color: var(--color-primary-dark);
