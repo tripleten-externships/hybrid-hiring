@@ -168,6 +168,15 @@ export function AccountSecurityModal({
     return () => clearTimeout(timer);
   }, [passwordSuccess, setPasswordSuccess]);
 
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
+
   const handleNameSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setNameError('');
@@ -345,6 +354,16 @@ export function AccountSecurityModal({
             </div>
 
             <form className="account-security__form" onSubmit={handleEmailSubmit} noValidate>
+              <input
+                type="text"
+                name="username"
+                autoComplete="username"
+                value={currentEmail ?? ''}
+                readOnly
+                hidden
+                aria-hidden="true"
+                tabIndex={-1}
+              />
               <label className="account-security__field">
                 <span className="account-security__label">New email</span>
                 <input
@@ -414,6 +433,16 @@ export function AccountSecurityModal({
             <h3 className="account-security__section-title">Password</h3>
 
             <form className="account-security__form" onSubmit={handlePasswordSubmit} noValidate>
+              <input
+                type="text"
+                name="username"
+                autoComplete="username"
+                value={currentEmail ?? ''}
+                readOnly
+                hidden
+                aria-hidden="true"
+                tabIndex={-1}
+              />
               <label className="account-security__field">
                 <span className="account-security__label">Current password</span>
                 <input

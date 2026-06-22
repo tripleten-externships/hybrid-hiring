@@ -1,3 +1,4 @@
+import { type HTMLAttributes, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import './MobileNavOverlay.css';
 
@@ -16,6 +17,14 @@ export const MobileNavOverlay = ({
   isAdmin = false,
   onLogOut,
 }: MobileNavOverlayProps) => {
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      closeButtonRef.current?.focus();
+    }
+  }, [isOpen]);
+
   const handleNavClick = () => {
     onClose();
   };
@@ -33,13 +42,22 @@ export const MobileNavOverlay = ({
         aria-hidden="true"
       />
       <div
+        id="mobile-nav"
         className={`mobile-nav-overlay${isOpen ? ' mobile-nav-overlay--open' : ''}`}
-        aria-label="Navigation menu"
-        role="dialog"
-        aria-modal="true"
-        aria-hidden={!isOpen}
+        {...(isOpen
+          ? {
+              role: 'dialog',
+              'aria-modal': true,
+              'aria-label': 'Navigation menu',
+            }
+          : ({ inert: '' } as HTMLAttributes<HTMLDivElement>))}
       >
-        <button className="mobile-nav-close" onClick={onClose} aria-label="Close menu">
+        <button
+          ref={closeButtonRef}
+          className="mobile-nav-close"
+          onClick={onClose}
+          aria-label="Close menu"
+        >
           ✕
         </button>
 

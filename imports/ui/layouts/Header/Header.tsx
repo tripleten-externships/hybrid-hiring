@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { MobileNavOverlay } from '../MobileNavOverlay/MobileNavOverlay';
@@ -14,16 +14,22 @@ function AccountIcon() {
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const { logOut } = useAuth();
   const isLoggedIn = useIsLoggedIn();
   const { isAdmin } = useIsAdmin();
   const { profile } = useMyProfile();
   const navigate = useNavigate();
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+    menuTriggerRef.current?.focus();
+  };
+
   const handleLogOut = () => {
     logOut();
     navigate('/');
-    setIsMenuOpen(false);
+    closeMenu();
   };
 
   return (
@@ -83,6 +89,7 @@ export const Header = () => {
       </div>
 
       <button
+        ref={menuTriggerRef}
         className="site-header__hamburger"
         onClick={() => setIsMenuOpen(true)}
         aria-label="Open navigation menu"
@@ -96,7 +103,7 @@ export const Header = () => {
 
       <MobileNavOverlay
         isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
+        onClose={closeMenu}
         isLoggedIn={isLoggedIn}
         isAdmin={isAdmin}
         onLogOut={handleLogOut}
