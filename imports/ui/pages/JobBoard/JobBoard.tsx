@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { useIsLoggedIn, useMyProfile } from '/imports/ui/hooks/useCurrentUser';
+import { useIsLoggedIn, useMyProfile, useMyAppliedJobIds } from '/imports/ui/hooks/useCurrentUser';
 import { Link } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 import type { JobType } from '/imports/types/jobs';
@@ -61,6 +61,7 @@ export function JobBoard() {
   const isLoggedIn = useIsLoggedIn();
   const { profile } = useMyProfile();
   const savedJobIds = profile?.savedJobs ?? [];
+  const appliedJobIds = useMyAppliedJobIds();
   const userProfile = user?.profile as { name?: string; firstName?: string } | undefined;
   const firstName =
     userProfile?.firstName || userProfile?.name?.split(' ')[0] || user?.username || 'there';
@@ -344,6 +345,7 @@ export function JobBoard() {
                 key={job._id}
                 job={job}
                 isSaved={savedJobIds.includes(job._id ?? '')}
+                hasApplied={appliedJobIds.has(job._id ?? '')}
                 onSave={
                   isLoggedIn
                     ? () => Meteor.callAsync('UserProfiles.toggleSaveJob', job._id)

@@ -10,3 +10,4 @@ import '../imports/api/notifications';
 import '../imports/api/notifications/publications';
 import '../imports/api/resumes';
 import '../imports/api/applications';
+import '../imports/api/applications/publications';

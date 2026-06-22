@@ -12,19 +12,22 @@ type JobCardProps = {
   job: Job;
   isSaved?: boolean;
   onSave?: () => void;
+  hasApplied?: boolean;
 };
 
 function BookmarkIcon({ filled }: { filled: boolean }) {
   return <FontAwesomeIcon icon={filled ? faBookmarkSolid : faBookmarkRegular} />;
 }
 
-export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
+export default function JobCard({ job, isSaved, onSave, hasApplied }: JobCardProps) {
   const navigate = useNavigate();
   const isLoggedIn = useIsLoggedIn();
 
   const [applying, setApplying] = useState(false);
-  const [applied, setApplied] = useState(false);
+  const [justApplied, setJustApplied] = useState(false);
   const [applyError, setApplyError] = useState('');
+
+  const applied = justApplied || !!hasApplied;
 
   const handleQuickApply = async () => {
     if (!isLoggedIn) {
@@ -37,12 +40,12 @@ export default function JobCard({ job, isSaved, onSave }: JobCardProps) {
       setApplyError('');
       setApplying(true);
       await Meteor.callAsync('applications.submit', job._id);
-      setApplied(true);
+      setJustApplied(true);
     } catch (err) {
       const reason = err instanceof Meteor.Error ? err.reason : undefined;
       // Treat "already applied" as a success-like state rather than an error.
       if (err instanceof Meteor.Error && err.error === 'already-applied') {
-        setApplied(true);
+        setJustApplied(true);
       } else {
         setApplyError(reason || 'Could not submit. Try again.');
       }

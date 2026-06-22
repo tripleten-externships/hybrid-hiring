@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import { JobsCollection } from '/imports/api/jobs';
-import { useMyProfile, useCurrentUser } from '/imports/ui/hooks/useCurrentUser';
+import { useMyProfile, useCurrentUser, useMyAppliedJobIds } from '/imports/ui/hooks/useCurrentUser';
 import JobCard from '/imports/ui/components/JobCard/JobCard';
 import './Account.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -49,6 +49,7 @@ export function Account() {
   const user = useCurrentUser();
   const { profile, isLoading: profileLoading } = useMyProfile();
   const savedJobIds = profile?.savedJobs ?? [];
+  const appliedJobIds = useMyAppliedJobIds();
 
   const { isLoading: jobsLoading, savedJobs } = useTracker(() => {
     const sub = Meteor.subscribe('jobs.all');
@@ -207,6 +208,7 @@ export function Account() {
                   key={job._id}
                   job={job}
                   isSaved={true}
+                  hasApplied={appliedJobIds.has(job._id ?? '')}
                   onSave={() => Meteor.callAsync('UserProfiles.toggleSaveJob', job._id)}
                 />
               ))}

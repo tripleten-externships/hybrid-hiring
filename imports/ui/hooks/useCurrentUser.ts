@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker, useSubscribe, useFind } from 'meteor/react-meteor-data';
 import { AdminCollection } from '../../api/admin/collection';
 import { ProfilesCollection } from '../../api/profiles/collection';
+import { ApplicationsCollection } from '../../api/applications/collection';
 
 export const useCurrentUser = () => {
   return useTracker(() => Meteor.user(), []);
@@ -30,4 +31,15 @@ export const useIsAdmin = () => {
   const isLoading = useSubscribe(userId ? 'myAdminRecord' : undefined);
   const admins = useFind(() => AdminCollection.find({ userId: userId ?? undefined }), [userId]);
   return { isAdmin: admins.length > 0, isLoading: isLoading() };
+};
+
+/** Reactive set of job ids the current user has already applied to. */
+export const useMyAppliedJobIds = (): Set<string> => {
+  const userId = useUserId();
+  useSubscribe(userId ? 'applications.mine' : undefined);
+  const applications = useFind(
+    () => ApplicationsCollection.find({ userId: userId ?? undefined }),
+    [userId]
+  );
+  return new Set(applications.map((a) => a.jobId));
 };

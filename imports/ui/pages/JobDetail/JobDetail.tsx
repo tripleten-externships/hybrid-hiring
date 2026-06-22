@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { JobsCollection } from '/imports/api/jobs';
-import { useIsLoggedIn, useMyProfile } from '/imports/ui/hooks/useCurrentUser';
+import { useIsLoggedIn, useMyProfile, useMyAppliedJobIds } from '/imports/ui/hooks/useCurrentUser';
 import './JobDetail.css';
 
 function DollarIcon() {
@@ -61,6 +61,7 @@ export function JobDetail() {
   const isLoggedIn = useIsLoggedIn();
   const { profile } = useMyProfile();
   const savedJobIds = profile?.savedJobs ?? [];
+  const appliedJobIds = useMyAppliedJobIds();
 
   const { isLoading, job } = useTracker(() => {
     const sub = Meteor.subscribe('jobs.byId', jobId);
@@ -73,8 +74,11 @@ export function JobDetail() {
   const isSaved = savedJobIds.includes(jobId ?? '');
 
   const [applying, setApplying] = useState(false);
-  const [applied, setApplied] = useState(false);
+  const [justApplied, setJustApplied] = useState(false);
   const [applyError, setApplyError] = useState('');
+
+  const alreadyApplied = appliedJobIds.has(jobId ?? '');
+  const applied = justApplied || alreadyApplied;
 
   const handleToggleSave = () => {
     if (!isLoggedIn) {
@@ -96,12 +100,16 @@ export function JobDetail() {
       setApplyError('');
       setApplying(true);
       await Meteor.callAsync('applications.submit', jobId);
-      setApplied(true);
+      setJustApplied(true);
     } catch (err) {
       const reason = err instanceof Meteor.Error ? err.reason : undefined;
-      setApplyError(
-        reason || 'Something went wrong submitting your application. Please try again.'
-      );
+      if (err instanceof Meteor.Error && err.error === 'already-applied') {
+        setJustApplied(true);
+      } else {
+        setApplyError(
+          reason || 'Something went wrong submitting your application. Please try again.'
+        );
+      }
     } finally {
       setApplying(false);
     }
@@ -163,7 +171,7 @@ export function JobDetail() {
 
       <div className="job-detail__container">
         {/* ─── Application confirmation alert ─── */}
-        {applied && (
+        {justApplied && (
           <div className="job-detail__alert" role="alert">
             <strong>Application submitted!</strong> Your application to "{job.title}" has been
             successfully submitted. The Hybrid Hiring Team will be in contact after your application
