@@ -164,6 +164,8 @@
 
 .admin__status {
   display: inline-block;
+  min-width: 72px;
+  text-align: center;
   padding: 2px var(--space-2);
   border-radius: var(--radius-sm, 4px);
   font-size: var(--font-size-xs, 0.75rem);
@@ -188,6 +190,12 @@
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
   white-space: nowrap;
+}
+
+.admin__toggle-btn--deactivate,
+.admin__toggle-btn--activate {
+  min-width: 92px;
+  text-align: center;
 }
 
 .admin__toggle-btn--deactivate {

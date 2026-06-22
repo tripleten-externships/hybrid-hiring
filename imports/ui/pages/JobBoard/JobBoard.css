@@ -383,9 +383,26 @@
   margin: 0;
 }
 
-.job-board__button {
-  width: 100%;
-  font-size: var(--font-size-md);
+.job-board__cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary-dark);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-6);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.15s ease;
+}
+
+.job-board__cta-btn:hover {
+  opacity: 0.85;
 }
 
 /* ─── Responsive ─────────────────────────────────────────────────────────────── */

@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 import type { JobType } from '/imports/types/jobs';
 
-import { Button } from '/imports/ui/components/Button/Button';
 import { SearchBar } from '/imports/ui/components/SearchBar/SearchBar';
 import JobCard from '/imports/ui/components/JobCard/JobCard';
 import { JobsCollection } from '/imports/api/jobs';
@@ -215,8 +214,8 @@ export function JobBoard() {
             <p className="job-board__subheading">
               Create an account or sign in for recommended jobs.
             </p>
-            <Link to="/signup">
-              <Button className="job-board__button">Get Started</Button>
+            <Link to="/signup" className="job-board__cta-btn">
+              Get Started
             </Link>
           </>
         )}

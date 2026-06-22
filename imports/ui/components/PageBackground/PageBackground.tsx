@@ -7,6 +7,7 @@ interface PageBackgroundProps {
   className?: string;
   position?: string;
   fetchPriority?: 'high' | 'low' | 'auto';
+  loading?: 'eager' | 'lazy';
   children: ReactNode;
 }
 
@@ -15,11 +16,12 @@ export function PageBackground({
   className,
   position = 'center',
   fetchPriority = 'auto',
+  loading = 'eager',
   children,
 }: PageBackgroundProps) {
   useEffect(() => {
-    preloadImage(src);
-  }, [src]);
+    if (loading === 'eager') preloadImage(src);
+  }, [src, loading]);
 
   return (
     <section className={className ? `page-background ${className}` : 'page-background'}>
@@ -30,6 +32,7 @@ export function PageBackground({
         className="page-background__image"
         style={{ objectPosition: position }}
         decoding="async"
+        loading={loading}
         {...({ fetchpriority: fetchPriority } as ImgHTMLAttributes<HTMLImageElement>)}
       />
       {children}
