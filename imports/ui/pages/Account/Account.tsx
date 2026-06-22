@@ -159,7 +159,7 @@ export function Account() {
               {profile?.avatar ? (
                 <img src={profile.avatar} alt="" className="account__avatar-img" />
               ) : (
-                (initials || '?')
+                initials || '?'
               )}
             </div>
             <input

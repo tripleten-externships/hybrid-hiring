@@ -61,11 +61,7 @@ export const Header = () => {
             <NotificationBell />
             <NavLink to="/account" className="site-header__icon-btn" aria-label="Account">
               {profile?.avatar ? (
-                <img
-                  src={profile.avatar}
-                  alt=""
-                  className="site-header__avatar"
-                />
+                <img src={profile.avatar} alt="" className="site-header__avatar" />
               ) : (
                 <AccountIcon />
               )}
