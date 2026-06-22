@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect } from 'react';
+import { type ImgHTMLAttributes, type ReactNode, useEffect } from 'react';
 import { preloadImage } from '../../utils/preloadImage';
 import './PageBackground.css';
 
@@ -29,8 +29,8 @@ export function PageBackground({
         aria-hidden="true"
         className="page-background__image"
         style={{ objectPosition: position }}
-        fetchPriority={fetchPriority}
         decoding="async"
+        {...({ fetchpriority: fetchPriority } as ImgHTMLAttributes<HTMLImageElement>)}
       />
       {children}
     </section>

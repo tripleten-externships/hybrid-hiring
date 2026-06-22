@@ -157,17 +157,19 @@
 
 /* Responsive */
 @media (max-width: 900px) {
-  .site-header__nav {
+  .site-header__nav,
+  .site-header__actions {
     display: none;
+  }
+
+  .site-header__hamburger {
+    display: flex;
+    margin-left: auto;
   }
 }
 
 @media (max-width: 640px) {
   .site-header {
     padding: 10px 16px;
-  }
-
-  .site-header__hamburger {
-    display: flex;
   }
 }
