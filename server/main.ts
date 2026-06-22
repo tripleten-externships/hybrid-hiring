@@ -13,3 +13,4 @@ import '../imports/api/applications';
 import '../imports/api/applications/publications';
 import '../imports/api/settings';
 import '../imports/api/settings/publications';
+import '../imports/api/accounts';

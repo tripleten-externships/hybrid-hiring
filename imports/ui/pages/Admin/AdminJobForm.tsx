@@ -1,6 +1,6 @@
-import { useState, type ReactNode } from 'react';
+import { useState, type FormEvent, type ReactNode } from 'react';
 import { Meteor } from 'meteor/meteor';
-import type { JobType } from '/imports/types/jobs';
+import type { JobType } from '/imports/types';
 
 interface FormState {
   title: string;
@@ -49,7 +49,7 @@ export function AdminJobForm({ leftSlot }: { leftSlot?: ReactNode }) {
     setSuccess('');
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccess('');

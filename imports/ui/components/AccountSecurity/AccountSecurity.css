@@ -1,0 +1,197 @@
+.account-security-modal__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  z-index: 100;
+}
+
+.account-security-modal {
+  background: #fff;
+  border-radius: var(--radius-md);
+  width: 100%;
+  max-width: 75%;
+  max-height: min(90vh, 1024px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+}
+
+.account-security-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-6) var(--space-6) var(--space-4);
+  border-bottom: 1px solid var(--color-5);
+}
+
+.account-security-modal__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-1);
+  margin: 0;
+}
+
+.account-security-modal__close {
+  border: none;
+  background: transparent;
+  color: var(--color-2);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 var(--space-1);
+}
+
+.account-security-modal__close:hover {
+  color: var(--color-1);
+}
+
+.account-security-modal__body {
+  overflow-y: auto;
+  padding: var(--space-5) var(--space-6) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.account-security__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.account-security__section-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.account-security__section-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-1);
+  margin: 0;
+}
+
+.account-security__current {
+  font-size: var(--font-size-sm);
+  color: var(--color-2);
+  margin: 0;
+}
+
+.account-security__divider {
+  height: 1px;
+  background: var(--color-5);
+}
+
+.account-security__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.account-security__name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.account-security__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.account-security__label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-2);
+}
+
+.account-security__input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-3);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  font-size: var(--font-size-sm);
+  font-family: 'Inter', sans-serif;
+  color: var(--color-1);
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.account-security__input:focus {
+  border-color: var(--color-primary-dark);
+}
+
+.account-security__input--error {
+  border-color: var(--color-error);
+}
+
+.account-security__field-error {
+  font-size: var(--font-size-xs);
+  color: var(--color-error);
+}
+
+.account-security__message {
+  font-size: var(--font-size-sm);
+  margin: 0;
+}
+
+.account-security__message--error {
+  color: var(--color-error);
+}
+
+.account-security__message--success {
+  color: var(--color-primary-dark);
+}
+
+.account-security__submit {
+  align-self: flex-start;
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary-dark);
+  color: #fff;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  font-family: 'Inter', sans-serif;
+  padding: var(--space-3) var(--space-6);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.account-security__submit:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.account-security__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .account-security-modal__overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .account-security-modal {
+    max-height: 92vh;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .account-security__name-row {
+    grid-template-columns: 1fr;
+  }
+
+  .account-security__submit {
+    width: 100%;
+  }
+}
