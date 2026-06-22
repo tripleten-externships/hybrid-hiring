@@ -135,7 +135,9 @@ export function Admin() {
         <header className="admin__header">
           <h1 className="admin__title">Admin Panel</h1>
           <p className="admin__subtitle">
-            {activeTab === 'jobs' ? 'Manage job listings' : 'Manage site content and contact details'}
+            {activeTab === 'jobs'
+              ? 'Manage job listings'
+              : 'Manage site content and contact details'}
           </p>
         </header>
 

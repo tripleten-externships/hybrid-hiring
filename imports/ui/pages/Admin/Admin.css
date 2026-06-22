@@ -1,7 +1,7 @@
 .admin {
   padding: var(--space-6);
   background-color: var(--color-5);
-  min-height: 60vh;
+  min-height: 100vh;
 }
 
 .admin__container {
@@ -266,6 +266,9 @@
   color: #065f46;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
+  width: 100%;
+  text-align: right;
+  margin-left: -10px;
 }
 
 .admin-form__panel {
@@ -442,6 +445,15 @@
   background-color: #7f1515;
 }
 
+.admin-modal__btn--save {
+  background-color: var(--color-primary-dark, #1d4ed8);
+  color: #fff;
+}
+
+.admin-modal__btn--save:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
 /* ─── Site settings form ─────────────────────────────────────────────────────── */
 .admin-settings__toggle {
   display: flex;
@@ -508,6 +520,8 @@
   font-weight: var(--font-weight-semibold);
   color: var(--color-1);
   margin: 0;
+  font-weight: var(--font-weight-bold);
+  padding-top: var(--space-3);
 }
 
 .admin-settings__hint {

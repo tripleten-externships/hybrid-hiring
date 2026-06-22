@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useAppSettings } from '/imports/ui/hooks/useCurrentUser';
 
@@ -31,6 +31,7 @@ export function AdminSettingsForm() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   // Hydrate the form from live settings as they load / change.
   useEffect(() => {
@@ -65,13 +66,42 @@ export function AdminSettingsForm() {
     return () => clearTimeout(timer);
   }, [success]);
 
+  // Allow Escape to dismiss the confirmation guardrail.
+  useEffect(() => {
+    if (!confirmOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeConfirm();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [confirmOpen, saving]);
+
+  // The form is "dirty" only when at least one field differs from the saved
+  // settings. Text fields are compared trimmed, matching what we persist.
+  const isDirty = useMemo(() => {
+    return (
+      form.showSocials !== settings.showSocials ||
+      form.facebook.trim() !== settings.socialLinks.facebook ||
+      form.linkedin.trim() !== settings.socialLinks.linkedin ||
+      form.instagram.trim() !== settings.socialLinks.instagram ||
+      form.phone.trim() !== settings.contact.phone ||
+      form.email.trim() !== settings.contact.email ||
+      form.quote.trim() !== settings.testimonial.quote ||
+      form.authorName.trim() !== settings.testimonial.authorName ||
+      form.authorTitle.trim() !== settings.testimonial.authorTitle
+    );
+  }, [form, settings]);
+
   const update = <K extends keyof SettingsFormState>(field: K, value: SettingsFormState[K]) => {
     setForm((prev) => ({ ...prev, [field]: value }));
     setError('');
     setSuccess('');
   };
 
-  const handleSave = async (e: React.FormEvent) => {
+  // Validate the form, then open the confirmation guardrail instead of saving
+  // directly — these changes are public-facing for every visitor.
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccess('');
@@ -84,6 +114,18 @@ export function AdminSettingsForm() {
       setError('Testimonial quote and author name are required.');
       return;
     }
+
+    setConfirmOpen(true);
+  };
+
+  const closeConfirm = () => {
+    if (saving) return;
+    setConfirmOpen(false);
+  };
+
+  const confirmSave = async () => {
+    setError('');
+    setSuccess('');
 
     try {
       setSaving(true);
@@ -105,9 +147,11 @@ export function AdminSettingsForm() {
         },
       });
       setSuccess('Site settings saved.');
+      setConfirmOpen(false);
     } catch (err) {
       const reason = err instanceof Meteor.Error ? err.reason : undefined;
       setError(reason || 'Failed to save site settings. Please try again.');
+      setConfirmOpen(false);
     } finally {
       setSaving(false);
     }
@@ -115,13 +159,7 @@ export function AdminSettingsForm() {
 
   return (
     <section className="admin-form">
-      {success && (
-        <span className="admin-form__success" role="status">
-          {success}
-        </span>
-      )}
-
-      <form className="admin-form__panel" onSubmit={handleSave}>
+      <form className="admin-form__panel" onSubmit={handleSubmit}>
         <h3 className="admin-settings__section-title">Social links</h3>
 
         <div className="admin-settings__toggle">
@@ -242,11 +280,56 @@ export function AdminSettingsForm() {
         )}
 
         <div className="admin-form__actions">
-          <button type="submit" className="admin-form__submit" disabled={saving}>
-            {saving ? 'Saving…' : 'Save Settings'}
+          <button type="submit" className="admin-form__submit" disabled={saving || !isDirty}>
+            Save Settings
           </button>
         </div>
       </form>
+
+      {confirmOpen && (
+        <div className="admin-modal__overlay" onMouseDown={closeConfirm} role="presentation">
+          <div
+            className="admin-modal"
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="admin-settings-modal-title"
+            aria-describedby="admin-settings-modal-desc"
+            onMouseDown={(e) => e.stopPropagation()}
+          >
+            <h2 id="admin-settings-modal-title" className="admin-modal__title">
+              Update site content?
+            </h2>
+            <p id="admin-settings-modal-desc" className="admin-modal__body">
+              These changes are <strong>public-facing</strong> and will be visible to everyone who
+              views the site. Are you sure you want to save them?
+            </p>
+            <div className="admin-modal__actions">
+              <button
+                type="button"
+                className="admin-modal__btn admin-modal__btn--cancel"
+                onClick={closeConfirm}
+                disabled={saving}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="admin-modal__btn admin-modal__btn--save"
+                onClick={confirmSave}
+                disabled={saving}
+                autoFocus
+              >
+                {saving ? 'Saving…' : 'Save changes'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {success && (
+        <span className="admin-form__success" role="status">
+          {success}
+        </span>
+      )}
     </section>
   );
 }
