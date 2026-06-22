@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Meteor } from 'meteor/meteor';
 import type { JobType } from '/imports/types/jobs';
 
@@ -36,7 +36,7 @@ function splitList(value: string): string[] {
     .filter(Boolean);
 }
 
-export function AdminJobForm() {
+export function AdminJobForm({ leftSlot }: { leftSlot?: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [submitting, setSubmitting] = useState(false);
@@ -102,6 +102,7 @@ export function AdminJobForm() {
   return (
     <section className="admin-form">
       <div className="admin-form__bar">
+        {leftSlot && <div className="admin-form__bar-start">{leftSlot}</div>}
         <button
           type="button"
           className="admin-form__toggle"
@@ -110,12 +111,12 @@ export function AdminJobForm() {
         >
           {open ? 'Cancel' : '+ Add Job Posting'}
         </button>
-        {success && (
-          <span className="admin-form__success" role="status">
-            {success}
-          </span>
-        )}
       </div>
+      {success && (
+        <span className="admin-form__success" role="status">
+          {success}
+        </span>
+      )}
 
       {open && (
         <form className="admin-form__panel" onSubmit={handleSubmit}>

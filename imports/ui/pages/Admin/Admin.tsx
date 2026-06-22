@@ -35,7 +35,11 @@ export function Admin() {
   const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const { isLoading: jobsLoading, jobs, applicantCounts } = useTracker(() => {
+  const {
+    isLoading: jobsLoading,
+    jobs,
+    applicantCounts,
+  } = useTracker(() => {
     const sub = Meteor.subscribe('jobs.allAdmin');
     const countsSub = Meteor.subscribe('applications.adminCounts');
 
@@ -128,24 +132,26 @@ export function Admin() {
           <p className="admin__subtitle">Manage job listings</p>
         </header>
 
-        <AdminJobForm />
-
-        {!jobsLoading && jobs.length > 0 && (
-          <form className="admin__search" role="search" onSubmit={(e) => e.preventDefault()}>
-            <SearchBar
-              value={searchInput}
-              onChange={setSearchInput}
-              onSearch={setSearchQuery}
-              placeholder="Filter by title, company, or location"
-              ariaLabel="Filter jobs by title, company, or location"
-              showButton={false}
-              icon={<SearchIcon />}
-            />
-            <span className="admin__search-count">
-              {filteredJobs.length} of {jobs.length}
-            </span>
-          </form>
-        )}
+        <AdminJobForm
+          leftSlot={
+            !jobsLoading && jobs.length > 0 ? (
+              <form className="admin__search" role="search" onSubmit={(e) => e.preventDefault()}>
+                <SearchBar
+                  value={searchInput}
+                  onChange={setSearchInput}
+                  onSearch={setSearchQuery}
+                  placeholder="Filter by title, company, or location"
+                  ariaLabel="Filter jobs by title, company, or location"
+                  showButton={false}
+                  icon={<SearchIcon />}
+                />
+                <span className="admin__search-count">
+                  {filteredJobs.length} of {jobs.length}
+                </span>
+              </form>
+            ) : undefined
+          }
+        />
 
         {jobsLoading ? (
           <p className="admin__loading">Loading jobs...</p>

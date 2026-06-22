@@ -173,10 +173,19 @@
 .admin-form__bar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.admin-form__bar-start {
+  flex: 1;
+  min-width: 240px;
 }
 
 .admin-form__toggle {
+  /* Pinned to the end even when no search slot renders. */
+  margin-left: auto;
   background-color: var(--color-primary-dark, #1d4ed8);
   color: #fff;
   border: none;
@@ -186,6 +195,7 @@
   font-weight: var(--font-weight-semibold);
   font-family: inherit;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .admin-form__toggle:hover {
