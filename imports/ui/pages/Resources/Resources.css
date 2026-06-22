@@ -5,7 +5,6 @@
 /* ─── Hero ───────────────────────────────────────────────────────────────────── */
 .resources__hero {
   position: relative;
-  background: url('/assets/images/hh_resources_header.jpg') center 40% / cover no-repeat;
   min-height: 240px;
   display: flex;
   align-items: flex-end;
@@ -96,7 +95,7 @@
 .resources__faq {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: var(--space-5);
   margin: 0;
 }
 
@@ -126,7 +125,7 @@
 /* ─── Bottom CTA band ────────────────────────────────────────────────────────── */
 .resources__cta {
   position: relative;
-  background: url('/assets/images/hh_resources_ready.jpg') center 55% / cover no-repeat;
+  background: url('/assets/images/hh_resources_ready.webp') center 55% / cover no-repeat;
   border-radius: var(--radius-md);
   overflow: hidden;
   padding: var(--space-12) var(--space-12) !important;

@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import { faCalendar, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppSettings } from '../../hooks/useCurrentUser';
+import { BACKGROUND_IMAGES } from '../../constants/backgroundImages';
 import './ContactInfoPanel.css';
 
 interface ContactInfoPanelProps {
@@ -14,6 +14,13 @@ export const ContactInfoPanel = ({ phone, email }: ContactInfoPanelProps) => {
 
   return (
     <section className="contact-info">
+      <img
+        src={BACKGROUND_IMAGES.contactWorker}
+        alt=""
+        aria-hidden="true"
+        className="contact-info__bg"
+        decoding="async"
+      />
       <div className="contact-info__card">
         <h2 className="contact-info__title">Contact Information</h2>
 
@@ -32,10 +39,10 @@ export const ContactInfoPanel = ({ phone, email }: ContactInfoPanelProps) => {
           <span className="contact-info__text">{email}</span>
         </div>
 
-        <Link to="/contact" className="contact-info__cta">
+        {/* <Link to="/contact" className="contact-info__cta">
           <FontAwesomeIcon icon={faCalendar} />
           <span className="contact-info__cta-text">Book an appointment</span>
-        </Link>
+        </Link> */}
       </div>
 
       {settings.showSocials && (

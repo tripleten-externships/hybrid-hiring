@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { PageBackground } from '../../components/PageBackground/PageBackground';
+import { BACKGROUND_IMAGES } from '../../constants/backgroundImages';
 import './AboutUs.css';
 
 function EmployerIcon() {
@@ -41,7 +43,12 @@ export const AboutUs = () => {
   return (
     <div className="about">
       {/* Hero */}
-      <section className="about__hero">
+      <PageBackground
+        className="about__hero"
+        src={BACKGROUND_IMAGES.aboutHeader}
+        position="100% 50%"
+        fetchPriority="high"
+      >
         <div className="about__hero-content">
           <h1 className="about__hero-title">About Hybrid Hiring Solutions</h1>
           <div className="about__hero-body">
@@ -66,13 +73,11 @@ export const AboutUs = () => {
             </p>
           </div>
         </div>
-      </section>
-
-      {/* Mission */}
+      </PageBackground>
       <section className="about__mission">
         <div className="about__mission-inner">
           <img
-            src="/assets/images/hh_about_industry.jpg"
+            src={BACKGROUND_IMAGES.aboutIndustry}
             alt="Industrial worker on the job"
             className="about__mission-image"
           />

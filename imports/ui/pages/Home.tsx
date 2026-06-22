@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { useAppSettings } from '../hooks/useCurrentUser';
+import { PageBackground } from '../components/PageBackground/PageBackground';
+import { BACKGROUND_IMAGES } from '../constants/backgroundImages';
 import './Home.css';
 
 export const Home = () => {
@@ -12,7 +14,11 @@ export const Home = () => {
   return (
     <div className="home">
       {/* Hero */}
-      <section className="home__hero">
+      <PageBackground
+        className="home__hero"
+        src={BACKGROUND_IMAGES.homeHeader}
+        fetchPriority="high"
+      >
         <div className="home__hero-content">
           <h1 className="home__hero-title">
             Innovate.
@@ -36,7 +42,7 @@ export const Home = () => {
             </Link>
           </div>
         </div>
-      </section>
+      </PageBackground>
 
       {/* What we do */}
       <section className="home__what-we-do">
