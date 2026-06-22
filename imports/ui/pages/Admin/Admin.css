@@ -97,6 +97,11 @@
   white-space: nowrap;
 }
 
+.admin__cell-applicants {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-1);
+}
+
 .admin__status {
   display: inline-block;
   padding: 2px var(--space-2);

@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Navigate } from 'react-router-dom';
 import { JobsCollection } from '/imports/api/jobs';
+import { ApplicationsCollection } from '/imports/api/applications/collection';
 import { useIsAdmin } from '/imports/ui/hooks/useCurrentUser';
 import { SearchBar } from '/imports/ui/components/SearchBar/SearchBar';
 import { AdminJobForm } from './AdminJobForm';
@@ -34,11 +35,21 @@ export function Admin() {
   const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const { isLoading: jobsLoading, jobs } = useTracker(() => {
+  const { isLoading: jobsLoading, jobs, applicantCounts } = useTracker(() => {
     const sub = Meteor.subscribe('jobs.allAdmin');
+    const countsSub = Meteor.subscribe('applications.adminCounts');
+
+    const counts: Record<string, number> = {};
+    if (countsSub.ready()) {
+      for (const app of ApplicationsCollection.find({}, { fields: { jobId: 1 } }).fetch()) {
+        counts[app.jobId] = (counts[app.jobId] ?? 0) + 1;
+      }
+    }
+
     return {
       isLoading: !sub.ready(),
       jobs: JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch(),
+      applicantCounts: counts,
     };
   }, []);
 
@@ -150,6 +161,7 @@ export function Admin() {
                   <th>Title</th>
                   <th>Company</th>
                   <th>Type</th>
+                  <th>Applicants</th>
                   <th>Posted</th>
                   <th>Status</th>
                   <th>Action</th>
@@ -162,6 +174,9 @@ export function Admin() {
                     <td>{job.company}</td>
                     <td>
                       <span className="chip">{job.jobType}</span>
+                    </td>
+                    <td className="admin__cell-applicants">
+                      {applicantCounts[job._id ?? ''] ?? 0}
                     </td>
                     <td className="admin__cell-date">{formatDate(job.postedAt)}</td>
                     <td>
