@@ -6,6 +6,7 @@ import { JobsCollection } from '/imports/api/jobs';
 import { useMyProfile, useCurrentUser, useMyAppliedJobIds } from '/imports/ui/hooks/useCurrentUser';
 import { fileToSquareDataUrl } from '/imports/ui/utils/image';
 import JobCard from '/imports/ui/components/JobCard/JobCard';
+import { AccountSecurityModal } from '/imports/ui/components/AccountSecurity/AccountSecurity';
 import './Account.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -48,6 +49,25 @@ function BookmarkIcon() {
   );
 }
 
+function parseUserName(userProfile?: { name?: string; firstName?: string; lastName?: string }) {
+  if (userProfile?.firstName) {
+    return {
+      firstName: userProfile.firstName,
+      lastName: userProfile.lastName ?? '',
+    };
+  }
+
+  if (userProfile?.name) {
+    const parts = userProfile.name.trim().split(/\s+/);
+    return {
+      firstName: parts[0] ?? '',
+      lastName: parts.slice(1).join(' '),
+    };
+  }
+
+  return { firstName: '', lastName: '' };
+}
+
 export function Account() {
   const user = useCurrentUser();
   const { profile, isLoading: profileLoading } = useMyProfile();
@@ -59,6 +79,7 @@ export function Account() {
   const [avatarUploading, setAvatarUploading] = useState(false);
   const [avatarError, setAvatarError] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
 
   // Close the avatar menu on outside click or Escape.
   useEffect(() => {
@@ -124,6 +145,7 @@ export function Account() {
   const userProfile = user?.profile as
     | { name?: string; firstName?: string; lastName?: string }
     | undefined;
+  const { firstName, lastName } = parseUserName(userProfile);
   const fullName =
     userProfile?.name ||
     (userProfile?.firstName
@@ -219,24 +241,40 @@ export function Account() {
               </p>
             )}
           </div>
-          <Link to="/onboarding/personal" className="account__edit-btn">
-            Edit Profile
-          </Link>
+          <div className="account__hero-actions">
+            <button
+              type="button"
+              className="account__contact-btn"
+              onClick={() => setContactModalOpen(true)}
+            >
+              <FontAwesomeIcon icon={faPencil} aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </div>
+
+      <AccountSecurityModal
+        open={contactModalOpen}
+        onClose={() => setContactModalOpen(false)}
+        currentEmail={user?.emails?.[0]?.address}
+        initialFirstName={firstName}
+        initialLastName={lastName}
+      />
 
       <div className="account__body">
         {/* ─── Preferences card ─── */}
         {!profileLoading && (
           <section className="account__card">
-            <h2 className="account__card-title">Your Preferences</h2>
+            <div className="account__card-header">
+              <h2 className="account__card-title">Worker Profile</h2>
+              <Link to="/onboarding/personal" className="account__profile-edit-btn">
+                <FontAwesomeIcon icon={faPencil} aria-hidden="true" />
+              </Link>
+            </div>
 
             {!profile ? (
               <div className="account__empty-pref">
                 <p>No preferences set yet.</p>
-                <Link to="/onboarding/personal" className="account__cta-link">
-                  Set up your profile →
-                </Link>
               </div>
             ) : (
               <dl className="account__prefs">

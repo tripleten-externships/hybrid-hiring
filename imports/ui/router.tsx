@@ -10,7 +10,9 @@ import { Employers } from './pages/Employers/Employers';
 import { Home } from './pages/Home';
 import { JobBoard } from './pages/JobBoard/JobBoard';
 import { JobDetail } from './pages/JobDetail/JobDetail';
+import { ForgotPassword } from './pages/ForgotPassword/ForgotPassword';
 import { Login } from './pages/Login/Login';
+import { ResetPassword } from './pages/ResetPassword/ResetPassword';
 import { NotFound } from './pages/NotFound/NotFound';
 import { OnboardingPersonal, OnboardingProfessional, OnboardingSkills } from './pages/Onboarding';
 import { Resources } from './pages/Resources/Resources';
@@ -30,7 +32,11 @@ const router = createBrowserRouter([
       { path: '/', element: <Home /> },
       {
         element: <AuthRedirect />,
-        children: [{ path: '/login', element: <Login /> }],
+        children: [
+          { path: '/login', element: <Login /> },
+          { path: '/forgot-password', element: <ForgotPassword /> },
+          { path: '/reset-password/:token', element: <ResetPassword /> },
+        ],
       },
       { path: '/signup', element: <SignUp /> },
       { path: '/about', element: <AboutUs /> },

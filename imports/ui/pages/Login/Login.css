@@ -177,6 +177,11 @@
   opacity: 0.85;
 }
 
+a.login__submit-btn {
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
 .login__submit-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -197,6 +202,23 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* ─── Forgot password link ───────────────────────────────────────────────────── */
+.login__forgot-link {
+  font-size: var(--font-size-sm);
+  text-align: right;
+  margin: calc(-1 * var(--space-2)) 0 0;
+}
+
+.login__forgot-link a {
+  color: var(--color-primary-dark);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+}
+
+.login__forgot-link a:hover {
+  text-decoration: underline;
 }
 
 /* ─── Signup link ────────────────────────────────────────────────────────────── */

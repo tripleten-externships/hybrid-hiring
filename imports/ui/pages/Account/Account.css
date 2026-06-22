@@ -154,21 +154,54 @@
   margin: 0;
 }
 
-.account__edit-btn {
+.account__hero-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-2);
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.account__contact-btn {
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: var(--radius-sm);
-  color: #fff;
-  text-decoration: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
+  font-family: inherit;
   padding: var(--space-2) var(--space-5);
+  cursor: pointer;
   transition: background-color 0.15s ease;
   white-space: nowrap;
 }
 
-.account__edit-btn:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+.account__contact-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.account__profile-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border: 1px solid var(--color-3);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--color-primary-dark);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-4);
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+
+.account__profile-edit-btn svg {
+  font-size: 12px;
+}
+
+.account__profile-edit-btn:hover {
+  background: var(--color-5);
 }
 
 /* ─── Body ───────────────────────────────────────────────────────────────────── */
@@ -368,9 +401,17 @@
     font-size: 22px;
   }
 
-  .account__edit-btn {
+  .account__contact-btn {
     width: 100%;
     text-align: center;
+  }
+
+  .account__hero-actions {
+    width: 100%;
+  }
+
+  .account__profile-edit-btn {
+    padding: var(--space-2) var(--space-3);
   }
 
   .account__body {

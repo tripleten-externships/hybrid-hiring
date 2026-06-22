@@ -6,8 +6,7 @@ import { JobsCollection } from '/imports/api/jobs';
 import { ApplicationsCollection } from '/imports/api/applications/collection';
 import { useIsAdmin } from '/imports/ui/hooks/useCurrentUser';
 import { SearchBar } from '/imports/ui/components/SearchBar/SearchBar';
-import { AdminJobForm } from './AdminJobForm';
-import { AdminSettingsForm } from './AdminSettingsForm';
+import { AdminJobForm, AdminSettingsForm } from '/imports/ui/pages/Admin';
 import './Admin.css';
 
 function SearchIcon() {

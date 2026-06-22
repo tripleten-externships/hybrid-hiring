@@ -85,6 +85,10 @@ export const Login = () => {
             {passwordError && <p className="login__error">{passwordError}</p>}
           </div>
 
+          <p className="login__forgot-link">
+            <Link to="/forgot-password">Forgot password?</Link>
+          </p>
+
           {error && <p className="login__error">{error}</p>}
 
           <button type="submit" className="login__submit-btn" disabled={isLoading}>

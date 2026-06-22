@@ -30,6 +30,7 @@
     "esModuleInterop": true,
     "preserveSymlinks": true
   },
+  "include": ["client/**/*", "server/**/*", "imports/**/*", "tests/**/*"],
   "exclude": [
     "./.meteor/**",
     "./packages/**",

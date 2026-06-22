@@ -12,6 +12,7 @@ import {
 } from '../../api/settings/collection';
 import '../../api/contacts/methods';
 import '../../api/contacts/publications';
+import '../../api/accounts/config';
 
 async function insertLink({ title, url }: Pick<Link, 'title' | 'url'>) {
   await LinksCollection.insertAsync({ title, url, createdAt: new Date() });
