@@ -1,8 +1,10 @@
+import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
 import { JobsCollection } from '/imports/api/jobs';
 import { useMyProfile, useCurrentUser, useMyAppliedJobIds } from '/imports/ui/hooks/useCurrentUser';
+import { fileToSquareDataUrl } from '/imports/ui/utils/image';
 import JobCard from '/imports/ui/components/JobCard/JobCard';
 import './Account.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,6 +12,7 @@ import {
   faCircleDollarToSlot,
   faLocationDot,
   faBriefcase,
+  faPencil,
 } from '@fortawesome/free-solid-svg-icons';
 
 function LocationIcon() {
@@ -50,6 +53,63 @@ export function Account() {
   const { profile, isLoading: profileLoading } = useMyProfile();
   const savedJobIds = profile?.savedJobs ?? [];
   const appliedJobIds = useMyAppliedJobIds();
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [avatarUploading, setAvatarUploading] = useState(false);
+  const [avatarError, setAvatarError] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Close the avatar menu on outside click or Escape.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onPointerDown = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [menuOpen]);
+
+  const handleAvatarChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+
+    setAvatarError('');
+    setAvatarUploading(true);
+    try {
+      const dataUrl = await fileToSquareDataUrl(file);
+      await Meteor.callAsync('UserProfiles.setAvatar', dataUrl);
+    } catch (err) {
+      const reason = err instanceof Meteor.Error ? err.reason : undefined;
+      setAvatarError(reason || (err instanceof Error ? err.message : 'Failed to upload photo.'));
+    } finally {
+      setAvatarUploading(false);
+    }
+  };
+
+  const handleRemoveAvatar = async () => {
+    setMenuOpen(false);
+    setAvatarError('');
+    setAvatarUploading(true);
+    try {
+      await Meteor.callAsync('UserProfiles.removeAvatar');
+    } catch (err) {
+      const reason = err instanceof Meteor.Error ? err.reason : undefined;
+      setAvatarError(reason || 'Failed to remove photo.');
+    } finally {
+      setAvatarUploading(false);
+    }
+  };
 
   const { isLoading: jobsLoading, savedJobs } = useTracker(() => {
     const sub = Meteor.subscribe('jobs.all');
@@ -94,10 +154,70 @@ export function Account() {
       {/* ─── Hero banner ─── */}
       <div className="account__hero">
         <div className="account__hero-inner">
-          <div className="account__avatar">{initials || '?'}</div>
+          <div className="account__avatar-wrap">
+            <div className="account__avatar">
+              {profile?.avatar ? (
+                <img src={profile.avatar} alt="" className="account__avatar-img" />
+              ) : (
+                (initials || '?')
+              )}
+            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/gif"
+              onChange={handleAvatarChange}
+              hidden
+            />
+            <div className="account__avatar-menu" ref={menuRef}>
+              <button
+                type="button"
+                className="account__avatar-btn"
+                onClick={() => setMenuOpen((o) => !o)}
+                disabled={avatarUploading}
+                aria-label="Edit profile photo"
+                title="Edit profile photo"
+                aria-haspopup="menu"
+                aria-expanded={menuOpen}
+              >
+                <FontAwesomeIcon icon={faPencil} />
+              </button>
+              {menuOpen && (
+                <div className="account__avatar-dropdown" role="menu">
+                  <button
+                    type="button"
+                    role="menuitem"
+                    className="account__avatar-option"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      fileInputRef.current?.click();
+                    }}
+                  >
+                    {profile?.avatar ? 'Change photo' : 'Upload photo'}
+                  </button>
+                  {profile?.avatar && (
+                    <button
+                      type="button"
+                      role="menuitem"
+                      className="account__avatar-option account__avatar-option--danger"
+                      onClick={handleRemoveAvatar}
+                    >
+                      Remove photo
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
           <div className="account__hero-info">
             <h1 className="account__name">{fullName}</h1>
             <p className="account__email">{user?.emails?.[0]?.address}</p>
+            {avatarUploading && <p className="account__avatar-status">Updating photo…</p>}
+            {avatarError && (
+              <p className="account__avatar-status account__avatar-status--error" role="alert">
+                {avatarError}
+              </p>
+            )}
           </div>
           <Link to="/onboarding/personal" className="account__edit-btn">
             Edit Profile

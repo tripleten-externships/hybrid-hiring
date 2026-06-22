@@ -72,6 +72,15 @@
   background-color: rgba(255, 255, 255, 0.15);
 }
 
+.site-header__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  display: block;
+}
+
 /* Log Out button (authenticated) */
 .site-header__logout-btn {
   background: none;

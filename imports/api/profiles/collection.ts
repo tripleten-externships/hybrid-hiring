@@ -15,6 +15,8 @@ export interface UserProfile {
   skills?: string[];
   resumeUrl?: string;
   certUrl?: string;
+  /** Profile picture as a compressed base64 image data URL. */
+  avatar?: string;
   activelyLooking?: boolean;
   savedJobs?: string[];
   createdAt: Date;

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { MobileNavOverlay } from '../MobileNavOverlay/MobileNavOverlay';
-import { useIsLoggedIn, useIsAdmin } from '../../hooks/useCurrentUser';
+import { useIsLoggedIn, useIsAdmin, useMyProfile } from '../../hooks/useCurrentUser';
 import { NotificationBell } from '../../components/NotificationBell/NotificationBell';
 import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,6 +17,7 @@ export const Header = () => {
   const { logOut } = useAuth();
   const isLoggedIn = useIsLoggedIn();
   const { isAdmin } = useIsAdmin();
+  const { profile } = useMyProfile();
   const navigate = useNavigate();
 
   const handleLogOut = () => {
@@ -59,7 +60,15 @@ export const Header = () => {
           <>
             <NotificationBell />
             <NavLink to="/account" className="site-header__icon-btn" aria-label="Account">
-              <AccountIcon />
+              {profile?.avatar ? (
+                <img
+                  src={profile.avatar}
+                  alt=""
+                  className="site-header__avatar"
+                />
+              ) : (
+                <AccountIcon />
+              )}
             </NavLink>
             <button className="site-header__logout-btn" onClick={handleLogOut}>
               Log Out

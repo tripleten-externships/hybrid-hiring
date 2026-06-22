@@ -21,6 +21,13 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
+.account__avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+}
+
 .account__avatar {
   width: 80px;
   height: 80px;
@@ -35,7 +42,97 @@
   justify-content: center;
   flex-shrink: 0;
   letter-spacing: 1px;
+  overflow: hidden;
 }
+
+.account__avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.account__avatar-menu {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+}
+
+.account__avatar-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary-dark);
+  background: #fff;
+  color: var(--color-primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.account__avatar-btn:hover:not(:disabled) {
+  background: var(--color-5);
+}
+
+.account__avatar-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.account__avatar-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.account__avatar-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 20;
+  min-width: 150px;
+  background: #fff;
+  border: 1px solid var(--color-3);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  padding: var(--space-1);
+  display: flex;
+  flex-direction: column;
+}
+
+.account__avatar-option {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  color: var(--color-1);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.account__avatar-option:hover {
+  background: var(--color-5);
+}
+
+.account__avatar-option--danger {
+  color: #991b1b;
+}
+
+.account__avatar-status {
+  font-size: var(--font-size-xs);
+  color: rgba(255, 255, 255, 0.85);
+  margin: var(--space-1) 0 0;
+}
+
+.account__avatar-status--error {
+  color: #ffd7d7;
+}
+
 
 .account__hero-info {
   flex: 1;
@@ -259,6 +356,11 @@
     flex-wrap: wrap;
     gap: var(--space-4);
     padding: var(--space-6);
+  }
+
+  .account__avatar-wrap {
+    width: 60px;
+    height: 60px;
   }
 
   .account__avatar {
