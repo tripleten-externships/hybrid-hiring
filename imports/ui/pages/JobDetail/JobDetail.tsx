@@ -99,7 +99,9 @@ export function JobDetail() {
       setApplied(true);
     } catch (err) {
       const reason = err instanceof Meteor.Error ? err.reason : undefined;
-      setApplyError(reason || 'Something went wrong submitting your application. Please try again.');
+      setApplyError(
+        reason || 'Something went wrong submitting your application. Please try again.'
+      );
     } finally {
       setApplying(false);
     }

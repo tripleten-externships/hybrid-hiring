@@ -8,3 +8,5 @@ import '../imports/api/contacts';
 import '../imports/api/contacts/publications';
 import '../imports/api/notifications';
 import '../imports/api/notifications/publications';
+import '../imports/api/resumes';
+import '../imports/api/applications';

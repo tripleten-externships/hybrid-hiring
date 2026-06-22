@@ -3,13 +3,14 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Navigate } from 'react-router-dom';
 import { JobsCollection } from '/imports/api/jobs';
 import { useIsAdmin } from '/imports/ui/hooks/useCurrentUser';
+import { AdminJobForm } from './AdminJobForm';
 import './Admin.css';
 
 export function Admin() {
   const { isAdmin, isLoading: adminLoading } = useIsAdmin();
 
   const { isLoading: jobsLoading, jobs } = useTracker(() => {
-    const sub = Meteor.subscribe('jobs.all');
+    const sub = Meteor.subscribe('jobs.allAdmin');
     return {
       isLoading: !sub.ready(),
       jobs: JobsCollection.find({}, { sort: { postedAt: -1 } }).fetch(),
@@ -35,6 +36,17 @@ export function Admin() {
     );
   };
 
+  const handleDelete = (jobId: string | undefined, title: string) => {
+    if (!jobId) return;
+    const confirmed = window.confirm(
+      `Delete "${title}"? This permanently removes the posting and cannot be undone.`
+    );
+    if (!confirmed) return;
+    Meteor.callAsync('jobs.remove', jobId).catch((err) =>
+      console.error('Failed to delete job:', err)
+    );
+  };
+
   const formatDate = (date: Date) =>
     new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -49,6 +61,8 @@ export function Admin() {
           <h1 className="admin__title">Admin Panel</h1>
           <p className="admin__subtitle">Manage job listings</p>
         </header>
+
+        <AdminJobForm />
 
         {jobsLoading ? (
           <p className="admin__loading">Loading jobs...</p>
@@ -84,13 +98,22 @@ export function Admin() {
                       </span>
                     </td>
                     <td>
-                      <button
-                        type="button"
-                        className={`admin__toggle-btn ${job.isActive ? 'admin__toggle-btn--deactivate' : 'admin__toggle-btn--activate'}`}
-                        onClick={() => handleToggleActive(job._id, job.isActive)}
-                      >
-                        {job.isActive ? 'Deactivate' : 'Activate'}
-                      </button>
+                      <div className="admin__actions">
+                        <button
+                          type="button"
+                          className={`admin__toggle-btn ${job.isActive ? 'admin__toggle-btn--deactivate' : 'admin__toggle-btn--activate'}`}
+                          onClick={() => handleToggleActive(job._id, job.isActive)}
+                        >
+                          {job.isActive ? 'Deactivate' : 'Activate'}
+                        </button>
+                        <button
+                          type="button"
+                          className="admin__toggle-btn admin__delete-btn"
+                          onClick={() => handleDelete(job._id, job.title)}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

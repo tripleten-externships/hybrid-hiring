@@ -156,11 +156,11 @@ meteor run
 
 When a user submits a job application, the app emails the Hybrid Hiring contact address with the job details, the applicant's information, and their resume (attached when one is on file). Email delivery is configured entirely through environment variables.
 
-| Variable       | Required | Description                                                                                          |
-| -------------- | -------- | ---------------------------------------------------------------------------------------------------- |
-| `CONTACT_EMAIL` | Yes      | The Hybrid Hiring inbox that receives application emails. Also used as the default `from` address.   |
-| `MAIL_URL`      | Prod     | SMTP connection string (e.g. `smtps://user:pass@smtp.provider.com:465`). Sends real email when set.  |
-| `MAIL_FROM`     | No       | Overrides the `from` address. Defaults to `CONTACT_EMAIL` when unset.                                |
+| Variable        | Required | Description                                                                                         |
+| --------------- | -------- | --------------------------------------------------------------------------------------------------- |
+| `CONTACT_EMAIL` | Yes      | The Hybrid Hiring inbox that receives application emails. Also used as the default `from` address.  |
+| `MAIL_URL`      | Prod     | SMTP connection string (e.g. `smtps://user:pass@smtp.provider.com:465`). Sends real email when set. |
+| `MAIL_FROM`     | No       | Overrides the `from` address. Defaults to `CONTACT_EMAIL` when unset.                               |
 
 Add them to your `.env` file:
 
