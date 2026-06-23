@@ -36,7 +36,7 @@
 }
 
 .employers__hero-subtitle {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
   color: rgba(255, 255, 255, 0.9);
   line-height: 1.65;
   margin: 0;
