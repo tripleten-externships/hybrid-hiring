@@ -80,6 +80,8 @@ export function JobBoard() {
 
   // ── Filter panel state ────────────────────────────────────────────────────
   const [filtersOpen, setFiltersOpen] = React.useState(false);
+  const filtersTriggerRef = React.useRef<HTMLButtonElement>(null);
+  const drawerCloseRef = React.useRef<HTMLButtonElement>(null);
   const [selectedJobTypes, setSelectedJobTypes] = React.useState<JobType[]>([]);
   const [selectedPayUnit, setSelectedPayUnit] = React.useState<'hourly' | 'salary' | ''>('');
   const [minPayInput, setMinPayInput] = React.useState('');
@@ -111,15 +113,26 @@ export function JobBoard() {
     );
   };
 
-  // ── Drawer side-effects: lock body scroll + close on Escape ────────────────
+  const openFilters = React.useCallback(() => {
+    setFiltersOpen(true);
+  }, []);
+
+  const closeFilters = React.useCallback(() => {
+    filtersTriggerRef.current?.focus();
+    setFiltersOpen(false);
+  }, []);
+
+  // ── Drawer side-effects: lock body scroll, focus, close on Escape ─────────
   React.useEffect(() => {
     if (!filtersOpen) return;
+
+    drawerCloseRef.current?.focus();
 
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setFiltersOpen(false);
+      if (e.key === 'Escape') closeFilters();
     };
     document.addEventListener('keydown', onKeyDown);
 
@@ -127,7 +140,7 @@ export function JobBoard() {
       document.body.style.overflow = prevOverflow;
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [filtersOpen]);
+  }, [filtersOpen, closeFilters]);
 
   // ── Subscription ──────────────────────────────────────────────────────────
   // Always subscribe to jobs.all for a stable, consistent document set.
@@ -175,7 +188,7 @@ export function JobBoard() {
       : 'All Jobs';
 
   return (
-    <div className="job-board">
+    <div className={`job-board${filtersOpen ? ' job-board--drawer-open' : ''}`}>
       {/* ── Search bar ── */}
       <section className="job-board__search-section">
         <form className="job-board__search-form" onSubmit={handleSearch} role="search">
@@ -238,7 +251,9 @@ export function JobBoard() {
           )}
           <p className="job-board__subheading">
             {listingsLabel}
-            {!isLoading && <span className="job-board__result-count"> ({filteredJobs.length})</span>}
+            {!isLoading && (
+              <span className="job-board__result-count"> ({filteredJobs.length})</span>
+            )}
           </p>
         </div>
 
@@ -260,11 +275,13 @@ export function JobBoard() {
           )}
 
           <button
+            ref={filtersTriggerRef}
             type="button"
             className={`job-board__filter-chip${filtersOpen ? ' job-board__filter-chip--active' : ''}`}
-            onClick={() => setFiltersOpen((o) => !o)}
+            onClick={() => (filtersOpen ? closeFilters() : openFilters())}
             aria-expanded={filtersOpen}
             aria-haspopup="dialog"
+            aria-controls="job-board-filters-drawer"
           >
             <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
               <line x1="0" y1="2" x2="14" y2="2" stroke="currentColor" strokeWidth="1.5" />
@@ -302,27 +319,45 @@ export function JobBoard() {
       {/* ── Filter drawer ── */}
       <div
         className={`job-board__drawer-backdrop${filtersOpen ? ' job-board__drawer-backdrop--open' : ''}`}
-        onClick={() => setFiltersOpen(false)}
+        onClick={closeFilters}
         aria-hidden="true"
       />
       <aside
+        id="job-board-filters-drawer"
         className={`job-board__drawer${filtersOpen ? ' job-board__drawer--open' : ''}`}
         role="dialog"
-        aria-modal="true"
+        aria-modal={filtersOpen ? true : undefined}
         aria-label="Filters"
-        aria-hidden={!filtersOpen}
+        {...(!filtersOpen ? { inert: '' as const } : {})}
       >
         <header className="job-board__drawer-header">
           <h2 className="job-board__drawer-title">Filters</h2>
           <button
+            ref={drawerCloseRef}
             type="button"
             className="job-board__drawer-close"
-            onClick={() => setFiltersOpen(false)}
+            onClick={closeFilters}
             aria-label="Close filters"
           >
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-              <line x1="4" y1="4" x2="14" y2="14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-              <line x1="14" y1="4" x2="4" y2="14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              <line
+                x1="4"
+                y1="4"
+                x2="14"
+                y2="14"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+              <line
+                x1="14"
+                y1="4"
+                x2="4"
+                y2="14"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
             </svg>
           </button>
         </header>
@@ -393,7 +428,7 @@ export function JobBoard() {
           <button
             type="button"
             className="job-board__drawer-apply"
-            onClick={() => setFiltersOpen(false)}
+            onClick={closeFilters}
           >
             Show {filteredJobs.length} {filteredJobs.length === 1 ? 'result' : 'results'}
           </button>
