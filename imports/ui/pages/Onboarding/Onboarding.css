@@ -1,7 +1,7 @@
 /* ─── Page shell ─────────────────────────────────────────────────────────────── */
 .ob-page {
   min-height: calc(100vh - 62px);
-  background-color: var(--color-5);
+  background-color: var(--background-color-primary);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -364,14 +364,16 @@
 }
 
 .ob-btn-continue {
-  width: 100%;
-  padding: var(--space-4) var(--space-5);
+  width: fit-content;
+  /* margin-right: auto; */
+  margin-left: auto;
+  padding: var(--space-2) var(--space-4);
   background: var(--color-primary-dark);
   color: #fff;
   border: none;
   border-radius: var(--radius-sm);
   font-family: inherit;
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   cursor: pointer;
   transition: opacity 0.15s ease;

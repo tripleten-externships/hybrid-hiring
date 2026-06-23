@@ -492,9 +492,8 @@
 
 /* Result count next to heading */
 .job-board__result-count {
-  font-size: var(--font-size-sm);
-  font-weight: 400;
-  color: #9ca3af;
+  font-size: 18px;
+  color: var(--color-2);
   margin-left: 2px;
 }
 
@@ -650,7 +649,8 @@
     flex-wrap: wrap;
   }
 
-  .job-board__subheading {
+  .job-board__subheading,
+  .job-board__result-count {
     font-size: 16px;
   }
 

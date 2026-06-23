@@ -34,9 +34,9 @@
 }
 
 .chip--selected {
-  background: var(--color-secondary-dark);
+  background: var(--color-primary-dark);
   color: var(--color-6);
-  border-color: var(--color-secondary-dark);
+  border-color: var(--color-primary-dark);
 }
 
 .chip--selected:hover {

@@ -12,20 +12,6 @@ const JOB_TYPE_OPTIONS = [
   { label: 'Contract', value: 'contract' as JobType },
 ] as const;
 
-function ChevronIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path
-        d="M6 12l4-4-4-4"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export const OnboardingPersonal = () => {
   const navigate = useNavigate();
   const { profile, isLoading: profileLoading } = useMyProfile();
@@ -133,18 +119,6 @@ export const OnboardingPersonal = () => {
   return (
     <div className="ob-page">
       <div className="ob-step">
-        {/* Nav */}
-        <div className="ob-nav">
-          <button type="button" className="ob-nav__back" onClick={() => navigate(-1)}>
-            <ChevronIcon />
-            Back
-          </button>
-          <button type="button" className="ob-nav__skip" onClick={() => navigate('/jobs')}>
-            Skip
-            <ChevronIcon />
-          </button>
-        </div>
-
         {/* Progress */}
         <div className="ob-progress">
           <h1 className="ob-progress__title">Profile Builder</h1>
