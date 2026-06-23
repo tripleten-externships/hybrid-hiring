@@ -6,16 +6,23 @@ import { JobsCollection } from '/imports/api/jobs';
 import { useIsLoggedIn, useMyProfile, useMyAppliedJobIds } from '/imports/ui/hooks/useCurrentUser';
 import './JobDetail.css';
 
-function DollarIcon() {
+function DollarCircleIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.4" fill="none" />
-      <path
-        d="M8 4v8M6 5.5h2.5a1.5 1.5 0 0 1 0 3H6.5a1.5 1.5 0 0 0 0 3H10"
-        stroke="currentColor"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-      />
+    <svg
+      viewBox="0 0 24 24"
+      width="16"
+      height="16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className="job-detail__pay-icon"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+      <path d="M12 18V6" />
     </svg>
   );
 }
@@ -198,7 +205,7 @@ export function JobDetail() {
             <h2 className="job-detail__section-title">Job Details</h2>
 
             <div className="job-detail__pay-row">
-              <DollarIcon />
+              <DollarCircleIcon />
               <span className="job-detail__pay-label">{payLabel}</span>
               <span className="job-detail__pay-value">{payRange}</span>
             </div>
