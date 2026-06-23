@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { PageBackground } from '../../components/PageBackground/PageBackground';
 import { BACKGROUND_IMAGES } from '../../constants/backgroundImages';
 import './AboutUs.css';
@@ -13,6 +16,88 @@ function JobSeekerIcon() {
 
 function ConsultationIcon() {
   return <img src="/assets/icons/personal_consultation.svg" alt="Personal Consultation" />;
+}
+
+const heroSlides = [
+  <>
+    Hybrid Hiring Solutions is a staffing and recruitment firm based in Northeast Pennsylvania,
+    dedicated to connecting employers with qualified talent through a personalized and hands-on
+    approach. We specialize in sourcing, recruiting, and matching candidates with opportunities that
+    align with their skills, experience, and career goals.
+  </>,
+  <>
+    Our primary focus is supporting businesses within the energy, natural gas, and related industries
+    throughout Northeast Pennsylvania and the surrounding region. By understanding the unique needs of
+    both employers and job seekers, we create meaningful connections that help businesses grow and
+    individuals build successful careers.
+  </>,
+  <>
+    At Hybrid Hiring Solutions, we believe in a simple philosophy:{' '}
+    <strong>Live Local. Work Local.</strong> We are committed to strengthening our communities by
+    helping local talent find rewarding employment opportunities close to home while providing
+    employers with access to a skilled and reliable workforce.
+  </>,
+];
+
+function HeroBodyCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const lastIndex = heroSlides.length - 1;
+
+  const goToPrevious = () => {
+    setActiveIndex((index) => (index === 0 ? lastIndex : index - 1));
+  };
+
+  const goToNext = () => {
+    setActiveIndex((index) => (index === lastIndex ? 0 : index + 1));
+  };
+
+  return (
+    <div className="about__hero-carousel" aria-roledescription="carousel">
+      <div className="about__hero-carousel-viewport">
+        <div
+          className="about__hero-carousel-track"
+          style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+        >
+          {heroSlides.map((slide, index) => (
+            <div key={index} className="about__hero-carousel-slide">
+              <p>{slide}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="about__hero-carousel-controls">
+        <button
+          type="button"
+          className="about__hero-carousel-btn"
+          onClick={goToPrevious}
+          aria-label="Previous slide"
+        >
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </button>
+        <div className="about__hero-carousel-dots" role="tablist" aria-label="Hero slides">
+          {heroSlides.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              role="tab"
+              className={`about__hero-carousel-dot${index === activeIndex ? ' about__hero-carousel-dot--active' : ''}`}
+              aria-label={`Go to slide ${index + 1}`}
+              aria-selected={index === activeIndex}
+              onClick={() => setActiveIndex(index)}
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          className="about__hero-carousel-btn"
+          onClick={goToNext}
+          aria-label="Next slide"
+        >
+          <FontAwesomeIcon icon={faChevronRight} />
+        </button>
+      </div>
+    </div>
+  );
 }
 
 const servicesList = [
@@ -33,7 +118,7 @@ const servicesList = [
   {
     Icon: ConsultationIcon,
     title: 'Personal Consultation',
-    body: 'Work with you to discover your needs and guide you towards the right direction, wherever that might be.',
+    body: 'We work with you to discover your needs and guide you towards the right direction, wherever that might be.',
     cta: 'Book an appointment',
     to: '/contact',
   },
@@ -51,27 +136,7 @@ export const AboutUs = () => {
       >
         <div className="about__hero-content">
           <h1 className="about__hero-title">About Hybrid Hiring Solutions</h1>
-          <div className="about__hero-body">
-            <p>
-              Hybrid Hiring Solutions is a staffing and recruitment firm based in Northeast
-              Pennsylvania, dedicated to connecting employers with qualified talent through a
-              personalized and hands-on approach. We specialize in sourcing, recruiting, and
-              matching candidates with opportunities that align with their skills, experience, and
-              career goals.
-            </p>
-            <p>
-              Our primary focus is supporting businesses within the energy, natural gas, and related
-              industries throughout Northeast Pennsylvania and the surrounding region. By
-              understanding the unique needs of both employers and job seekers, we create meaningful
-              connections that help businesses grow and individuals build successful careers.
-            </p>
-            <p>
-              At Hybrid Hiring Solutions, we believe in a simple philosophy:{' '}
-              <strong>Live Local. Work Local.</strong> We are committed to strengthening our
-              communities by helping local talent find rewarding employment opportunities close to
-              home while providing employers with access to a skilled and reliable workforce.
-            </p>
-          </div>
+          <HeroBodyCarousel />
         </div>
       </PageBackground>
       <section className="about__mission">
