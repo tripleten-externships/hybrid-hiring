@@ -1,13 +1,12 @@
 .job-detail {
   background-color: var(--background-color-primary);
   min-height: calc(100vh - 62px);
-  padding-bottom: 120px; /* room for sticky footer */
 }
 
 .job-detail__container {
   max-width: 600px;
   margin: 0 auto;
-  padding: var(--space-6) var(--space-4) var(--space-4);
+  padding: var(--space-6) var(--space-4) 120px; /* room for sticky action bar while reading */
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
@@ -184,11 +183,7 @@
   margin: 0;
 }
 
-/* ─── Sticky footer ──────────────────────────────────────────────────────────── */
-.job-detail__footer-spacer {
-  height: 1px;
-}
-
+/* ─── Fixed action bar (offset above site footer via JS) ─────────────────────── */
 .job-detail__footer {
   position: fixed;
   bottom: 0;

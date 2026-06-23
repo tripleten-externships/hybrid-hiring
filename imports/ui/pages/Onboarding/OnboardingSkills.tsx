@@ -117,10 +117,6 @@ export const OnboardingSkills = () => {
             <ChevronIcon />
             Back
           </button>
-          <button type="button" className="ob-nav__skip" onClick={() => navigate('/jobs')}>
-            Skip
-            <ChevronIcon />
-          </button>
         </div>
 
         {/* Progress */}
@@ -189,7 +185,7 @@ export const OnboardingSkills = () => {
             onClick={handleFinish}
             disabled={isLoading}
           >
-            {isLoading ? 'Saving…' : 'Finish & View Jobs'}
+            {isLoading ? 'Saving…' : 'Submit'}
           </button>
         </div>
       </div>

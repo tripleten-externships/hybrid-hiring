@@ -77,8 +77,10 @@ export const OnboardingProfessional = () => {
   }, [profile, profileLoading]);
 
   const handleContinue = async () => {
-    if (!resumeFile && !certUrl && !existingResumeName) {
-      setError('Please upload a document or add a credential title before continuing.');
+    if (!resumeFile && !certUrl && !existingResumeName && !needsResumeHelp) {
+      setError(
+        'Please upload a document, add a credential title, or indicate if you need help building your resume before continuing.'
+      );
       return;
     }
 
@@ -131,10 +133,6 @@ export const OnboardingProfessional = () => {
           >
             <ChevronIcon />
             Back
-          </button>
-          <button type="button" className="ob-nav__skip" onClick={() => navigate('/jobs')}>
-            Skip
-            <ChevronIcon />
           </button>
         </div>
 

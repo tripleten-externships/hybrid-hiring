@@ -1,6 +1,6 @@
 .sign-up {
   min-height: calc(100vh - 62px);
-  background-color: var(--color-5);
+  background-color: var(--background-color-primary);
   display: flex;
   flex-direction: column;
   align-items: center;
