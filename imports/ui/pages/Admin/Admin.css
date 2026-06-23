@@ -1,6 +1,6 @@
 .admin {
   padding: var(--space-6);
-  background-color: var(--color-5);
+  background-color: var(--background-color-primary);
   min-height: 100vh;
 }
 
@@ -120,9 +120,9 @@
 .admin__table th {
   text-align: left;
   padding: var(--space-3) var(--space-4);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-2);
-  border-bottom: 2px solid var(--color-3);
+  font-weight: 600;
+  color: var(--color-1);
+  border-bottom: 2px solid var(--color-4);
   white-space: nowrap;
 }
 
@@ -138,7 +138,7 @@
 }
 
 .admin__cell-title {
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
   max-width: 240px;
 }
 
