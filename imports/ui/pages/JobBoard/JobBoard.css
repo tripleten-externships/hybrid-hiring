@@ -1,7 +1,7 @@
 /* ─── Board Shell ────────────────────────────────────────────────────────────── */
 .job-board {
   padding: var(--space-8) var(--space-8) var(--space-16);
-  background-color: #f6f7f9;
+  background-color: var(--background-color-primary);
   min-height: 60vh;
 }
 
@@ -24,7 +24,7 @@
   gap: 0;
   width: 100%;
   max-width: 700px;
-  margin: var(--space-6) auto var(--space-10);
+  margin: var(--space-3) auto var(--space-10);
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.06),
     0 4px 16px rgba(0, 0, 0, 0.07);
@@ -98,18 +98,41 @@
   margin: 0;
 }
 
-/* ─── Header / Intro ─────────────────────────────────────────────────────────── */
+/* ─── Header / Intro (sticky) ────────────────────────────────────────────────── */
 .job-board__header {
+  position: sticky;
+  /* Sits just below the global sticky site header (~60px tall). */
+  top: 60px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-8);
+  padding: var(--space-4) 0;
+  background-color: var(--background-color-primary);
+  border-bottom: 1px solid #e9ecef;
+}
+
+.job-board__header-text {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-4);
-  margin-top: var(--space-8);
-  margin-bottom: var(--space-6);
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+  margin-bottom: var(--space-1);
+  min-width: 0;
+}
+
+.job-board__header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
 }
 
 .job-board__heading {
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 700;
   color: #0f1117;
   margin: 0;
@@ -118,20 +141,13 @@
 }
 
 .job-board__subheading {
-  font-size: var(--font-size-sm);
-  color: #6b7280;
+  font-size: 18px;
+  color: var(--color-2);
   margin: 0;
   line-height: 1.5;
 }
 
-/* ─── Filter Chips ────────────────────────────────────────────────────────────── */
-.job-board__filter-chips {
-  display: flex;
-  gap: var(--space-2);
-  align-items: center;
-  flex-wrap: wrap;
-}
-
+/* ─── Filter Chip / Button ────────────────────────────────────────────────────── */
 .job-board__filter-chip {
   display: inline-flex;
   align-items: center;
@@ -199,38 +215,167 @@
   line-height: 1;
 }
 
-/* ─── Filter Panel ──────────────────────────────────────────────────────────── */
-.job-board__filter-panel {
-  width: fit-content;
-  background: #fff;
-  border: 1px solid #e2e5ea;
-  border-radius: 12px;
-  padding: var(--space-5) var(--space-6);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-6);
-  box-shadow:
-    0 4px 6px rgba(0, 0, 0, 0.04),
-    0 10px 30px rgba(0, 0, 0, 0.08);
-  animation: filter-panel-in 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+/* ─── Filter Drawer ─────────────────────────────────────────────────────────── */
+.job-board__drawer-backdrop {
+  position: fixed;
+  /* Start below the global sticky site header (~60px) so the nav stays visible. */
+  top: 60px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(15, 17, 23, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 90;
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease;
 }
 
-@keyframes filter-panel-in {
-  from {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.98);
+.job-board__drawer-backdrop--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.job-board__drawer {
+  position: fixed;
+  /* Sits below the global sticky site header (~60px) so the nav stays visible. */
+  top: 60px;
+  right: 0;
+  bottom: 0;
+  width: 380px;
+  max-width: 90vw;
+  background: #fff;
+  z-index: 95;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.16);
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.job-board__drawer--open {
+  transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .job-board__drawer,
+  .job-board__drawer-backdrop {
+    transition: none;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+}
+
+.job-board__drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid #e9ecef;
+  flex-shrink: 0;
+}
+
+.job-board__drawer-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f1117;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.job-board__drawer-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.job-board__drawer-close:hover {
+  background: #f3f4f6;
+  color: #0f1117;
+}
+
+.job-board__drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.job-board__drawer-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid #e9ecef;
+  flex-shrink: 0;
+}
+
+.job-board__drawer-clear {
+  flex-shrink: 0;
+  padding: 10px var(--space-4);
+  background: #fff;
+  border: 1px solid #e2e5ea;
+  border-radius: 8px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  font-family: inherit;
+  color: #374151;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.job-board__drawer-clear:hover:not(:disabled) {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.job-board__drawer-clear:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.job-board__drawer-apply {
+  flex: 1;
+  padding: 10px var(--space-5);
+  background-color: var(--color-primary-dark);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 6px rgba(60, 120, 76, 0.25);
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.job-board__drawer-apply:hover {
+  background-color: #2e5e3a;
+  box-shadow: 0 4px 12px rgba(60, 120, 76, 0.35);
 }
 
 .job-board__filter-group {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  min-width: 160px;
+  min-width: 0;
 }
 
 .job-board__filter-label {
@@ -361,6 +506,7 @@
 .job-board__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 360px));
+  justify-content: center;
   gap: var(--space-5);
   transition: opacity 0.2s ease;
 }
@@ -374,6 +520,7 @@
 .job-board__loading {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 360px));
+  justify-content: center;
   gap: var(--space-5);
 }
 
@@ -474,7 +621,27 @@
   }
 
   .job-board__heading {
-    font-size: 28px;
+    font-size: 24px;
+  }
+
+  .job-board__header {
+    /* Mobile site header can be taller; nudge the sticky offset down. */
+    top: 56px;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .job-board__drawer,
+  .job-board__drawer-backdrop {
+    top: 56px;
+  }
+
+  .job-board__header-actions {
+    flex-wrap: wrap;
+  }
+
+  .job-board__subheading {
+    font-size: 16px;
   }
 
   .job-board__grid,

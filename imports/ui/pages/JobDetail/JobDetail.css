@@ -1,5 +1,5 @@
 .job-detail {
-  background-color: #f6f7f9;
+  background-color: var(--background-color-primary);
   min-height: calc(100vh - 62px);
   padding-bottom: 120px; /* room for sticky footer */
 }
