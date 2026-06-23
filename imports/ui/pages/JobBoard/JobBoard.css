@@ -1,7 +1,16 @@
+/* ─── Board Shell ────────────────────────────────────────────────────────────── */
 .job-board {
-  padding: var(--space-6) var(--space-6) var(--space-12);
-  background-color: var(--color-5);
+  padding: var(--space-8) var(--space-8) var(--space-16);
+  background-color: var(--background-color-primary);
   min-height: 60vh;
+}
+
+/* Compensate for the scrollbar gutter disappearing when body scroll is locked.
+   Mobile browsers use overlay scrollbars, so skip on small screens. */
+@media (min-width: 601px) {
+  .job-board--drawer-open {
+    margin-right: 15px;
+  }
 }
 
 /* ─── Search Section ─────────────────────────────────────────────────────────── */
@@ -17,13 +26,24 @@
   display: flex;
   align-items: center;
   background: #fff;
-  border: 1px solid var(--color-3);
-  border-radius: var(--radius-md);
+  border: 1px solid #e2e5ea;
+  border-radius: 12px;
   padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
   gap: 0;
   width: 100%;
-  max-width: 680px;
-  margin: var(--space-5) auto var(--space-10);
+  max-width: 700px;
+  margin: var(--space-3) auto var(--space-10);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 4px 16px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.2s ease;
+}
+
+.job-board__search-form:focus-within {
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 6px 24px rgba(60, 120, 76, 0.14);
+  border-color: var(--color-primary-dark);
 }
 
 /* SearchBar instances inside the form should look borderless / transparent */
@@ -40,6 +60,7 @@
   box-shadow: none;
   padding-top: var(--space-2);
   padding-bottom: var(--space-2);
+  font-size: var(--font-size-sm);
 }
 
 .job-board__search-form .search__input:focus {
@@ -49,7 +70,7 @@
 .job-board__search-divider {
   width: 1px;
   height: 28px;
-  background: var(--color-3);
+  background: #e2e5ea;
   margin: 0 var(--space-3);
   flex-shrink: 0;
 }
@@ -58,98 +79,133 @@
   background-color: var(--color-primary-dark);
   color: #fff;
   border: none;
-  border-radius: var(--radius-sm);
-  padding: var(--space-2) var(--space-5);
+  border-radius: 8px;
+  padding: var(--space-3) var(--space-6);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   font-family: inherit;
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: opacity 0.15s ease;
+  letter-spacing: 0.01em;
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .job-board__search-btn:hover {
-  opacity: 0.85;
+  background-color: #2e5e3a;
+  box-shadow: 0 2px 8px rgba(60, 120, 76, 0.3);
 }
 
 /* ─── Divider (below search) ─────────────────────────────────────────────────── */
 .job-board__divider {
   border: none;
-  border-top: 1px solid var(--color-3);
+  border-top: 1px solid #e2e5ea;
   width: 100%;
   margin: 0;
 }
 
-/* ─── Header / Intro ─────────────────────────────────────────────────────────── */
+/* ─── Header / Intro (sticky) ────────────────────────────────────────────────── */
 .job-board__header {
+  position: sticky;
+  /* Sits just below the global sticky site header (~60px tall). */
+  top: 60px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-8);
+  padding: var(--space-4) 0;
+  background-color: var(--background-color-primary);
+  border-bottom: 1px solid #e9ecef;
+}
+
+.job-board__header-text {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-4);
-  margin-top: var(--space-6);
-  margin-bottom: var(--space-5);
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+  margin-bottom: var(--space-1);
+  min-width: 0;
+}
+
+.job-board__header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
 }
 
 .job-board__heading {
-  font-size: 40px;
-  font-weight: 500;
-  color: var(--color-1);
+  font-size: 32px;
+  font-weight: 700;
+  color: #0f1117;
   margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
 .job-board__subheading {
-  font-size: var(--font-size-sm);
+  font-size: 18px;
   color: var(--color-2);
   margin: 0;
+  line-height: 1.5;
 }
 
-/* ─── Filter Chips ────────────────────────────────────────────────────────────── */
-.job-board__filter-chips {
-  display: flex;
-  gap: var(--space-3);
-  align-items: center;
-  flex-wrap: wrap;
-}
-
+/* ─── Filter Chip / Button ────────────────────────────────────────────────────── */
 .job-board__filter-chip {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
+  gap: 6px;
+  padding: 7px var(--space-4);
   background: #fff;
-  border: 1px solid var(--color-3);
-  border-radius: var(--radius-sm);
+  border: 1px solid #e2e5ea;
+  border-radius: 8px;
   font-size: var(--font-size-sm);
-  color: var(--color-1);
+  font-weight: 500;
+  color: #374151;
   font-family: inherit;
   cursor: pointer;
-  transition: border-color 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .job-board__filter-chip:hover {
   border-color: var(--color-primary-dark);
   color: var(--color-primary-dark);
+  box-shadow: 0 1px 4px rgba(60, 120, 76, 0.15);
 }
 
 .job-board__filter-chip--active {
   background: var(--color-primary-dark);
   border-color: var(--color-primary-dark);
   color: #fff;
+  box-shadow: 0 2px 6px rgba(60, 120, 76, 0.25);
 }
 
 .job-board__filter-chip--active:hover {
   color: #fff;
-  opacity: 0.9;
+  background: #2e5e3a;
+  box-shadow: 0 2px 8px rgba(60, 120, 76, 0.35);
 }
 
 .job-board__filter-chip--clear {
-  color: var(--color-2);
+  color: #9ca3af;
+  border-color: #e2e5ea;
+  box-shadow: none;
 }
 
 .job-board__filter-chip--clear:hover {
-  border-color: var(--color-error, #c0392b);
-  color: var(--color-error, #c0392b);
+  border-color: #ef4444;
+  color: #ef4444;
+  box-shadow: none;
 }
 
 .job-board__filter-badge {
@@ -159,50 +215,186 @@
   min-width: 18px;
   height: 18px;
   padding: 0 4px;
-  background: #fff;
-  color: var(--color-primary-dark);
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
   font-size: 11px;
   font-weight: var(--font-weight-bold);
   border-radius: 999px;
   line-height: 1;
 }
 
-/* ─── Filter Panel ──────────────────────────────────────────────────────────── */
-.job-board__filter-panel {
-  width: fit-content;
-  background: #fff;
-  border: 1px solid var(--color-3);
-  border-radius: var(--radius-md);
-  padding: var(--space-5) var(--space-6);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-6);
-  animation: filter-panel-in 0.18s ease;
+/* ─── Filter Drawer ─────────────────────────────────────────────────────────── */
+.job-board__drawer-backdrop {
+  position: fixed;
+  /* Start below the global sticky site header (~60px) so the nav stays visible. */
+  top: 60px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(15, 17, 23, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 90;
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease;
 }
 
-@keyframes filter-panel-in {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
+.job-board__drawer-backdrop--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.job-board__drawer {
+  position: fixed;
+  /* Sits below the global sticky site header (~60px) so the nav stays visible. */
+  top: 60px;
+  right: 0;
+  bottom: 0;
+  width: 380px;
+  max-width: 90vw;
+  background: #fff;
+  z-index: 95;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.16);
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  pointer-events: none;
+}
+
+.job-board__drawer--open {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .job-board__drawer,
+  .job-board__drawer-backdrop {
+    transition: none;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+}
+
+.job-board__drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid #e9ecef;
+  flex-shrink: 0;
+}
+
+.job-board__drawer-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f1117;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.job-board__drawer-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.job-board__drawer-close:hover {
+  background: #f3f4f6;
+  color: #0f1117;
+}
+
+.job-board__drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.job-board__drawer-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid #e9ecef;
+  flex-shrink: 0;
+}
+
+.job-board__drawer-clear {
+  flex-shrink: 0;
+  padding: 10px var(--space-4);
+  background: #fff;
+  border: 1px solid #e2e5ea;
+  border-radius: 8px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  font-family: inherit;
+  color: #374151;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.job-board__drawer-clear:hover:not(:disabled) {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.job-board__drawer-clear:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.job-board__drawer-apply {
+  flex: 1;
+  padding: 10px var(--space-5);
+  background-color: var(--color-primary-dark);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 6px rgba(60, 120, 76, 0.25);
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.job-board__drawer-apply:hover {
+  background-color: #2e5e3a;
+  box-shadow: 0 4px 12px rgba(60, 120, 76, 0.35);
 }
 
 .job-board__filter-group {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  min-width: 160px;
+  min-width: 0;
 }
 
 .job-board__filter-label {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-1);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-3);
   margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
 }
 
 .job-board__filter-options {
@@ -212,52 +404,44 @@
 }
 
 .job-board__filter-option {
-  padding: var(--space-1) var(--space-3);
+  padding: 6px var(--space-3);
   background: transparent;
-  /* --color-2 (#636363) gives ~5.7:1 against white — meets WCAG 1.4.11 (>=3:1)
-     for the chip outline, unlike the lighter --color-3 (#8f8c8c, ~2.9:1). */
-  border: 1px solid var(--color-2);
-  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
   font-size: var(--font-size-sm);
+  font-weight: 500;
   font-family: inherit;
-  /* #000 text gives 21:1; well above the 4.5:1 AA threshold. */
-  color: var(--color-1);
+  color: #374151;
   cursor: pointer;
   transition:
     background 0.15s ease,
     border-color 0.15s ease,
-    color 0.15s ease;
+    color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-/* Keyboard focus indicator (WCAG 2.4.7). outline-offset keeps the ring on the
-   light page background so it stays high-contrast even on the green selected
-   chip. */
 .job-board__filter-option:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-primary-dark);
   outline-offset: 2px;
 }
 
-/* Unselected, hovered: solid green with white text (~4.8:1). Border matched to
-   the fill so the outline doesn't read as a stray gray edge. */
 .job-board__filter-option--inactive:hover {
-  background-color: var(--color-primary-dark);
-  border-color: var(--color-primary-dark);
-  color: #fff;
-}
-
-/* Selected, hovered: invert to white fill with green text (~4.8:1), keeping the
-   green border for definition. */
-.job-board__filter-option--active:hover {
-  background-color: #fff;
+  background-color: #f0fdf4;
   border-color: var(--color-primary-dark);
   color: var(--color-primary-dark);
 }
 
-/* Selected: solid green with white text (~4.8:1). */
+.job-board__filter-option--active:hover {
+  background-color: #f0fdf4;
+  border-color: var(--color-primary-dark);
+  color: var(--color-primary-dark);
+}
+
 .job-board__filter-option--selected {
   background: var(--color-primary-dark);
   border-color: var(--color-primary-dark);
   color: #fff;
+  box-shadow: 0 1px 4px rgba(60, 120, 76, 0.25);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -269,18 +453,24 @@
 .job-board__filter-pay {
   display: flex;
   align-items: center;
-  border: 1px solid var(--color-3);
-  border-radius: var(--radius-sm);
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
   overflow: hidden;
   width: 140px;
+  transition: border-color 0.15s ease;
+}
+
+.job-board__filter-pay:focus-within {
+  border-color: var(--color-primary-dark);
+  box-shadow: 0 0 0 3px rgba(60, 120, 76, 0.1);
 }
 
 .job-board__filter-pay-symbol {
   padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
   font-size: var(--font-size-sm);
-  color: var(--color-2);
-  background: var(--color-5);
-  border-right: 1px solid var(--color-3);
+  color: #9ca3af;
+  background: #f9fafb;
+  border-right: 1px solid #d1d5db;
   line-height: 1;
 }
 
@@ -291,20 +481,21 @@
   padding: var(--space-2) var(--space-3);
   font-size: var(--font-size-sm);
   font-family: inherit;
-  color: var(--color-1);
+  color: #0f1117;
   background: transparent;
   min-width: 0;
 }
 
 .job-board__filter-pay-input::placeholder {
-  color: var(--color-3);
+  color: #d1d5db;
 }
 
 /* Result count next to heading */
 .job-board__result-count {
-  font-size: var(--font-size-md);
-  font-weight: 300;
-  color: var(--color-2);
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  color: #9ca3af;
+  margin-left: 2px;
 }
 
 /* ─── Listings ────────────────────────────────────────────────────────────────── */
@@ -315,15 +506,17 @@
 }
 
 .job-board__listings-title {
-  font-size: var(--font-size-lg);
-  font-weight: 500;
-  color: var(--color-1);
+  font-size: 18px;
+  font-weight: 600;
+  color: #0f1117;
   margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .job-board__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 340px));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 360px));
+  justify-content: center;
   gap: var(--space-5);
   transition: opacity 0.2s ease;
 }
@@ -336,18 +529,18 @@
 /* ─── Loading / Empty ─────────────────────────────────────────────────────────── */
 .job-board__loading {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 340px));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 360px));
+  justify-content: center;
   gap: var(--space-5);
 }
 
 .job-board__skeleton,
 .job-card-skeleton {
-  height: 300px;
-  background: var(--color-5);
-  border-radius: var(--radius-md);
-  background-image: linear-gradient(90deg, var(--color-5) 25%, #ddd 50%, var(--color-5) 75%);
+  height: 280px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
   background-size: 200% 100%;
-  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
 }
 
 @keyframes skeleton-shimmer {
@@ -366,21 +559,22 @@
   justify-content: center;
   text-align: center;
   padding: var(--space-16) var(--space-4);
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
 
 .job-board__empty-heading {
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-1);
+  font-size: 18px;
+  font-weight: 600;
+  color: #0f1117;
   margin: 0;
 }
 
 .job-board__empty-body {
   font-size: var(--font-size-sm);
-  color: var(--color-2);
+  color: #6b7280;
   max-width: 380px;
   margin: 0;
+  line-height: 1.6;
 }
 
 .job-board__cta-btn {
@@ -390,19 +584,24 @@
   background-color: var(--color-primary-dark);
   color: #fff;
   border: none;
-  border-radius: var(--radius-sm);
-  padding: var(--space-2) var(--space-6);
+  border-radius: 8px;
+  padding: 10px var(--space-6);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
+  font-weight: 600;
   font-family: inherit;
   text-decoration: none;
   cursor: pointer;
+  letter-spacing: 0.01em;
   white-space: nowrap;
-  transition: opacity 0.15s ease;
+  box-shadow: 0 2px 6px rgba(60, 120, 76, 0.25);
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .job-board__cta-btn:hover {
-  opacity: 0.85;
+  background-color: #2e5e3a;
+  box-shadow: 0 4px 12px rgba(60, 120, 76, 0.35);
 }
 
 /* ─── Responsive ─────────────────────────────────────────────────────────────── */
@@ -432,7 +631,27 @@
   }
 
   .job-board__heading {
-    font-size: var(--font-size-xl);
+    font-size: 24px;
+  }
+
+  .job-board__header {
+    /* Mobile site header can be taller; nudge the sticky offset down. */
+    top: 56px;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .job-board__drawer,
+  .job-board__drawer-backdrop {
+    top: 56px;
+  }
+
+  .job-board__header-actions {
+    flex-wrap: wrap;
+  }
+
+  .job-board__subheading {
+    font-size: 16px;
   }
 
   .job-board__grid,

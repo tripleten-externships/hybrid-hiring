@@ -16,7 +16,7 @@
 
 .contact-us__right {
   flex: 1;
-  background-color: var(--color-5);
+  background-color: var(--background-color-primary);
   display: flex;
   align-items: flex-start;
 }

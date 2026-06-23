@@ -11,20 +11,22 @@
   --color-accent-3: #59392b;
 
   /* Interface Pallet from Figma */
-  --color-1: #000000;
+  --color-1: #242424;
   --color-2: #636363;
   --color-3: #8f8c8c;
-  --color-4: #b7b7b7;
+  --color-4: #a1a1a6;
   --color-5: #eaeaea;
-  --color-6: #ffffff;
+  --color-6: #f5f5f7;
+
+  --background-color-primary: #f6f7f9;
 
   /* Overlay Pallet from Figma */
-  --color-overlay-1: #000000;
+  --color-overlay-1: #121212;
 
   --color-primary: #2563eb; /* used for links and focus states */
-  --color-secondary: #ffffff; /* temporary placeholder */
-  --color-text: #ffffff;
-  --color-text-muted: #b7b7b7;
+  --color-secondary: #f5f5f7; /* temporary placeholder */
+  --color-text: #f5f5f7;
+  --color-text-muted: #a1a1a6;
   --color-surface: #3c784c;
   --color-background: #3c784c;
   --color-border: #636363;

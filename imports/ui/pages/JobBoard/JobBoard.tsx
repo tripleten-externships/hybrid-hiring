@@ -80,6 +80,8 @@ export function JobBoard() {
 
   // ── Filter panel state ────────────────────────────────────────────────────
   const [filtersOpen, setFiltersOpen] = React.useState(false);
+  const filtersTriggerRef = React.useRef<HTMLButtonElement>(null);
+  const drawerCloseRef = React.useRef<HTMLButtonElement>(null);
   const [selectedJobTypes, setSelectedJobTypes] = React.useState<JobType[]>([]);
   const [selectedPayUnit, setSelectedPayUnit] = React.useState<'hourly' | 'salary' | ''>('');
   const [minPayInput, setMinPayInput] = React.useState('');
@@ -110,6 +112,35 @@ export function JobBoard() {
       prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
     );
   };
+
+  const openFilters = React.useCallback(() => {
+    setFiltersOpen(true);
+  }, []);
+
+  const closeFilters = React.useCallback(() => {
+    filtersTriggerRef.current?.focus();
+    setFiltersOpen(false);
+  }, []);
+
+  // ── Drawer side-effects: lock body scroll, focus, close on Escape ─────────
+  React.useEffect(() => {
+    if (!filtersOpen) return;
+
+    drawerCloseRef.current?.focus();
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeFilters();
+    };
+    document.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [filtersOpen, closeFilters]);
 
   // ── Subscription ──────────────────────────────────────────────────────────
   // Always subscribe to jobs.all for a stable, consistent document set.
@@ -150,8 +181,14 @@ export function JobBoard() {
 
   const showingSearch = !!(activeTitle || activeLocation || activeFilterCount);
 
+  const listingsLabel = showingSearch
+    ? 'Search Results'
+    : isLoggedIn
+      ? 'Suggested jobs for you'
+      : 'All Jobs';
+
   return (
-    <div className="job-board">
+    <div className={`job-board${filtersOpen ? ' job-board--drawer-open' : ''}`}>
       {/* ── Search bar ── */}
       <section className="job-board__search-section">
         <form className="job-board__search-form" onSubmit={handleSearch} role="search">
@@ -204,29 +241,47 @@ export function JobBoard() {
         <hr className="job-board__divider" />
       </section>
 
-      {/* ── Header / intro ── */}
+      {/* ── Sticky header / intro ── */}
       <section className="job-board__header">
-        {isLoggedIn ? (
-          <h1 className="job-board__heading">Welcome, {firstName}</h1>
-        ) : (
-          <>
+        <div className="job-board__header-text">
+          {isLoggedIn ? (
+            <h1 className="job-board__heading">Welcome, {firstName}</h1>
+          ) : (
             <h1 className="job-board__heading">Your job search starts here</h1>
-            <p className="job-board__subheading">
-              Create an account or sign in for recommended jobs.
-            </p>
+          )}
+          <p className="job-board__subheading">
+            {listingsLabel}
+            {!isLoading && (
+              <span className="job-board__result-count"> ({filteredJobs.length})</span>
+            )}
+          </p>
+        </div>
+
+        <div className="job-board__header-actions">
+          {!isLoggedIn && (
             <Link to="/signup" className="job-board__cta-btn">
               Get Started
             </Link>
-          </>
-        )}
+          )}
 
-        {/* ── Filter chips row ── */}
-        <div className="job-board__filter-chips">
+          {hasFilters && (
+            <button
+              type="button"
+              className="job-board__filter-chip job-board__filter-chip--clear"
+              onClick={handleClearFilters}
+            >
+              Clear all
+            </button>
+          )}
+
           <button
+            ref={filtersTriggerRef}
             type="button"
             className={`job-board__filter-chip${filtersOpen ? ' job-board__filter-chip--active' : ''}`}
-            onClick={() => setFiltersOpen((o) => !o)}
+            onClick={() => (filtersOpen ? closeFilters() : openFilters())}
             aria-expanded={filtersOpen}
+            aria-haspopup="dialog"
+            aria-controls="job-board-filters-drawer"
           >
             <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
               <line x1="0" y1="2" x2="14" y2="2" stroke="currentColor" strokeWidth="1.5" />
@@ -258,83 +313,126 @@ export function JobBoard() {
               <span className="job-board__filter-badge">{activeFilterCount}</span>
             )}
           </button>
-
-          {hasFilters && (
-            <button
-              type="button"
-              className="job-board__filter-chip job-board__filter-chip--clear"
-              onClick={handleClearFilters}
-            >
-              Clear all
-            </button>
-          )}
         </div>
+      </section>
 
-        {/* ── Filter panel ── */}
-        {filtersOpen && (
-          <div className="job-board__filter-panel" role="region" aria-label="Filters">
-            <div className="job-board__filter-group">
-              <p className="job-board__filter-label">Job Type</p>
-              <div className="job-board__filter-options">
-                {JOB_TYPE_OPTIONS.map(({ label, value }) => (
-                  <button
-                    key={value}
-                    type="button"
-                    className={filterOptionClass(selectedJobTypes.includes(value))}
-                    onClick={() => toggleJobType(value)}
-                    aria-pressed={selectedJobTypes.includes(value)}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
+      {/* ── Filter drawer ── */}
+      <div
+        className={`job-board__drawer-backdrop${filtersOpen ? ' job-board__drawer-backdrop--open' : ''}`}
+        onClick={closeFilters}
+        aria-hidden="true"
+      />
+      <aside
+        id="job-board-filters-drawer"
+        className={`job-board__drawer${filtersOpen ? ' job-board__drawer--open' : ''}`}
+        role="dialog"
+        aria-modal={filtersOpen ? true : undefined}
+        aria-label="Filters"
+        {...(!filtersOpen ? { inert: '' as const } : {})}
+      >
+        <header className="job-board__drawer-header">
+          <h2 className="job-board__drawer-title">Filters</h2>
+          <button
+            ref={drawerCloseRef}
+            type="button"
+            className="job-board__drawer-close"
+            onClick={closeFilters}
+            aria-label="Close filters"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <line
+                x1="4"
+                y1="4"
+                x2="14"
+                y2="14"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+              <line
+                x1="14"
+                y1="4"
+                x2="4"
+                y2="14"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+        </header>
 
-            <div className="job-board__filter-group">
-              <p className="job-board__filter-label">Pay Type</p>
-              <div className="job-board__filter-options">
-                {PAY_UNIT_OPTIONS.map(({ label, value }) => (
-                  <button
-                    key={value}
-                    type="button"
-                    className={filterOptionClass(selectedPayUnit === value)}
-                    onClick={() => setSelectedPayUnit((prev) => (prev === value ? '' : value))}
-                    aria-pressed={selectedPayUnit === value}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="job-board__filter-group">
-              <label htmlFor="min-pay" className="job-board__filter-label">
-                Minimum Pay
-              </label>
-              <div className="job-board__filter-pay">
-                <span className="job-board__filter-pay-symbol">$</span>
-                <input
-                  id="min-pay"
-                  type="number"
-                  min="0"
-                  placeholder="e.g. 20"
-                  value={minPayInput}
-                  onChange={(e) => setMinPayInput(e.target.value)}
-                  className="job-board__filter-pay-input"
-                />
-              </div>
+        <div className="job-board__drawer-body">
+          <div className="job-board__filter-group">
+            <p className="job-board__filter-label">Job Type</p>
+            <div className="job-board__filter-options">
+              {JOB_TYPE_OPTIONS.map(({ label, value }) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={filterOptionClass(selectedJobTypes.includes(value))}
+                  onClick={() => toggleJobType(value)}
+                  aria-pressed={selectedJobTypes.includes(value)}
+                >
+                  {label}
+                </button>
+              ))}
             </div>
           </div>
-        )}
-      </section>
+
+          <div className="job-board__filter-group">
+            <p className="job-board__filter-label">Pay Type</p>
+            <div className="job-board__filter-options">
+              {PAY_UNIT_OPTIONS.map(({ label, value }) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={filterOptionClass(selectedPayUnit === value)}
+                  onClick={() => setSelectedPayUnit((prev) => (prev === value ? '' : value))}
+                  aria-pressed={selectedPayUnit === value}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="job-board__filter-group">
+            <label htmlFor="min-pay" className="job-board__filter-label">
+              Minimum Pay
+            </label>
+            <div className="job-board__filter-pay">
+              <span className="job-board__filter-pay-symbol">$</span>
+              <input
+                id="min-pay"
+                type="number"
+                min="0"
+                placeholder="e.g. 20"
+                value={minPayInput}
+                onChange={(e) => setMinPayInput(e.target.value)}
+                className="job-board__filter-pay-input"
+              />
+            </div>
+          </div>
+        </div>
+
+        <footer className="job-board__drawer-footer">
+          <button
+            type="button"
+            className="job-board__drawer-clear"
+            onClick={handleClearFilters}
+            disabled={!hasFilters}
+          >
+            Clear all
+          </button>
+          <button type="button" className="job-board__drawer-apply" onClick={closeFilters}>
+            Show {filteredJobs.length} {filteredJobs.length === 1 ? 'result' : 'results'}
+          </button>
+        </footer>
+      </aside>
 
       {/* ── Listings ── */}
       <section className="job-board__listings" aria-label="Job listings">
-        <h2 className="job-board__listings-title">
-          {showingSearch ? 'Search Results' : isLoggedIn ? 'Suggested jobs for you' : 'All Jobs'}
-          {!isLoading && <span className="job-board__result-count"> ({filteredJobs.length})</span>}
-        </h2>
-
         {isLoading && jobs.length === 0 ? (
           <LoadingState />
         ) : filteredJobs.length === 0 && !isLoading ? (

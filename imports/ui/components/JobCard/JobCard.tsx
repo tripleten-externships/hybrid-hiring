@@ -105,7 +105,8 @@ export default function JobCard({ job, isSaved, onSave, hasApplied }: JobCardPro
         </div>
 
         <div className="job-card__pay">
-          {payLabel} {pay}
+          <span className="job-card__pay-label">{payLabel}</span>
+          <span className="job-card__pay-value">{pay}</span>
         </div>
 
         <div className="job-card__chip-tags">

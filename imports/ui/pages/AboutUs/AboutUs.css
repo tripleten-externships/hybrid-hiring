@@ -36,11 +36,99 @@
   line-height: 1.15;
 }
 
-.about__hero-body {
+.about__hero-body,
+.about__hero-carousel {
   font-size: var(--font-size-md);
   color: rgba(255, 255, 255, 0.92);
   line-height: 1.7;
   margin: 0;
+}
+
+.about__hero-carousel-slide p {
+  margin: 0;
+}
+
+.about__hero-carousel-slide strong {
+  font-weight: var(--font-weight-bold);
+}
+
+.about__hero-carousel-viewport {
+  overflow: hidden;
+}
+
+.about__hero-carousel-track {
+  display: flex;
+  transition: transform 0.35s ease;
+}
+
+.about__hero-carousel-slide {
+  flex: 0 0 100%;
+}
+
+.about__hero-carousel-controls {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.about__hero-carousel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.about__hero-carousel-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.65);
+}
+
+.about__hero-carousel-dots {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.about__hero-carousel-dot {
+  width: 28px;
+  height: 4px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.about__hero-carousel-dot--active {
+  background: #fff;
+}
+
+@media (min-width: 769px) {
+  .about__hero-carousel-viewport {
+    overflow: visible;
+  }
+
+  .about__hero-carousel-track {
+    flex-direction: column;
+    gap: var(--space-4);
+    transform: none !important;
+  }
+
+  .about__hero-carousel-slide {
+    flex: none;
+  }
 }
 
 /* ─── Mission ────────────────────────────────────────────────────────────────── */
@@ -194,8 +282,16 @@
     text-align: center;
   }
 
+  .about__hero-content {
+    max-width: 100%;
+  }
+
   .about__hero-title {
     font-size: var(--font-size-xl);
+  }
+
+  .about__hero-carousel-controls {
+    display: flex;
   }
 
   .about__mission {
