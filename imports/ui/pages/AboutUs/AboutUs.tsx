@@ -26,10 +26,10 @@ const heroSlides = [
     align with their skills, experience, and career goals.
   </>,
   <>
-    Our primary focus is supporting businesses within the energy, natural gas, and related industries
-    throughout Northeast Pennsylvania and the surrounding region. By understanding the unique needs of
-    both employers and job seekers, we create meaningful connections that help businesses grow and
-    individuals build successful careers.
+    Our primary focus is supporting businesses within the energy, natural gas, and related
+    industries throughout Northeast Pennsylvania and the surrounding region. By understanding the
+    unique needs of both employers and job seekers, we create meaningful connections that help
+    businesses grow and individuals build successful careers.
   </>,
   <>
     At Hybrid Hiring Solutions, we believe in a simple philosophy:{' '}
