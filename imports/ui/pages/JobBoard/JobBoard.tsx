@@ -425,11 +425,7 @@ export function JobBoard() {
           >
             Clear all
           </button>
-          <button
-            type="button"
-            className="job-board__drawer-apply"
-            onClick={closeFilters}
-          >
+          <button type="button" className="job-board__drawer-apply" onClick={closeFilters}>
             Show {filteredJobs.length} {filteredJobs.length === 1 ? 'result' : 'results'}
           </button>
         </footer>
