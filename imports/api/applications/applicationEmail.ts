@@ -226,8 +226,13 @@ export function buildApplicationEmail(data: ApplicationEmailData): {
           <tr>
             <td style="padding:18px 32px;background:${CANVAS};border-top:1px solid ${BORDER};">
               <p style="margin:0;font-size:12px;line-height:1.5;color:${MUTED};">
+              Job ID: ${esc(job.jobId)}
+              </p>
+              <p style="margin:0;font-size:12px;line-height:1.5;color:${MUTED};">
                 This notification was sent automatically by Hybrid Hiring Solutions.
-                Job ID: ${esc(job.jobId)}
+              </p>
+              <p style="margin:4px 0 0;font-size:12px;line-height:1.5;color:${MUTED};">
+                &copy; ${new Date().getFullYear()} Hybrid Hiring Solutions. All rights reserved.
               </p>
             </td>
           </tr>
