@@ -1,6 +1,10 @@
 .page-background {
   position: relative;
   overflow: hidden;
+  /* Neutral dark base so any brief gap before the image paints (first load, or a
+     remount on client-side navigation) shows a matching tone instead of a white
+     flash. Overridable per page via the `placeholderColor` prop. */
+  background-color: #20242b;
 }
 
 .page-background__image {
@@ -11,6 +15,7 @@
   object-fit: cover;
   z-index: 0;
   pointer-events: none;
+  background-color: inherit;
 }
 
 /* Gradient/dim overlays (::before/::after on .home__hero, etc.) sit above the image. */
