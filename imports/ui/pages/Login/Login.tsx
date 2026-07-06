@@ -11,7 +11,7 @@ export const Login = () => {
   const [passwordError, setPasswordError] = useState('');
   const navigate = useNavigate();
 
-  const { error, isLoading, handleLogin } = useLogin();
+  const { error, setError, isLoading, handleLogin } = useLogin();
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -59,6 +59,7 @@ export const Login = () => {
               onChange={(e) => {
                 setEmail(e.target.value);
                 setEmailError('');
+                setError('');
               }}
             />
             {emailError && (
@@ -82,6 +83,7 @@ export const Login = () => {
               onChange={(e) => {
                 setPassword(e.target.value);
                 setPasswordError('');
+                setError('');
               }}
             />
             <button
