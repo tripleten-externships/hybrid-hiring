@@ -65,6 +65,8 @@
 
 .job-board__search-form .search__input:focus {
   border: none;
+  box-shadow: 0 0 0 2px var(--color-primary);
+  border-radius: var(--radius-sm);
 }
 
 .job-board__search-divider {
@@ -461,8 +463,8 @@
 }
 
 .job-board__filter-pay:focus-within {
-  border-color: var(--color-primary-dark);
-  box-shadow: 0 0 0 3px rgba(60, 120, 76, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
 }
 
 .job-board__filter-pay-symbol {

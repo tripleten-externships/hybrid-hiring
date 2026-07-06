@@ -149,6 +149,7 @@ export const OnboardingSkills = () => {
                 onChange={(e) => setSkillInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="e.g. Pipefitting, AutoCAD, Python…"
+                aria-label="Add a skill"
               />
             </div>
 

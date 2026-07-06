@@ -14,6 +14,7 @@ import '../../api/contacts/methods';
 import '../../api/contacts/publications';
 import '../../api/accounts/config';
 import './staticCache';
+import './htmlAttributes';
 
 async function insertLink({ title, url }: Pick<Link, 'title' | 'url'>) {
   await LinksCollection.insertAsync({ title, url, createdAt: new Date() });

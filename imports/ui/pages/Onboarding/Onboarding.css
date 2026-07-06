@@ -145,7 +145,8 @@
 }
 
 .ob-input:focus-within {
-  border-color: var(--color-primary-dark);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
 }
 
 .ob-input input {

@@ -51,14 +51,21 @@ export const Login = () => {
               type="email"
               className="login__input"
               placeholder="Email"
+              aria-label="Email"
               autoComplete="email"
               value={email}
+              aria-invalid={!!emailError}
+              aria-describedby={emailError ? 'email-error' : undefined}
               onChange={(e) => {
                 setEmail(e.target.value);
                 setEmailError('');
               }}
             />
-            {emailError && <p className="login__error">{emailError}</p>}
+            {emailError && (
+              <p id="email-error" className="login__error" role="alert">
+                {emailError}
+              </p>
+            )}
           </div>
 
           <div className="login__password-wrapper">
@@ -67,8 +74,11 @@ export const Login = () => {
               type={showPassword ? 'text' : 'password'}
               className="login__input"
               placeholder="Password"
+              aria-label="Password"
               autoComplete="current-password"
               value={password}
+              aria-invalid={!!passwordError}
+              aria-describedby={passwordError ? 'password-error' : undefined}
               onChange={(e) => {
                 setPassword(e.target.value);
                 setPasswordError('');
@@ -78,18 +88,27 @@ export const Login = () => {
               type="button"
               className="login__password-toggle"
               onClick={() => setShowPassword(!showPassword)}
-              aria-label="Toggle password visibility"
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              aria-pressed={showPassword}
             >
               <img src="/assets/icons/eye.svg" alt="" />
             </button>
-            {passwordError && <p className="login__error">{passwordError}</p>}
+            {passwordError && (
+              <p id="password-error" className="login__error" role="alert">
+                {passwordError}
+              </p>
+            )}
           </div>
 
           <p className="login__forgot-link">
             <Link to="/forgot-password">Forgot password?</Link>
           </p>
 
-          {error && <p className="login__error">{error}</p>}
+          {error && (
+            <p className="login__error" role="alert">
+              {error}
+            </p>
+          )}
 
           <button type="submit" className="login__submit-btn" disabled={isLoading}>
             {isLoading ? (

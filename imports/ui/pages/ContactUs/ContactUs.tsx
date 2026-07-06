@@ -103,7 +103,7 @@ export const ContactUs = () => {
   };
 
   return (
-    <main className="contact-us">
+    <div className="contact-us">
       <div className="contact-us__left">
         <ContactInfoPanel phone={phoneNumber} email={emailAddress} />
       </div>
@@ -111,7 +111,9 @@ export const ContactUs = () => {
       <div className="contact-us__right">
         <div className="contact-us__form-container">
           {success && (
-            <div className="contact-us__success">Your message has been sent successfully!</div>
+            <div className="contact-us__success" role="status">
+              Your message has been sent successfully!
+            </div>
           )}
 
           {serverError && (
@@ -181,6 +183,6 @@ export const ContactUs = () => {
           </form>
         </div>
       </div>
-    </main>
+    </div>
   );
 };

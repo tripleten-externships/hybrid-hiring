@@ -192,11 +192,14 @@ export const OnboardingProfessional = () => {
             </div>
 
             <div className="ob-toggle-row">
-              <span className="ob-toggle-row__label">I need help building my resume</span>
+              <span id="resume-help-label" className="ob-toggle-row__label">
+                I need help building my resume
+              </span>
               <button
                 type="button"
                 role="switch"
                 aria-checked={needsResumeHelp}
+                aria-labelledby="resume-help-label"
                 className={`ob-toggle${needsResumeHelp ? ' ob-toggle--on' : ''}`}
                 onClick={() => setNeedsResumeHelp((prev) => !prev)}
               />

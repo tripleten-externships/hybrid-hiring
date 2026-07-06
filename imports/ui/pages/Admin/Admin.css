@@ -323,7 +323,8 @@
 
 .admin-form__input:focus {
   outline: none;
-  border-color: var(--color-primary-dark, #1d4ed8);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
 }
 
 .admin-form__textarea {
