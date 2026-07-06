@@ -7,6 +7,9 @@
   font-family: 'Inter', sans-serif;
   padding: var(--space-10) var(--space-8);
   overflow: hidden;
+  /* Placeholder tone behind the photo so the panel never flashes empty
+     while the background image is still decoding. */
+  background-color: #2b2f36;
 }
 
 .contact-info__bg {
