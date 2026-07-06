@@ -29,9 +29,9 @@ export const Home = () => {
           </h1>
           <p className="home__hero-subtitle">
             At Hybrid Hiring Solutions, based in Northeast Pennsylvania, we offer a personalized
-            staffing experience to help our clients search for and source candidates for their job
-            openings. We support all industries with a specialty in the Energy industry. Our
-            services are mobile throughout the Northeast.
+            experience to help our clients search for and source candidates for their job openings.
+            We support all industries with a specialty in the Energy industry. Our services are
+            mobile throughout the Northeast.
           </p>
           <div className="home__hero-actions">
             <Link to="/jobs" className="home__hero-btn home__hero-btn--primary">

@@ -46,7 +46,7 @@ const FAQS = [
   },
   {
     q: 'Can I apply to jobs directly on this platform?',
-    a: 'Clicking "Quick Apply" or "Apply Now" takes you to the employer\'s own application page. We do not host applications ourselves, so you\'ll complete the process on the employer\'s system.',
+    a: 'Yes. Clicking "Quick Apply" or "Apply Now" submits your application right here, no separate employer site required. Your profile details and resume (if you have one on file) are sent to the Hybrid Hiring team, who reviews your application and follows up with next steps. You just need to be signed in to apply.',
   },
 ];
 
