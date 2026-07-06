@@ -83,8 +83,11 @@ export function Employers() {
             Hybrid Hiring Solutions connects employers with motivated, pre-screened candidates
             looking for full-time, part-time, and contract roles.
           </p>
+          <p className="employers__hero-subtitle">
+            Ready to get started? Inquire below to learn more about how we can help you find the right talent.
+          </p>
           <Link to="/contact" className="employers__cta-btn">
-            Post a Job
+            Contact Us
           </Link>
         </div>
       </PageBackground>

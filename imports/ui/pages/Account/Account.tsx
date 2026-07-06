@@ -7,14 +7,16 @@ import { useMyProfile, useCurrentUser, useMyAppliedJobIds } from '/imports/ui/ho
 import { fileToSquareDataUrl } from '/imports/ui/utils/image';
 import JobCard from '/imports/ui/components/JobCard/JobCard';
 import { AccountSecurityModal } from '/imports/ui/components/AccountSecurity/AccountSecurity';
-import './Account.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCircleDollarToSlot,
   faLocationDot,
   faBriefcase,
   faPencil,
+  faScrewdriverWrench,
+  faBookmark,
 } from '@fortawesome/free-solid-svg-icons';
+import './Account.css';
 
 function LocationIcon() {
   return <FontAwesomeIcon icon={faLocationDot} className="account__pref-icon" />;
@@ -30,22 +32,13 @@ function PayIcon() {
 
 function SkillsIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path
-        d="M2 4h12M2 8h8M2 12h5"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-    </svg>
+    <FontAwesomeIcon icon={faScrewdriverWrench} className="account__pref-icon" /> 
   );
 }
 
 function BookmarkIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-      <path d="M4 2h8a1 1 0 0 1 1 1v10.382a.5.5 0 0 1-.776.416L8 11.118l-4.224 2.68A.5.5 0 0 1 3 13.382V3a1 1 0 0 1 1-1z" />
-    </svg>
+    <FontAwesomeIcon icon={faBookmark} className="account__pref-icon" />
   );
 }
 

@@ -6,7 +6,7 @@ import { JobsCollection } from '/imports/api/jobs';
 import { ApplicationsCollection } from '/imports/api/applications/collection';
 import { useIsAdmin } from '/imports/ui/hooks/useCurrentUser';
 import { SearchBar } from '/imports/ui/components/SearchBar/SearchBar';
-import { AdminJobForm, AdminSettingsForm } from '/imports/ui/pages/Admin';
+import { AdminJobForm, AdminSettingsForm, AdminUserManager } from '/imports/ui/pages/Admin';
 import './Admin.css';
 
 function SearchIcon() {
@@ -26,7 +26,7 @@ function SearchIcon() {
   );
 }
 
-type AdminTab = 'jobs' | 'settings';
+type AdminTab = 'jobs' | 'users' | 'settings';
 
 export function Admin() {
   const { isAdmin, isLoading: adminLoading } = useIsAdmin();
@@ -136,7 +136,9 @@ export function Admin() {
           <p className="admin__subtitle">
             {activeTab === 'jobs'
               ? 'Manage job listings'
-              : 'Manage site content and contact details'}
+              : activeTab === 'users'
+                ? 'Search and manage user accounts'
+                : 'Manage site content and contact details'}
           </p>
         </header>
 
@@ -151,6 +153,17 @@ export function Admin() {
             onClick={() => setActiveTab('jobs')}
           >
             Job Postings
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="admin-tab-users"
+            aria-selected={activeTab === 'users'}
+            aria-controls="admin-panel-users"
+            className={`admin__tab ${activeTab === 'users' ? 'admin__tab--active' : ''}`}
+            onClick={() => setActiveTab('users')}
+          >
+            User Search
           </button>
           <button
             type="button"
@@ -260,6 +273,17 @@ export function Admin() {
                 </table>
               </div>
             )}
+          </div>
+        )}
+
+        {activeTab === 'users' && (
+          <div
+            id="admin-panel-users"
+            role="tabpanel"
+            aria-labelledby="admin-tab-users"
+            className="admin__tabpanel"
+          >
+            <AdminUserManager />
           </div>
         )}
 

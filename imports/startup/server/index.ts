@@ -108,6 +108,12 @@ Meteor.startup(async () => {
     if (!info.user.emails) {
       throw new Meteor.Error('invalidEmail');
     }
+    if ((info.user as { locked?: boolean }).locked) {
+      throw new Meteor.Error(
+        'account-locked',
+        'This account has been locked. Please contact support.'
+      );
+    }
     return true;
   });
 });
