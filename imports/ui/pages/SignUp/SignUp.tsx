@@ -106,7 +106,7 @@ export const SignUp: FC = () => {
           <img src="/assets/icons/company-logo.svg" alt="Logo" />
         </div>
         <button onClick={() => navigate('/jobs')} type="button" className="sign-up__btn btn-skip">
-          Skip <img src="/assets/icons/skip.svg" alt="Skip" />
+          Skip <img src="/assets/icons/skip.svg" alt="" aria-hidden="true" />
         </button>
       </div>
 
@@ -128,6 +128,7 @@ export const SignUp: FC = () => {
                 className={`sign-up__input first-name${fieldErrors.firstName ? ' sign-up__input--error' : ''}`}
                 type="text"
                 placeholder="First Name"
+                aria-label="First name"
                 autoComplete="given-name"
                 aria-invalid={!!fieldErrors.firstName}
                 aria-describedby={fieldErrors.firstName ? 'firstName-error' : undefined}
@@ -150,6 +151,7 @@ export const SignUp: FC = () => {
                 className={`sign-up__input last-name${fieldErrors.lastName ? ' sign-up__input--error' : ''}`}
                 type="text"
                 placeholder="Last Name"
+                aria-label="Last name"
                 autoComplete="family-name"
                 aria-invalid={!!fieldErrors.lastName}
                 aria-describedby={fieldErrors.lastName ? 'lastName-error' : undefined}
@@ -174,6 +176,7 @@ export const SignUp: FC = () => {
               className={`sign-up__input${fieldErrors.email ? ' sign-up__input--error' : ''}`}
               type="email"
               placeholder="Email"
+              aria-label="Email"
               autoComplete="email"
               aria-invalid={!!fieldErrors.email}
               aria-describedby={fieldErrors.email ? 'email-error' : undefined}
@@ -196,6 +199,7 @@ export const SignUp: FC = () => {
               className={`sign-up__input${fieldErrors.password ? ' sign-up__input--error' : ''}`}
               type="password"
               placeholder="Password (min. 8 characters)"
+              aria-label="Password"
               autoComplete="new-password"
               value={password}
               aria-invalid={!!fieldErrors.password}
@@ -219,6 +223,7 @@ export const SignUp: FC = () => {
               className={`sign-up__input${fieldErrors.confirmPassword ? ' sign-up__input--error' : ''}`}
               type="password"
               placeholder="Re-enter password"
+              aria-label="Confirm password"
               autoComplete="new-password"
               value={confirmPassword}
               aria-invalid={!!fieldErrors.confirmPassword}

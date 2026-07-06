@@ -152,7 +152,7 @@ export const OnboardingProfessional = () => {
           <div className="ob-card__description">
             <h2 className="ob-card__heading">Upload your credentials</h2>
             <p className="ob-card__subheading">
-              Resume, certificates, licences — you'll only need to do this once.
+              Resume, certificates, licences – you'll only need to do this once.
             </p>
           </div>
 
@@ -192,11 +192,14 @@ export const OnboardingProfessional = () => {
             </div>
 
             <div className="ob-toggle-row">
-              <span className="ob-toggle-row__label">I need help building my resume</span>
+              <span id="resume-help-label" className="ob-toggle-row__label">
+                I need help building my resume
+              </span>
               <button
                 type="button"
                 role="switch"
                 aria-checked={needsResumeHelp}
+                aria-labelledby="resume-help-label"
                 className={`ob-toggle${needsResumeHelp ? ' ob-toggle--on' : ''}`}
                 onClick={() => setNeedsResumeHelp((prev) => !prev)}
               />

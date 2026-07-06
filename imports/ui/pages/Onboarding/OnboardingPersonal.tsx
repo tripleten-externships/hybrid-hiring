@@ -144,6 +144,7 @@ export const OnboardingPersonal = () => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="City, State"
+                aria-label="City and state"
               />
             </div>
             <div className="ob-input">
@@ -152,6 +153,7 @@ export const OnboardingPersonal = () => {
                 value={zip}
                 onChange={(e) => setZip(e.target.value)}
                 placeholder="Zip Code"
+                aria-label="Zip code"
               />
             </div>
             <div className="ob-input">
@@ -160,15 +162,19 @@ export const OnboardingPersonal = () => {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Phone Number"
+                aria-label="Phone number"
                 autoComplete="tel"
               />
             </div>
             <div className="ob-toggle-row">
-              <span className="ob-toggle-row__label">I'm interested in remote work</span>
+              <span id="remote-work-label" className="ob-toggle-row__label">
+                I'm interested in remote work
+              </span>
               <button
                 type="button"
                 role="switch"
                 aria-checked={remote}
+                aria-labelledby="remote-work-label"
                 className={`ob-toggle${remote ? ' ob-toggle--on' : ''}`}
                 onClick={() => setRemote(!remote)}
               />
@@ -193,6 +199,7 @@ export const OnboardingPersonal = () => {
                 value={pay}
                 onChange={(e) => setPay(e.target.value)}
                 placeholder="Minimum base pay"
+                aria-label="Minimum base pay"
               />
             </div>
 
@@ -251,6 +258,7 @@ export const OnboardingPersonal = () => {
                 onChange={(e) => setJobTitleInput(e.target.value)}
                 onKeyDown={handleAddJobTitle}
                 placeholder="e.g. Pipeline Technician, Electrician…"
+                aria-label="Add a preferred job title"
               />
             </div>
 
@@ -273,11 +281,14 @@ export const OnboardingPersonal = () => {
             )}
 
             <div className="ob-toggle-row">
-              <span className="ob-toggle-row__label">I'm open to any job position</span>
+              <span id="open-any-job-label" className="ob-toggle-row__label">
+                I'm open to any job position
+              </span>
               <button
                 type="button"
                 role="switch"
                 aria-checked={openAnyJob}
+                aria-labelledby="open-any-job-label"
                 className={`ob-toggle${openAnyJob ? ' ob-toggle--on' : ''}`}
                 onClick={() => setOpenAnyJob(!openAnyJob)}
               />

@@ -6,6 +6,7 @@ import { ProfilesCollection } from '../profiles/collection';
 import { ResumesCollection } from '../resumes/collection';
 import { NotificationsCollection } from '../notifications/collection';
 import { sendEmail, getContactEmail, type Attachment } from '../email/send';
+import { buildApplicationEmail } from './applicationEmail';
 
 function formatPay(basePay: number, payMax: number | undefined, payUnit: string): string {
   const unit = payUnit === 'salary' ? '/yr' : '/hr';
@@ -70,45 +71,48 @@ Meteor.methods({
     const locationLine = [profile?.city, profile?.state].filter(Boolean).join(', ');
     const skillsLine = profile?.skills?.length ? profile.skills.join(', ') : '—';
     const phoneLine = profile?.phone?.trim() || '—';
-    const resumeHelpLine = profile?.needsResumeHelp ? 'Yes' : 'No';
 
-    const body = [
-      'A new job application has been submitted.',
-      '',
-      '=== JOB ===',
-      `Title:    ${job.title}`,
-      `Company:  ${job.company}`,
-      `Location: ${job.location}`,
-      `Type:     ${job.jobType}`,
-      `Pay:      ${formatPay(job.basePay, job.payMax, job.payUnit)}`,
-      `Job ID:   ${jobId}`,
-      '',
-      '=== APPLICANT ===',
-      `Name:           ${applicantName}`,
-      `Email:          ${applicantEmail || '—'}`,
-      `Phone:          ${phoneLine}`,
-      `Location:       ${locationLine || '—'}`,
-      `Skills:         ${skillsLine}`,
-      `Resume:         ${resume ? resume.fileName : 'No resume on file'}`,
-      `Needs resume help: ${resumeHelpLine}`,
-    ].join('\n');
+    const {
+      text: body,
+      html,
+      attachments: emailAttachments,
+    } = buildApplicationEmail({
+      job: {
+        title: job.title,
+        company: job.company,
+        location: job.location,
+        jobType: job.jobType,
+        pay: formatPay(job.basePay, job.payMax, job.payUnit),
+        jobId,
+        url: Meteor.absoluteUrl(`jobs/${jobId}`),
+      },
+      applicant: {
+        name: applicantName,
+        email: applicantEmail,
+        phone: phoneLine,
+        location: locationLine,
+        skills: skillsLine,
+        resumeFileName: resume ? resume.fileName : null,
+        needsResumeHelp: !!profile?.needsResumeHelp,
+      },
+    });
 
-    const attachments: Attachment[] | undefined = resume
-      ? [
-          {
-            filename: resume.fileName,
-            content: resume.data,
-            contentType: resume.contentType,
-            encoding: 'base64',
-          },
-        ]
-      : undefined;
+    const attachments: Attachment[] = [...emailAttachments];
+    if (resume) {
+      attachments.push({
+        filename: resume.fileName,
+        content: resume.data,
+        contentType: resume.contentType,
+        encoding: 'base64',
+      });
+    }
 
     try {
       await sendEmail({
         to: contactEmail ?? '',
-        subject: `New application: ${job.title} — ${applicantName}`,
+        subject: `${applicantName} applied for ${job.title} at ${job.company}`,
         text: body,
+        html,
         attachments,
       });
     } catch (err) {

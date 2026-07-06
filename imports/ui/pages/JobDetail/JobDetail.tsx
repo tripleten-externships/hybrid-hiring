@@ -1,7 +1,7 @@
 import { useState, useRef, useLayoutEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import { JobsCollection } from '/imports/api/jobs';
 import { useIsLoggedIn, useMyProfile, useMyAppliedJobIds } from '/imports/ui/hooks/useCurrentUser';
 import './JobDetail.css';
@@ -65,6 +65,7 @@ function JobDetailSkeleton() {
 export function JobDetail() {
   const { jobId } = useParams<{ jobId: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const isLoggedIn = useIsLoggedIn();
   const { profile } = useMyProfile();
   const savedJobIds = profile?.savedJobs ?? [];
@@ -125,6 +126,18 @@ export function JobDetail() {
       actionFooter.style.bottom = '';
     };
   }, [job, justApplied, applyError]);
+
+  // When the page is opened directly (e.g. from an email link, a new tab, a
+  // refresh, or a bookmark) there's no in-app history to pop, so navigate(-1)
+  // would be a no-op. React Router marks the initial entry with key 'default';
+  // in that case fall back to the jobs list.
+  const handleBack = () => {
+    if (location.key === 'default') {
+      navigate('/jobs');
+    } else {
+      navigate(-1);
+    }
+  };
 
   const handleToggleSave = () => {
     if (!isLoggedIn) {
@@ -199,8 +212,8 @@ export function JobDetail() {
         <button
           type="button"
           className="job-detail__back-btn"
-          onClick={() => navigate(-1)}
-          aria-label="Go back"
+          onClick={handleBack}
+          aria-label="Back to Jobs"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path

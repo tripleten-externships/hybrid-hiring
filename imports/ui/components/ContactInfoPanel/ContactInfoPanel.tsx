@@ -1,7 +1,9 @@
+import { type ImgHTMLAttributes, useEffect } from 'react';
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppSettings } from '../../hooks/useCurrentUser';
 import { BACKGROUND_IMAGES } from '../../constants/backgroundImages';
+import { preloadImage } from '../../utils/preloadImage';
 import './ContactInfoPanel.css';
 
 interface ContactInfoPanelProps {
@@ -12,6 +14,10 @@ interface ContactInfoPanelProps {
 export const ContactInfoPanel = ({ phone, email }: ContactInfoPanelProps) => {
   const settings = useAppSettings();
 
+  useEffect(() => {
+    preloadImage(BACKGROUND_IMAGES.contactWorker);
+  }, []);
+
   return (
     <section className="contact-info">
       <img
@@ -20,7 +26,8 @@ export const ContactInfoPanel = ({ phone, email }: ContactInfoPanelProps) => {
         aria-hidden="true"
         className="contact-info__bg"
         decoding="async"
-        loading="lazy"
+        loading="eager"
+        {...({ fetchpriority: 'high' } as ImgHTMLAttributes<HTMLImageElement>)}
       />
       <div className="contact-info__card">
         <h2 className="contact-info__title">Contact Information</h2>

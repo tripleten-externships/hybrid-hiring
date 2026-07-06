@@ -13,8 +13,9 @@
 }
 
 .input:focus {
-  border-color: #000;
+  border-color: var(--color-primary);
   outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
 }
 
 .input[aria-invalid='true'] {

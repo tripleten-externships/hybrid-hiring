@@ -2,11 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Navigate } from 'react-router-dom';
-import { JobsCollection } from '/imports/api/jobs';
+import { JobsCollection, type Job } from '/imports/api/jobs';
 import { ApplicationsCollection } from '/imports/api/applications/collection';
 import { useIsAdmin } from '/imports/ui/hooks/useCurrentUser';
 import { SearchBar } from '/imports/ui/components/SearchBar/SearchBar';
-import { AdminJobForm, AdminSettingsForm } from '/imports/ui/pages/Admin';
+import { AdminJobForm, AdminSettingsForm, AdminUserManager } from '/imports/ui/pages/Admin';
+import { JobDetailsModal } from '/imports/ui/pages/Admin/JobDetailsModal';
 import './Admin.css';
 
 function SearchIcon() {
@@ -26,7 +27,7 @@ function SearchIcon() {
   );
 }
 
-type AdminTab = 'jobs' | 'settings';
+type AdminTab = 'jobs' | 'users' | 'settings';
 
 export function Admin() {
   const { isAdmin, isLoading: adminLoading } = useIsAdmin();
@@ -35,6 +36,7 @@ export function Admin() {
 
   const [pendingDelete, setPendingDelete] = useState<{ id: string; title: string } | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
 
   const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -136,7 +138,9 @@ export function Admin() {
           <p className="admin__subtitle">
             {activeTab === 'jobs'
               ? 'Manage job listings'
-              : 'Manage site content and contact details'}
+              : activeTab === 'users'
+                ? 'Search and manage user accounts'
+                : 'Manage site content and contact details'}
           </p>
         </header>
 
@@ -151,6 +155,17 @@ export function Admin() {
             onClick={() => setActiveTab('jobs')}
           >
             Job Postings
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="admin-tab-users"
+            aria-selected={activeTab === 'users'}
+            aria-controls="admin-panel-users"
+            className={`admin__tab ${activeTab === 'users' ? 'admin__tab--active' : ''}`}
+            onClick={() => setActiveTab('users')}
+          >
+            User Search
           </button>
           <button
             type="button"
@@ -219,8 +234,23 @@ export function Admin() {
                   </thead>
                   <tbody>
                     {filteredJobs.map((job) => (
-                      <tr key={job._id} className={job.isActive ? '' : 'admin__row--inactive'}>
-                        <td className="admin__cell-title">{job.title}</td>
+                      <tr
+                        key={job._id}
+                        className={`admin__row--clickable ${job.isActive ? '' : 'admin__row--inactive'}`}
+                        onClick={() => setSelectedJob(job)}
+                      >
+                        <td className="admin__cell-title">
+                          <button
+                            type="button"
+                            className="admin__row-trigger"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedJob(job);
+                            }}
+                          >
+                            {job.title}
+                          </button>
+                        </td>
                         <td>{job.company}</td>
                         <td>
                           <span className="admin__cell-job-type">{job.jobType}</span>
@@ -241,14 +271,20 @@ export function Admin() {
                             <button
                               type="button"
                               className={`admin__toggle-btn ${job.isActive ? 'admin__toggle-btn--deactivate' : 'admin__toggle-btn--activate'}`}
-                              onClick={() => handleToggleActive(job._id, job.isActive)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleToggleActive(job._id, job.isActive);
+                              }}
                             >
                               {job.isActive ? 'Deactivate' : 'Activate'}
                             </button>
                             <button
                               type="button"
                               className="admin__toggle-btn admin__delete-btn"
-                              onClick={() => handleDelete(job._id, job.title)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDelete(job._id, job.title);
+                              }}
                             >
                               Delete
                             </button>
@@ -263,6 +299,17 @@ export function Admin() {
           </div>
         )}
 
+        {activeTab === 'users' && (
+          <div
+            id="admin-panel-users"
+            role="tabpanel"
+            aria-labelledby="admin-tab-users"
+            className="admin__tabpanel"
+          >
+            <AdminUserManager />
+          </div>
+        )}
+
         {activeTab === 'settings' && (
           <div
             id="admin-panel-settings"
@@ -274,6 +321,8 @@ export function Admin() {
           </div>
         )}
       </div>
+
+      {selectedJob && <JobDetailsModal job={selectedJob} onClose={() => setSelectedJob(null)} />}
 
       {pendingDelete && (
         <div className="admin-modal__overlay" onMouseDown={closeModal} role="presentation">

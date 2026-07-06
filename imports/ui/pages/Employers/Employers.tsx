@@ -36,7 +36,7 @@ const BENEFITS = [
   {
     Icon: ClipboardIcon,
     title: 'Simple Posting Process',
-    body: 'Submit your job details through our streamlined form and your listing goes live the same day — no complicated dashboards.',
+    body: 'Submit your job details through our streamlined form and your listing goes live the same day – no complicated dashboards.',
   },
   {
     Icon: HandshakeIcon,
@@ -64,7 +64,7 @@ const HOW_IT_WORKS = [
   {
     step: '04',
     title: 'Hire Great People',
-    body: "Review applicants, conduct interviews, and make an offer — we're here to support every step.",
+    body: "Review applicants, conduct interviews, and make an offer – we're here to support every step.",
   },
 ];
 
@@ -83,8 +83,11 @@ export function Employers() {
             Hybrid Hiring Solutions connects employers with motivated, pre-screened candidates
             looking for full-time, part-time, and contract roles.
           </p>
+          <p className="employers__hero-subtitle">
+            Tell us about the roles you're hiring for, and we'll help you reach the right people.
+          </p>
           <Link to="/contact" className="employers__cta-btn">
-            Post a Job
+            Get in Touch
           </Link>
         </div>
       </PageBackground>
@@ -126,7 +129,7 @@ export function Employers() {
           through our process and get your first listing live.
         </p>
         <Link to="/contact" className="employers__cta-btn">
-          Contact Us Today
+          Inquire Today
         </Link>
       </section>
     </div>
