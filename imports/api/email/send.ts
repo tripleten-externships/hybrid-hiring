@@ -5,12 +5,15 @@ export interface Attachment {
   content: string;
   contentType?: string;
   encoding?: string;
+  /** Content-ID for inline (embedded) images, referenced in HTML via cid:. */
+  cid?: string;
 }
 
 export interface SendEmailOptions {
   to: string;
   subject: string;
   text: string;
+  html?: string;
   attachments?: Attachment[];
 }
 
@@ -36,7 +39,7 @@ export function getContactEmail(): string | null {
  * full flow is testable without SMTP credentials.
  */
 export async function sendEmail(options: SendEmailOptions): Promise<void> {
-  const { to, subject, text, attachments } = options;
+  const { to, subject, text, html, attachments } = options;
 
   if (!to) {
     console.warn('[email] Skipping send: no recipient configured (set CONTACT_EMAIL).');
@@ -58,6 +61,7 @@ export async function sendEmail(options: SendEmailOptions): Promise<void> {
     to,
     subject,
     text,
+    html,
     attachments,
   });
 }

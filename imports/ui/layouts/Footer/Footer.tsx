@@ -43,11 +43,11 @@ export const Footer = () => {
             </NavLink>
           ) : (
             <>
+              <NavLink to="/login" className="footer__nav-link footer__account-link">
+                Log In
+              </NavLink>
               <NavLink to="/signup" className="footer__nav-link">
                 Sign Up
-              </NavLink>
-              <NavLink to="/login" className="footer__nav-link">
-                Log In
               </NavLink>
             </>
           )}
