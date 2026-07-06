@@ -1,6 +1,6 @@
 # Hybrid Hiring Solutions
 
-A full-stack Meteor 3.4 application built with React 18 and TypeScript. This codebase serves as a reference implementation for the engineering team, with working examples of Meteor's core patterns — publications, subscriptions, and methods.
+A full-stack Meteor 3.5 application built with React 18 and TypeScript. This codebase serves as a reference implementation for the engineering team, with working examples of Meteor's core patterns — publications, subscriptions, and methods.
 
 ---
 
@@ -61,7 +61,7 @@ Verify the install:
 
 ```bash
 meteor --version
-# Expected: Meteor 3.4.x
+# Expected: Meteor 3.5.x
 ```
 
 ### MongoDB
@@ -105,6 +105,7 @@ Notes:
 
 - **`.env` is gitignored** — never commit secrets (SMTP passwords, app passwords) to the repo.
 - **`MONGO_URL` is optional.** Leave it unset (or commented) to use Meteor's bundled MongoDB, which is where your local data lives by default. Only set it if you run a separate MongoDB instance — pointing at a new URL uses a different (empty) database.
+- **`ROOT_URL` is set automatically in development** (`http://localhost:3000`). In production it must be the app's public URL — see [Production & custom domain](#production--custom-domain).
 
 ### Start the dev server
 
@@ -163,11 +164,12 @@ meteor run
 
 When a user submits a job application, the app emails the Hybrid Hiring contact address with the job details, the applicant's information, and their resume (attached when one is on file). Email delivery is configured entirely through environment variables.
 
-| Variable        | Required | Description                                                                                         |
-| --------------- | -------- | --------------------------------------------------------------------------------------------------- |
-| `CONTACT_EMAIL` | Yes      | The Hybrid Hiring inbox that receives application emails. Also used as the default `from` address.  |
-| `MAIL_URL`      | Prod     | SMTP connection string (e.g. `smtps://user:pass@smtp.provider.com:465`). Sends real email when set. |
-| `MAIL_FROM`     | No       | Overrides the `from` address. Defaults to `CONTACT_EMAIL` when unset.                               |
+| Variable        | Required | Description                                                                                                                 |
+| --------------- | -------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `CONTACT_EMAIL` | Yes      | The Hybrid Hiring inbox that receives application emails. Also used as the default `from` address.                          |
+| `MAIL_URL`      | Prod     | SMTP connection string (e.g. `smtps://user:pass@smtp.provider.com:465`). Sends real email when set.                         |
+| `MAIL_FROM`     | No       | Overrides the `from` address. Defaults to `CONTACT_EMAIL` when unset.                                                       |
+| `ROOT_URL`      | Prod     | Public base URL of the app. Used to build links in emails (password reset, "View job posting"). Must match the live domain. |
 
 Add them to your `.env` file:
 
@@ -178,6 +180,31 @@ MAIL_FROM=no-reply@hybridhiring.com
 ```
 
 > **Development note:** If `MAIL_URL` is not set, Meteor does not send real email — it prints the full message to the server console instead. This lets you test the application flow locally without SMTP credentials.
+
+> **Email links:** The password-reset email and the "View job posting" button in the application email are built from `ROOT_URL` via `Meteor.absoluteUrl(...)`. If `ROOT_URL` is wrong in production, those links will point at the wrong host.
+
+---
+
+## Production & custom domain
+
+The app is deployed on **Meteor Galaxy**. TLS is terminated by Galaxy, and the bundled `force-ssl` package redirects any HTTP request to HTTPS.
+
+### Connecting a custom domain (e.g. `hybridhiringsolutions.com`)
+
+1. **Galaxy** → app → **Settings → Domains**: add both `hybridhiringsolutions.com` and `www.hybridhiringsolutions.com`. Galaxy displays the exact CNAME target to use.
+2. **DNS (registrar, e.g. GoDaddy):**
+   - `CNAME` for `www` → the Galaxy target hostname.
+   - Apex/root domains can't use a CNAME and GoDaddy has no ALIAS/ANAME, so 301-**forward** the bare domain to `https://www.hybridhiringsolutions.com` (or move DNS to a provider with CNAME flattening if the bare domain must be canonical).
+3. **SSL:** Galaxy auto-provisions a free Let's Encrypt certificate once DNS resolves (can take minutes to a couple hours).
+4. **Set `ROOT_URL`** in Galaxy to the canonical URL (e.g. `https://www.hybridhiringsolutions.com`) and redeploy. This is required for correct email links.
+5. **Email deliverability from the new domain:** if sending as `@hybridhiringsolutions.com`, point `MAIL_FROM`/`CONTACT_EMAIL` at the domain and add **SPF**, **DKIM**, and **DMARC** DNS records (values provided by your SMTP provider) to avoid spam filtering.
+
+### Post-cutover checklist
+
+- `https://www.hybridhiringsolutions.com` loads with a valid certificate; the apex redirects to it; HTTP redirects to HTTPS.
+- Password reset email link uses the new domain and works.
+- A test application email's "View job posting" button points to `https://www.hybridhiringsolutions.com/jobs/...`.
+- Deep-linking/refreshing a route like `/jobs/<id>` works.
 
 ---
 
