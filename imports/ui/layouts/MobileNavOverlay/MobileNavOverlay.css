@@ -44,14 +44,16 @@
   border: none;
   cursor: pointer;
   padding: 4px;
-  color: var(--color-text-muted, #555);
+  color: var(--color-text, #ffffff);
   font-size: 1.5rem;
   line-height: 1;
   margin-bottom: 24px;
 }
 
 .mobile-nav-close:hover {
-  color: var(--color-text, #333);
+  color: var(--color-text, #ffffff);
+  background: var(--color-surface-overlay, #ffffff1f);
+  border-radius: 6px;
 }
 
 .mobile-nav-links {

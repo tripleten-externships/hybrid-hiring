@@ -99,15 +99,12 @@ export const SignUp: FC = () => {
   return (
     <div className="sign-up">
       <div className="sign-up__header">
-        <button onClick={() => navigate('/')} type="button" className="sign-up__btn btn-back">
+        <button onClick={() => navigate(-1)} type="button" className="sign-up__btn btn-back">
           <img src="/assets/icons/skip.svg" alt="Back" />
         </button>
         <div className="sign-up__logo">
           <img src="/assets/icons/company-logo.svg" alt="Logo" />
         </div>
-        <button onClick={() => navigate('/jobs')} type="button" className="sign-up__btn btn-skip">
-          Skip <img src="/assets/icons/skip.svg" alt="" aria-hidden="true" />
-        </button>
       </div>
 
       <div className="sign-up__main-content">
