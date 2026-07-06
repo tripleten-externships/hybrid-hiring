@@ -101,19 +101,23 @@ Meteor.startup(async () => {
     return true;
   });
 
-  Accounts.validateLoginAttempt(async (info: Accounts.IValidateLoginAttemptCbOpts) => {
-    if (!info.user) {
-      throw new Meteor.Error('invalidData');
-    }
-    if (!info.user.emails) {
-      throw new Meteor.Error('invalidEmail');
-    }
-    if ((info.user as { locked?: boolean }).locked) {
+  // Keep this callback synchronous. An `async` callback returns a Promise that
+  // Meteor treats as "truthy" (i.e. allowed), and anything it throws becomes an
+  // unhandled rejection that can crash/restart the server — which the client
+  // experiences as a full page reload on failed login.
+  Accounts.validateLoginAttempt((info: Accounts.IValidateLoginAttemptCbOpts) => {
+    // Only enforce our one custom rule: block locked accounts. We deliberately
+    // do NOT throw for unknown users or missing emails — those attempts have
+    // already failed with Meteor's own 403, and overriding it would (a) leak
+    // whether an account exists and (b) give inconsistent client messages.
+    if (info.user && (info.user as { locked?: boolean }).locked) {
       throw new Meteor.Error(
         'account-locked',
         'This account has been locked. Please contact support.'
       );
     }
-    return true;
+    // Return Meteor's existing verdict untouched. Returning `true` here never
+    // resurrects an already-failed attempt; it just avoids adding a denial.
+    return info.allowed;
   });
 });
