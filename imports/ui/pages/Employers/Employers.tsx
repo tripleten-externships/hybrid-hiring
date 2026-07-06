@@ -84,10 +84,10 @@ export function Employers() {
             looking for full-time, part-time, and contract roles.
           </p>
           <p className="employers__hero-subtitle">
-            Ready to get started? Inquire below to learn more about how we can help you find the right talent.
+            Tell us about the roles you're hiring for, and we'll help you reach the right people.
           </p>
           <Link to="/contact" className="employers__cta-btn">
-            Contact Us
+            Get in Touch
           </Link>
         </div>
       </PageBackground>
@@ -129,7 +129,7 @@ export function Employers() {
           through our process and get your first listing live.
         </p>
         <Link to="/contact" className="employers__cta-btn">
-          Contact Us Today
+          Inquire Today
         </Link>
       </section>
     </div>

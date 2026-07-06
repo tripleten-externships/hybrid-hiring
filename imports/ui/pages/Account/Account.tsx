@@ -31,15 +31,11 @@ function PayIcon() {
 }
 
 function SkillsIcon() {
-  return (
-    <FontAwesomeIcon icon={faScrewdriverWrench} className="account__pref-icon" /> 
-  );
+  return <FontAwesomeIcon icon={faScrewdriverWrench} className="account__pref-icon" />;
 }
 
 function BookmarkIcon() {
-  return (
-    <FontAwesomeIcon icon={faBookmark} className="account__pref-icon" />
-  );
+  return <FontAwesomeIcon icon={faBookmark} className="account__pref-icon" />;
 }
 
 function parseUserName(userProfile?: { name?: string; firstName?: string; lastName?: string }) {

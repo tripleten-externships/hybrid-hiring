@@ -5,6 +5,7 @@ import { ProfilesCollection, type UserProfile } from '../profiles/collection';
 import { ResumesCollection } from '../resumes/collection';
 import { ApplicationsCollection } from '../applications/collection';
 import { NotificationsCollection } from '../notifications/collection';
+import { JobsCollection, type Job } from '../jobs/collection';
 
 const SEARCH_LIMIT = 8;
 
@@ -31,6 +32,7 @@ export interface AdminUserDetails extends AdminUserSummary {
   profile: UserProfile | null;
   resume: AdminResumeMeta | null;
   applications: {
+    jobId: string;
     jobTitle: string;
     company: string;
     status: string;
@@ -51,7 +53,7 @@ function displayName(user: Meteor.User | null | undefined): string {
 async function adminUserIds(userIds: string[]): Promise<Set<string>> {
   const records = await AdminCollection.find(
     { userId: { $in: userIds } },
-    { fields: { userId: 1 } },
+    { fields: { userId: 1 } }
   ).fetchAsync();
   return new Set(records.map((r) => r.userId));
 }
@@ -79,7 +81,7 @@ Meteor.methods({
         {
           limit: SEARCH_LIMIT,
           fields: { emails: 1, profile: 1, locked: 1 },
-        },
+        }
       )
       .fetchAsync();
 
@@ -108,14 +110,14 @@ Meteor.methods({
 
     const profile = (await ProfilesCollection.findOneAsync({ userId })) ?? null;
 
-    const resumeDoc = await ResumesCollection.findOneAsync(
-      { userId },
-      { fields: { data: 0 } },
-    );
+    const resumeDoc = await ResumesCollection.findOneAsync({ userId }, { fields: { data: 0 } });
 
     const applications = await ApplicationsCollection.find(
       { userId },
-      { sort: { createdAt: -1 }, fields: { jobTitle: 1, company: 1, status: 1, createdAt: 1 } },
+      {
+        sort: { createdAt: -1 },
+        fields: { jobId: 1, jobTitle: 1, company: 1, status: 1, createdAt: 1 },
+      }
     ).fetchAsync();
 
     const isAdminUser = !!(await AdminCollection.findOneAsync({ userId }));
@@ -137,6 +139,7 @@ Meteor.methods({
           }
         : null,
       applications: applications.map((a) => ({
+        jobId: a.jobId,
         jobTitle: a.jobTitle,
         company: a.company,
         status: a.status,
@@ -145,9 +148,21 @@ Meteor.methods({
     };
   },
 
+  /** Admin-only: fetch a single job posting (used by the user-applications view). */
+  async 'admin.getJob'(jobId: string): Promise<Job> {
+    await requireAdminAsync(this.userId ?? undefined);
+    check(jobId, String);
+
+    const job = await JobsCollection.findOneAsync(jobId);
+    if (!job) {
+      throw new Meteor.Error('not-found', 'Job not found.');
+    }
+    return job;
+  },
+
   /** Admin-only: fetch a user's resume file bytes for viewing/downloading. */
   async 'admin.getUserResume'(
-    userId: string,
+    userId: string
   ): Promise<{ fileName: string; contentType: string; data: string }> {
     await requireAdminAsync(this.userId ?? undefined);
     check(userId, String);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState, type TouchEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -39,9 +39,14 @@ const heroSlides = [
   </>,
 ];
 
+const SWIPE_THRESHOLD = 50;
+
 function HeroBodyCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const lastIndex = heroSlides.length - 1;
+
+  const touchStartX = useRef<number | null>(null);
+  const touchDeltaX = useRef(0);
 
   const goToPrevious = () => {
     setActiveIndex((index) => (index === 0 ? lastIndex : index - 1));
@@ -51,9 +56,35 @@ function HeroBodyCarousel() {
     setActiveIndex((index) => (index === lastIndex ? 0 : index + 1));
   };
 
+  const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchDeltaX.current = 0;
+  };
+
+  const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
+    if (touchStartX.current === null) return;
+    touchDeltaX.current = e.touches[0].clientX - touchStartX.current;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null) return;
+    if (touchDeltaX.current <= -SWIPE_THRESHOLD) {
+      goToNext();
+    } else if (touchDeltaX.current >= SWIPE_THRESHOLD) {
+      goToPrevious();
+    }
+    touchStartX.current = null;
+    touchDeltaX.current = 0;
+  };
+
   return (
     <div className="about__hero-carousel" aria-roledescription="carousel">
-      <div className="about__hero-carousel-viewport">
+      <div
+        className="about__hero-carousel-viewport"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         <div
           className="about__hero-carousel-track"
           style={{ transform: `translateX(-${activeIndex * 100}%)` }}

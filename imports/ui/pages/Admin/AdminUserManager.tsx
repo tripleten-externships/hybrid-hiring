@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useDebounce } from 'use-debounce';
-import type {
-  AdminUserSummary,
-  AdminUserDetails,
-} from '/imports/api/admin/userManagement';
+import type { AdminUserSummary, AdminUserDetails } from '/imports/api/admin/userManagement';
+import type { Job } from '/imports/api/jobs/collection';
+import { JobDetailsModal } from '/imports/ui/pages/Admin/JobDetailsModal';
 
 const LISTBOX_ID = 'admin-user-listbox';
 const optionId = (index: number) => `admin-user-option-${index}`;
@@ -61,6 +60,8 @@ export function AdminUserManager() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState<null | 'lock' | 'admin' | 'resume' | 'delete'>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const [jobLoadingId, setJobLoadingId] = useState<string | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   // Guards against out-of-order search responses overwriting newer results.
@@ -110,10 +111,7 @@ export function AdminUserManager() {
     setError('');
     setDetailsLoading(true);
     try {
-      const details = (await Meteor.callAsync(
-        'admin.getUserDetails',
-        userId
-      )) as AdminUserDetails;
+      const details = (await Meteor.callAsync('admin.getUserDetails', userId)) as AdminUserDetails;
       setSelected(details);
     } catch (err) {
       setError(errorReason(err, 'Could not load user details.'));
@@ -172,10 +170,7 @@ export function AdminUserManager() {
     }
   };
 
-  const runAction = async (
-    action: 'lock' | 'admin' | 'delete',
-    fn: () => Promise<unknown>
-  ) => {
+  const runAction = async (action: 'lock' | 'admin' | 'delete', fn: () => Promise<unknown>) => {
     setError('');
     setBusy(action);
     try {
@@ -240,6 +235,20 @@ export function AdminUserManager() {
       setError(errorReason(err, 'Could not open resume.'));
     } finally {
       setBusy(null);
+    }
+  };
+
+  const handleOpenJob = async (jobId: string) => {
+    if (!jobId) return;
+    setError('');
+    setJobLoadingId(jobId);
+    try {
+      const job = (await Meteor.callAsync('admin.getJob', jobId)) as Job;
+      setSelectedJob(job);
+    } catch (err) {
+      setError(errorReason(err, 'Could not load job details.'));
+    } finally {
+      setJobLoadingId(null);
     }
   };
 
@@ -383,11 +392,7 @@ export function AdminUserManager() {
                 onClick={handleToggleAdmin}
                 disabled={busy !== null}
               >
-                {busy === 'admin'
-                  ? 'Saving…'
-                  : selected.isAdmin
-                    ? 'Remove admin'
-                    : 'Make admin'}
+                {busy === 'admin' ? 'Saving…' : selected.isAdmin ? 'Remove admin' : 'Make admin'}
               </button>
               <button
                 type="button"
@@ -513,10 +518,19 @@ export function AdminUserManager() {
               ) : (
                 <ul className="admin-users__apps">
                   {selected.applications.map((a, i) => (
-                    <li key={`${a.jobTitle}-${i}`} className="admin-users__app">
-                      <span className="admin-users__app-title">{a.jobTitle}</span>
-                      <span className="admin-users__app-company">{a.company}</span>
-                      <span className="admin-users__app-date">{formatDate(a.createdAt)}</span>
+                    <li key={`${a.jobTitle}-${i}`}>
+                      <button
+                        type="button"
+                        className="admin-users__app admin-users__app--clickable"
+                        onClick={() => handleOpenJob(a.jobId)}
+                        disabled={jobLoadingId !== null}
+                      >
+                        <span className="admin-users__app-title">{a.jobTitle}</span>
+                        <span className="admin-users__app-company">{a.company}</span>
+                        <span className="admin-users__app-date">
+                          {jobLoadingId === a.jobId ? 'Opening…' : formatDate(a.createdAt)}
+                        </span>
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -525,6 +539,8 @@ export function AdminUserManager() {
           </div>
         </section>
       )}
+
+      {selectedJob && <JobDetailsModal job={selectedJob} onClose={() => setSelectedJob(null)} />}
 
       {confirmDelete && selected && (
         <div

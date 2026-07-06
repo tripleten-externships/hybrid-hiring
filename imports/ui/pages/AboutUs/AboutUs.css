@@ -54,6 +54,7 @@
 
 .about__hero-carousel-viewport {
   overflow: hidden;
+  touch-action: pan-y;
 }
 
 .about__hero-carousel-track {
