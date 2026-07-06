@@ -19,7 +19,7 @@ const TIPS = [
   },
   {
     title: 'Prepare for Behavioral Interviews',
-    body: 'Most modern interviews include behavioral questions ("Tell me about a time when…"). Use the STAR method — Situation, Task, Action, Result — to structure clear, concise answers that showcase your impact.',
+    body: 'Most modern interviews include behavioral questions ("Tell me about a time when…"). Use the STAR method – Situation, Task, Action, Result – to structure clear, concise answers that showcase your impact.',
   },
   {
     title: 'Follow Up After Applying and Interviewing',
@@ -27,7 +27,7 @@ const TIPS = [
   },
   {
     title: 'Know Your Worth',
-    body: "Research salary ranges using resources like the Bureau of Labor Statistics, Glassdoor, and LinkedIn Salary. Enter negotiations with data, not guesses. It's normal — and expected — to negotiate.",
+    body: "Research salary ranges using resources like the Bureau of Labor Statistics, Glassdoor, and LinkedIn Salary. Enter negotiations with data, not guesses. It's normal – and expected – to negotiate.",
   },
 ];
 

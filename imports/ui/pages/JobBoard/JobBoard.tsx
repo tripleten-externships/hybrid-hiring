@@ -44,7 +44,7 @@ function GuestEmptyState() {
     <div className="job-board__empty">
       <h3 className="job-board__empty-heading">No jobs found</h3>
       <p className="job-board__empty-body">
-        Try adjusting your search or check back soon — new listings are added regularly.
+        Try adjusting your search or check back soon – new listings are added regularly.
       </p>
     </div>
   );

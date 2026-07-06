@@ -152,7 +152,7 @@ export const OnboardingProfessional = () => {
           <div className="ob-card__description">
             <h2 className="ob-card__heading">Upload your credentials</h2>
             <p className="ob-card__subheading">
-              Resume, certificates, licences — you'll only need to do this once.
+              Resume, certificates, licences – you'll only need to do this once.
             </p>
           </div>
 

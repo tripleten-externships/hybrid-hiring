@@ -104,7 +104,7 @@ const servicesList = [
   {
     Icon: EmployerIcon,
     title: 'For Employers',
-    body: 'Find the right talent faster. We help you promote your opportunities, identify qualified candidates, and streamline the hiring process—eliminating the time and expense of screening unqualified applicants.',
+    body: 'Find the right talent faster. We help you promote your opportunities, identify qualified candidates, and streamline the hiring process – eliminating the time and expense of screening unqualified applicants.',
     cta: 'Learn more',
     to: '/employers',
   },

@@ -36,7 +36,7 @@ const BENEFITS = [
   {
     Icon: ClipboardIcon,
     title: 'Simple Posting Process',
-    body: 'Submit your job details through our streamlined form and your listing goes live the same day — no complicated dashboards.',
+    body: 'Submit your job details through our streamlined form and your listing goes live the same day – no complicated dashboards.',
   },
   {
     Icon: HandshakeIcon,
@@ -64,7 +64,7 @@ const HOW_IT_WORKS = [
   {
     step: '04',
     title: 'Hire Great People',
-    body: "Review applicants, conduct interviews, and make an offer — we're here to support every step.",
+    body: "Review applicants, conduct interviews, and make an offer – we're here to support every step.",
   },
 ];
 
