@@ -322,7 +322,13 @@ export function Admin() {
         )}
       </div>
 
-      {selectedJob && <JobDetailsModal job={selectedJob} onClose={() => setSelectedJob(null)} />}
+      {selectedJob && (
+        <JobDetailsModal
+          job={selectedJob}
+          onClose={() => setSelectedJob(null)}
+          onUpdated={(updated) => setSelectedJob(updated)}
+        />
+      )}
 
       {pendingDelete && (
         <div className="admin-modal__overlay" onMouseDown={closeModal} role="presentation">

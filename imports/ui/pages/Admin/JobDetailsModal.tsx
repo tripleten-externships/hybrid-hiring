@@ -1,11 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
+import { Meteor } from 'meteor/meteor';
 import type { Job } from '/imports/api/jobs/collection';
 import { CompanyLogo } from '../../components/CompanyLogo/CompanyLogo';
 import { JobDescription } from '../../components/JobDescription/JobDescription';
+import { AdminJobFormFields } from './AdminJobFormFields';
+import { jobToFormState, parseJobForm, type JobFormState } from './adminJobFormShared';
 
 interface JobDetailsModalProps {
   job: Job;
   onClose: () => void;
+  onUpdated?: (job: Job) => void;
 }
 
 function formatDollar(n: number): string {
@@ -28,8 +32,23 @@ function formatDate(date: Date | string): string {
   });
 }
 
-/** Read-only modal showing a job posting's full details and description. */
-export function JobDetailsModal({ job, onClose }: JobDetailsModalProps) {
+/** Modal for viewing and editing a job posting. */
+export function JobDetailsModal({ job, onClose, onUpdated }: JobDetailsModalProps) {
+  const [mode, setMode] = useState<'view' | 'edit'>('view');
+  const [displayJob, setDisplayJob] = useState(job);
+  const [form, setForm] = useState<JobFormState>(() => jobToFormState(job));
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [logoError, setLogoError] = useState('');
+
+  useEffect(() => {
+    setDisplayJob(job);
+    setForm(jobToFormState(job));
+    setMode('view');
+    setError('');
+    setLogoError('');
+  }, [job]);
+
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -38,14 +57,115 @@ export function JobDetailsModal({ job, onClose }: JobDetailsModalProps) {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [onClose]);
 
+  const update = (field: keyof JobFormState, value: string) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+    setError('');
+  };
+
+  const handleEdit = () => {
+    setForm(jobToFormState(displayJob));
+    setError('');
+    setLogoError('');
+    setMode('edit');
+  };
+
+  const handleCancelEdit = () => {
+    setForm(jobToFormState(displayJob));
+    setError('');
+    setLogoError('');
+    setMode('view');
+  };
+
+  const handleSave = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!displayJob._id) return;
+
+    const parsed = parseJobForm(form);
+    if ('error' in parsed) {
+      setError(parsed.error);
+      return;
+    }
+
+    const { data } = parsed;
+
+    try {
+      setSubmitting(true);
+      setError('');
+
+      const updates: Record<string, unknown> = {
+        title: data.title,
+        company: data.company,
+        location: data.location,
+        jobType: data.jobType,
+        payUnit: data.payUnit,
+        basePay: data.basePay,
+        tags: data.tags,
+        benefits: data.benefits,
+        description: data.description,
+      };
+
+      if (data.clearPayMax) {
+        updates.payMax = null;
+      } else if (data.payMax !== undefined) {
+        updates.payMax = data.payMax;
+      }
+
+      if (data.clearCompanyLogo) {
+        updates.companyLogo = '';
+      } else if (data.companyLogo) {
+        updates.companyLogo = data.companyLogo;
+      }
+
+      await Meteor.callAsync('jobs.update', displayJob._id, updates);
+
+      const updatedJob: Job = {
+        ...displayJob,
+        title: data.title,
+        company: data.company,
+        location: data.location,
+        jobType: data.jobType,
+        payUnit: data.payUnit,
+        basePay: data.basePay,
+        tags: data.tags,
+        benefits: data.benefits,
+        description: data.description,
+      };
+
+      if (data.clearPayMax) {
+        delete updatedJob.payMax;
+      } else if (data.payMax !== undefined) {
+        updatedJob.payMax = data.payMax;
+      }
+
+      if (data.clearCompanyLogo) {
+        delete updatedJob.companyLogo;
+      } else if (data.companyLogo) {
+        updatedJob.companyLogo = data.companyLogo;
+      }
+
+      setDisplayJob(updatedJob);
+      onUpdated?.(updatedJob);
+      setMode('view');
+    } catch (err) {
+      const reason = err instanceof Meteor.Error ? err.reason : undefined;
+      setError(reason || 'Failed to save changes. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const chips = Array.from(
-    new Set([job.jobType, ...(job.benefits ?? []), ...(job.tags ?? [])].filter(Boolean))
+    new Set(
+      [displayJob.jobType, ...(displayJob.benefits ?? []), ...(displayJob.tags ?? [])].filter(
+        Boolean
+      )
+    )
   );
 
   return (
     <div className="admin-modal__overlay" onMouseDown={onClose} role="presentation">
       <div
-        className="admin-modal job-modal"
+        className={`admin-modal job-modal${mode === 'edit' ? ' job-modal--edit' : ''}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="job-modal-title"
@@ -53,16 +173,18 @@ export function JobDetailsModal({ job, onClose }: JobDetailsModalProps) {
       >
         <div className="job-modal__header">
           <div className="job-modal__header-main">
-            {job.companyLogo && (
-              <CompanyLogo src={job.companyLogo} company={job.company} size="md" />
+            {mode === 'view' && displayJob.companyLogo && (
+              <CompanyLogo src={displayJob.companyLogo} company={displayJob.company} size="md" />
             )}
             <div>
               <h2 id="job-modal-title" className="admin-modal__title">
-                {job.title}
+                {mode === 'edit' ? 'Edit job posting' : displayJob.title}
               </h2>
-              <p className="job-modal__subtitle">
-                {job.company} · {job.location}
-              </p>
+              {mode === 'view' && (
+                <p className="job-modal__subtitle">
+                  {displayJob.company} · {displayJob.location}
+                </p>
+              )}
             </div>
           </div>
           <button
@@ -94,43 +216,86 @@ export function JobDetailsModal({ job, onClose }: JobDetailsModalProps) {
           </button>
         </div>
 
-        <div className="job-modal__meta">
-          <span className="job-modal__meta-item">
-            <span className="job-modal__meta-label">Pay</span>
-            {formatPay(job)}
-          </span>
-          <span className="job-modal__meta-item">
-            <span className="job-modal__meta-label">Type</span>
-            {job.jobType}
-          </span>
-          <span className="job-modal__meta-item">
-            <span className="job-modal__meta-label">Posted</span>
-            {formatDate(job.postedAt)}
-          </span>
-          <span className="job-modal__meta-item">
-            <span className="job-modal__meta-label">Status</span>
-            <span
-              className={`admin__status ${job.isActive ? 'admin__status--active' : 'admin__status--inactive'}`}
-            >
-              {job.isActive ? 'Active' : 'Inactive'}
-            </span>
-          </span>
-        </div>
-
-        {chips.length > 0 && (
-          <div className="job-modal__chips">
-            {chips.map((chip, i) => (
-              <span key={`${chip}-${i}`} className="admin-users__chip">
-                {chip}
+        {mode === 'view' ? (
+          <>
+            <div className="job-modal__meta">
+              <span className="job-modal__meta-item">
+                <span className="job-modal__meta-label">Pay</span>
+                {formatPay(displayJob)}
               </span>
-            ))}
-          </div>
-        )}
+              <span className="job-modal__meta-item">
+                <span className="job-modal__meta-label">Type</span>
+                {displayJob.jobType}
+              </span>
+              <span className="job-modal__meta-item">
+                <span className="job-modal__meta-label">Posted</span>
+                {formatDate(displayJob.postedAt)}
+              </span>
+              <span className="job-modal__meta-item">
+                <span className="job-modal__meta-label">Status</span>
+                <span
+                  className={`admin__status ${displayJob.isActive ? 'admin__status--active' : 'admin__status--inactive'}`}
+                >
+                  {displayJob.isActive ? 'Active' : 'Inactive'}
+                </span>
+              </span>
+            </div>
 
-        <div className="job-modal__section">
-          <h3 className="job-modal__section-title">Description</h3>
-          <JobDescription description={job.description} className="job-modal__description" />
-        </div>
+            {chips.length > 0 && (
+              <div className="job-modal__chips">
+                {chips.map((chip, i) => (
+                  <span key={`${chip}-${i}`} className="admin-users__chip">
+                    {chip}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            <div className="job-modal__section">
+              <h3 className="job-modal__section-title">Description</h3>
+              <JobDescription
+                description={displayJob.description}
+                className="job-modal__description"
+              />
+            </div>
+
+            <div className="job-modal__footer">
+              <button type="button" className="admin-form__submit" onClick={handleEdit}>
+                Edit posting
+              </button>
+            </div>
+          </>
+        ) : (
+          <form className="job-modal__form" onSubmit={handleSave}>
+            <AdminJobFormFields
+              form={form}
+              onChange={update}
+              descriptionId="job-edit-description"
+              logoError={logoError}
+              onLogoError={setLogoError}
+            />
+
+            {error && (
+              <p className="admin-form__error" role="alert">
+                {error}
+              </p>
+            )}
+
+            <div className="job-modal__footer">
+              <button
+                type="button"
+                className="admin-modal__btn admin-modal__btn--cancel"
+                onClick={handleCancelEdit}
+                disabled={submitting}
+              >
+                Cancel
+              </button>
+              <button type="submit" className="admin-form__submit" disabled={submitting}>
+                {submitting ? 'Saving…' : 'Save changes'}
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

@@ -60,7 +60,7 @@ Meteor.methods({
       location: Match.Optional(String),
       basePay: Match.Optional(Number),
       payUnit: Match.Optional(Match.OneOf('hourly', 'salary')),
-      payMax: Match.Optional(Number),
+      payMax: Match.Optional(Match.OneOf(Number, null)),
       jobType: Match.Optional(Match.OneOf('full-time', 'part-time', 'contract')),
       tags: Match.Optional([String]),
       benefits: Match.Optional([String]),
@@ -69,16 +69,44 @@ Meteor.methods({
       isActive: Match.Optional(Boolean),
     });
 
-    const updatesToApply: Partial<Job> = { ...updates };
+    const $set: Partial<Job> = {};
+    const $unset: Record<string, ''> = {};
+
+    if (updates.title !== undefined) $set.title = updates.title;
+    if (updates.company !== undefined) $set.company = updates.company;
+    if (updates.location !== undefined) $set.location = updates.location;
+    if (updates.jobType !== undefined) $set.jobType = updates.jobType;
+    if (updates.payUnit !== undefined) $set.payUnit = updates.payUnit;
+    if (updates.basePay !== undefined) $set.basePay = updates.basePay;
+    if (updates.tags !== undefined) $set.tags = updates.tags;
+    if (updates.benefits !== undefined) $set.benefits = updates.benefits;
+    if (updates.externalApplyUrl !== undefined) $set.externalApplyUrl = updates.externalApplyUrl;
+    if (updates.isActive !== undefined) $set.isActive = updates.isActive;
 
     if (updates.description !== undefined) {
-      updatesToApply.description = sanitizeJobDescription(updates.description);
-    }
-    if (updates.companyLogo !== undefined) {
-      updatesToApply.companyLogo = validateCompanyLogo(updates.companyLogo);
+      $set.description = sanitizeJobDescription(updates.description);
     }
 
-    return JobsCollection.updateAsync({ _id: jobId }, { $set: updatesToApply });
+    if (updates.payMax === null) {
+      $unset.payMax = '';
+    } else if (updates.payMax !== undefined) {
+      $set.payMax = updates.payMax;
+    }
+
+    if (updates.companyLogo !== undefined) {
+      const validated = validateCompanyLogo(updates.companyLogo);
+      if (validated) {
+        $set.companyLogo = validated;
+      } else {
+        $unset.companyLogo = '';
+      }
+    }
+
+    const modifier: { $set?: Partial<Job>; $unset?: Record<string, ''> } = {};
+    if (Object.keys($set).length > 0) modifier.$set = $set;
+    if (Object.keys($unset).length > 0) modifier.$unset = $unset;
+
+    return JobsCollection.updateAsync({ _id: jobId }, modifier);
   },
 
   async 'jobs.remove'(jobId: string) {
