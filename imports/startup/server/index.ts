@@ -4,6 +4,7 @@ import { Link, LinksCollection } from '../../api/links';
 import { DemoUsersCollection } from '../../api/demo-users/collection';
 import { AdminCollection } from '../../api/admin/collection';
 import { sampleJobs } from '../../api/jobs/sample';
+import { shouldSeedSampleJobs } from '../../api/jobs/seedPolicy';
 import { JobsCollection } from '../../api/jobs/collection';
 import {
   SettingsCollection,
@@ -13,6 +14,7 @@ import {
 import '../../api/contacts/methods';
 import '../../api/contacts/publications';
 import '../../api/accounts/config';
+import './staticCdnSettings';
 import './staticCache';
 import './htmlAttributes';
 
@@ -72,12 +74,12 @@ Meteor.startup(async () => {
     }
   }
 
-  // Seed the Jobs collection with sample data if it is empty.
-  if ((await JobsCollection.find().countAsync()) === 0) {
+  // Seed sample jobs in development only (never in production).
+  if (shouldSeedSampleJobs() && (await JobsCollection.find().countAsync()) === 0) {
     for (const job of sampleJobs) {
       await JobsCollection.insertAsync(job);
     }
-    console.log('Sample jobs inserted into the database.');
+    console.log('Sample jobs inserted into the database (development only).');
   }
 
   // Seed the global site-settings document if it does not exist yet.

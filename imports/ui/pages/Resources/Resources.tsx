@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { PageBackground } from '../../components/PageBackground/PageBackground';
 import { BACKGROUND_IMAGES } from '../../constants/backgroundImages';
+import { sectionBackgroundStyle } from '../../utils/sectionBackground';
 import { useIsLoggedIn } from '../../hooks/useCurrentUser';
 import './Resources.css';
 
@@ -94,7 +95,10 @@ export function Resources() {
           </dl>
         </section>
 
-        <section className="resources__section resources__cta">
+        <section
+          className="resources__section resources__cta"
+          style={sectionBackgroundStyle(BACKGROUND_IMAGES.resourcesReady, 'center 55%')}
+        >
           <h2 className="resources__section-title">Ready to Start Applying?</h2>
           <p className="resources__cta-body">
             {isLoggedIn

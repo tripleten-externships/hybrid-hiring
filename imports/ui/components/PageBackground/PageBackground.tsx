@@ -1,4 +1,4 @@
-import { type ImgHTMLAttributes, type ReactNode, useEffect } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { preloadImage } from '../../utils/preloadImage';
 import './PageBackground.css';
 
@@ -8,7 +8,7 @@ interface PageBackgroundProps {
   position?: string;
   fetchPriority?: 'high' | 'low' | 'auto';
   loading?: 'eager' | 'lazy';
-  /** Placeholder tone shown behind the image so there's no white flash while it paints. */
+  /** Placeholder tone shown behind the image so there's no flash while it paints. */
   placeholderColor?: string;
   children: ReactNode;
 }
@@ -23,26 +23,36 @@ export function PageBackground({
   children,
 }: PageBackgroundProps) {
   useEffect(() => {
-    if (loading === 'eager') preloadImage(src);
-  }, [src, loading]);
+    if (loading !== 'eager') return;
+    preloadImage(src);
+
+    if (fetchPriority === 'high') {
+      const existing = document.querySelector(`link[data-preload-hero="${src}"]`);
+      if (!existing) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = src;
+        link.setAttribute('data-preload-hero', src);
+        link.setAttribute('fetchpriority', 'high');
+        document.head.appendChild(link);
+      }
+    }
+  }, [src, loading, fetchPriority]);
+
+  const placeholder = placeholderColor ?? '#20242b';
 
   return (
     <section
       className={className ? `page-background ${className}` : 'page-background'}
-      style={placeholderColor ? { backgroundColor: placeholderColor } : undefined}
+      style={{
+        backgroundColor: placeholder,
+        backgroundImage: `url(${src})`,
+        backgroundSize: 'cover',
+        backgroundPosition: position,
+        backgroundRepeat: 'no-repeat',
+      }}
     >
-      <img
-        src={src}
-        alt=""
-        aria-hidden="true"
-        className="page-background__image"
-        style={{ objectPosition: position, backgroundColor: placeholderColor }}
-        // Eager heroes decode synchronously so a cached image paints in the same
-        // frame it mounts (no flash on client-side navigation); lazy images stay async.
-        decoding={loading === 'eager' ? 'sync' : 'async'}
-        loading={loading}
-        {...({ fetchpriority: fetchPriority } as ImgHTMLAttributes<HTMLImageElement>)}
-      />
       {children}
     </section>
   );

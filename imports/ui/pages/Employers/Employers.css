@@ -104,8 +104,6 @@
 /* ─── How it works (dark bg band) ───────────────────────────────────────────── */
 .employers__section--alt {
   position: relative;
-  background: var(--bg-home-cta, url('/assets/images/hh_new_beginning.webp')) center 65% / cover
-    no-repeat;
   max-width: 100%;
   padding: var(--space-12) var(--space-12);
 }

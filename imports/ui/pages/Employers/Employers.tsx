@@ -4,6 +4,7 @@ import { faBolt, faBullseye, faHandshake } from '@fortawesome/free-solid-svg-ico
 import { faClipboard } from '@fortawesome/free-regular-svg-icons';
 import { PageBackground } from '../../components/PageBackground/PageBackground';
 import { BACKGROUND_IMAGES } from '../../constants/backgroundImages';
+import { sectionBackgroundStyle } from '../../utils/sectionBackground';
 import './Employers.css';
 
 function TargetIcon() {
@@ -107,7 +108,10 @@ export function Employers() {
         </div>
       </section>
 
-      <section className="employers__section employers__section--alt">
+      <section
+        className="employers__section employers__section--alt"
+        style={sectionBackgroundStyle(BACKGROUND_IMAGES.homeCta, 'center 65%')}
+      >
         <h2 className="employers__section-title">How It Works</h2>
         <ol className="employers__steps">
           {HOW_IT_WORKS.map((item) => (

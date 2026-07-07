@@ -4,6 +4,7 @@ import { faCalendar, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-ico
 import { useAppSettings } from '../hooks/useCurrentUser';
 import { PageBackground } from '../components/PageBackground/PageBackground';
 import { BACKGROUND_IMAGES } from '../constants/backgroundImages';
+import { sectionBackgroundStyle } from '../utils/sectionBackground';
 import './Home.css';
 
 export const Home = () => {
@@ -87,7 +88,10 @@ export const Home = () => {
       </section>
 
       {/* Start Your New Beginning + Testimonial */}
-      <section className="home__cta-banner">
+      <section
+        className="home__cta-banner"
+        style={sectionBackgroundStyle(BACKGROUND_IMAGES.homeCta, 'center 40%')}
+      >
         <div className="home__cta-content">
           <h2 className="home__cta-title">Start Your New Beginning</h2>
           <p className="home__cta-subtitle">

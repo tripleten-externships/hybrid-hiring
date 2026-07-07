@@ -125,8 +125,6 @@
 /* ─── Bottom CTA band ────────────────────────────────────────────────────────── */
 .resources__cta {
   position: relative;
-  background: var(--bg-resources-ready, url('/assets/images/hh_resources_ready.webp')) center 55% /
-    cover no-repeat;
   border-radius: var(--radius-md);
   overflow: hidden;
   padding: var(--space-12) var(--space-12) !important;
