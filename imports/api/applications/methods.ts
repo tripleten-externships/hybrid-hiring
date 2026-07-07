@@ -6,7 +6,7 @@ import { ProfilesCollection } from '../profiles/collection';
 import { ResumesCollection } from '../resumes/collection';
 import { NotificationsCollection } from '../notifications/collection';
 import { sendEmail, getContactEmail, type Attachment } from '../email/send';
-import { buildApplicationEmail } from './applicationEmail';
+import { buildApplicationEmail, buildApplicantConfirmationEmail } from './applicationEmail';
 
 function formatPay(basePay: number, payMax: number | undefined, payUnit: string): string {
   const unit = payUnit === 'salary' ? '/yr' : '/hr';
@@ -118,6 +118,41 @@ Meteor.methods({
     } catch (err) {
       // Don't fail the application if email delivery has an issue; log for ops.
       console.error('[applications.submit] Failed to send contact email:', err);
+    }
+
+    // ── Confirm receipt with the applicant ───────────────────────────────────
+    if (applicantEmail) {
+      const firstName = userProfile?.firstName?.trim() || applicantName.split(' ')[0];
+      const {
+        text: applicantText,
+        html: applicantHtml,
+        attachments: applicantAttachments,
+      } = buildApplicantConfirmationEmail({
+        job: {
+          title: job.title,
+          company: job.company,
+          location: job.location,
+          jobType: job.jobType,
+          pay: formatPay(job.basePay, job.payMax, job.payUnit),
+          url: Meteor.absoluteUrl(`jobs/${jobId}`),
+        },
+        applicant: {
+          name: applicantName,
+          firstName,
+        },
+      });
+
+      try {
+        await sendEmail({
+          to: applicantEmail,
+          subject: `Application received: ${job.title} at ${job.company}`,
+          text: applicantText,
+          html: applicantHtml,
+          attachments: applicantAttachments,
+        });
+      } catch (err) {
+        console.error('[applications.submit] Failed to send applicant confirmation:', err);
+      }
     }
 
     // ── Notify the applicant (persisted, shown in the NotificationBell) ─────
