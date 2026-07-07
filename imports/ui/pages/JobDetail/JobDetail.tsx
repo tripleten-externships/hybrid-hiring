@@ -4,6 +4,8 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import { JobsCollection } from '/imports/api/jobs';
 import { useIsLoggedIn, useMyProfile, useMyAppliedJobIds } from '/imports/ui/hooks/useCurrentUser';
+import { CompanyLogo } from '/imports/ui/components/CompanyLogo/CompanyLogo';
+import { JobDescription } from '/imports/ui/components/JobDescription/JobDescription';
 import './JobDetail.css';
 
 function DollarCircleIcon() {
@@ -203,8 +205,6 @@ export function JobDetail() {
     )
   );
 
-  const descriptionParagraphs = (job.description ?? '').split('\n').filter((p) => p.trim() !== '');
-
   return (
     <div className="job-detail">
       {/* ─── Back nav ─── */}
@@ -245,6 +245,11 @@ export function JobDetail() {
 
         {/* ─── Title block (above card) ─── */}
         <div className="job-detail__title-block">
+          {job.companyLogo && (
+            <div className="job-detail__logo-wrap">
+              <CompanyLogo src={job.companyLogo} company={job.company} size="lg" />
+            </div>
+          )}
           <h1 className="job-detail__title">{job.title}</h1>
           <p className="job-detail__company">{job.company}</p>
           <p className="job-detail__location">{job.location}</p>
@@ -290,11 +295,7 @@ export function JobDetail() {
           {/* Description section */}
           <section className="job-detail__section">
             <h2 className="job-detail__section-title">Full Job Description</h2>
-            <div className="job-detail__description">
-              {descriptionParagraphs.map((para, i) => (
-                <p key={i}>{para}</p>
-              ))}
-            </div>
+            <JobDescription description={job.description} className="job-detail__description" />
           </section>
         </div>
       </div>

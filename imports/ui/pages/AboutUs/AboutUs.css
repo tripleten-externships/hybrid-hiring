@@ -183,7 +183,8 @@
 /* ─── Services ───────────────────────────────────────────────────────────────── */
 .about__services {
   position: relative;
-  background: url('/assets/images/hh_about_services.webp') 10% 60% / cover no-repeat;
+  background: var(--bg-about-services, url('/assets/images/hh_about_services.webp')) 10% 60% / cover
+    no-repeat;
   padding: var(--space-12) var(--space-12) var(--space-16);
 }
 

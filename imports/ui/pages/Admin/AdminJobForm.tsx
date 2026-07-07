@@ -1,6 +1,9 @@
-import { useState, type FormEvent, type ReactNode } from 'react';
+import { useState, useRef, type FormEvent, type ReactNode } from 'react';
 import { Meteor } from 'meteor/meteor';
 import type { JobType } from '/imports/types';
+import { getDescriptionText } from '/imports/api/jobs/description';
+import { RichTextEditor } from '../../components/RichTextEditor/RichTextEditor';
+import { fileToLogoDataUrl } from '../../utils/image';
 
 interface FormState {
   title: string;
@@ -13,6 +16,7 @@ interface FormState {
   tags: string;
   benefits: string;
   description: string;
+  companyLogo: string;
 }
 
 const EMPTY_FORM: FormState = {
@@ -26,6 +30,7 @@ const EMPTY_FORM: FormState = {
   tags: '',
   benefits: '',
   description: '',
+  companyLogo: '',
 };
 
 /** Splits a comma-separated input into a trimmed, non-empty string array. */
@@ -42,6 +47,8 @@ export function AdminJobForm({ leftSlot }: { leftSlot?: ReactNode }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [logoError, setLogoError] = useState('');
+  const logoInputRef = useRef<HTMLInputElement>(null);
 
   const update = (field: keyof FormState, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -58,7 +65,7 @@ export function AdminJobForm({ leftSlot }: { leftSlot?: ReactNode }) {
       setError('Title, company, and location are required.');
       return;
     }
-    if (!form.description.trim()) {
+    if (!getDescriptionText(form.description)) {
       setError('Please add a job description.');
       return;
     }
@@ -85,7 +92,8 @@ export function AdminJobForm({ leftSlot }: { leftSlot?: ReactNode }) {
         ...(payMax !== undefined ? { payMax } : {}),
         tags: splitList(form.tags),
         benefits: splitList(form.benefits),
-        description: form.description.trim(),
+        description: form.description,
+        ...(form.companyLogo ? { companyLogo: form.companyLogo } : {}),
         externalApplyUrl: '',
       });
       setForm(EMPTY_FORM);
@@ -97,6 +105,23 @@ export function AdminJobForm({ leftSlot }: { leftSlot?: ReactNode }) {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleLogoSelect = async (file: File | undefined) => {
+    if (!file) return;
+    setLogoError('');
+    try {
+      const dataUrl = await fileToLogoDataUrl(file);
+      setForm((prev) => ({ ...prev, companyLogo: dataUrl }));
+    } catch (err) {
+      setLogoError(err instanceof Error ? err.message : 'Could not process the logo image.');
+    }
+  };
+
+  const handleRemoveLogo = () => {
+    setForm((prev) => ({ ...prev, companyLogo: '' }));
+    setLogoError('');
+    if (logoInputRef.current) logoInputRef.current.value = '';
   };
 
   return (
@@ -223,13 +248,53 @@ export function AdminJobForm({ leftSlot }: { leftSlot?: ReactNode }) {
             </label>
 
             <label className="admin-form__field admin-form__field--full">
+              <span className="admin-form__label">Company logo (optional)</span>
+              <div className="admin-form__logo">
+                {form.companyLogo ? (
+                  <div className="admin-form__logo-preview">
+                    <img src={form.companyLogo} alt="" className="admin-form__logo-image" />
+                    <button
+                      type="button"
+                      className="admin-form__logo-remove"
+                      onClick={handleRemoveLogo}
+                    >
+                      Remove logo
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    className="admin-form__logo-upload"
+                    onClick={() => logoInputRef.current?.click()}
+                  >
+                    Upload company logo
+                  </button>
+                )}
+                <input
+                  ref={logoInputRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,image/gif"
+                  className="admin-form__logo-input"
+                  onChange={(e) => {
+                    void handleLogoSelect(e.target.files?.[0]);
+                    e.target.value = '';
+                  }}
+                />
+              </div>
+              {logoError && (
+                <p className="admin-form__error admin-form__error--inline" role="alert">
+                  {logoError}
+                </p>
+              )}
+            </label>
+
+            <label className="admin-form__field admin-form__field--full">
               <span className="admin-form__label">Description *</span>
-              <textarea
-                className="admin-form__input admin-form__textarea"
+              <RichTextEditor
+                id="job-description"
                 value={form.description}
-                onChange={(e) => update('description', e.target.value)}
+                onChange={(html) => update('description', html)}
                 placeholder="Describe the role, responsibilities, and requirements."
-                rows={5}
               />
             </label>
           </div>

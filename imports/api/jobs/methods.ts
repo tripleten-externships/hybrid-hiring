@@ -5,6 +5,8 @@ import { JobsCollection } from './collection';
 import { Job } from './collection';
 import { sampleJobs } from './sample';
 import { createJobMatchNotifications } from '../notifications/helpers';
+import { sanitizeJobDescription } from './description';
+import { validateCompanyLogo } from './logo';
 
 Meteor.methods({
   async 'jobs.create'(jobData: Omit<Job, 'owner' | 'postedAt' | 'isActive'>) {
@@ -24,10 +26,15 @@ Meteor.methods({
     check(jobData.tags, [String]);
     check(jobData.benefits, [String]);
     check(jobData.description, String);
+    check(jobData.companyLogo, Match.Optional(String));
     check(jobData.externalApplyUrl, Match.Optional(String));
+
+    const companyLogo = validateCompanyLogo(jobData.companyLogo);
 
     const newJob = {
       ...jobData,
+      description: sanitizeJobDescription(jobData.description),
+      ...(companyLogo ? { companyLogo } : {}),
       externalApplyUrl: jobData.externalApplyUrl ?? '',
       postedAt: new Date(),
       isActive: true,
@@ -57,11 +64,21 @@ Meteor.methods({
       jobType: Match.Optional(Match.OneOf('full-time', 'part-time', 'contract')),
       tags: Match.Optional([String]),
       benefits: Match.Optional([String]),
+      companyLogo: Match.Optional(String),
       externalApplyUrl: Match.Optional(String),
       isActive: Match.Optional(Boolean),
     });
 
-    return JobsCollection.updateAsync({ _id: jobId }, { $set: updates });
+    const updatesToApply: Partial<Job> = { ...updates };
+
+    if (updates.description !== undefined) {
+      updatesToApply.description = sanitizeJobDescription(updates.description);
+    }
+    if (updates.companyLogo !== undefined) {
+      updatesToApply.companyLogo = validateCompanyLogo(updates.companyLogo);
+    }
+
+    return JobsCollection.updateAsync({ _id: jobId }, { $set: updatesToApply });
   },
 
   async 'jobs.remove'(jobId: string) {

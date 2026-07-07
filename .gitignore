@@ -7,5 +7,6 @@ _build
 .rsdoctor
 
 .env
+infrastructure/cloudformation/parameters.prod.json
 tsconfig.tsbuildinfo
 .DS_Store

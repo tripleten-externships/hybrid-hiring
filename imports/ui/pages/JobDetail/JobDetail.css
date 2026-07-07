@@ -49,8 +49,13 @@
   text-align: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--space-1);
   padding: var(--space-2) 0 var(--space-3);
+}
+
+.job-detail__logo-wrap {
+  margin-bottom: var(--space-2);
 }
 
 .job-detail__title {
