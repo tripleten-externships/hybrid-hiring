@@ -39,6 +39,12 @@ export function RichTextEditor({
 
   const runCommand = (command: FormatCommand) => {
     editorRef.current?.focus();
+    // Prefer semantic <strong>/<em>/<u> tags over inline style spans so sanitization keeps formatting.
+    try {
+      document.execCommand('styleWithCSS', false, 'false');
+    } catch {
+      // Unsupported in some environments; formatting still syncs on save.
+    }
     document.execCommand(command, false);
     syncValue();
   };

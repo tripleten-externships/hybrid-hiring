@@ -631,10 +631,22 @@
   background: rgba(16, 24, 40, 0.5);
   backdrop-filter: blur(2px);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: var(--space-4);
   z-index: 100;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-modal__overlay::before,
+.admin-modal__overlay::after {
+  content: '';
+  flex: 1 1 auto;
+  min-height: var(--space-4);
+  width: 100%;
+  pointer-events: none;
 }
 
 .admin-modal {
@@ -647,6 +659,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  flex-shrink: 0;
 }
 
 .admin-modal__title {
@@ -722,8 +735,6 @@
 /* ─── Job details modal ──────────────────────────────────────────────────── */
 .job-modal {
   max-width: 800px;
-  max-height: calc(90vh - var(--space-8));
-  overflow-y: auto;
 }
 
 .job-modal__header {

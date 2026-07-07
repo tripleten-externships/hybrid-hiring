@@ -96,3 +96,17 @@
   color: #2e5e3a;
   text-decoration: underline;
 }
+
+.rich-text-editor__area strong,
+.rich-text-editor__area b {
+  font-weight: 700;
+}
+
+.rich-text-editor__area em,
+.rich-text-editor__area i {
+  font-style: italic;
+}
+
+.rich-text-editor__area u {
+  text-decoration: underline;
+}
