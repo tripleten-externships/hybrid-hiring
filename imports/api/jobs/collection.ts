@@ -13,6 +13,8 @@ export interface Job {
   tags: string[];
   benefits: string[];
   description: string;
+  /** Optional company logo stored as a compressed image data URL. */
+  companyLogo?: string;
   postedAt: Date;
   externalApplyUrl: string;
   isActive: boolean;

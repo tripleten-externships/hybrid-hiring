@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import type { Job } from '/imports/api/jobs/collection';
+import { CompanyLogo } from '../../components/CompanyLogo/CompanyLogo';
+import { JobDescription } from '../../components/JobDescription/JobDescription';
 
 interface JobDetailsModalProps {
   job: Job;
@@ -50,13 +52,18 @@ export function JobDetailsModal({ job, onClose }: JobDetailsModalProps) {
         onMouseDown={(e) => e.stopPropagation()}
       >
         <div className="job-modal__header">
-          <div>
-            <h2 id="job-modal-title" className="admin-modal__title">
-              {job.title}
-            </h2>
-            <p className="job-modal__subtitle">
-              {job.company} · {job.location}
-            </p>
+          <div className="job-modal__header-main">
+            {job.companyLogo && (
+              <CompanyLogo src={job.companyLogo} company={job.company} size="md" />
+            )}
+            <div>
+              <h2 id="job-modal-title" className="admin-modal__title">
+                {job.title}
+              </h2>
+              <p className="job-modal__subtitle">
+                {job.company} · {job.location}
+              </p>
+            </div>
           </div>
           <button
             type="button"
@@ -122,7 +129,7 @@ export function JobDetailsModal({ job, onClose }: JobDetailsModalProps) {
 
         <div className="job-modal__section">
           <h3 className="job-modal__section-title">Description</h3>
-          <p className="job-modal__description">{job.description}</p>
+          <JobDescription description={job.description} className="job-modal__description" />
         </div>
       </div>
     </div>

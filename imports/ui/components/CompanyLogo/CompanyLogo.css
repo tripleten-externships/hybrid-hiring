@@ -1,0 +1,23 @@
+.company-logo {
+  display: block;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #f9fafb;
+  border: 1px solid #e9ecef;
+  flex-shrink: 0;
+}
+
+.company-logo--sm {
+  width: 36px;
+  height: 36px;
+}
+
+.company-logo--md {
+  width: 48px;
+  height: 48px;
+}
+
+.company-logo--lg {
+  width: 64px;
+  height: 64px;
+}

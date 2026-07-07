@@ -7,6 +7,7 @@ import { useIsLoggedIn } from '/imports/ui/hooks/useCurrentUser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
+import { CompanyLogo } from '../CompanyLogo/CompanyLogo';
 
 type JobCardProps = {
   job: Job;
@@ -95,14 +96,17 @@ export default function JobCard({ job, isSaved, onSave, hasApplied }: JobCardPro
       )}
 
       <div className="job-card__content">
+        <div className="job-card__header">
+          {job.companyLogo && <CompanyLogo src={job.companyLogo} company={job.company} size="sm" />}
+          <div className="job-card__company-location">
+            <div className="job-card__company">{job.company}</div>
+            <div className="job-card__location">{job.location}</div>
+          </div>
+        </div>
+
         <Link to={`/jobs/${job._id}`} className="job-card__title">
           {job.title}
         </Link>
-
-        <div className="job-card__company-location">
-          <div className="job-card__company">{job.company}</div>
-          <div className="job-card__location">{job.location}</div>
-        </div>
 
         <div className="job-card__pay">
           <span className="job-card__pay-label">{payLabel}</span>

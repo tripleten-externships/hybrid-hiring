@@ -81,11 +81,19 @@
   text-decoration: none;
 }
 
+/* Header — logo + company/location */
+.job-card__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 /* Company / Location */
 .job-card__company-location {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .job-card__company {
