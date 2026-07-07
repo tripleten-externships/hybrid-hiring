@@ -1,5 +1,42 @@
 const ALLOWED_TAG_RE = /^(p|br|strong|b|em|i|u|ul|ol|li|h2|h3|a|div)$/i;
 
+const INLINE_STYLE_NORMALIZERS: Array<{ pattern: RegExp; tag: string }> = [
+  {
+    pattern:
+      /<span\b[^>]*\bstyle\s*=\s*["'][^"']*font-weight\s*:\s*(?:bold|700|bolder)\b[^"']*["'][^>]*>([\s\S]*?)<\/span>/gi,
+    tag: 'strong',
+  },
+  {
+    pattern:
+      /<span\b[^>]*\bstyle\s*=\s*["'][^"']*font-style\s*:\s*italic\b[^"']*["'][^>]*>([\s\S]*?)<\/span>/gi,
+    tag: 'em',
+  },
+  {
+    pattern:
+      /<span\b[^>]*\bstyle\s*=\s*["'][^"']*(?:text-decoration(?:-line)?\s*:\s*underline|text-decoration\s*:\s*[^;"']*underline)[^"']*["'][^>]*>([\s\S]*?)<\/span>/gi,
+    tag: 'u',
+  },
+];
+
+/** Convert browser inline-style spans to semantic tags before sanitization. */
+function normalizeInlineFormatting(html: string): string {
+  let result = html;
+
+  for (let pass = 0; pass < 8; pass += 1) {
+    let changed = false;
+    for (const { pattern, tag } of INLINE_STYLE_NORMALIZERS) {
+      const next = result.replace(pattern, `<${tag}>$1</${tag}>`);
+      if (next !== result) {
+        changed = true;
+        result = next;
+      }
+    }
+    if (!changed) break;
+  }
+
+  return result;
+}
+
 /** True when the string contains HTML markup (vs legacy plain text). */
 export function isHtmlDescription(value: string): boolean {
   return /<[a-z][^>]*>/i.test(value);
@@ -39,6 +76,8 @@ export function sanitizeJobDescription(input: string): string {
     .replace(/<object[\s\S]*?<\/object>/gi, '')
     .replace(/<embed[^>]*>/gi, '')
     .replace(/javascript:/gi, '');
+
+  html = normalizeInlineFormatting(html);
 
   html = html.replace(/\s+on[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '');
   html = html.replace(/\s+style\s*=\s*("[^"]*"|'[^']*')/gi, '');

@@ -52,3 +52,17 @@
 .job-description--rich a:hover {
   color: #3c784c;
 }
+
+.job-description--rich strong,
+.job-description--rich b {
+  font-weight: 700;
+}
+
+.job-description--rich em,
+.job-description--rich i {
+  font-style: italic;
+}
+
+.job-description--rich u {
+  text-decoration: underline;
+}
