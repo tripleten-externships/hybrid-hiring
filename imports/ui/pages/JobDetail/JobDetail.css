@@ -4,7 +4,7 @@
 }
 
 .job-detail__container {
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: var(--space-6) var(--space-4) 120px; /* room for sticky action bar while reading */
   display: flex;
