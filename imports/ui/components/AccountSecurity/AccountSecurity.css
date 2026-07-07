@@ -119,7 +119,7 @@
   border-radius: var(--radius-sm);
   background: #fff;
   font-size: var(--font-size-sm);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-family-base);
   color: var(--color-1);
   box-sizing: border-box;
   outline: none;
@@ -161,7 +161,7 @@
   color: #fff;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-family-base);
   padding: var(--space-3) var(--space-6);
   cursor: pointer;
   transition: opacity 0.15s ease;

@@ -41,45 +41,66 @@
   color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
   margin: 0;
-  max-width: 360px;
+  max-width: fit-content;
 }
 
 .home__hero-actions {
   display: flex;
   gap: var(--space-4);
   flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .home__hero-btn {
-  display: inline-block;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
-  padding: var(--space-3) var(--space-6);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  padding: var(--btn-padding-block) var(--btn-padding-inline);
   border-radius: var(--radius-sm);
+  border: var(--btn-border-width) solid transparent;
   text-decoration: none;
-  transition: opacity 0.15s ease;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
   white-space: nowrap;
 }
 
 .home__hero-btn--primary {
   background-color: var(--color-primary-dark);
   color: #fff;
-  border: 2px solid var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  box-shadow: var(--btn-shadow-primary);
 }
 
 .home__hero-btn--outline {
   background-color: transparent;
   color: #fff;
-  border: 2px solid #fff;
+  border-color: #fff;
 }
 
-.home__hero-btn:hover {
-  opacity: 0.85;
+.home__hero-btn--primary:hover {
+  background-color: #2f6340;
+  border-color: #2f6340;
+  transform: translateY(-1px);
+  box-shadow: var(--btn-shadow-primary-hover);
+  opacity: 1;
+}
+
+.home__hero-btn--outline:hover {
+  background: rgba(255, 255, 255, 0.12);
+  opacity: 1;
 }
 
 /* ─── What we do ────────────────────────────────────────────────────────────── */
 .home__what-we-do {
-  background-color: #eaeaea;
+  background-color: var(--ambient-surface);
+  background-image: var(--ambient-gradient);
   padding: var(--space-12) var(--space-12);
   text-align: center;
 }
@@ -118,20 +139,31 @@
 }
 
 .home__card-btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--color-primary-dark);
   color: #fff;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
-  padding: var(--space-3) var(--space-6);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  padding: var(--btn-padding-block) var(--btn-padding-inline);
+  border: var(--btn-border-width) solid var(--color-primary-dark);
   border-radius: var(--radius-sm);
   text-decoration: none;
-  transition: opacity 0.15s ease;
+  box-shadow: var(--btn-shadow-primary);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
   white-space: nowrap;
 }
 
 .home__card-btn:hover {
-  opacity: 0.85;
+  background-color: #2f6340;
+  border-color: #2f6340;
+  transform: translateY(-1px);
+  box-shadow: var(--btn-shadow-primary-hover);
 }
 
 /* ─── CTA Banner (Start Your New Beginning + Testimonial) ───────────────────── */
@@ -180,30 +212,42 @@
   flex-wrap: wrap;
 }
 
-/* Primary button — dark green filled */
 .home__cta-btn {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  background-color: var(--color-primary-dark);
-  color: #fff;
-  border: 1px solid var(--color-primary-dark);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
-  padding: var(--space-3) var(--space-5);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  padding: var(--btn-padding-block) var(--btn-padding-inline);
   border-radius: var(--radius-sm);
+  border: var(--btn-border-width) solid transparent;
   text-decoration: none;
-  transition: opacity 0.15s ease;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
   white-space: nowrap;
   font-family: inherit;
   cursor: pointer;
 }
 
-.home__cta-btn:hover {
-  opacity: 0.85;
+.home__cta-btn:not(.home__cta-btn--outline) {
+  background-color: var(--color-primary-dark);
+  color: #fff;
+  border-color: var(--color-primary-dark);
+  box-shadow: var(--btn-shadow-primary);
 }
 
-/* Secondary buttons — outlined */
+.home__cta-btn:not(.home__cta-btn--outline):hover {
+  background-color: #2f6340;
+  border-color: #2f6340;
+  transform: translateY(-1px);
+  box-shadow: var(--btn-shadow-primary-hover);
+  opacity: 1;
+}
+
 .home__cta-btn--outline {
   background-color: rgba(255, 255, 255, 0.75);
   color: var(--color-1);

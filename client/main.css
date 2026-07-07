@@ -1,4 +1,5 @@
 @import '../imports/vendor/fonts.css';
+@import '../imports/ui/components/Button/Button.css';
 
 :root {
   /* Color Pallet from Figma */
@@ -50,7 +51,7 @@
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
-  --font-family-base: 'Inter';
+  --font-family-base: 'Nunito Sans', system-ui, -apple-system, sans-serif;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -75,19 +76,150 @@
   --radius-lg: 15px;
   --transition-fast: 150ms;
   --transition-base: 300ms;
+
+  /* Shared action buttons — compact sizing (pre-cohesion scale) */
+  --btn-font-size: var(--font-size-sm);
+  --btn-font-weight: var(--font-weight-medium);
+  --btn-padding-block: var(--space-3);
+  --btn-padding-inline: var(--space-6);
+  --btn-border-width: 1px;
+  --btn-shadow-primary: 0 2px 6px rgba(60, 120, 76, 0.25);
+  --btn-shadow-primary-hover: 0 4px 12px rgba(60, 120, 76, 0.35);
+
+  /* Ambient mesh gradient (Job Board + marketing sections) */
+  --ambient-surface: #f7f8fa;
+  --ambient-surface-deep: #edf1f5;
+  --ambient-glow-brand: rgba(150, 191, 67, 0.14);
+  --ambient-glow-primary: rgba(60, 120, 76, 0.1);
+  --ambient-glow-cool: rgba(213, 221, 229, 0.55);
+  --ambient-gradient:
+    radial-gradient(ellipse 140% 90% at -8% -25%, var(--ambient-glow-brand), transparent 58%),
+    radial-gradient(ellipse 110% 70% at 108% -5%, var(--ambient-glow-cool), transparent 52%),
+    radial-gradient(ellipse 80% 55% at 92% 108%, var(--ambient-glow-primary), transparent 48%),
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      var(--ambient-surface) 42%,
+      var(--ambient-surface-deep) 100%
+    );
 }
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  body {
-    margin: 0;
-    font-family: var(--font-family-base);
-  }
-  a {
-    color: inherit;
-  }
+}
+
+html,
+body {
+  font-family: var(--font-family-base);
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+.ambient-gradient {
+  background-color: var(--ambient-surface);
+  background-image: var(--ambient-gradient);
+}
+
+/* ── Shared action button system ─────────────────────────────────────────────── */
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: inherit;
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  padding: var(--btn-padding-block) var(--btn-padding-inline);
+  border-radius: var(--radius-sm);
+  border: var(--btn-border-width) solid transparent;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.action-btn--primary {
+  background-color: var(--color-primary-dark);
+  color: #fff;
+  box-shadow: var(--btn-shadow-primary);
+}
+
+.action-btn--primary:hover:not(:disabled):not([aria-disabled='true']) {
+  background-color: #2f6340;
+  transform: translateY(-1px);
+  box-shadow: var(--btn-shadow-primary-hover);
+  opacity: 1;
+}
+
+.action-btn--outline {
+  background: transparent;
+  color: var(--color-secondary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.action-btn--outline:hover:not(:disabled):not([aria-disabled='true']) {
+  background: rgba(150, 191, 67, 0.12);
+  border-color: var(--color-primary-dark);
+  color: var(--color-primary-dark);
+  opacity: 1;
+}
+
+.action-btn--accent {
+  background: rgba(213, 221, 229, 0.65);
+  color: var(--color-secondary-dark);
+  border-color: rgba(52, 80, 119, 0.28);
+}
+
+.action-btn--accent:hover:not(:disabled):not([aria-disabled='true']) {
+  background: rgba(213, 221, 229, 0.95);
+  opacity: 1;
+}
+
+.action-btn--on-dark-outline {
+  background: transparent;
+  color: #fff;
+  border-color: #fff;
+}
+
+.action-btn--on-dark-outline:hover:not(:disabled):not([aria-disabled='true']) {
+  background: rgba(255, 255, 255, 0.12);
+  opacity: 1;
+}
+
+.action-btn--on-dark-muted {
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--color-1);
+  border-color: var(--color-3);
+}
+
+.action-btn--on-dark-muted:hover:not(:disabled):not([aria-disabled='true']) {
+  background: rgba(255, 255, 255, 0.95);
+  opacity: 1;
+}
+
+.action-btn--block {
+  width: 100%;
+}
+
+.action-btn:disabled,
+.action-btn[aria-disabled='true'] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 /* ── Accessibility utilities ─────────────────────────────────────────────── */
