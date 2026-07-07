@@ -255,3 +255,178 @@ export function buildApplicationEmail(data: ApplicationEmailData): {
 
   return { text, html, attachments };
 }
+
+export interface ApplicantConfirmationEmailData {
+  job: {
+    title: string;
+    company: string;
+    location: string;
+    jobType: string;
+    pay: string;
+    url: string;
+  };
+  applicant: {
+    name: string;
+    /** Used for a friendlier greeting when available. */
+    firstName?: string;
+  };
+  submittedAt?: Date;
+}
+
+/** Builds the multipart confirmation email sent to the applicant after they apply. */
+export function buildApplicantConfirmationEmail(data: ApplicantConfirmationEmailData): {
+  text: string;
+  html: string;
+  attachments: Attachment[];
+} {
+  const { job, applicant } = data;
+  const submittedAt = data.submittedAt ?? new Date();
+  const dateStr = submittedAt.toLocaleString('en-US', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
+  const greetingName =
+    applicant.firstName?.trim() || applicant.name.split(' ')[0] || applicant.name;
+
+  const text = [
+    `Hi ${greetingName},`,
+    '',
+    `We've received your application for ${job.title} at ${job.company}.`,
+    `Submitted: ${dateStr}`,
+    '',
+    '=== POSITION ===',
+    `Title:    ${job.title}`,
+    `Company:  ${job.company}`,
+    `Location: ${job.location}`,
+    `Type:     ${job.jobType}`,
+    `Pay:      ${job.pay}`,
+    '',
+    'What happens next?',
+    'The Hybrid Hiring team will review your application and reach out with next steps.',
+    'You can view the job posting anytime at:',
+    job.url,
+    '',
+    'Thank you for applying through Hybrid Hiring Solutions.',
+    '',
+    '— Hybrid Hiring Solutions',
+  ].join('\n');
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light only" />
+  <title>Application Received</title>
+</head>
+<body style="margin:0;padding:0;background:${CANVAS};font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <span style="display:none;font-size:1px;color:${CANVAS};line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">Your application for ${esc(
+    job.title
+  )} at ${esc(job.company)} has been received.</span>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CANVAS};padding:24px 12px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(16,24,40,0.08);">
+          <tr>
+            <td style="background:${BRAND};padding:24px 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="vertical-align:middle;text-align:left;">
+                    <p style="margin:0;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.8);font-weight:600;">Hybrid Hiring Solutions</p>
+                    <h1 style="margin:4px 0 0;font-size:20px;line-height:1.3;color:#ffffff;font-weight:700;">Application Received</h1>
+                  </td>
+                  <td width="52" style="vertical-align:middle;text-align:right;padding-left:14px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" align="right">
+                      <tr>
+                        <td style="background:#ffffff;border-radius:12px;padding:6px;line-height:0;">
+                          <img src="cid:${LOGO_CID}" width="40" height="40" alt="Hybrid Hiring Solutions"
+                               style="display:block;width:40px;height:40px;border:0;border-radius:8px;" />
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:28px 32px 8px;">
+              <p style="margin:0 0 12px;font-size:16px;line-height:1.5;color:${INK};">
+                Hi ${esc(greetingName)},
+              </p>
+              <p style="margin:0;font-size:15px;line-height:1.6;color:${INK};">
+                Thank you for applying. We've received your application for
+                <strong>${esc(job.title)}</strong> at <strong>${esc(job.company)}</strong>.
+              </p>
+              <p style="margin:10px 0 0;font-size:13px;color:${MUTED};">Submitted ${esc(dateStr)}</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:16px 32px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CANVAS};border:1px solid ${BORDER};border-radius:10px;">
+                <tr>
+                  <td style="padding:16px 20px;">
+                    <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:${MUTED};font-weight:600;">Position applied for</p>
+                    <p style="margin:0;font-size:16px;font-weight:700;color:${INK};">${esc(job.title)}</p>
+                    <p style="margin:2px 0 0;font-size:13px;color:${MUTED};">${esc(
+                      job.company
+                    )} &bull; ${esc(job.location)}</p>
+                    <p style="margin:10px 0 0;font-size:13px;color:${INK};">
+                      <span style="display:inline-block;background:#ffffff;border:1px solid ${BORDER};border-radius:999px;padding:3px 12px;margin-right:6px;">${esc(
+                        job.jobType
+                      )}</span>
+                      <span style="display:inline-block;background:#ffffff;border:1px solid ${BORDER};border-radius:999px;padding:3px 12px;">${esc(
+                        job.pay
+                      )}</span>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px 32px 8px;">
+              <p style="margin:0 0 8px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:${MUTED};font-weight:600;">What happens next</p>
+              <p style="margin:0;font-size:14px;line-height:1.6;color:${INK};">
+                The Hybrid Hiring team will review your application and contact you with next steps.
+                Keep an eye on your inbox — we'll reach out using the email on your profile.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:16px 32px 28px;">
+              <a href="${esc(job.url)}"
+                 style="display:inline-block;background:${BRAND};color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:11px 22px;border-radius:999px;">
+                View job posting
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:18px 32px;background:${CANVAS};border-top:1px solid ${BORDER};">
+              <p style="margin:0;font-size:12px;line-height:1.5;color:${MUTED};">
+                This confirmation was sent automatically because you applied through Hybrid Hiring Solutions.
+              </p>
+              <p style="margin:4px 0 0;font-size:12px;line-height:1.5;color:${MUTED};">
+                &copy; ${new Date().getFullYear()} Hybrid Hiring Solutions. All rights reserved.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+
+  const attachments: Attachment[] = [
+    {
+      filename: 'logo.png',
+      content: HH_LOGO_PNG_BASE64,
+      contentType: 'image/png',
+      encoding: 'base64',
+      cid: LOGO_CID,
+    },
+  ];
+
+  return { text, html, attachments };
+}

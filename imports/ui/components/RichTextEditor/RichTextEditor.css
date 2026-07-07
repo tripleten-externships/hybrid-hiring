@@ -44,6 +44,12 @@
   border-color: #d8dee6;
 }
 
+.rich-text-editor__btn--active {
+  background: #e8f3ec;
+  border-color: #b8d4c0;
+  color: #2e5e3a;
+}
+
 .rich-text-editor__btn:focus-visible {
   outline: 2px solid #3c784c;
   outline-offset: 1px;
@@ -60,7 +66,7 @@
   margin: 0 4px;
 }
 
-.rich-text-editor__area {
+.rich-text-editor__content {
   min-height: 140px;
   padding: 12px 14px;
   font-size: 14px;
@@ -69,44 +75,44 @@
   outline: none;
 }
 
-.rich-text-editor__area--empty::before {
+.rich-text-editor--empty .rich-text-editor__content p:first-child::before {
   content: attr(data-placeholder);
   color: #9ca3af;
   pointer-events: none;
+  float: left;
+  height: 0;
 }
 
-.rich-text-editor__area p,
-.rich-text-editor__area ul,
-.rich-text-editor__area ol {
+.rich-text-editor__content p,
+.rich-text-editor__content ul,
+.rich-text-editor__content ol {
   margin: 0 0 0.75em;
 }
 
-.rich-text-editor__area p:last-child,
-.rich-text-editor__area ul:last-child,
-.rich-text-editor__area ol:last-child {
+.rich-text-editor__content p:last-child,
+.rich-text-editor__content ul:last-child,
+.rich-text-editor__content ol:last-child {
   margin-bottom: 0;
 }
 
-.rich-text-editor__area ul,
-.rich-text-editor__area ol {
+.rich-text-editor__content ul,
+.rich-text-editor__content ol {
   padding-left: 1.4em;
 }
 
-.rich-text-editor__area a {
+.rich-text-editor__content a {
   color: #2e5e3a;
   text-decoration: underline;
 }
 
-.rich-text-editor__area strong,
-.rich-text-editor__area b {
+.rich-text-editor__content strong {
   font-weight: 700;
 }
 
-.rich-text-editor__area em,
-.rich-text-editor__area i {
+.rich-text-editor__content em {
   font-style: italic;
 }
 
-.rich-text-editor__area u {
+.rich-text-editor__content u {
   text-decoration: underline;
 }
