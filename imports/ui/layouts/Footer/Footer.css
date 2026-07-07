@@ -1,11 +1,12 @@
 .footer {
   background-color: var(--color-primary-dark);
   color: var(--color-6);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-family-base);
   display: flex;
   flex-direction: column;
   margin: 0;
   padding: 0;
+  border-top: 2px solid rgba(60, 120, 76, 0.25);
 }
 
 .footer__content {
@@ -47,7 +48,7 @@
 
 .footer__nav-link {
   color: var(--color-6);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-family-base);
   font-weight: 400;
   font-size: 20px;
   line-height: 28px;

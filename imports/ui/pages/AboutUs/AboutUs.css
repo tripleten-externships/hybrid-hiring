@@ -136,6 +136,8 @@
 .about__mission {
   background-color: var(--color-primary-light);
   padding: var(--space-10) var(--space-10);
+  border-bottom: 2px solid rgba(150, 191, 67, 0.25);
+  border-top: 2px solid rgba(150, 191, 67, 0.25);
 }
 
 .about__mission-inner {
@@ -248,22 +250,33 @@
 }
 
 .about__service-btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--color-primary-dark);
   color: #fff;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
-  padding: var(--space-3) var(--space-6);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  padding: var(--btn-padding-block) var(--btn-padding-inline);
+  border: var(--btn-border-width) solid var(--color-primary-dark);
   border-radius: var(--radius-sm);
   text-decoration: none;
-  transition: opacity 0.15s ease;
+  box-shadow: var(--btn-shadow-primary);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
   white-space: nowrap;
   align-self: stretch;
   text-align: center;
 }
 
 .about__service-btn:hover {
-  opacity: 0.85;
+  background-color: #2f6340;
+  border-color: #2f6340;
+  transform: translateY(-1px);
+  box-shadow: var(--btn-shadow-primary-hover);
 }
 
 /* ─── Responsive ─────────────────────────────────────────────────────────────── */
@@ -288,6 +301,11 @@
 
   .about__hero-title {
     font-size: var(--font-size-xl);
+  }
+
+  .about__mission-title,
+  .about__services-title {
+    font-size: var(--font-size-lg);
   }
 
   .about__hero-carousel-controls {

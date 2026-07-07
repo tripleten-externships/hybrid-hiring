@@ -16,7 +16,8 @@
 
 .contact-us__right {
   flex: 1;
-  background-color: var(--background-color-primary);
+  background-color: var(--ambient-surface);
+  background-image: var(--ambient-gradient);
   display: flex;
   align-items: flex-start;
 }
@@ -77,7 +78,7 @@
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-normal);
   color: var(--color-1);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-family-base);
 }
 
 .contact-us .text-input input,
@@ -87,7 +88,7 @@
   border: 1px solid var(--color-3);
   border-radius: var(--radius-sm);
   font-size: var(--font-size-sm);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-family-base);
   background: #fff;
   color: var(--color-1);
   box-sizing: border-box;
@@ -114,17 +115,32 @@
 
 /* Submit button */
 button.contact-us__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: fit-content;
   padding: var(--space-3) var(--space-5);
   background-color: var(--color-primary-dark);
   color: #fff;
-  border: none;
+  border: var(--btn-border-width) solid var(--color-primary-dark);
   border-radius: var(--radius-sm);
-  font-size: var(--font-size-sm);
-  font-weight: 500;
-  font-family: 'Inter', sans-serif;
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  font-family: var(--font-family-base);
   cursor: pointer;
-  transition: opacity 0.15s ease;
+  box-shadow: var(--btn-shadow-primary);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+button.contact-us__submit:hover:not(:disabled) {
+  background-color: #2f6340;
+  border-color: #2f6340;
+  transform: translateY(-1px);
+  box-shadow: var(--btn-shadow-primary-hover);
 }
 
 /* ─── Responsive ─────────────────────────────────────────────────────────────── */

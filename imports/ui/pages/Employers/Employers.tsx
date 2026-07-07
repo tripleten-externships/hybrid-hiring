@@ -127,14 +127,18 @@ export function Employers() {
       </section>
 
       <section className="employers__section employers__cta-section">
-        <h2 className="employers__section-title">Ready to Get Started?</h2>
-        <p className="employers__cta-body">
-          Send us a message and our team will be in touch within one business day to walk you
-          through our process and get your first listing live.
-        </p>
-        <Link to="/contact" className="employers__cta-btn">
-          Inquire Today
-        </Link>
+        <div className="employers__cta-wrap">
+          <h2 className="employers__cta-title">Ready to Get Started?</h2>
+          <p className="employers__cta-body">
+            Send us a message and our team will be in touch within one business week to walk you
+            through our process and get your first listing live.
+          </p>
+          <div className="employers__cta-btns">
+            <Link to="/contact" className="employers__cta-btn employers__cta-btn--primary">
+              Inquire Today
+            </Link>
+          </div>
+        </div>
       </section>
     </div>
   );

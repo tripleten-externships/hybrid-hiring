@@ -82,6 +82,8 @@ export function JobBoard() {
   const [filtersOpen, setFiltersOpen] = React.useState(false);
   const filtersTriggerRef = React.useRef<HTMLButtonElement>(null);
   const drawerCloseRef = React.useRef<HTMLButtonElement>(null);
+  const headerSentinelRef = React.useRef<HTMLDivElement>(null);
+  const [headerStuck, setHeaderStuck] = React.useState(false);
   const [selectedJobTypes, setSelectedJobTypes] = React.useState<JobType[]>([]);
   const [selectedPayUnit, setSelectedPayUnit] = React.useState<'hourly' | 'salary' | ''>('');
   const [minPayInput, setMinPayInput] = React.useState('');
@@ -141,6 +143,22 @@ export function JobBoard() {
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [filtersOpen, closeFilters]);
+
+  // ── Sticky header: transparent at rest, opaque once covering listings ───────
+  React.useEffect(() => {
+    const sentinel = headerSentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHeaderStuck(!entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, []);
 
   // ── Subscription ──────────────────────────────────────────────────────────
   // Always subscribe to jobs.all for a stable, consistent document set.
@@ -242,7 +260,8 @@ export function JobBoard() {
       </section>
 
       {/* ── Sticky header / intro ── */}
-      <section className="job-board__header">
+      <div ref={headerSentinelRef} className="job-board__header-sentinel" aria-hidden="true" />
+      <section className={`job-board__header${headerStuck ? ' job-board__header--stuck' : ''}`}>
         <div className="job-board__header-text">
           {isLoggedIn ? (
             <h1 className="job-board__heading">Welcome, {firstName}</h1>

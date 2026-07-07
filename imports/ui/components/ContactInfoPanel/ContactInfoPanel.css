@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-family-base);
   padding: var(--space-10) var(--space-8);
   overflow: hidden;
   /* Placeholder tone behind the photo so the panel never flashes empty
@@ -80,18 +80,28 @@
   align-items: center;
   gap: var(--space-2);
   background-color: var(--color-primary-dark);
+  border: 1px solid var(--color-primary-dark);
   border-radius: var(--radius-sm);
   padding: var(--space-2) var(--space-4);
   width: fit-content;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
   text-decoration: none;
   color: #fff;
-  transition: opacity 0.15s ease;
+  box-shadow: var(--btn-shadow-primary);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .contact-info__cta:hover {
-  opacity: 0.85;
+  background-color: #2f6340;
+  border-color: #2f6340;
+  transform: translateY(-1px);
+  box-shadow: var(--btn-shadow-primary-hover);
+  opacity: 1;
 }
 
 /* Social icons at the bottom */

@@ -83,6 +83,10 @@ export function Resources() {
           </div>
         </section>
 
+        <div className="resources__divider">
+          <div className="resources__divider-line" aria-hidden="true" />
+        </div>
+
         <section className="resources__section">
           <h2 className="resources__section-title">Frequently Asked Questions</h2>
           <dl className="resources__faq">

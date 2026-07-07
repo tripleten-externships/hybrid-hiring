@@ -117,6 +117,7 @@
 .ob-card__subheading {
   font-size: var(--font-size-sm);
   color: var(--color-2);
+  line-height: 1.5;
   margin: 0;
 }
 
@@ -366,22 +367,30 @@
 
 .ob-btn-continue {
   width: fit-content;
-  /* margin-right: auto; */
   margin-left: auto;
   padding: var(--space-2) var(--space-4);
   background: var(--color-primary-dark);
   color: #fff;
-  border: none;
+  border: var(--btn-border-width) solid var(--color-primary-dark);
   border-radius: var(--radius-sm);
   font-family: inherit;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
   cursor: pointer;
-  transition: opacity 0.15s ease;
+  box-shadow: var(--btn-shadow-primary);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .ob-btn-continue:hover:not(:disabled) {
-  opacity: 0.85;
+  background: #2f6340;
+  border-color: #2f6340;
+  transform: translateY(-1px);
+  box-shadow: var(--btn-shadow-primary-hover);
+  opacity: 1;
 }
 
 .ob-btn-continue:disabled {

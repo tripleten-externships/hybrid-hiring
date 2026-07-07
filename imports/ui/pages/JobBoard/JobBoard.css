@@ -1,8 +1,10 @@
 /* ─── Board Shell ────────────────────────────────────────────────────────────── */
 .job-board {
-  padding: var(--space-8) var(--space-8) var(--space-16);
-  background-color: var(--background-color-primary);
-  min-height: 60vh;
+  --job-board-inline-padding: var(--space-8);
+  padding: var(--space-8) var(--job-board-inline-padding) var(--space-16);
+  min-height: 100vh;
+  background-color: var(--ambient-surface);
+  background-image: var(--ambient-gradient);
 }
 
 /* Compensate for the scrollbar gutter disappearing when body scroll is locked.
@@ -84,7 +86,6 @@
   border-radius: 8px;
   padding: var(--space-3) var(--space-6);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
   font-family: inherit;
   cursor: pointer;
   white-space: nowrap;
@@ -109,6 +110,12 @@
 }
 
 /* ─── Header / Intro (sticky) ────────────────────────────────────────────────── */
+.job-board__header-sentinel {
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
 .job-board__header {
   position: sticky;
   /* Sits just below the global sticky site header (~60px tall). */
@@ -121,8 +128,25 @@
   flex-wrap: wrap;
   margin-bottom: var(--space-8);
   padding: var(--space-4) 0;
-  background-color: var(--background-color-primary);
-  border-bottom: 1px solid #e9ecef;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    margin-inline 0.2s ease,
+    padding-inline 0.2s ease;
+}
+
+.job-board__header--stuck {
+  margin-inline: calc(-1 * var(--job-board-inline-padding));
+  padding-inline: var(--job-board-inline-padding);
+  background-color: var(--ambient-surface);
+  background-image: var(--ambient-gradient);
+  border-bottom-color: rgba(52, 80, 119, 0.12);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 10px 30px rgba(36, 36, 36, 0.08);
 }
 
 .job-board__header-text {
@@ -584,30 +608,34 @@
   justify-content: center;
   background-color: var(--color-primary-dark);
   color: #fff;
-  border: none;
-  border-radius: 8px;
+  border: var(--btn-border-width) solid var(--color-primary-dark);
+  border-radius: var(--radius-sm);
   padding: 10px var(--space-6);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
   font-family: inherit;
   text-decoration: none;
   cursor: pointer;
-  letter-spacing: 0.01em;
   white-space: nowrap;
-  box-shadow: 0 2px 6px rgba(60, 120, 76, 0.25);
+  box-shadow: var(--btn-shadow-primary);
   transition:
-    background-color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
     box-shadow 0.15s ease;
 }
 
 .job-board__cta-btn:hover {
-  background-color: #2e5e3a;
-  box-shadow: 0 4px 12px rgba(60, 120, 76, 0.35);
+  background-color: #2f6340;
+  border-color: #2f6340;
+  transform: translateY(-1px);
+  box-shadow: var(--btn-shadow-primary-hover);
 }
 
 /* ─── Responsive ─────────────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
   .job-board {
+    --job-board-inline-padding: var(--space-4);
     padding: var(--space-4);
   }
 
@@ -639,7 +667,19 @@
     /* Mobile site header can be taller; nudge the sticky offset down. */
     top: 56px;
     align-items: flex-start;
-    gap: var(--space-3);
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+    margin-bottom: var(--space-5);
+  }
+
+  .job-board__header-text {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .job-board__header--stuck {
+    padding-block: var(--space-2);
+    padding-inline: var(--job-board-inline-padding);
   }
 
   .job-board__drawer,
@@ -654,6 +694,7 @@
   .job-board__subheading,
   .job-board__result-count {
     font-size: 16px;
+    line-height: 1.5;
   }
 
   .job-board__grid,

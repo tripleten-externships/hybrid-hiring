@@ -1,5 +1,6 @@
 .job-detail {
-  background-color: var(--background-color-primary);
+  background-color: var(--ambient-surface);
+  background-image: var(--ambient-gradient);
   min-height: calc(100vh - 62px);
 }
 
@@ -24,12 +25,12 @@
   gap: var(--space-2);
   background: #fff;
   border: 1px solid #e2e5ea;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   color: #374151;
-  font-size: var(--font-size-sm);
-  font-weight: 500;
-  font-family: 'Inter', sans-serif;
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  font-family: var(--font-family-base);
   padding: 8px var(--space-4);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   transition:
@@ -215,24 +216,27 @@
   padding: 12px var(--space-4);
   background-color: var(--color-primary-dark);
   color: #fff;
-  font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
   font-family: inherit;
   text-align: center;
   text-decoration: none;
-  border-radius: 8px;
-  border: none;
+  border-radius: var(--radius-sm);
+  border: var(--btn-border-width) solid var(--color-primary-dark);
   cursor: pointer;
-  letter-spacing: 0.01em;
-  box-shadow: 0 2px 6px rgba(60, 120, 76, 0.25);
+  box-shadow: var(--btn-shadow-primary);
   transition:
-    background-color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
     box-shadow 0.15s ease;
 }
 
 .job-detail__apply-btn:hover {
-  background-color: #2e5e3a;
-  box-shadow: 0 4px 12px rgba(60, 120, 76, 0.35);
+  background-color: #2f6340;
+  border-color: #2f6340;
+  transform: translateY(-1px);
+  box-shadow: var(--btn-shadow-primary-hover);
 }
 
 .job-detail__apply-btn:disabled,
@@ -303,7 +307,7 @@
 .job-detail__cta-link {
   color: var(--color-primary-dark);
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: var(--btn-font-weight);
   text-decoration: none;
 }
 
