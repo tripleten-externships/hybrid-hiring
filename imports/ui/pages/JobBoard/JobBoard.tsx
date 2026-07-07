@@ -8,9 +8,12 @@ import type { JobType } from '/imports/types/jobs';
 
 import { SearchBar } from '/imports/ui/components/SearchBar/SearchBar';
 import JobCard from '/imports/ui/components/JobCard/JobCard';
+import { Pagination } from '/imports/ui/components/Pagination/Pagination';
 import { JobsCollection } from '/imports/api/jobs';
 
 import './JobBoard.css';
+
+const JOBS_PER_PAGE = 12;
 
 const JOB_TYPE_OPTIONS: { label: string; value: JobType }[] = [
   { label: 'Full-time', value: 'full-time' },
@@ -196,6 +199,32 @@ export function JobBoard() {
 
     return result;
   }, [jobs, activeLocation, selectedJobTypes, selectedPayUnit, minPayInput]);
+
+  // ── Pagination ────────────────────────────────────────────────────────────
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const listingsRef = React.useRef<HTMLElement>(null);
+
+  const totalPages = Math.max(1, Math.ceil(filteredJobs.length / JOBS_PER_PAGE));
+  // Clamp so filtering down to fewer pages never strands us on an empty page.
+  const safePage = Math.min(currentPage, totalPages);
+
+  // Reset to the first page whenever the result set changes via search/filters.
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedTitle, activeLocation, selectedJobTypes, selectedPayUnit, minPayInput]);
+
+  const pagedJobs = React.useMemo(
+    () => filteredJobs.slice((safePage - 1) * JOBS_PER_PAGE, safePage * JOBS_PER_PAGE),
+    [filteredJobs, safePage]
+  );
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    listingsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const pageStart = filteredJobs.length === 0 ? 0 : (safePage - 1) * JOBS_PER_PAGE + 1;
+  const pageEnd = Math.min(safePage * JOBS_PER_PAGE, filteredJobs.length);
 
   const showingSearch = !!(activeTitle || activeLocation || activeFilterCount);
 
@@ -451,7 +480,7 @@ export function JobBoard() {
       </aside>
 
       {/* ── Listings ── */}
-      <section className="job-board__listings" aria-label="Job listings">
+      <section className="job-board__listings" aria-label="Job listings" ref={listingsRef}>
         {isLoading && jobs.length === 0 ? (
           <LoadingState />
         ) : filteredJobs.length === 0 && !isLoading ? (
@@ -461,21 +490,31 @@ export function JobBoard() {
             <GuestEmptyState />
           )
         ) : (
-          <div className={`job-board__grid${isLoading ? ' job-board__grid--refreshing' : ''}`}>
-            {filteredJobs.map((job) => (
-              <JobCard
-                key={job._id}
-                job={job}
-                isSaved={savedJobIds.includes(job._id ?? '')}
-                hasApplied={appliedJobIds.has(job._id ?? '')}
-                onSave={
-                  isLoggedIn
-                    ? () => Meteor.callAsync('UserProfiles.toggleSaveJob', job._id)
-                    : undefined
-                }
-              />
-            ))}
-          </div>
+          <>
+            <div className={`job-board__grid${isLoading ? ' job-board__grid--refreshing' : ''}`}>
+              {pagedJobs.map((job) => (
+                <JobCard
+                  key={job._id}
+                  job={job}
+                  isSaved={savedJobIds.includes(job._id ?? '')}
+                  hasApplied={appliedJobIds.has(job._id ?? '')}
+                  onSave={
+                    isLoggedIn
+                      ? () => Meteor.callAsync('UserProfiles.toggleSaveJob', job._id)
+                      : undefined
+                  }
+                />
+              ))}
+            </div>
+
+            <Pagination
+              currentPage={safePage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              ariaLabel="Job listings pagination"
+              summary={`Showing ${pageStart}–${pageEnd} of ${filteredJobs.length} jobs`}
+            />
+          </>
         )}
       </section>
     </div>
