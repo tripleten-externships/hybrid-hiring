@@ -1,0 +1,18 @@
+[
+  {
+    "ParameterKey": "ProjectName",
+    "ParameterValue": "hybrid-hiring"
+  },
+  {
+    "ParameterKey": "CustomDomainName",
+    "ParameterValue": "cdn.hybridhiringsolutions.com"
+  },
+  {
+    "ParameterKey": "AcmCertificateArn",
+    "ParameterValue": "arn:aws:acm:us-east-1:ACCOUNT_ID:certificate/CERTIFICATE_ID"
+  },
+  {
+    "ParameterKey": "PriceClass",
+    "ParameterValue": "PriceClass_100"
+  }
+]

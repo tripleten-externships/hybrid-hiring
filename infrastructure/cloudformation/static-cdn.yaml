@@ -1,0 +1,179 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  S3 + CloudFront CDN for Hybrid Hiring static hero/background images.
+  Upload files from public/assets/images/ with infrastructure/scripts/upload-static-assets.sh
+
+Parameters:
+  ProjectName:
+    Type: String
+    Default: hybrid-hiring
+    Description: Short project prefix used in resource names.
+
+  CustomDomainName:
+    Type: String
+    Default: ''
+    Description: >
+      Optional CDN hostname (e.g. cdn.hybridhiringsolutions.com).
+      Requires an ACM certificate in us-east-1. Leave blank to use the
+      default *.cloudfront.net domain only.
+
+  AcmCertificateArn:
+    Type: String
+    Default: ''
+    Description: >
+      ACM certificate ARN in us-east-1 for CustomDomainName. Required when
+      CustomDomainName is set. Request and validate the cert before deploy.
+
+  PriceClass:
+    Type: String
+    Default: PriceClass_100
+    AllowedValues:
+      - PriceClass_100
+      - PriceClass_200
+      - PriceClass_All
+    Description: CloudFront edge locations price class (100 = US/Europe, cheapest).
+
+Conditions:
+  UseCustomDomain: !Not [!Equals [!Ref CustomDomainName, '']]
+
+Resources:
+  StaticAssetsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub '${ProjectName}-static-${AWS::AccountId}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      Tags:
+        - Key: Project
+          Value: !Ref ProjectName
+        - Key: Purpose
+          Value: static-cdn
+
+  StaticAssetsOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Name: !Sub '${ProjectName}-static-oac'
+        Description: !Sub 'OAC for ${ProjectName} static assets bucket'
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  StaticAssetsDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: !Sub '${ProjectName} static image CDN'
+        Enabled: true
+        HttpVersion: http2and3
+        PriceClass: !Ref PriceClass
+        DefaultRootObject: ''
+        Aliases: !If
+          - UseCustomDomain
+          - [!Ref CustomDomainName]
+          - !Ref AWS::NoValue
+        Origins:
+          - Id: StaticAssetsS3Origin
+            DomainName: !GetAtt StaticAssetsBucket.RegionalDomainName
+            OriginAccessControlId: !GetAtt StaticAssetsOriginAccessControl.Id
+            S3OriginConfig:
+              OriginAccessIdentity: ''
+        DefaultCacheBehavior:
+          TargetOriginId: StaticAssetsS3Origin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          CachedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          Compress: true
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6 # AWS managed CachingOptimized
+        ViewerCertificate: !If
+          - UseCustomDomain
+          - AcmCertificateArn: !Ref AcmCertificateArn
+            SslSupportMethod: sni-only
+            MinimumProtocolVersion: TLSv1.2_2021
+          - CloudFrontDefaultCertificate: true
+
+  StaticAssetsBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    DependsOn: StaticAssetsDistribution
+    Properties:
+      Bucket: !Ref StaticAssetsBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AllowCloudFrontRead
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: !Sub '${StaticAssetsBucket.Arn}/*'
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${StaticAssetsDistribution}'
+
+Outputs:
+  BucketName:
+    Description: S3 bucket for static assets. Upload public/assets/images/ here.
+    Value: !Ref StaticAssetsBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-BucketName'
+
+  DistributionId:
+    Description: CloudFront distribution ID (for cache invalidations).
+    Value: !Ref StaticAssetsDistribution
+    Export:
+      Name: !Sub '${AWS::StackName}-DistributionId'
+
+  DistributionDomainName:
+    Description: Default CloudFront domain (*.cloudfront.net).
+    Value: !GetAtt StaticAssetsDistribution.DomainName
+    Export:
+      Name: !Sub '${AWS::StackName}-DistributionDomainName'
+
+  StaticCdnUrl:
+    Description: Base URL to set in the app (no trailing slash).
+    Value: !If
+      - UseCustomDomain
+      - !Sub 'https://${CustomDomainName}'
+      - !Sub
+        - 'https://${Domain}'
+        - Domain: !GetAtt StaticAssetsDistribution.DomainName
+
+  DnsRecordInstructions:
+    Description: Add this CNAME in GoDaddy when using a custom CDN hostname.
+    Value: !If
+      - UseCustomDomain
+      - !Sub
+        - 'CNAME ${CustomDomainName} -> ${Domain}'
+        - Domain: !GetAtt StaticAssetsDistribution.DomainName
+      - 'No custom domain configured. Use the DistributionDomainName output directly.'
+
+  MeteorSettingsSnippet:
+    Description: Paste into Galaxy METEOR_SETTINGS public section or settings.json.
+    Value: !Sub
+      - '{"public":{"staticCdnUrl":"${CdnUrl}"}}'
+      - CdnUrl: !If
+          - UseCustomDomain
+          - !Sub 'https://${CustomDomainName}'
+          - !Sub
+            - 'https://${Domain}'
+            - Domain: !GetAtt StaticAssetsDistribution.DomainName
+
+  UploadCommand:
+    Description: Sync local hero images to S3 after deploy.
+    Value: !Sub 'BUCKET_NAME=${StaticAssetsBucket} ./infrastructure/scripts/upload-static-assets.sh'
