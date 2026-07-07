@@ -6,9 +6,12 @@ import { JobsCollection, type Job } from '/imports/api/jobs';
 import { ApplicationsCollection } from '/imports/api/applications/collection';
 import { useIsAdmin } from '/imports/ui/hooks/useCurrentUser';
 import { SearchBar } from '/imports/ui/components/SearchBar/SearchBar';
+import { Pagination } from '/imports/ui/components/Pagination/Pagination';
 import { AdminJobForm, AdminSettingsForm, AdminUserManager } from '/imports/ui/pages/Admin';
 import { JobDetailsModal } from '/imports/ui/pages/Admin/JobDetailsModal';
 import './Admin.css';
+
+const JOBS_PER_PAGE = 10;
 
 function SearchIcon() {
   return (
@@ -70,6 +73,23 @@ export function Admin() {
       [job.title, job.company, job.location].some((field) => field?.toLowerCase().includes(q))
     );
   }, [jobs, searchQuery]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.max(1, Math.ceil(filteredJobs.length / JOBS_PER_PAGE));
+  const safePage = Math.min(currentPage, totalPages);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
+
+  const pagedJobs = useMemo(
+    () => filteredJobs.slice((safePage - 1) * JOBS_PER_PAGE, safePage * JOBS_PER_PAGE),
+    [filteredJobs, safePage]
+  );
+
+  const pageStart = filteredJobs.length === 0 ? 0 : (safePage - 1) * JOBS_PER_PAGE + 1;
+  const pageEnd = Math.min(safePage * JOBS_PER_PAGE, filteredJobs.length);
 
   const closeModal = () => {
     if (deleting) return;
@@ -219,82 +239,92 @@ export function Admin() {
             ) : filteredJobs.length === 0 ? (
               <p className="admin__empty">No jobs match "{searchQuery}".</p>
             ) : (
-              <div className="admin__table-wrapper">
-                <table className="admin__table">
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Company</th>
-                      <th>Type</th>
-                      <th>Applicants</th>
-                      <th>Posted</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredJobs.map((job) => (
-                      <tr
-                        key={job._id}
-                        className={`admin__row--clickable ${job.isActive ? '' : 'admin__row--inactive'}`}
-                        onClick={() => setSelectedJob(job)}
-                      >
-                        <td className="admin__cell-title">
-                          <button
-                            type="button"
-                            className="admin__row-trigger"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSelectedJob(job);
-                            }}
-                          >
-                            {job.title}
-                          </button>
-                        </td>
-                        <td>{job.company}</td>
-                        <td>
-                          <span className="admin__cell-job-type">{job.jobType}</span>
-                        </td>
-                        <td className="admin__cell-applicants">
-                          {applicantCounts[job._id ?? ''] ?? 0}
-                        </td>
-                        <td className="admin__cell-date">{formatDate(job.postedAt)}</td>
-                        <td>
-                          <span
-                            className={`admin__status ${job.isActive ? 'admin__status--active' : 'admin__status--inactive'}`}
-                          >
-                            {job.isActive ? 'Active' : 'Inactive'}
-                          </span>
-                        </td>
-                        <td>
-                          <div className="admin__actions">
-                            <button
-                              type="button"
-                              className={`admin__toggle-btn ${job.isActive ? 'admin__toggle-btn--deactivate' : 'admin__toggle-btn--activate'}`}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleToggleActive(job._id, job.isActive);
-                              }}
-                            >
-                              {job.isActive ? 'Deactivate' : 'Activate'}
-                            </button>
-                            <button
-                              type="button"
-                              className="admin__toggle-btn admin__delete-btn"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDelete(job._id, job.title);
-                              }}
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        </td>
+              <>
+                <div className="admin__table-wrapper">
+                  <table className="admin__table">
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Company</th>
+                        <th>Type</th>
+                        <th>Applicants</th>
+                        <th>Posted</th>
+                        <th>Status</th>
+                        <th>Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {pagedJobs.map((job) => (
+                        <tr
+                          key={job._id}
+                          className={`admin__row--clickable ${job.isActive ? '' : 'admin__row--inactive'}`}
+                          onClick={() => setSelectedJob(job)}
+                        >
+                          <td className="admin__cell-title">
+                            <button
+                              type="button"
+                              className="admin__row-trigger"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedJob(job);
+                              }}
+                            >
+                              {job.title}
+                            </button>
+                          </td>
+                          <td>{job.company}</td>
+                          <td>
+                            <span className="admin__cell-job-type">{job.jobType}</span>
+                          </td>
+                          <td className="admin__cell-applicants">
+                            {applicantCounts[job._id ?? ''] ?? 0}
+                          </td>
+                          <td className="admin__cell-date">{formatDate(job.postedAt)}</td>
+                          <td>
+                            <span
+                              className={`admin__status ${job.isActive ? 'admin__status--active' : 'admin__status--inactive'}`}
+                            >
+                              {job.isActive ? 'Active' : 'Inactive'}
+                            </span>
+                          </td>
+                          <td>
+                            <div className="admin__actions">
+                              <button
+                                type="button"
+                                className={`admin__toggle-btn ${job.isActive ? 'admin__toggle-btn--deactivate' : 'admin__toggle-btn--activate'}`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleToggleActive(job._id, job.isActive);
+                                }}
+                              >
+                                {job.isActive ? 'Deactivate' : 'Activate'}
+                              </button>
+                              <button
+                                type="button"
+                                className="admin__toggle-btn admin__delete-btn"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDelete(job._id, job.title);
+                                }}
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                <Pagination
+                  currentPage={safePage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                  ariaLabel="Job postings pagination"
+                  summary={`Showing ${pageStart}–${pageEnd} of ${filteredJobs.length} jobs`}
+                />
+              </>
             )}
           </div>
         )}
