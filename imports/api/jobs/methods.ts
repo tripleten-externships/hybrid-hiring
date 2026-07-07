@@ -93,11 +93,15 @@ Meteor.methods({
   },
 
   /**
-   * Dev/admin helper: inserts any sample jobs not already in the database
-   * (matched by title + company). Safe to call multiple times.
-   * Usage from browser console: await Meteor.callAsync('jobs.seed')
+   * Dev helper: inserts sample jobs not already in the database (matched by
+   * title + company). Disabled in production.
+   * Usage: await Meteor.callAsync('jobs.seed')
    */
   async 'jobs.seed'() {
+    if (Meteor.isProduction) {
+      throw new Meteor.Error('not-allowed', 'Sample job seeding is disabled in production.');
+    }
+
     if (Meteor.isServer) {
       await requireAdminAsync(this.userId ?? undefined);
     }
@@ -115,5 +119,29 @@ Meteor.methods({
       }
     }
     return { inserted, total: sampleJobs.length };
+  },
+
+  /**
+   * Admin helper: removes jobs that match the bundled sample data (by title +
+   * company). Use once in production to clear dummy listings; real jobs added
+   * through the admin panel are not affected.
+   */
+  async 'jobs.purgeSampleData'() {
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    await requireAdminAsync(this.userId);
+
+    let removed = 0;
+    for (const sample of sampleJobs) {
+      const count = await JobsCollection.removeAsync({
+        title: sample.title,
+        company: sample.company,
+      });
+      removed += count;
+    }
+
+    return { removed };
   },
 });

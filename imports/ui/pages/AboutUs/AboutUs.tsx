@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { PageBackground } from '../../components/PageBackground/PageBackground';
 import { BACKGROUND_IMAGES } from '../../constants/backgroundImages';
+import { sectionBackgroundStyle } from '../../utils/sectionBackground';
 import './AboutUs.css';
 
 function EmployerIcon() {
@@ -191,7 +192,10 @@ export const AboutUs = () => {
       </section>
 
       {/* Services */}
-      <section className="about__services">
+      <section
+        className="about__services"
+        style={sectionBackgroundStyle(BACKGROUND_IMAGES.aboutServices, '10% 60%')}
+      >
         <h2 className="about__services-title">Our Services</h2>
         <div className="about__services-grid">
           {servicesList.map(({ Icon, title, body, cta, to }) => (

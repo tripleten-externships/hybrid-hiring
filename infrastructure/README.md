@@ -94,24 +94,45 @@ DISTRIBUTION_ID=<from stack output> \
 
 ## Wire the app to the CDN
 
-After deploy, set the CDN base URL so the app loads heroes from CloudFront instead of Galaxy.
+After deploy, point the app at CloudFront. **The live site will keep using `/assets/images/…` until one of these is set and the app is redeployed.**
 
-**Galaxy → Settings → Environment variables**, add `METEOR_SETTINGS`:
+### Option A — `STATIC_CDN_URL` env var (simplest on Galaxy)
+
+Galaxy → your app → **Variables** → under `galaxy.meteor.com` → **env**, add:
+
+```
+STATIC_CDN_URL=https://dkwb5rw1kvqhs.cloudfront.net
+```
+
+No trailing slash. Redeploy the app.
+
+The server merges this into `Meteor.settings.public.staticCdnUrl` for the client.
+
+### Option B — Galaxy Settings JSON (`public` key)
+
+In Galaxy **Variables** → **Settings** (Galaxy Mode), ensure the JSON includes:
 
 ```json
 {
   "public": {
-    "staticCdnUrl": "https://cdn.hybridhiringsolutions.com"
+    "staticCdnUrl": "https://dkwb5rw1kvqhs.cloudfront.net"
   }
 }
 ```
 
-Or use the `MeteorSettingsSnippet` output from the stack (no trailing slash).
+See `settings.cdn.example.json` in the repo root. Redeploy.
 
-Redeploy the Meteor app. With `staticCdnUrl` set:
+> Do **not** put `staticCdnUrl` only in a private/server section — the client must receive it under `public`.
 
-- `PageBackground` hero images use the CDN
-- CSS section backgrounds use CDN via injected CSS variables
+### Verify it worked
+
+```bash
+curl -s https://www.hybridhiringsolutions.com/ | grep -o 'PUBLIC_SETTINGS[^%]*'
+```
+
+You should see `staticCdnUrl` in `PUBLIC_SETTINGS`, not `{}`.
+
+Or in the browser Network tab, hero images should load from `*.cloudfront.net`, not `www.hybridhiringsolutions.com/assets/images/…`.
 
 Local dev omits `staticCdnUrl` and keeps serving from `/assets/images/…`.
 

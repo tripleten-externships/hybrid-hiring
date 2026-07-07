@@ -137,8 +137,6 @@
 /* ─── CTA Banner (Start Your New Beginning + Testimonial) ───────────────────── */
 .home__cta-banner {
   position: relative;
-  background: var(--bg-home-cta, url('/assets/images/hh_new_beginning.webp')) center 40% / cover
-    no-repeat;
   display: flex;
   flex-direction: column;
   gap: var(--space-8);
