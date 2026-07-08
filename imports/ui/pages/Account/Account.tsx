@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ChangeEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { JobsCollection } from '/imports/api/jobs';
 import { useMyProfile, useCurrentUser, useMyAppliedJobIds } from '/imports/ui/hooks/useCurrentUser';
 import { fileToSquareDataUrl } from '/imports/ui/utils/image';
 import JobCard from '/imports/ui/components/JobCard/JobCard';
+import { Pagination } from '/imports/ui/components/Pagination/Pagination';
 import { AccountSecurityModal } from '/imports/ui/components/AccountSecurity/AccountSecurity';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -17,6 +18,8 @@ import {
   faBookmark,
 } from '@fortawesome/free-solid-svg-icons';
 import './Account.css';
+
+const SAVED_JOBS_PER_PAGE = 8;
 
 function LocationIcon() {
   return <FontAwesomeIcon icon={faLocationDot} className="account__pref-icon" />;
@@ -35,7 +38,9 @@ function SkillsIcon() {
 }
 
 function BookmarkIcon() {
-  return <FontAwesomeIcon icon={faBookmark} className="account__pref-icon" />;
+  return (
+    <FontAwesomeIcon icon={faBookmark} className="account__pref-icon account__bookmark-icon" />
+  );
 }
 
 function parseUserName(userProfile?: { name?: string; firstName?: string; lastName?: string }) {
@@ -65,6 +70,7 @@ export function Account() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const savedJobsSectionRef = useRef<HTMLElement>(null);
   const [avatarUploading, setAvatarUploading] = useState(false);
   const [avatarError, setAvatarError] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -130,6 +136,40 @@ export function Account() {
   }, [savedJobIds.join(',')]);
 
   const isLoading = profileLoading || jobsLoading;
+
+  const [savedJobsPage, setSavedJobsPage] = useState(1);
+
+  const savedJobsTotalPages = Math.max(1, Math.ceil(savedJobs.length / SAVED_JOBS_PER_PAGE));
+  const savedJobsSafePage = Math.min(savedJobsPage, savedJobsTotalPages);
+
+  useEffect(() => {
+    setSavedJobsPage(1);
+  }, [savedJobIds.join(',')]);
+
+  const pagedSavedJobs = useMemo(
+    () =>
+      savedJobs.slice(
+        (savedJobsSafePage - 1) * SAVED_JOBS_PER_PAGE,
+        savedJobsSafePage * SAVED_JOBS_PER_PAGE
+      ),
+    [savedJobs, savedJobsSafePage]
+  );
+
+  const savedJobsPageStart =
+    savedJobs.length === 0 ? 0 : (savedJobsSafePage - 1) * SAVED_JOBS_PER_PAGE + 1;
+  const savedJobsPageEnd = Math.min(savedJobsSafePage * SAVED_JOBS_PER_PAGE, savedJobs.length);
+
+  const handleSavedJobsPageChange = (page: number) => {
+    if (page === savedJobsSafePage) return;
+    setSavedJobsPage(page);
+
+    const section = savedJobsSectionRef.current;
+    if (!section) return;
+    const siteHeader = document.querySelector<HTMLElement>('.site-header');
+    const offset = siteHeader?.offsetHeight ?? 0;
+    const target = section.getBoundingClientRect().top + window.scrollY - offset - 16;
+    window.scrollTo({ top: Math.max(target, 0), behavior: 'smooth' });
+  };
 
   const userProfile = user?.profile as
     | { name?: string; firstName?: string; lastName?: string }
@@ -321,7 +361,7 @@ export function Account() {
         )}
 
         {/* ─── Saved jobs ─── */}
-        <section className="account__card">
+        <section className="account__card" ref={savedJobsSectionRef}>
           <div className="account__card-header">
             <h2 className="account__card-title">
               <BookmarkIcon />
@@ -349,17 +389,26 @@ export function Account() {
               </Link>
             </div>
           ) : (
-            <div className="account__jobs-grid">
-              {savedJobs.map((job) => (
-                <JobCard
-                  key={job._id}
-                  job={job}
-                  isSaved={true}
-                  hasApplied={appliedJobIds.has(job._id ?? '')}
-                  onSave={() => Meteor.callAsync('UserProfiles.toggleSaveJob', job._id)}
-                />
-              ))}
-            </div>
+            <>
+              <div className="account__jobs-grid">
+                {pagedSavedJobs.map((job) => (
+                  <JobCard
+                    key={job._id}
+                    job={job}
+                    isSaved={true}
+                    hasApplied={appliedJobIds.has(job._id ?? '')}
+                    onSave={() => Meteor.callAsync('UserProfiles.toggleSaveJob', job._id)}
+                  />
+                ))}
+              </div>
+              <Pagination
+                currentPage={savedJobsSafePage}
+                totalPages={savedJobsTotalPages}
+                onPageChange={handleSavedJobsPageChange}
+                ariaLabel="Saved jobs pagination"
+                summary={`Showing ${savedJobsPageStart}–${savedJobsPageEnd} of ${savedJobs.length} saved jobs`}
+              />
+            </>
           )}
         </section>
       </div>

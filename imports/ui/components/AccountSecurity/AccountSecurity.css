@@ -1,6 +1,10 @@
 .account-security-modal__overlay {
   position: fixed;
   inset: 0;
+  /* Use the dynamic viewport height so the overlay tracks the visible area as the
+     mobile URL bar shows/hides — plain vh maps to the largest viewport and pushes
+     the bottom of the modal behind Chrome's address bar. */
+  height: 100dvh;
   background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
@@ -14,7 +18,7 @@
   border-radius: var(--radius-md);
   width: 100%;
   max-width: 75%;
-  max-height: min(90vh, 1024px);
+  max-height: min(90dvh, 1024px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
@@ -183,9 +187,14 @@
   }
 
   .account-security-modal {
-    max-height: 92vh;
+    max-height: 92dvh;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+  }
+
+  .account-security-modal__body {
+    /* Keep the last field/button clear of the home indicator / URL bar. */
+    padding-bottom: max(var(--space-6), env(safe-area-inset-bottom));
   }
 
   .account-security__name-row {
