@@ -4,9 +4,9 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { useNavigate } from 'react-router-dom';
 import { NotificationsCollection } from '/imports/api/notifications/collection';
 import type { Notification } from '/imports/api/notifications/collection';
-import './NotificationBell.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
+import './NotificationBell.css';
 
 function BellIcon() {
   return <FontAwesomeIcon icon={faBell} color="white" style={{ fontSize: '1.5rem' }} />;

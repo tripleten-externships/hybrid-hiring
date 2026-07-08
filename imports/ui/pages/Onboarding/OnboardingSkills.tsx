@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useNavigate } from 'react-router-dom';
 import { useMyProfile } from '../../hooks/useCurrentUser';
-
-import '../../../api/profiles/methods';
 import './Onboarding.css';
 
 interface Skill {

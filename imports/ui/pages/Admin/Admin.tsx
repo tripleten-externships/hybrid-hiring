@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Navigate } from 'react-router-dom';
@@ -11,7 +11,19 @@ import { AdminJobForm, AdminSettingsForm, AdminUserManager } from '/imports/ui/p
 import { JobDetailsModal } from '/imports/ui/pages/Admin/JobDetailsModal';
 import './Admin.css';
 
-const JOBS_PER_PAGE = 10;
+const JOBS_PER_PAGE = 20;
+
+function formatDollar(n: number): string {
+  return n >= 1000 ? `$${Math.round(n / 1000)}K` : `$${n}`;
+}
+
+function formatPay(job: Job): string {
+  const unit = job.payUnit === 'salary' ? '/yr' : '/hr';
+  if (job.payMax && job.payMax !== job.basePay) {
+    return `${formatDollar(job.basePay)} – ${formatDollar(job.payMax)}${unit}`;
+  }
+  return `${formatDollar(job.basePay)}${unit}`;
+}
 
 function SearchIcon() {
   return (
@@ -246,72 +258,108 @@ export function Admin() {
                       <tr>
                         <th>Title</th>
                         <th>Company</th>
-                        <th>Type</th>
-                        <th>Applicants</th>
-                        <th>Posted</th>
-                        <th>Status</th>
+                        <th className="admin__col-hide-mobile">Type</th>
+                        <th className="admin__col-hide-mobile">Applicants</th>
+                        <th className="admin__col-hide-mobile">Posted</th>
+                        <th className="admin__col-hide-mobile">Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {pagedJobs.map((job) => (
-                        <tr
-                          key={job._id}
-                          className={`admin__row--clickable ${job.isActive ? '' : 'admin__row--inactive'}`}
-                          onClick={() => setSelectedJob(job)}
-                        >
-                          <td className="admin__cell-title">
-                            <button
-                              type="button"
-                              className="admin__row-trigger"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedJob(job);
-                              }}
-                            >
-                              {job.title}
-                            </button>
-                          </td>
-                          <td>{job.company}</td>
-                          <td>
-                            <span className="admin__cell-job-type">{job.jobType}</span>
-                          </td>
-                          <td className="admin__cell-applicants">
-                            {applicantCounts[job._id ?? ''] ?? 0}
-                          </td>
-                          <td className="admin__cell-date">{formatDate(job.postedAt)}</td>
-                          <td>
-                            <span
-                              className={`admin__status ${job.isActive ? 'admin__status--active' : 'admin__status--inactive'}`}
-                            >
-                              {job.isActive ? 'Active' : 'Inactive'}
-                            </span>
-                          </td>
-                          <td>
-                            <div className="admin__actions">
+                        <Fragment key={job._id}>
+                          <tr
+                            className={`admin__row admin__row--clickable ${job.isActive ? '' : 'admin__row--inactive'}`}
+                            onClick={() => setSelectedJob(job)}
+                          >
+                            <td className="admin__cell-title">
                               <button
                                 type="button"
-                                className={`admin__toggle-btn ${job.isActive ? 'admin__toggle-btn--deactivate' : 'admin__toggle-btn--activate'}`}
+                                className="admin__row-trigger"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleToggleActive(job._id, job.isActive);
+                                  setSelectedJob(job);
                                 }}
                               >
-                                {job.isActive ? 'Deactivate' : 'Activate'}
+                                {job.title}
                               </button>
-                              <button
-                                type="button"
-                                className="admin__toggle-btn admin__delete-btn"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleDelete(job._id, job.title);
-                                }}
+                            </td>
+                            <td className="admin__cell-company">{job.company}</td>
+                            <td className="admin__col-hide-mobile">
+                              <span className="admin__cell-job-type">{job.jobType}</span>
+                            </td>
+                            <td className="admin__cell-applicants admin__col-hide-mobile">
+                              {applicantCounts[job._id ?? ''] ?? 0}
+                            </td>
+                            <td className="admin__cell-date admin__col-hide-mobile">
+                              {formatDate(job.postedAt)}
+                            </td>
+                            <td className="admin__col-hide-mobile">
+                              <span
+                                className={`admin__status ${job.isActive ? 'admin__status--active' : 'admin__status--inactive'}`}
                               >
-                                Delete
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
+                                {job.isActive ? 'Active' : 'Inactive'}
+                              </span>
+                            </td>
+                            <td className="admin__cell-actions">
+                              <div className="admin__actions">
+                                <button
+                                  type="button"
+                                  className={`admin__toggle-btn ${job.isActive ? 'admin__toggle-btn--deactivate' : 'admin__toggle-btn--activate'}`}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleToggleActive(job._id, job.isActive);
+                                  }}
+                                >
+                                  {job.isActive ? 'Deactivate' : 'Activate'}
+                                </button>
+                                <button
+                                  type="button"
+                                  className="admin__toggle-btn admin__delete-btn"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDelete(job._id, job.title);
+                                  }}
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+
+                          {/* Mobile-only detail row: surfaces the columns hidden above. */}
+                          <tr
+                            className={`admin__subrow admin__row--clickable ${job.isActive ? '' : 'admin__row--inactive'}`}
+                            onClick={() => setSelectedJob(job)}
+                          >
+                            <td className="admin__subrow-cell" colSpan={3}>
+                              <span className="admin__meta">
+                                <span className="admin__meta-label">Type</span>
+                                <span className="admin__cell-job-type">{job.jobType}</span>
+                              </span>
+                              <span className="admin__meta">
+                                <span className="admin__meta-label">Pay</span>
+                                {formatPay(job)}
+                              </span>
+                              <span className="admin__meta">
+                                <span className="admin__meta-label">Applicants</span>
+                                {applicantCounts[job._id ?? ''] ?? 0}
+                              </span>
+                              <span className="admin__meta">
+                                <span className="admin__meta-label">Posted</span>
+                                {formatDate(job.postedAt)}
+                              </span>
+                              <span className="admin__meta">
+                                <span className="admin__meta-label">Status</span>
+                                <span
+                                  className={`admin__status ${job.isActive ? 'admin__status--active' : 'admin__status--inactive'}`}
+                                >
+                                  {job.isActive ? 'Active' : 'Inactive'}
+                                </span>
+                              </span>
+                            </td>
+                          </tr>
+                        </Fragment>
                       ))}
                     </tbody>
                   </table>
@@ -355,6 +403,7 @@ export function Admin() {
       {selectedJob && (
         <JobDetailsModal
           job={selectedJob}
+          applicantCount={applicantCounts[selectedJob._id ?? ''] ?? 0}
           onClose={() => setSelectedJob(null)}
           onUpdated={(updated) => setSelectedJob(updated)}
         />

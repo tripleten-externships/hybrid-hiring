@@ -1,5 +1,5 @@
-import './TextInput.css';
 import type { ChangeEvent } from 'react';
+import './TextInput.css';
 
 type TextInputProps = {
   label: string;

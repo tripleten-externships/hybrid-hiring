@@ -18,7 +18,8 @@
   --admin-radius-sm: 8px;
 
   padding: var(--space-8) var(--space-6);
-  background-color: var(--background-color-primary);
+  background-color: var(--ambient-surface);
+  background-image: var(--ambient-gradient);
   min-height: 100vh;
 }
 
@@ -187,6 +188,11 @@
   cursor: pointer;
 }
 
+/* Mobile-only detail sub-row: hidden on desktop, shown < 640px. */
+.admin__subrow {
+  display: none;
+}
+
 .admin__cell-title {
   font-weight: var(--font-weight-semibold);
   max-width: 240px;
@@ -198,7 +204,6 @@
   padding: 0;
   font: inherit;
   color: var(--color-primary-dark);
-  font-weight: var(--font-weight-semibold);
   text-align: left;
   cursor: pointer;
 }
@@ -221,12 +226,10 @@
   border: 1px solid var(--color-5);
   border-radius: 999px;
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
   text-transform: capitalize;
 }
 
 .admin__cell-applicants {
-  font-weight: var(--font-weight-semibold);
   color: var(--color-1);
 }
 
@@ -236,7 +239,7 @@
   align-items: center;
   gap: 6px;
   min-width: 72px;
-  padding: 3px var(--space-2);
+  padding: 2px 0 0;
   border-radius: 999px;
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
@@ -251,12 +254,12 @@
 }
 
 .admin__status--active {
-  background-color: #dcfce7;
+  /* background-color: #dcfce7; */
   color: #15803d;
 }
 
 .admin__status--inactive {
-  background-color: #fee2e2;
+  /* background-color: #fee2e2; */
   color: #b91c1c;
 }
 
@@ -270,7 +273,6 @@
   border-radius: 999px;
   padding: 6px var(--space-3);
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
   font-family: inherit;
   cursor: pointer;
   white-space: nowrap;
@@ -504,6 +506,7 @@
 .admin-form__actions {
   display: flex;
   justify-content: flex-end;
+  gap: var(--space-3);
 }
 
 .admin-form__submit {
@@ -539,6 +542,104 @@
 @media (max-width: 640px) {
   .admin-form__grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Compact job list: each job becomes a stacked card (Title + Actions on top,
+     Company beneath, and the remaining fields as a wrapped meta row) so the
+     whole thing fits without horizontal scrolling. */
+  .admin__col-hide-mobile {
+    display: none;
+  }
+
+  .admin__table-wrapper {
+    overflow-x: hidden;
+  }
+
+  .admin__table,
+  .admin__table tbody {
+    display: block;
+    width: auto;
+  }
+
+  .admin__table thead {
+    display: none;
+  }
+
+  .admin__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'title actions'
+      'company actions';
+    column-gap: var(--space-3);
+    row-gap: 2px;
+    padding: var(--space-4) var(--space-4) var(--space-3);
+  }
+
+  .admin__row > td {
+    padding: 0;
+    border: none;
+  }
+
+  .admin__cell-title {
+    grid-area: title;
+    max-width: none;
+  }
+
+  .admin__cell-company {
+    grid-area: company;
+    color: var(--color-2);
+  }
+
+  .admin__cell-actions {
+    grid-area: actions;
+    align-self: center;
+  }
+
+  .admin__actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+  }
+
+  .admin__toggle-btn {
+    min-width: 0;
+    text-align: center;
+  }
+
+  /* Meta sub-row sits under the card and carries the divider between jobs. */
+  .admin__subrow {
+    display: block;
+  }
+
+  .admin__subrow-cell {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    padding: 0 var(--space-4) var(--space-4);
+    border: none;
+    border-bottom: 1px solid var(--color-5);
+  }
+
+  .admin__table tbody tr:last-child .admin__subrow-cell {
+    border-bottom: none;
+  }
+
+  .admin__meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-xs);
+    color: var(--color-1);
+    white-space: nowrap;
+  }
+
+  .admin__meta-label {
+    font-weight: var(--font-weight-semibold);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-2);
   }
 }
 

@@ -4,9 +4,9 @@ import { useAuth } from '../../hooks/useAuth';
 import { MobileNavOverlay } from '../MobileNavOverlay/MobileNavOverlay';
 import { useIsLoggedIn, useIsAdmin, useMyProfile } from '../../hooks/useCurrentUser';
 import { NotificationBell } from '../../components/NotificationBell/NotificationBell';
-import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
+import './Header.css';
 
 function AccountIcon() {
   return <FontAwesomeIcon icon={faCircleUser} color="white" size="xl" />;

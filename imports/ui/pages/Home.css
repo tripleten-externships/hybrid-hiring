@@ -269,6 +269,8 @@
   padding: var(--space-8) var(--space-8);
   max-width: 780px;
   margin: 0;
+  border: 2px solid rgba(150, 191, 67, 0.25);
+  box-shadow: var(--btn-shadow-primary);
 }
 
 .home__quote-text {

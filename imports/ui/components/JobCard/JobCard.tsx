@@ -1,4 +1,3 @@
-import './JobCard.css';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
@@ -8,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
 import { CompanyLogo } from '../CompanyLogo/CompanyLogo';
+import './JobCard.css';
 
 type JobCardProps = {
   job: Job;
@@ -136,7 +136,7 @@ export default function JobCard({ job, isSaved, onSave, hasApplied }: JobCardPro
             className="job-card__btn job-card__btn--outline"
             onClick={() => navigate(`/jobs/${job._id}`)}
           >
-            More Details
+            <span className="job-card__btn-text">More Details</span>
           </button>
         </div>
 

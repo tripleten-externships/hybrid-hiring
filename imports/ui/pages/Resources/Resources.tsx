@@ -99,6 +99,10 @@ export function Resources() {
           </dl>
         </section>
 
+        <div className="resources__divider">
+          <div className="resources__divider-line" aria-hidden="true" />
+        </div>
+
         <section
           className="resources__section resources__cta"
           style={sectionBackgroundStyle(BACKGROUND_IMAGES.resourcesReady, 'center 55%')}
