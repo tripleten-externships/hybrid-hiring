@@ -35,7 +35,9 @@ function SkillsIcon() {
 }
 
 function BookmarkIcon() {
-  return <FontAwesomeIcon icon={faBookmark} className="account__pref-icon" />;
+  return (
+    <FontAwesomeIcon icon={faBookmark} className="account__pref-icon account__bookmark-icon" />
+  );
 }
 
 function parseUserName(userProfile?: { name?: string; firstName?: string; lastName?: string }) {

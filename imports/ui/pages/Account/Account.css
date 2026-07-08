@@ -243,23 +243,8 @@
 }
 
 .account__card-title svg {
-  color: var(--color-primary-dark);
+  color: var(--color-secondary-dark);
   flex-shrink: 0;
-}
-
-.account__badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-primary-dark);
-  color: #fff;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
-  border-radius: 999px;
-  min-width: 22px;
-  height: 22px;
-  padding: 0 var(--space-1);
-  line-height: 1;
 }
 
 .account__browse-link,
@@ -317,6 +302,25 @@
   color: var(--color-primary-dark) !important;
   font-size: 14px;
   flex-shrink: 0;
+}
+
+.account__bookmark-icon {
+  color: var(--color-secondary-dark) !important;
+}
+
+.account__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-secondary-dark);
+  color: #fff;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  border-radius: 999px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 var(--space-1);
+  line-height: 1;
 }
 
 .account__pref-row dd {
@@ -424,10 +428,12 @@
 
   .account__pref-row {
     flex-direction: column;
+    align-items: flex-start;
     gap: var(--space-2);
   }
 
   .account__pref-row dt {
+    width: auto;
     min-width: unset;
   }
 
