@@ -1,5 +1,5 @@
-import './TextArea.css';
 import type { ChangeEvent } from 'react';
+import './TextArea.css';
 
 type TextAreaProps = {
   label: string;

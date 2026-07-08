@@ -2,16 +2,24 @@
   background-color: var(--ambient-surface);
   background-image: var(--ambient-gradient);
   min-height: calc(100vh - 62px);
+  /* Column layout so the content area can grow and push the sticky action bar to
+     the bottom of the viewport even when the description is short. */
+  display: flex;
+  flex-direction: column;
 }
 
 .job-detail__container {
   max-width: 800px;
+  width: 100%;
   margin: 0 auto;
-  padding: var(--space-6) var(--space-4) 120px; /* room for sticky action bar while reading */
+  padding: var(--space-6) var(--space-4) var(--space-8);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
   position: relative;
+  /* Fill the leftover vertical space so the footer is pinned to the bottom on
+     short pages; on long pages this has no effect and the footer stays sticky. */
+  flex: 1 0 auto;
 }
 
 /* ─── Back button ────────────────────────────────────────────────────────────── */
@@ -189,12 +197,12 @@
   margin: 0;
 }
 
-/* ─── Fixed action bar (offset above site footer via JS) ─────────────────────── */
+/* ─── Sticky action bar ──────────────────────────────────────────────────────
+   Sticks to the viewport bottom while reading, then settles into its in-flow
+   slot (above the site footer) at the end of the page — no JS, no jiggle. */
 .job-detail__footer {
-  position: fixed;
+  position: sticky;
   bottom: 0;
-  left: 0;
-  right: 0;
   background: #fff;
   border-top: 1px solid #e9ecef;
   box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.06);
@@ -207,12 +215,14 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: var(--space-2);
 }
 
 .job-detail__apply-btn {
   display: block;
-  width: 100%;
+  width: fit-content;
   padding: 12px var(--space-4);
   background-color: var(--color-primary-dark);
   color: #fff;
@@ -289,8 +299,9 @@
 }
 
 .job-detail__save-btn--saved {
-  color: var(--color-primary-dark);
+  color: var(--color-secondary-dark);
   font-weight: 600;
+  width: fit-content;
 }
 
 /* ─── Not found ──────────────────────────────────────────────────────────────── */
@@ -358,7 +369,7 @@
 /* ─── Responsive ─────────────────────────────────────────────────────────────── */
 @media (max-width: 480px) {
   .job-detail__container {
-    padding: var(--space-4) var(--space-3);
+    padding: var(--space-4) var(--space-3) var(--space-6);
   }
 
   .job-detail__card {

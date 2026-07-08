@@ -17,6 +17,13 @@ export function AdminJobForm({ leftSlot }: { leftSlot?: ReactNode }) {
     setSuccess('');
   };
 
+  const handleCancel = () => {
+    setForm(EMPTY_JOB_FORM);
+    setError('');
+    setLogoError('');
+    setOpen(false);
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
@@ -59,17 +66,19 @@ export function AdminJobForm({ leftSlot }: { leftSlot?: ReactNode }) {
 
   return (
     <section className="admin-form">
-      <div className="admin-form__bar">
-        {leftSlot && <div className="admin-form__bar-start">{leftSlot}</div>}
-        <button
-          type="button"
-          className="admin-form__toggle"
-          onClick={() => setOpen((o) => !o)}
-          aria-expanded={open}
-        >
-          {open ? 'Cancel' : '+ Add Job Posting'}
-        </button>
-      </div>
+      {!open && (
+        <div className="admin-form__bar">
+          {leftSlot && <div className="admin-form__bar-start">{leftSlot}</div>}
+          <button
+            type="button"
+            className="admin-form__toggle"
+            onClick={() => setOpen(true)}
+            aria-expanded={open}
+          >
+            + New Job Posting
+          </button>
+        </div>
+      )}
       {success && (
         <span className="admin-form__success" role="status">
           {success}
@@ -92,8 +101,16 @@ export function AdminJobForm({ leftSlot }: { leftSlot?: ReactNode }) {
           )}
 
           <div className="admin-form__actions">
+            <button
+              type="button"
+              className="admin-modal__btn admin-modal__btn--cancel"
+              onClick={handleCancel}
+              disabled={submitting}
+            >
+              Cancel
+            </button>
             <button type="submit" className="admin-form__submit" disabled={submitting}>
-              {submitting ? 'Adding…' : 'Add Job Posting'}
+              {submitting ? 'Adding…' : 'Save'}
             </button>
           </div>
         </form>

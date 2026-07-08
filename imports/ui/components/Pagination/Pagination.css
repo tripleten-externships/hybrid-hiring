@@ -68,7 +68,14 @@
   color: var(--color-2);
 }
 
-.pagination__btn:disabled {
+.pagination__btn--previous,
+.pagination__btn--next {
+  background-color: var(--transparent) !important;
+  border: var(--transparent) !important;
+}
+
+.pagination__btn--previous:disabled,
+.pagination__btn--next:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }

@@ -1,4 +1,4 @@
-import { useState, useRef, useLayoutEffect } from 'react';
+import { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
@@ -89,45 +89,6 @@ export function JobDetail() {
 
   const alreadyApplied = appliedJobIds.has(jobId ?? '');
   const applied = justApplied || alreadyApplied;
-
-  const actionFooterRef = useRef<HTMLDivElement>(null);
-
-  // Keep the fixed action bar above the site footer as the user scrolls to the page bottom.
-  useLayoutEffect(() => {
-    const actionFooter = actionFooterRef.current;
-    if (!actionFooter || !job) return;
-
-    const updatePosition = () => {
-      const siteFooter = document.querySelector<HTMLElement>('.footer');
-      if (!siteFooter) {
-        actionFooter.style.bottom = '0px';
-        return;
-      }
-
-      const footerTop = siteFooter.getBoundingClientRect().top;
-      const viewportHeight = window.innerHeight;
-      actionFooter.style.bottom =
-        footerTop < viewportHeight ? `${viewportHeight - footerTop}px` : '0px';
-    };
-
-    updatePosition();
-    window.addEventListener('scroll', updatePosition, { passive: true });
-    window.addEventListener('resize', updatePosition);
-
-    const siteFooter = document.querySelector<HTMLElement>('.footer');
-    let resizeObserver: ResizeObserver | null = null;
-    if (siteFooter && typeof ResizeObserver !== 'undefined') {
-      resizeObserver = new ResizeObserver(updatePosition);
-      resizeObserver.observe(siteFooter);
-    }
-
-    return () => {
-      window.removeEventListener('scroll', updatePosition);
-      window.removeEventListener('resize', updatePosition);
-      resizeObserver?.disconnect();
-      actionFooter.style.bottom = '';
-    };
-  }, [job, justApplied, applyError]);
 
   // When the page is opened directly (e.g. from an email link, a new tab, a
   // refresh, or a bookmark) there's no in-app history to pop, so navigate(-1)
@@ -300,7 +261,7 @@ export function JobDetail() {
         </div>
       </div>
 
-      <div ref={actionFooterRef} className="job-detail__footer">
+      <div className="job-detail__footer">
         <div className="job-detail__footer-inner">
           <button
             type="button"

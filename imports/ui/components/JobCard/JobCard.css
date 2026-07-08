@@ -202,12 +202,17 @@
 
 .job-card__btn--outline {
   background-color: transparent;
-  color: var(--color-secondary-dark);
-  border-color: var(--color-primary-dark);
+  color: rgba(0, 0, 0, 0.8);
+  border-color: var(--color-secondary-dark);
+  z-index: 1;
 }
 
 .job-card__btn--outline:hover {
-  background: rgba(150, 191, 67, 0.12);
-  border-color: var(--color-primary-dark);
-  color: var(--color-primary-dark);
+  background: rgba(0, 0, 0, 0.02);
+  color: var(--color-secondary-light);
+  border-color: var(--color-secondary-light);
+}
+
+.job-card__btn--outline:hover .job-card__btn-text {
+  color: var(--color-secondary-dark);
 }

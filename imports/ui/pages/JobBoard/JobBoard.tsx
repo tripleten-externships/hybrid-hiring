@@ -219,8 +219,19 @@ export function JobBoard() {
   );
 
   const handlePageChange = (page: number) => {
+    if (page === safePage) return;
     setCurrentPage(page);
-    listingsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Smooth-scroll to the top of the listings, offset by the sticky header stack
+    // (global site header + board header) so the first card lands just below them
+    // instead of being tucked underneath.
+    const listings = listingsRef.current;
+    if (!listings) return;
+    const siteHeader = document.querySelector<HTMLElement>('.site-header');
+    const boardHeader = document.querySelector<HTMLElement>('.job-board__header');
+    const offset = (siteHeader?.offsetHeight ?? 0) + (boardHeader?.offsetHeight ?? 0);
+    const target = listings.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top: Math.max(target, 0), behavior: 'smooth' });
   };
 
   const pageStart = filteredJobs.length === 0 ? 0 : (safePage - 1) * JOBS_PER_PAGE + 1;

@@ -16,7 +16,7 @@ type PageItem = number | 'ellipsis-left' | 'ellipsis-right';
 
 /** Builds a compact page list with ellipses for large ranges. */
 function getPageItems(current: number, total: number): PageItem[] {
-  if (total <= 7) {
+  if (total <= 6) {
     return Array.from({ length: total }, (_, i) => i + 1);
   }
 
@@ -57,7 +57,7 @@ export function Pagination({
         <li>
           <button
             type="button"
-            className="pagination__btn pagination__btn--nav"
+            className="pagination__btn pagination__btn--nav pagination__btn--previous"
             onClick={() => goTo(currentPage - 1)}
             disabled={currentPage === 1}
             aria-label="Previous page"
@@ -97,7 +97,7 @@ export function Pagination({
         <li>
           <button
             type="button"
-            className="pagination__btn pagination__btn--nav"
+            className="pagination__btn pagination__btn--nav pagination__btn--next"
             onClick={() => goTo(currentPage + 1)}
             disabled={currentPage === totalPages}
             aria-label="Next page"

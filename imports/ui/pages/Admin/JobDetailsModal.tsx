@@ -8,6 +8,7 @@ import { jobToFormState, parseJobForm, type JobFormState } from './adminJobFormS
 
 interface JobDetailsModalProps {
   job: Job;
+  applicantCount?: number;
   onClose: () => void;
   onUpdated?: (job: Job) => void;
 }
@@ -33,7 +34,7 @@ function formatDate(date: Date | string): string {
 }
 
 /** Modal for viewing and editing a job posting. */
-export function JobDetailsModal({ job, onClose, onUpdated }: JobDetailsModalProps) {
+export function JobDetailsModal({ job, applicantCount, onClose, onUpdated }: JobDetailsModalProps) {
   const [mode, setMode] = useState<'view' | 'edit'>('view');
   const [displayJob, setDisplayJob] = useState(job);
   const [form, setForm] = useState<JobFormState>(() => jobToFormState(job));
@@ -236,6 +237,12 @@ export function JobDetailsModal({ job, onClose, onUpdated }: JobDetailsModalProp
                 <span className="job-modal__meta-label">Type</span>
                 {displayJob.jobType}
               </span>
+              {applicantCount !== undefined && (
+                <span className="job-modal__meta-item">
+                  <span className="job-modal__meta-label">Applicants</span>
+                  {applicantCount} {applicantCount === 1 ? 'applicant' : 'applicants'}
+                </span>
+              )}
               <span className="job-modal__meta-item">
                 <span className="job-modal__meta-label">Posted</span>
                 {formatDate(displayJob.postedAt)}
