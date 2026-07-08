@@ -231,6 +231,7 @@
 
 .admin__cell-applicants {
   color: var(--color-1);
+  text-align: center;
 }
 
 /* ─── Status + action pills ──────────────────────────────────────────────── */
@@ -254,12 +255,10 @@
 }
 
 .admin__status--active {
-  /* background-color: #dcfce7; */
   color: #15803d;
 }
 
 .admin__status--inactive {
-  /* background-color: #fee2e2; */
   color: #b91c1c;
 }
 
@@ -966,13 +965,13 @@
 }
 
 .admin-users__label {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
   font-weight: var(--font-weight-semibold);
   color: var(--color-1);
 }
 
 .admin-users__hint {
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   color: var(--color-2);
   margin: 0 0 var(--space-2);
 }
