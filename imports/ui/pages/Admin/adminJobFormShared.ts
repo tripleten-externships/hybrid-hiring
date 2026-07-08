@@ -37,6 +37,18 @@ export function splitList(value: string): string[] {
     .filter(Boolean);
 }
 
+function formatFieldList(fields: string[]): string {
+  if (fields.length === 1) {
+    return fields[0];
+  }
+
+  if (fields.length === 2) {
+    return `${fields[0]} and ${fields[1]}`;
+  }
+
+  return `${fields.slice(0, -1).join(', ')}, and ${fields[fields.length - 1]}`;
+}
+
 export function jobToFormState(job: Job): JobFormState {
   return {
     title: job.title,
@@ -70,32 +82,49 @@ export interface ParsedJobForm {
 }
 
 export function parseJobForm(form: JobFormState): { error: string } | { data: ParsedJobForm } {
-  if (!form.title.trim() || !form.company.trim() || !form.location.trim()) {
-    return { error: 'Title, company, and location are required.' };
-  }
-  if (!getDescriptionText(form.description)) {
-    return { error: 'Please add a job description.' };
+  const {
+    title,
+    company,
+    location,
+    basePay: basePayRaw,
+    payMax: payMaxRaw,
+    description,
+  } = Object.entries(form).reduce(
+    (acc, [key, value]) => {
+      acc[key as keyof JobFormState] = value.trim();
+      return acc;
+    },
+    {} as Record<keyof JobFormState, string>
+  );
+
+  const missingFields = [
+    !title && 'Job title',
+    !company && 'Company',
+    !location && 'Location',
+    !basePayRaw && 'Base pay',
+    !getDescriptionText(description) && 'Description',
+  ].filter(Boolean) as string[];
+
+  if (missingFields.length > 0) {
+    const fields = formatFieldList(missingFields);
+    return { error: `${fields} ${missingFields.length === 1 ? 'is' : 'are'} required.` };
   }
 
-  const basePay = parseFloat(form.basePay);
+  const basePay = parseFloat(basePayRaw);
   if (isNaN(basePay) || basePay < 0) {
     return { error: 'Please enter a valid base pay amount.' };
   }
 
-  const payMaxRaw = form.payMax.trim();
-  let payMax: number | undefined;
-  if (payMaxRaw) {
-    payMax = parseFloat(payMaxRaw);
-    if (isNaN(payMax) || payMax < basePay) {
-      return { error: 'Maximum pay must be a number greater than or equal to base pay.' };
-    }
+  const payMax = payMaxRaw ? parseFloat(payMaxRaw) : undefined;
+  if (payMaxRaw && (payMax == null || isNaN(payMax) || payMax < basePay)) {
+    return { error: 'Maximum pay must be a number greater than or equal to base pay.' };
   }
 
   return {
     data: {
-      title: form.title.trim(),
-      company: form.company.trim(),
-      location: form.location.trim(),
+      title,
+      company,
+      location,
       jobType: form.jobType,
       payUnit: form.payUnit,
       basePay,
