@@ -157,9 +157,39 @@
 /* ─── Description ────────────────────────────────────────────────────────────── */
 .login__description {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  text-align: left;
+}
+
+.login__description-text {
+  display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  text-align: left;
+  min-width: 0;
+  flex: 1;
+}
+
+.login__card-brand {
+  display: none;
+  flex-shrink: 0;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.login__card-brand:hover {
+  opacity: 0.85;
+}
+
+.login__card-brand-mark {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 7px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(15, 17, 23, 0.06);
 }
 
 .login__title {
@@ -412,6 +442,11 @@ a.login__submit-btn {
   .login--split .login__main {
     width: 100%;
     padding: 0;
+  }
+
+  .login__card-brand {
+    display: inline-flex;
+    align-items: center;
   }
 }
 

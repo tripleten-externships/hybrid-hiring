@@ -147,10 +147,17 @@ export const SignUp: FC = () => {
       <main className="sign-up__main">
         <div className="sign-up__main-content">
           <div className="sign-up__description">
-            <h1 className="sign-up__title">Create your account</h1>
-            <p className="sign-up__subtitle">
-              Build your profile and we will begin the hunt for you.
-            </p>
+            <Link to="/" className="sign-up__card-brand" aria-label="Hybrid Hiring Solutions home">
+              <img
+                src="/assets/icons/hybrid_hiring-alt.svg"
+                alt=""
+                className="sign-up__card-brand-mark"
+              />
+            </Link>
+            <div className="sign-up__description-text">
+              <h1 className="sign-up__title">Create an account</h1>
+              <p className="sign-up__subtitle">Build your profile and find your next role.</p>
+            </div>
           </div>
 
           <form className="sign-up__inputs" onSubmit={handleSubmit} noValidate>

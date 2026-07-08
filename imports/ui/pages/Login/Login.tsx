@@ -84,8 +84,17 @@ export const Login = () => {
       <main className="login__main">
         <div className="login__card">
           <div className="login__description">
-            <h1 className="login__title">Welcome back</h1>
-            <p className="login__subtitle">Log in to continue your job search.</p>
+            <Link to="/" className="login__card-brand" aria-label="Hybrid Hiring Solutions home">
+              <img
+                src="/assets/icons/hybrid_hiring-alt.svg"
+                alt=""
+                className="login__card-brand-mark"
+              />
+            </Link>
+            <div className="login__description-text">
+              <h1 className="login__title">Welcome back</h1>
+              <p className="login__subtitle">Log in to continue your job search.</p>
+            </div>
           </div>
 
           <form className="login__form" onSubmit={onSubmit} noValidate>

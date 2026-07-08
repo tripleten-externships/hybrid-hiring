@@ -157,13 +157,43 @@
 /* ─── Description ────────────────────────────────────────────────────────────── */
 .sign-up__description {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
   text-align: left;
 }
 
+.sign-up__description-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  flex: 1;
+}
+
+.sign-up__card-brand {
+  display: none;
+  flex-shrink: 0;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.sign-up__card-brand:hover {
+  opacity: 0.85;
+}
+
+.sign-up__card-brand-mark {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 7px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(15, 17, 23, 0.06);
+}
+
 .sign-up__title {
-  font-size: 28px;
+  font-size: 27px;
   font-weight: var(--font-weight-bold);
   color: var(--color-1);
   margin: 0;
@@ -176,6 +206,7 @@
   color: var(--color-2);
   margin: 0;
   line-height: 1.5;
+  text-align: left;
 }
 
 /* ─── Inputs ─────────────────────────────────────────────────────────────────── */
@@ -401,6 +432,11 @@
   .sign-up--split .sign-up__main {
     width: 100%;
     padding: 0;
+  }
+
+  .sign-up__card-brand {
+    display: inline-flex;
+    align-items: center;
   }
 }
 
